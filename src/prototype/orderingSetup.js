@@ -120,8 +120,9 @@ export function initOrderingSetup(ctx = {}) {
       const selected = target === mode;
       opt.classList.toggle('selected', selected);
       opt.setAttribute('aria-checked', selected ? 'true' : 'false');
-      // A green chip appears on native / web view once its provider or menu is wired up.
-      const configured = (target === 'native' || target === 'webview') && isConfigured(target);
+      // A stored provider or menu URL must not imply two simultaneous ordering
+      // paths. Only the selected mode is the active customer connection.
+      const configured = selected && (target === 'native' || target === 'webview') && isConfigured(target);
       opt.classList.toggle('configured', configured);
       const status = opt.querySelector('[data-oo-status]');
       if (status) status.hidden = !configured;

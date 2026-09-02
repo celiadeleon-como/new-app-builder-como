@@ -130,8 +130,17 @@ export function initMenuSource(ctx) {
 
   const webUrl = document.getElementById('ms-webview-url');
   const webStatus = document.getElementById('ms-webview-status');
+  const webviewDisplayOptions = document.getElementById('ms-webview-display-options');
   const webviewReturn = document.getElementById('ms-webview-return');
   const webviewReturnBtn = document.getElementById('ms-webview-return-btn');
+  const webviewScreen = page.querySelector('[data-ms="webview"]');
+  let webviewPanelPlaceholder = null;
+
+  function restoreWebviewPanel() {
+    if (!webviewPanelPlaceholder || !webviewScreen) return;
+    webviewPanelPlaceholder.replaceWith(webviewScreen);
+    webviewPanelPlaceholder = null;
+  }
   // Contextual banner: only present when the merchant reached this screen from the
   // Online ordering step, so the round-trip back to that step stays obvious.
   function updateWebviewReturn() {
@@ -145,7 +154,11 @@ export function initMenuSource(ctx) {
       : 'You are setting up online ordering. Add your menu, then head back.';
     if (webviewReturnBtn) webviewReturnBtn.textContent = done ? 'Return to Online ordering' : 'Back to Online ordering';
   }
-  webviewReturnBtn?.addEventListener('click', () => { window.goToStep?.('online-ordering'); });
+  webviewReturnBtn?.addEventListener('click', () => {
+    restoreWebviewPanel();
+    closeL3Panel();
+    window.goToStep?.('online-ordering');
+  });
   // Tell the Online ordering step whether the web-view menu is wired up.
   function announceWebview() {
     document.dispatchEvent(new CustomEvent('como:menu-source', { detail: { approach: 'webview', connected: state.webview.connected, url: state.webview.url } }));
@@ -154,6 +167,7 @@ export function initMenuSource(ctx) {
     state.webview.url = webUrl.value;
     state.webview.connected = false;
     webStatus.classList.add('hidden');
+    webviewDisplayOptions.hidden = true;
     // Typing clears the "please enter URL" validation state.
     webUrl.setAttribute('aria-invalid', 'false');
     webUrl.classList.remove('cp-input-error');
@@ -232,6 +246,7 @@ export function initMenuSource(ctx) {
       state.webview.url = url;
       state.webview.connected = true;
       webStatus.classList.remove('hidden');
+      webviewDisplayOptions.hidden = false;
       markDirty();
       renderPhone();
       updateWebviewReturn();
@@ -245,26 +260,35 @@ export function initMenuSource(ctx) {
     }, 1000);
   });
 
-  // Entry point used by the Online ordering step's "Web view" choice: show the
-  // Menu screen's web-view setup inline while keeping the sidebar on Step 2.
+  // Entry point used by Step 3's web-view choice. Its configuration is a third
+  // level of detail, so the step stays visible while the setup opens alongside it.
   function openWebviewSetup({ fromOrdering = false } = {}) {
     state.approach = 'webview';
     state.fromOrdering = fromOrdering;
     page.querySelectorAll('[data-approach]').forEach(o => o.classList.toggle('on', o.dataset.approach === 'webview'));
+    webviewDisplayOptions.hidden = !state.webview.connected;
     if (fromOrdering) {
-      // Keep sidebar highlight on Online ordering; swap the config panel to Menu's webview setup.
-      document.querySelectorAll('.cp-page').forEach((cp) => {
-        cp.style.display = (cp.id === 'cp-menu') ? 'flex' : 'none';
-      });
-      document.body.classList.add('oo-webview-from-step2');
+      document.body.classList.remove('oo-webview-from-step2');
+      show('webview');
+      if (webviewScreen.parentElement !== document.getElementById('l3-body')) {
+        webviewPanelPlaceholder = document.createComment('webview setup panel');
+        webviewScreen.before(webviewPanelPlaceholder);
+        openL3Panel(webviewScreen);
+      }
     } else {
       document.body.classList.remove('oo-webview-from-step2');
       window.goToStep?.('menu');
+      show('webview');
     }
-    show('webview');
     updateWebviewReturn();
     markDirty();
   }
+
+  // Navigation may close the third panel without using its return button.
+  // Restore the moved screen so the Menu workflow remains available afterwards.
+  document.addEventListener('como:navchange', () => {
+    if (!document.body.classList.contains('l3-open')) restoreWebviewPanel();
+  });
 
   // The bottom-nav "Back to Online ordering" button — replaces Back/Continue while
   // the merchant is here from Step 2. Validates the URL before allowing return.

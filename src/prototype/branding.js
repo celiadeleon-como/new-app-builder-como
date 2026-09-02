@@ -1,6 +1,63 @@
 export function initBranding(ctx) {
   const { markDirty, showToast, wireColorControl } = ctx;
 
+  const headingFont = document.getElementById('branding-heading-font');
+  const bodyFont = document.getElementById('branding-body-font');
+  const fontUploadButton = document.getElementById('font-upload-button');
+  const iconUploadButton = document.getElementById('icon-upload-button');
+  const iconFile = document.getElementById('icon-file');
+  const cardCorner = document.getElementById('card-corner-radius');
+  const buttonCorner = document.getElementById('button-corner-radius');
+
+  document.querySelectorAll('.branding-color-trigger').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      trigger.closest('.cp-color-row')?.querySelector('input[type="color"]')?.click();
+    });
+  });
+
+  function applyTypography() {
+    const heading = headingFont?.value;
+    const body = bodyFont?.value;
+    document.querySelectorAll('.app-shell').forEach((shell) => {
+      if (body) shell.style.fontFamily = body;
+      if (heading) shell.style.setProperty('--p-heading-font', heading);
+    });
+    markDirty();
+  }
+  headingFont?.addEventListener('change', applyTypography);
+  bodyFont?.addEventListener('change', applyTypography);
+  fontUploadButton?.addEventListener('click', () => document.getElementById('font-file')?.click());
+  iconUploadButton?.addEventListener('click', () => iconFile?.click());
+  iconFile?.addEventListener('change', () => {
+    if (iconFile.files?.[0]) showToast('Custom icon uploaded');
+    markDirty();
+  });
+
+  function applyCornerRadius(input, valueElement, variable, previewSelector) {
+    if (!input) return;
+    input.addEventListener('input', () => {
+      const value = input.value + 'px';
+      document.documentElement.style.setProperty(variable, value);
+      document.querySelectorAll(previewSelector).forEach((element) => {
+        element.style.borderRadius = value;
+      });
+      if (valueElement) valueElement.textContent = value;
+      markDirty();
+    });
+  }
+  applyCornerRadius(
+    cardCorner,
+    document.getElementById('card-corner-value'),
+    '--p-card-radius',
+    '.app-shell .stat-tile, .app-shell .loyalty-card, .app-shell .pc-card, .app-shell .prog-card, .app-shell .punch-card, .app-shell .howto-row, .app-shell .webview-cta-card, .app-shell .oa-card, .app-shell .ti-card, .app-shell .mc-card, .app-shell .px-login-card',
+  );
+  applyCornerRadius(
+    buttonCorner,
+    document.getElementById('button-corner-value'),
+    '--p-button-radius',
+    '.app-shell button, .app-shell .chip, .app-shell .pc-cta, .app-shell .guest-cta, .app-shell .lc-cta',
+  );
+
   // ---------- App background: Solid / Gradient + opacity ----------
   (function initAppBg() {
     const c1 = document.getElementById('appbg-color1');

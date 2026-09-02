@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/comments-BtVHjoCF.js","assets/comments-BgV5jwaY.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/comments-11dRg8QP.js","assets/comments-BgV5jwaY.css"])))=>i.map(i=>d[i]);
 var e=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports);(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var t=e((e=>{function t(e,t){var n=e.length;e.push(t);a:for(;0<n;){var r=n-1>>>1,a=e[r];if(0<i(a,t))e[r]=t,e[n]=a,n=r;else break a}}function n(e){return e.length===0?null:e[0]}function r(e){if(e.length===0)return null;var t=e[0],n=e.pop();if(n!==t){e[0]=n;a:for(var r=0,a=e.length,o=a>>>1;r<o;){var s=2*(r+1)-1,c=e[s],l=s+1,u=e[l];if(0>i(c,n))l<a&&0>i(u,c)?(e[r]=u,e[l]=n,r=l):(e[r]=c,e[s]=n,r=s);else if(l<a&&0>i(u,n))e[r]=u,e[l]=n,r=l;else break a}}return t}function i(e,t){var n=e.sortIndex-t.sortIndex;return n===0?e.id-t.id:n}if(e.unstable_now=void 0,typeof performance==`object`&&typeof performance.now==`function`){var a=performance;e.unstable_now=function(){return a.now()}}else{var o=Date,s=o.now();e.unstable_now=function(){return o.now()-s}}var c=[],l=[],u=1,d=null,f=3,p=!1,m=!1,h=!1,g=!1,_=typeof setTimeout==`function`?setTimeout:null,v=typeof clearTimeout==`function`?clearTimeout:null,y=typeof setImmediate<`u`?setImmediate:null;function b(e){for(var i=n(l);i!==null;){if(i.callback===null)r(l);else if(i.startTime<=e)r(l),i.sortIndex=i.expirationTime,t(c,i);else break;i=n(l)}}function x(e){if(h=!1,b(e),!m)if(n(c)!==null)m=!0,ee||(ee=!0,ae());else{var t=n(l);t!==null&&ce(x,t.startTime-e)}}var ee=!1,te=-1,S=5,ne=-1;function re(){return g?!0:!(e.unstable_now()-ne<S)}function ie(){if(g=!1,ee){var t=e.unstable_now();ne=t;var i=!0;try{a:{m=!1,h&&(h=!1,v(te),te=-1),p=!0;var a=f;try{b:{for(b(t),d=n(c);d!==null&&!(d.expirationTime>t&&re());){var o=d.callback;if(typeof o==`function`){d.callback=null,f=d.priorityLevel;var s=o(d.expirationTime<=t);if(t=e.unstable_now(),typeof s==`function`){d.callback=s,b(t),i=!0;break b}d===n(c)&&r(c),b(t)}else r(c);d=n(c)}if(d!==null)i=!0;else{var u=n(l);u!==null&&ce(x,u.startTime-t),i=!1}}break a}finally{d=null,f=a,p=!1}}}finally{i?ae():ee=!1}}}var ae;if(typeof y==`function`)ae=function(){y(ie)};else if(typeof MessageChannel<`u`){var oe=new MessageChannel,se=oe.port2;oe.port1.onmessage=ie,ae=function(){se.postMessage(null)}}else ae=function(){_(ie,0)};function ce(t,n){te=_(function(){t(e.unstable_now())},n)}e.unstable_IdlePriority=5,e.unstable_ImmediatePriority=1,e.unstable_LowPriority=4,e.unstable_NormalPriority=3,e.unstable_Profiling=null,e.unstable_UserBlockingPriority=2,e.unstable_cancelCallback=function(e){e.callback=null},e.unstable_forceFrameRate=function(e){0>e||125<e?console.error(`forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported`):S=0<e?Math.floor(1e3/e):5},e.unstable_getCurrentPriorityLevel=function(){return f},e.unstable_next=function(e){switch(f){case 1:case 2:case 3:var t=3;break;default:t=f}var n=f;f=t;try{return e()}finally{f=n}},e.unstable_requestPaint=function(){g=!0},e.unstable_runWithPriority=function(e,t){switch(e){case 1:case 2:case 3:case 4:case 5:break;default:e=3}var n=f;f=e;try{return t()}finally{f=n}},e.unstable_scheduleCallback=function(r,i,a){var o=e.unstable_now();switch(typeof a==`object`&&a?(a=a.delay,a=typeof a==`number`&&0<a?o+a:o):a=o,r){case 1:var s=-1;break;case 2:s=250;break;case 5:s=1073741823;break;case 4:s=1e4;break;default:s=5e3}return s=a+s,r={id:u++,callback:i,priorityLevel:r,startTime:a,expirationTime:s,sortIndex:-1},a>o?(r.sortIndex=a,t(l,r),n(c)===null&&r===n(l)&&(h?(v(te),te=-1):h=!0,ce(x,a-o))):(r.sortIndex=s,t(c,r),m||p||(m=!0,ee||(ee=!0,ae()))),r},e.unstable_shouldYield=re,e.unstable_wrapCallback=function(e){var t=f;return function(){var n=f;f=t;try{return e.apply(this,arguments)}finally{f=n}}}})),n=e(((e,n)=>{n.exports=t()})),r=e((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.portal`),r=Symbol.for(`react.fragment`),i=Symbol.for(`react.strict_mode`),a=Symbol.for(`react.profiler`),o=Symbol.for(`react.consumer`),s=Symbol.for(`react.context`),c=Symbol.for(`react.forward_ref`),l=Symbol.for(`react.suspense`),u=Symbol.for(`react.memo`),d=Symbol.for(`react.lazy`),f=Symbol.for(`react.activity`),p=Symbol.iterator;function m(e){return typeof e!=`object`||!e?null:(e=p&&e[p]||e[`@@iterator`],typeof e==`function`?e:null)}var h={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},g=Object.assign,_={};function v(e,t,n){this.props=e,this.context=t,this.refs=_,this.updater=n||h}v.prototype.isReactComponent={},v.prototype.setState=function(e,t){if(typeof e!=`object`&&typeof e!=`function`&&e!=null)throw Error(`takes an object of state variables to update or a function which returns an object of state variables.`);this.updater.enqueueSetState(this,e,t,`setState`)},v.prototype.forceUpdate=function(e){this.updater.enqueueForceUpdate(this,e,`forceUpdate`)};function y(){}y.prototype=v.prototype;function b(e,t,n){this.props=e,this.context=t,this.refs=_,this.updater=n||h}var x=b.prototype=new y;x.constructor=b,g(x,v.prototype),x.isPureReactComponent=!0;var ee=Array.isArray;function te(){}var S={H:null,A:null,T:null,S:null},ne=Object.prototype.hasOwnProperty;function re(e,n,r){var i=r.ref;return{$$typeof:t,type:e,key:n,ref:i===void 0?null:i,props:r}}function ie(e,t){return re(e.type,t,e.props)}function ae(e){return typeof e==`object`&&!!e&&e.$$typeof===t}function oe(e){var t={"=":`=0`,":":`=2`};return`$`+e.replace(/[=:]/g,function(e){return t[e]})}var se=/\/+/g;function ce(e,t){return typeof e==`object`&&e&&e.key!=null?oe(``+e.key):t.toString(36)}function C(e){switch(e.status){case`fulfilled`:return e.value;case`rejected`:throw e.reason;default:switch(typeof e.status==`string`?e.then(te,te):(e.status=`pending`,e.then(function(t){e.status===`pending`&&(e.status=`fulfilled`,e.value=t)},function(t){e.status===`pending`&&(e.status=`rejected`,e.reason=t)})),e.status){case`fulfilled`:return e.value;case`rejected`:throw e.reason}}throw e}function le(e,r,i,a,o){var s=typeof e;(s===`undefined`||s===`boolean`)&&(e=null);var c=!1;if(e===null)c=!0;else switch(s){case`bigint`:case`string`:case`number`:c=!0;break;case`object`:switch(e.$$typeof){case t:case n:c=!0;break;case d:return c=e._init,le(c(e._payload),r,i,a,o)}}if(c)return o=o(e),c=a===``?`.`+ce(e,0):a,ee(o)?(i=``,c!=null&&(i=c.replace(se,`$&/`)+`/`),le(o,r,i,``,function(e){return e})):o!=null&&(ae(o)&&(o=ie(o,i+(o.key==null||e&&e.key===o.key?``:(``+o.key).replace(se,`$&/`)+`/`)+c)),r.push(o)),1;c=0;var l=a===``?`.`:a+`:`;if(ee(e))for(var u=0;u<e.length;u++)a=e[u],s=l+ce(a,u),c+=le(a,r,i,s,o);else if(u=m(e),typeof u==`function`)for(e=u.call(e),u=0;!(a=e.next()).done;)a=a.value,s=l+ce(a,u++),c+=le(a,r,i,s,o);else if(s===`object`){if(typeof e.then==`function`)return le(C(e),r,i,a,o);throw r=String(e),Error(`Objects are not valid as a React child (found: `+(r===`[object Object]`?`object with keys {`+Object.keys(e).join(`, `)+`}`:r)+`). If you meant to render a collection of children, use an array instead.`)}return c}function w(e,t,n){if(e==null)return e;var r=[],i=0;return le(e,r,``,``,function(e){return t.call(n,e,i++)}),r}function ue(e){if(e._status===-1){var t=e._result;t=t(),t.then(function(t){(e._status===0||e._status===-1)&&(e._status=1,e._result=t)},function(t){(e._status===0||e._status===-1)&&(e._status=2,e._result=t)}),e._status===-1&&(e._status=0,e._result=t)}if(e._status===1)return e._result.default;throw e._result}var T=typeof reportError==`function`?reportError:function(e){if(typeof window==`object`&&typeof window.ErrorEvent==`function`){var t=new window.ErrorEvent(`error`,{bubbles:!0,cancelable:!0,message:typeof e==`object`&&e&&typeof e.message==`string`?String(e.message):String(e),error:e});if(!window.dispatchEvent(t))return}else if(typeof process==`object`&&typeof process.emit==`function`){process.emit(`uncaughtException`,e);return}console.error(e)},E={map:w,forEach:function(e,t,n){w(e,function(){t.apply(this,arguments)},n)},count:function(e){var t=0;return w(e,function(){t++}),t},toArray:function(e){return w(e,function(e){return e})||[]},only:function(e){if(!ae(e))throw Error(`React.Children.only expected to receive a single React element child.`);return e}};e.Activity=f,e.Children=E,e.Component=v,e.Fragment=r,e.Profiler=a,e.PureComponent=b,e.StrictMode=i,e.Suspense=l,e.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=S,e.__COMPILER_RUNTIME={__proto__:null,c:function(e){return S.H.useMemoCache(e)}},e.cache=function(e){return function(){return e.apply(null,arguments)}},e.cacheSignal=function(){return null},e.cloneElement=function(e,t,n){if(e==null)throw Error(`The argument must be a React element, but you passed `+e+`.`);var r=g({},e.props),i=e.key;if(t!=null)for(a in t.key!==void 0&&(i=``+t.key),t)!ne.call(t,a)||a===`key`||a===`__self`||a===`__source`||a===`ref`&&t.ref===void 0||(r[a]=t[a]);var a=arguments.length-2;if(a===1)r.children=n;else if(1<a){for(var o=Array(a),s=0;s<a;s++)o[s]=arguments[s+2];r.children=o}return re(e.type,i,r)},e.createContext=function(e){return e={$$typeof:s,_currentValue:e,_currentValue2:e,_threadCount:0,Provider:null,Consumer:null},e.Provider=e,e.Consumer={$$typeof:o,_context:e},e},e.createElement=function(e,t,n){var r,i={},a=null;if(t!=null)for(r in t.key!==void 0&&(a=``+t.key),t)ne.call(t,r)&&r!==`key`&&r!==`__self`&&r!==`__source`&&(i[r]=t[r]);var o=arguments.length-2;if(o===1)i.children=n;else if(1<o){for(var s=Array(o),c=0;c<o;c++)s[c]=arguments[c+2];i.children=s}if(e&&e.defaultProps)for(r in o=e.defaultProps,o)i[r]===void 0&&(i[r]=o[r]);return re(e,a,i)},e.createRef=function(){return{current:null}},e.forwardRef=function(e){return{$$typeof:c,render:e}},e.isValidElement=ae,e.lazy=function(e){return{$$typeof:d,_payload:{_status:-1,_result:e},_init:ue}},e.memo=function(e,t){return{$$typeof:u,type:e,compare:t===void 0?null:t}},e.startTransition=function(e){var t=S.T,n={};S.T=n;try{var r=e(),i=S.S;i!==null&&i(n,r),typeof r==`object`&&r&&typeof r.then==`function`&&r.then(te,T)}catch(e){T(e)}finally{t!==null&&n.types!==null&&(t.types=n.types),S.T=t}},e.unstable_useCacheRefresh=function(){return S.H.useCacheRefresh()},e.use=function(e){return S.H.use(e)},e.useActionState=function(e,t,n){return S.H.useActionState(e,t,n)},e.useCallback=function(e,t){return S.H.useCallback(e,t)},e.useContext=function(e){return S.H.useContext(e)},e.useDebugValue=function(){},e.useDeferredValue=function(e,t){return S.H.useDeferredValue(e,t)},e.useEffect=function(e,t){return S.H.useEffect(e,t)},e.useEffectEvent=function(e){return S.H.useEffectEvent(e)},e.useId=function(){return S.H.useId()},e.useImperativeHandle=function(e,t,n){return S.H.useImperativeHandle(e,t,n)},e.useInsertionEffect=function(e,t){return S.H.useInsertionEffect(e,t)},e.useLayoutEffect=function(e,t){return S.H.useLayoutEffect(e,t)},e.useMemo=function(e,t){return S.H.useMemo(e,t)},e.useOptimistic=function(e,t){return S.H.useOptimistic(e,t)},e.useReducer=function(e,t,n){return S.H.useReducer(e,t,n)},e.useRef=function(e){return S.H.useRef(e)},e.useState=function(e){return S.H.useState(e)},e.useSyncExternalStore=function(e,t,n){return S.H.useSyncExternalStore(e,t,n)},e.useTransition=function(){return S.H.useTransition()},e.version=`19.2.8`})),i=e(((e,t)=>{t.exports=r()})),a=e((e=>{var t=i();function n(e){var t=`https://react.dev/errors/`+e;if(1<arguments.length){t+=`?args[]=`+encodeURIComponent(arguments[1]);for(var n=2;n<arguments.length;n++)t+=`&args[]=`+encodeURIComponent(arguments[n])}return`Minified React error #`+e+`; visit `+t+` for the full message or use the non-minified dev environment for full errors and additional helpful warnings.`}function r(){}var a={d:{f:r,r:function(){throw Error(n(522))},D:r,C:r,L:r,m:r,X:r,S:r,M:r},p:0,findDOMNode:null},o=Symbol.for(`react.portal`);function s(e,t,n){var r=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;return{$$typeof:o,key:r==null?null:``+r,children:e,containerInfo:t,implementation:n}}var c=t.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;function l(e,t){if(e===`font`)return``;if(typeof t==`string`)return t===`use-credentials`?t:``}e.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=a,e.createPortal=function(e,t){var r=2<arguments.length&&arguments[2]!==void 0?arguments[2]:null;if(!t||t.nodeType!==1&&t.nodeType!==9&&t.nodeType!==11)throw Error(n(299));return s(e,t,null,r)},e.flushSync=function(e){var t=c.T,n=a.p;try{if(c.T=null,a.p=2,e)return e()}finally{c.T=t,a.p=n,a.d.f()}},e.preconnect=function(e,t){typeof e==`string`&&(t?(t=t.crossOrigin,t=typeof t==`string`?t===`use-credentials`?t:``:void 0):t=null,a.d.C(e,t))},e.prefetchDNS=function(e){typeof e==`string`&&a.d.D(e)},e.preinit=function(e,t){if(typeof e==`string`&&t&&typeof t.as==`string`){var n=t.as,r=l(n,t.crossOrigin),i=typeof t.integrity==`string`?t.integrity:void 0,o=typeof t.fetchPriority==`string`?t.fetchPriority:void 0;n===`style`?a.d.S(e,typeof t.precedence==`string`?t.precedence:void 0,{crossOrigin:r,integrity:i,fetchPriority:o}):n===`script`&&a.d.X(e,{crossOrigin:r,integrity:i,fetchPriority:o,nonce:typeof t.nonce==`string`?t.nonce:void 0})}},e.preinitModule=function(e,t){if(typeof e==`string`)if(typeof t==`object`&&t){if(t.as==null||t.as===`script`){var n=l(t.as,t.crossOrigin);a.d.M(e,{crossOrigin:n,integrity:typeof t.integrity==`string`?t.integrity:void 0,nonce:typeof t.nonce==`string`?t.nonce:void 0})}}else t??a.d.M(e)},e.preload=function(e,t){if(typeof e==`string`&&typeof t==`object`&&t&&typeof t.as==`string`){var n=t.as,r=l(n,t.crossOrigin);a.d.L(e,n,{crossOrigin:r,integrity:typeof t.integrity==`string`?t.integrity:void 0,nonce:typeof t.nonce==`string`?t.nonce:void 0,type:typeof t.type==`string`?t.type:void 0,fetchPriority:typeof t.fetchPriority==`string`?t.fetchPriority:void 0,referrerPolicy:typeof t.referrerPolicy==`string`?t.referrerPolicy:void 0,imageSrcSet:typeof t.imageSrcSet==`string`?t.imageSrcSet:void 0,imageSizes:typeof t.imageSizes==`string`?t.imageSizes:void 0,media:typeof t.media==`string`?t.media:void 0})}},e.preloadModule=function(e,t){if(typeof e==`string`)if(t){var n=l(t.as,t.crossOrigin);a.d.m(e,{as:typeof t.as==`string`&&t.as!==`script`?t.as:void 0,crossOrigin:n,integrity:typeof t.integrity==`string`?t.integrity:void 0})}else a.d.m(e)},e.requestFormReset=function(e){a.d.r(e)},e.unstable_batchedUpdates=function(e,t){return e(t)},e.useFormState=function(e,t,n){return c.H.useFormState(e,t,n)},e.useFormStatus=function(){return c.H.useHostTransitionStatus()},e.version=`19.2.8`})),o=e(((e,t)=>{function n(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>`u`||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!=`function`))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(n)}catch(e){console.error(e)}}n(),t.exports=a()})),s=e((e=>{var t=n(),r=i(),a=o();function s(e){var t=`https://react.dev/errors/`+e;if(1<arguments.length){t+=`?args[]=`+encodeURIComponent(arguments[1]);for(var n=2;n<arguments.length;n++)t+=`&args[]=`+encodeURIComponent(arguments[n])}return`Minified React error #`+e+`; visit `+t+` for the full message or use the non-minified dev environment for full errors and additional helpful warnings.`}function c(e){return!(!e||e.nodeType!==1&&e.nodeType!==9&&e.nodeType!==11)}function l(e){var t=e,n=e;if(e.alternate)for(;t.return;)t=t.return;else{e=t;do t=e,t.flags&4098&&(n=t.return),e=t.return;while(e)}return t.tag===3?n:null}function u(e){if(e.tag===13){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function d(e){if(e.tag===31){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function f(e){if(l(e)!==e)throw Error(s(188))}function p(e){var t=e.alternate;if(!t){if(t=l(e),t===null)throw Error(s(188));return t===e?e:null}for(var n=e,r=t;;){var i=n.return;if(i===null)break;var a=i.alternate;if(a===null){if(r=i.return,r!==null){n=r;continue}break}if(i.child===a.child){for(a=i.child;a;){if(a===n)return f(i),e;if(a===r)return f(i),t;a=a.sibling}throw Error(s(188))}if(n.return!==r.return)n=i,r=a;else{for(var o=!1,c=i.child;c;){if(c===n){o=!0,n=i,r=a;break}if(c===r){o=!0,r=i,n=a;break}c=c.sibling}if(!o){for(c=a.child;c;){if(c===n){o=!0,n=a,r=i;break}if(c===r){o=!0,r=a,n=i;break}c=c.sibling}if(!o)throw Error(s(189))}}if(n.alternate!==r)throw Error(s(190))}if(n.tag!==3)throw Error(s(188));return n.stateNode.current===n?e:t}function m(e){var t=e.tag;if(t===5||t===26||t===27||t===6)return e;for(e=e.child;e!==null;){if(t=m(e),t!==null)return t;e=e.sibling}return null}var h=Object.assign,g=Symbol.for(`react.element`),_=Symbol.for(`react.transitional.element`),v=Symbol.for(`react.portal`),y=Symbol.for(`react.fragment`),b=Symbol.for(`react.strict_mode`),x=Symbol.for(`react.profiler`),ee=Symbol.for(`react.consumer`),te=Symbol.for(`react.context`),S=Symbol.for(`react.forward_ref`),ne=Symbol.for(`react.suspense`),re=Symbol.for(`react.suspense_list`),ie=Symbol.for(`react.memo`),ae=Symbol.for(`react.lazy`),oe=Symbol.for(`react.activity`),se=Symbol.for(`react.memo_cache_sentinel`),ce=Symbol.iterator;function C(e){return typeof e!=`object`||!e?null:(e=ce&&e[ce]||e[`@@iterator`],typeof e==`function`?e:null)}var le=Symbol.for(`react.client.reference`);function w(e){if(e==null)return null;if(typeof e==`function`)return e.$$typeof===le?null:e.displayName||e.name||null;if(typeof e==`string`)return e;switch(e){case y:return`Fragment`;case x:return`Profiler`;case b:return`StrictMode`;case ne:return`Suspense`;case re:return`SuspenseList`;case oe:return`Activity`}if(typeof e==`object`)switch(e.$$typeof){case v:return`Portal`;case te:return e.displayName||`Context`;case ee:return(e._context.displayName||`Context`)+`.Consumer`;case S:var t=e.render;return e=e.displayName,e||=(e=t.displayName||t.name||``,e===``?`ForwardRef`:`ForwardRef(`+e+`)`),e;case ie:return t=e.displayName||null,t===null?w(e.type)||`Memo`:t;case ae:t=e._payload,e=e._init;try{return w(e(t))}catch{}}return null}var ue=Array.isArray,T=r.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,E=a.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,de={pending:!1,data:null,method:null,action:null},fe=[],pe=-1;function me(e){return{current:e}}function D(e){0>pe||(e.current=fe[pe],fe[pe]=null,pe--)}function O(e,t){pe++,fe[pe]=e.current,e.current=t}var he=me(null),ge=me(null),_e=me(null),ve=me(null);function ye(e,t){switch(O(_e,t),O(ge,e),O(he,null),t.nodeType){case 9:case 11:e=(e=t.documentElement)&&(e=e.namespaceURI)?Vd(e):0;break;default:if(e=t.tagName,t=t.namespaceURI)t=Vd(t),e=Hd(t,e);else switch(e){case`svg`:e=1;break;case`math`:e=2;break;default:e=0}}D(he),O(he,e)}function be(){D(he),D(ge),D(_e)}function xe(e){e.memoizedState!==null&&O(ve,e);var t=he.current,n=Hd(t,e.type);t!==n&&(O(ge,e),O(he,n))}function Se(e){ge.current===e&&(D(he),D(ge)),ve.current===e&&(D(ve),Qf._currentValue=de)}var Ce,we;function Te(e){if(Ce===void 0)try{throw Error()}catch(e){var t=e.stack.trim().match(/\n( *(at )?)/);Ce=t&&t[1]||``,we=-1<e.stack.indexOf(`
     at`)?` (<anonymous>)`:-1<e.stack.indexOf(`@`)?`@unknown:0:0`:``}return`
 `+Ce+e+we}var Ee=!1;function De(e,t){if(!e||Ee)return``;Ee=!0;var n=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{var r={DetermineComponentFrameRoot:function(){try{if(t){var n=function(){throw Error()};if(Object.defineProperty(n.prototype,"props",{set:function(){throw Error()}}),typeof Reflect==`object`&&Reflect.construct){try{Reflect.construct(n,[])}catch(e){var r=e}Reflect.construct(e,[],n)}else{try{n.call()}catch(e){r=e}e.call(n.prototype)}}else{try{throw Error()}catch(e){r=e}(n=e())&&typeof n.catch==`function`&&n.catch(function(){})}}catch(e){if(e&&r&&typeof e.stack==`string`)return[e.stack,r.stack]}return[null,null]}};r.DetermineComponentFrameRoot.displayName=`DetermineComponentFrameRoot`;var i=Object.getOwnPropertyDescriptor(r.DetermineComponentFrameRoot,`name`);i&&i.configurable&&Object.defineProperty(r.DetermineComponentFrameRoot,"name",{value:`DetermineComponentFrameRoot`});var a=r.DetermineComponentFrameRoot(),o=a[0],s=a[1];if(o&&s){var c=o.split(`
@@ -866,6 +866,16 @@ Error generating stack: `+e.message+`
     <div class="ms-kicker">Menu source · Webview
       <button class="ms-kicker-link" type="button" data-ms-change>Change</button>
     </div>
+
+    <div class="ms-return" id="ms-webview-return" hidden>
+      <span class="ms-return-ic" aria-hidden="true">
+        <svg class="ic-todo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7 7-7"/><path d="M3 12h13a5 5 0 015 5v1"/></svg>
+        <svg class="ic-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </span>
+      <span class="ms-return-text" data-return-label>You are setting up online ordering. Add your menu, then head back.</span>
+      <button class="ms-return-btn" type="button" id="ms-webview-return-btn">Back to Online ordering</button>
+    </div>
+
     <div class="ms-title">Show a webview menu</div>
     <div class="ms-sub">Paste the web address of your online menu. It loads right inside the app.</div>
 
@@ -873,8 +883,9 @@ Error generating stack: `+e.message+`
       <div class="ms-label">Menu web address</div>
       <div class="ms-input-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 13a5 5 0 007.5.5l3-3a5 5 0 00-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 00-7.5-.5l-3 3a5 5 0 007 7l1.7-1.7"/></svg>
-        <input class="ms-input" type="url" id="ms-webview-url" value="https://velvetbistro.com/menu">
+        <input class="ms-input" type="url" id="ms-webview-url" value="https://velvetbistro.com/menu" aria-describedby="ms-webview-url-error" aria-invalid="false" required>
       </div>
+      <div class="gf-field-error" id="ms-webview-url-error" aria-live="polite"></div>
       <div class="ms-hint">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
         <span>Use a public page with no login wall. Tip: link straight to your menu, not the homepage.</span>
@@ -1556,25 +1567,8 @@ Error generating stack: `+e.message+`
     </div>
 `,re=`<div class="cp-master">
   <h3 class="cp-head">Step 1</h3>
-  <div class="cp-page-title">Start with what Como already knows</div>
-  <div class="cp-page-sub">Bring in your business identity first, then review the essentials below. You can change every imported detail.</div>
-
-  <div class="px-import-panel" id="px-import-panel">
-    <div class="px-import-copy">
-      <strong>Save the manual setup</strong>
-      <span>Use your Como business profile or import a website to prefill identity, brand colour, industry, and tagline.</span>
-    </div>
-    <button class="px-import-primary" id="px-import-profile" type="button">Use Como profile</button>
-    <div class="px-import-divider"><span>or</span></div>
-    <label class="px-import-url" for="px-import-url">
-      <span class="px-sr-only">Business website</span>
-      <input id="px-import-url" type="url" inputmode="url" autocomplete="url" placeholder="https://yourbusiness.com" />
-      <button id="px-import-website" type="button">Import website</button>
-    </label>
-    <div class="px-import-status" id="px-import-status" role="status" aria-live="polite"></div>
-  </div>
-
-  <div class="px-section-label">Review business details</div>
+  <div class="cp-page-title">Tell us about your business</div>
+  <div class="cp-page-sub">These details appear on your app's home screen. You can change them anytime.</div>
 
   <div class="gf-fieldset">
     <label class="gf-field-label" for="gf-biz-name">Company name <span class="gf-req">*</span></label>
@@ -1644,9 +1638,9 @@ Error generating stack: `+e.message+`
   </div>
 </div>
 `,ie=`<div class="cp-master">
-  <h3 class="cp-head">Step 2 of 3</h3>
-  <div class="cp-page-title">How do customers order from your app?</div>
-  <div class="cp-page-sub">Hover an option to see the app it produces.</div>
+  <h3 class="cp-head">Online ordering · Step 2 of 3</h3>
+  <div class="cp-page-title">How do customers place online orders?</div>
+  <div class="cp-page-sub">Choose how orders reach you. Hover an option to preview the app it builds.</div>
 
   <div class="oo-choice" id="oo-choice" role="radiogroup" aria-label="Online ordering method" aria-describedby="oo-choice-error" data-pendo-guide-id="online-ordering-choice">
 
@@ -1654,11 +1648,16 @@ Error generating stack: `+e.message+`
       <span class="oo-opt-mark" aria-hidden="true"></span>
       <span class="oo-opt-body">
         <span class="oo-opt-head">
-          <span class="oo-opt-name">Native integration</span>
-          <span class="oo-opt-provider" data-oo-provider-name>Deliverect</span>
+          <span class="oo-opt-name">In-app ordering</span>
+          <span class="oo-tip-btn" role="button" tabindex="0" data-oo-tip="Supports Deliverect, Olo, DoorDash and more. Customers browse your menu, reorder favourites and pay without leaving the app. Loyalty points apply automatically.">i</span>
           <span class="oo-badge oo-badge-rec" data-oo-rec hidden>Recommended</span>
+          <span class="oo-opt-status" data-oo-status hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span data-oo-status-label>Connected</span>
+          </span>
         </span>
-        <span class="oo-opt-desc">Customers browse the menu, reorder favourites and check out without leaving your app. Loyalty points apply at checkout.</span>
+        <span class="oo-opt-desc">Full menu, checkout and reordering — all inside your app with loyalty at checkout.</span>
+        <span class="oo-opt-note">You’ll connect a provider in the next step.</span>
         <span class="oo-unlocks">
           <span class="oo-unlocks-label">Unlocks on your home screen</span>
           <span class="oo-unlocks-row">
@@ -1675,21 +1674,15 @@ Error generating stack: `+e.message+`
       <span class="oo-opt-mark" aria-hidden="true"></span>
       <span class="oo-opt-body">
         <span class="oo-opt-head">
-          <span class="oo-opt-name">Web view</span>
-        </span>
-        <span class="oo-opt-desc">Your existing ordering website opens inside the app. Fastest to launch — but Como can’t read the basket, so loyalty stays separate from ordering.</span>
-        <span class="oo-unlocks oo-unlocks-muted">
-          <span class="oo-unlocks-label">Home stays loyalty-led</span>
-          <span class="oo-unlocks-row">
-            <span class="oo-unlock off">Order Again</span>
-            <span class="oo-unlock off">Top Items</span>
-            <span class="oo-unlock off">Menu Categories</span>
+          <span class="oo-opt-name">Link your ordering website</span>
+          <span class="oo-tip-btn" role="button" tabindex="0" data-oo-tip="Your ordering website opens inside the app as a seamless screen. Members are signed in automatically so their loyalty profile is linked to every order. You control the look — back button, navigation bar, and where members go after checkout.">i</span>
+          <span class="oo-opt-status" data-oo-status hidden>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            <span data-oo-status-label>Menu connected</span>
           </span>
         </span>
-        <span class="oo-opt-field" data-oo-field="webview">
-          <label class="px-sr-only" for="oo-webview-url">Ordering website address</label>
-          <input id="oo-webview-url" type="url" inputmode="url" autocomplete="url" placeholder="https://order.yourbusiness.com" />
-        </span>
+        <span class="oo-opt-desc">Embed your existing ordering site in the app. Members stay logged in automatically — no extra sign-in needed.</span>
+        <span class="oo-opt-note">You’ll enter your ordering URL and choose how the page looks and behaves inside the app.</span>
       </span>
     </button>
 
@@ -1716,226 +1709,36 @@ Error generating stack: `+e.message+`
     <button class="oo-outcome-action" id="oo-outcome-action" type="button" hidden></button>
   </div>
 </div>
-`,ae=`<div class="cp-master">
+`,ae=`<div class="branding-page cp-master">
   <h3 class="cp-head">Step 3</h3>
   <div class="cp-page-title">Branding</div>
-  <div class="cp-page-sub">Choose one global brand system. Every proven screen inherits it automatically.</div>
-
-  <div class="px-brand-source" id="px-brand-source" role="status">
-    <span class="px-brand-source-mark" aria-hidden="true">✓</span>
-    <span><strong>Global branding</strong><small>Home, Rewards, Menu, Locations, Login, Profile, and More stay in sync.</small></span>
-  </div>
-
-  <div class="cp-focus-recap">
-    <div class="cp-focus-ic"></div>
-    <div class="cp-focus-text">
-      <div class="cp-focus-lbl">App focus</div>
-      <div class="cp-focus-val">Not chosen yet</div>
-    </div>
-    <button class="cp-focus-change" type="button" aria-haspopup="menu" aria-expanded="false">
-      Change
-      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-    </button>
-    <div class="cp-focus-menu" role="menu" aria-label="Change app focus">
-      <button type="button" role="menuitemradio" aria-checked="false" data-focus="loyalty">Lead with loyalty</button>
-      <button type="button" role="menuitemradio" aria-checked="false" data-focus="ordering">Lead with ordering</button>
-    </div>
-  </div>
-
-  <div class="cp-section open">
-    <div class="cp-head-row">Brand colour <span class="chev">›</span></div>
-    <div class="cp-body">
-      <div class="cp-hint-inline">Colour is the first thing customers notice. We apply it across every screen.</div>
-      <div class="gf-swatch-row" id="gf-accent-row">
-        <button class="gf-swatch selected" style="background:#6d28d9" data-accent="#6d28d9" type="button" aria-label="Purple"></button>
-        <button class="gf-swatch" style="background:#d4a648" data-accent="#d4a648" type="button" aria-label="Gold"></button>
-        <button class="gf-swatch" style="background:#d97706" data-accent="#d97706" type="button" aria-label="Orange"></button>
-        <button class="gf-swatch" style="background:#0f766e" data-accent="#0f766e" type="button" aria-label="Teal"></button>
-        <button class="gf-swatch" style="background:#be123c" data-accent="#be123c" type="button" aria-label="Red"></button>
-        <button class="gf-swatch" style="background:#1d4ed8" data-accent="#1d4ed8" type="button" aria-label="Blue"></button>
-        <label class="sw-swatch-custom" title="Custom colour">
-          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg>
-          <input type="color" value="#6d28d9" id="gf-accent-custom" />
-        </label>
-      </div>
-    </div>
-  </div>
+  <div class="cp-page-sub">Consistent branding helps customers recognize you and builds trust.</div>
 
   <div class="cp-section open">
     <div class="cp-head-row">Logo <span class="chev">›</span></div>
     <div class="cp-body">
-      <div class="gf-logo-result" id="gf-logo-result" style="display:none;">
-        <div class="gf-logo-thumb"><img id="gf-logo-thumb-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="Uploaded logo" /></div>
-        <div class="gf-logo-meta">
-          <div class="gf-logo-status">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-            Uploaded
-          </div>
-          <div class="gf-logo-filename" id="gf-logo-filename">logo.png</div>
-          <div class="gf-logo-actions">
-            <button class="gf-logo-action" id="gf-logo-replace" type="button">Replace</button>
-            <button class="gf-logo-action danger" id="gf-logo-remove" type="button">Remove</button>
-          </div>
-        </div>
-      </div>
-      <div class="cp-upload-zone" id="gf-logo-zone">
-        <div class="cp-upload-btn">+ Upload from Computer</div>
-        <div class="cp-upload-hint">or drag &amp; drop files here</div>
-      </div>
-      <input type="file" id="gf-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp" style="display:none;" />
+      <div class="branding-upload" id="gf-logo-zone"><button class="branding-upload-button" type="button">+ Upload from Computer</button><div>or drag &amp; drop files here</div></div>
+      <input type="file" id="gf-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden />
       <div class="cp-upload-note">Supported: png, jpg, jpeg, webp. Max 5MB.</div>
-      <div class="gf-logo-controls" id="gf-logo-controls" hidden>
-        <div class="cp-subhead">Position</div>
-        <div class="cp-radio-group">
-          <div class="cp-radio" data-bind-radio="logo-position" data-value="left">Left</div>
-          <div class="cp-radio active" data-bind-radio="logo-position" data-value="center">Center</div>
-          <div class="cp-radio" data-bind-radio="logo-position" data-value="right">Right</div>
-        </div>
-        <div class="cp-subhead">Size</div>
-        <div class="cp-slider-row">
-          <input type="range" class="cp-slider" min="30" max="120" value="60" data-bind-slider="logo-size" />
-          <span class="cp-slider-val">60%</span>
-        </div>
-      </div>
+      <div class="branding-logo-result" id="gf-logo-result" style="display:none;"><img id="gf-logo-thumb-img" alt="Uploaded logo" /><span id="gf-logo-filename"></span><button id="gf-logo-replace" type="button">Replace</button><button id="gf-logo-remove" type="button">Remove</button></div>
+      <div id="gf-logo-controls" hidden></div>
     </div>
   </div>
 
-  <div class="cp-section open">
-    <div class="cp-head-row">App header <span class="chev">›</span></div>
-    <div class="cp-body">
-      <div class="cp-field">
-        <label>Business name</label>
-        <input class="cp-input-text" data-bind-text=".app-page[data-page='home'] .app-top-header .brand-text .name" value="Your Business" />
-      </div>
-      <div class="cp-field">
-        <label for="gf-branding-headline">App tagline</label>
-        <input id="gf-branding-headline" class="cp-input-text" type="text" placeholder="e.g. Fresh food, real rewards" maxlength="60" />
-      </div>
-      <div class="cp-toggle-row"><span class="lbl">Show business name</span><span class="toggle on" data-bind=".app-page[data-page='home'] .app-top-header .brand-text"></span></div>
-    </div>
-  </div>
+  <div class="cp-section open"><div class="cp-head-row">Brand colour <span class="chev">›</span></div><div class="cp-body"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#22d087" data-bind-color="--p-accent" /></div><div class="cp-color-info"><div class="cp-color-label">Primary brand color</div><input class="cp-color-hex" value="#22D087" spellcheck="false" maxlength="9" /></div></div></div></div>
 
-  <div class="cp-section open">
-    <div class="cp-head-row">Font family <span class="chev">›</span></div>
-    <div class="cp-body">
-      <div class="cp-hint-inline">Typography sets the tone and makes your content easier to read.</div>
-      <div class="gf-chip-row" id="gf-font-row">
-        <button class="gf-chip selected" data-font="sans-serif" type="button">Sans-serif</button>
-        <button class="gf-chip" data-font="serif" type="button">Serif</button>
-        <button class="gf-chip" data-font="mono" type="button">Mono</button>
-        <button class="gf-chip" data-font="rounded" type="button">Rounded</button>
-        <button class="gf-chip" data-font="slab" type="button">Slab</button>
-      </div>
-    </div>
-  </div>
+  <div class="cp-section open"><div class="cp-head-row">Background <span class="chev">›</span></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#c5c5f3" data-bind-color="--p-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#C5C5F3" spellcheck="false" maxlength="9" /></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#ffffff" data-bind-color="--p-panel" /></div><div class="cp-color-info"><div class="cp-color-label">Card background color</div><input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" /></div></div></div></div>
 
-  <div class="cp-section" id="gf-advanced-branding-section">
-    <div class="cp-head-row">Advanced branding options <span class="chev">›</span></div>
-    <div class="cp-body">
-      <div class="cp-hint-inline">Fine-tune background, text, and card colours across the entire app.</div>
+  <div class="cp-section open"><div class="cp-head-row">Text and Icons <span class="chev">›</span></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#072105" data-bind-color="--p-text" /></div><div class="cp-color-info"><div class="cp-color-label">Primary text color</div><input class="cp-color-hex" value="#072105" spellcheck="false" maxlength="9" /></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#000000" data-bind-color="--p-text-muted" /></div><div class="cp-color-info"><div class="cp-color-label">Secondary text color</div><input class="cp-color-hex" value="#000000" spellcheck="false" maxlength="9" /></div></div></div></div>
 
-      <div class="cp-field">
-        <label>App background</label>
-        <div class="cp-seg" id="appbg-mode">
-          <button class="cp-seg-btn active" type="button" data-mode="solid">Solid</button>
-          <button class="cp-seg-btn" type="button" data-mode="gradient">Gradient</button>
-        </div>
-        <div class="cp-color-row">
-          <div class="cp-color-swatch" style="background:#f2f2f7;">
-            <input type="color" value="#f2f2f7" id="appbg-color1" />
-          </div>
-          <div class="cp-color-info">
-            <div class="cp-color-label" id="appbg-label1">Background</div>
-            <input class="cp-color-hex" value="#F2F2F7" spellcheck="false" maxlength="9" />
-          </div>
-        </div>
-        <div class="cp-color-row" id="appbg-row2" style="display:none;">
-          <div class="cp-color-swatch" style="background:#e9e7f0;">
-            <input type="color" value="#e9e7f0" id="appbg-color2" />
-          </div>
-          <div class="cp-color-info">
-            <div class="cp-color-label">Gradient end</div>
-            <input class="cp-color-hex" value="#E9E7F0" spellcheck="false" maxlength="9" />
-          </div>
-        </div>
-        <div class="cp-slider-row">
-          <span class="cp-mini-label">Opacity</span>
-          <input type="range" class="cp-slider" min="0" max="100" value="100" id="appbg-opacity" />
-          <span class="cp-slider-val" id="appbg-opacity-val">100%</span>
-        </div>
-      </div>
+  <div class="cp-section open"><div class="cp-head-row">App header <span class="chev">›</span></div><div class="cp-body"><div class="cp-field"><label>Business name</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .name" value="Your Business" /></div><div class="cp-field"><label>Storefront headline</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .sub" value="Welcome back!" /></div><div class="cp-toggle-row"><span class="lbl">Show business name</span><span class="toggle on" data-bind=".app-top-header .brand-text"></span></div></div></div>
 
-      <div class="px-contrast-result" id="px-contrast-result" role="status" aria-live="polite"></div>
+  <div class="cp-section open"><div class="cp-head-row">Font family <span class="chev">›</span></div><div class="cp-body"><label class="branding-select"><span>Headings</span><select id="branding-heading-font"><option value="'Questrial', sans-serif">Questrial</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Playfair Display</option><option value="'Roboto', sans-serif">Roboto</option></select></label><label class="branding-select"><span>Body</span><select id="branding-body-font"><option value="'Roboto', sans-serif">Roboto</option><option value="-apple-system, BlinkMacSystemFont, sans-serif">SF Pro</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Merriweather</option></select></label><div class="branding-upload custom-font-upload" id="font-drop-zone"><button class="branding-upload-button" type="button" id="font-upload-button">+ Upload custom font</button></div><input id="font-file" type="file" accept=".woff2,.otf,.ttf" hidden /></div></div>
 
-      <div class="cp-field">
-        <label>Card background</label>
-        <div class="cp-color-row">
-          <div class="cp-color-swatch" style="background:#1a1728;">
-            <input type="color" value="#1a1728" data-bind-color="--p-panel" />
-          </div>
-          <div class="cp-color-info">
-            <div class="cp-color-label">Cards &amp; panels</div>
-            <input class="cp-color-hex" value="#1A1728" spellcheck="false" maxlength="9" />
-          </div>
-        </div>
-      </div>
+  <div class="cp-section open"><div class="cp-head-row">Icon Style <span class="chev">›</span></div><div class="cp-body"><div class="branding-icon-preview" aria-hidden="true"><span>⌂</span><span>♔</span><span>⌖</span></div><div class="cp-radio-group branding-icon-options"><div class="cp-radio" data-bind-radio="icon-style" data-value="outline">Outline</div><div class="cp-radio" data-bind-radio="icon-style" data-value="solid">Solid</div><div class="cp-radio active" data-bind-radio="icon-style" data-value="duotone">Duotone</div></div><div class="branding-upload custom-font-upload"><button class="branding-upload-button" type="button" id="icon-upload-button">+ Upload custom icon</button></div><input id="icon-file" type="file" accept="image/svg+xml,image/png" hidden /></div></div>
 
-      <div class="cp-field">
-        <label>Primary text</label>
-        <div class="cp-color-row">
-          <div class="cp-color-swatch" style="background:#ffffff;">
-            <input type="color" value="#ffffff" data-bind-color="--p-text" />
-          </div>
-          <div class="cp-color-info">
-            <div class="cp-color-label">Headings &amp; body</div>
-            <input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" />
-          </div>
-        </div>
-      </div>
-
-      <div class="cp-field">
-        <label>Secondary text</label>
-        <div class="cp-color-row">
-          <div class="cp-color-swatch" style="background:#9c98ac;">
-            <input type="color" value="#9c98ac" data-bind-color="--p-text-muted" />
-          </div>
-          <div class="cp-color-info">
-            <div class="cp-color-label">Muted &amp; captions</div>
-            <input class="cp-color-hex" value="#9C98AC" spellcheck="false" maxlength="9" />
-          </div>
-        </div>
-      </div>
-
-      <div class="cp-subhead">Icon style</div>
-      <div class="cp-icon-style-preview">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7"/></svg>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-      </div>
-      <div class="cp-radio-group">
-        <div class="cp-radio active" data-bind-radio="icon-style" data-value="outline">Outline</div>
-        <div class="cp-radio" data-bind-radio="icon-style" data-value="solid">Solid</div>
-        <div class="cp-radio" data-bind-radio="icon-style" data-value="duotone">Duotone</div>
-      </div>
-
-      <div class="cp-subhead">Font library</div>
-      <input type="text" class="cp-font-search" id="font-search" placeholder="Search fonts…" />
-      <div class="cp-font-list" id="font-list">
-        <div class="cp-font-item active" data-font="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif"><span class="fname">SF Pro</span><span class="fsub">Default</span></div>
-        <div class="cp-font-item" data-font="'Roboto', sans-serif"><span class="fname">Roboto</span><span class="fsub">Sans</span></div>
-        <div class="cp-font-item" data-font="'Poppins', sans-serif"><span class="fname">Poppins</span><span class="fsub">Sans</span></div>
-        <div class="cp-font-item" data-font="'Playfair Display', Georgia, serif"><span class="fname">Playfair Display</span><span class="fsub">Serif</span></div>
-        <div class="cp-font-item" data-font="'Merriweather', Georgia, serif"><span class="fname">Merriweather</span><span class="fsub">Serif</span></div>
-      </div>
-      <div class="cp-subhead">Custom font</div>
-      <div class="px-font-request">
-        <span><strong>Need a licensed custom font?</strong><small>Fonts ship with the native app and require an app update.</small></span>
-        <button type="button" id="px-request-font">Request in App submission</button>
-      </div>
-    </div>
-  </div>
-</div>
-`,oe=`<div class="cp-master">
+  <div class="cp-section open"><div class="cp-head-row">Corner <span class="chev">›</span></div><div class="cp-body branding-corners"><label>Card corners <span id="card-corner-value">11px</span><input id="card-corner-radius" type="range" min="0" max="24" value="11" /></label><p>Adjust the corner radius applied to panels and cards.</p><label>Button corners <span id="button-corner-value">9px</span><input id="button-corner-radius" type="range" min="0" max="24" value="9" /></label><p>Control how rounded buttons appear across the UI.</p></div></div>
+</div>`,oe=`<div class="cp-master">
   <h3 class="cp-head">Content publishing</h3>
   <div class="cp-page-title">Prepare your first app</div>
   <div class="cp-page-sub">Review the member experience, publish the content version, then complete native app submission separately.</div>
@@ -1976,7 +1779,7 @@ Error generating stack: `+e.message+`
   <button class="px-restore-published" id="px-restore-published" type="button">Restore last published version</button>
 </div>
 `,se=e((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.fragment`);function r(e,n,r){var i=null;if(r!==void 0&&(i=``+r),n.key!==void 0&&(i=``+n.key),`key`in n)for(var a in r={},n)a!==`key`&&(r[a]=n[a]);else r=n;return n=r.ref,{$$typeof:t,type:e,key:i,ref:n===void 0?null:n,props:r}}e.Fragment=n,e.jsx=r,e.jsxs=r})),ce=e(((e,t)=>{t.exports=se()})),C=ce();function le({as:e=`div`,html:t,...n}){return(0,C.jsx)(e,{...n,dangerouslySetInnerHTML:{__html:t}})}var w=(0,l.memo)(le),ue=[d,f,m,p,g,h,_,v,y,b,x].join(`
-`),T=e=>{let t=e.indexOf(`<div class="cp-page"`);return e.slice(e.indexOf(`>`,t)+1,e.lastIndexOf(`</div>`))};function E(){return(0,C.jsxs)(`div`,{className:`config-column`,"data-comment-anchor":`config-column`,children:[(0,C.jsx)(`div`,{className:`cp-breadcrumb`,id:`cp-breadcrumb`,"data-comment-anchor":`config-breadcrumb`}),(0,C.jsxs)(`div`,{className:`config-panel`,id:`config-panel`,"data-comment-anchor":`configuration-panel`,children:[(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-home`,"data-comment-anchor":`config-home`,style:{display:`flex`},html:ue}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-rewards`,"data-comment-anchor":`config-rewards`,style:{display:`none`},html:T(ne)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-locations`,"data-comment-anchor":`config-locations`,style:{display:`none`},html:T(ee)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-menu`,"data-comment-anchor":`config-menu`,style:{display:`none`},html:T(te)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-more`,"data-comment-anchor":`config-more`,style:{display:`none`},html:T(S)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-business`,"data-comment-anchor":`config-business`,style:{display:`none`},html:re}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-online-ordering`,"data-comment-anchor":`config-online-ordering`,style:{display:`none`},html:ie}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-branding`,"data-comment-anchor":`config-branding-step`,style:{display:`none`},html:ae}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-publish`,"data-comment-anchor":`config-publish`,style:{display:`none`},html:oe})]}),(0,C.jsxs)(`div`,{className:`cp-step-foot`,"data-comment-anchor":`step-footer`,children:[(0,C.jsxs)(`button`,{className:`cp-step-back`,id:`gf-step-back`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{id:`gf-step-back-label`,children:`Back`})]}),(0,C.jsxs)(`button`,{className:`cp-step-next`,id:`gf-step-next`,type:`button`,children:[(0,C.jsx)(`span`,{id:`gf-step-next-label`,children:`Continue`}),(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M5 12h14M13 6l6 6-6 6`})})]})]})]})}var de=`<div class="toast-hint" id="toast-hint" role="status" aria-live="polite" aria-atomic="true">
+`),T=e=>{let t=e.indexOf(`<div class="cp-page"`);return e.slice(e.indexOf(`>`,t)+1,e.lastIndexOf(`</div>`))};function E(){return(0,C.jsxs)(`div`,{className:`config-column`,"data-comment-anchor":`config-column`,children:[(0,C.jsx)(`div`,{className:`cp-breadcrumb`,id:`cp-breadcrumb`,"data-comment-anchor":`config-breadcrumb`}),(0,C.jsxs)(`div`,{className:`config-panel`,id:`config-panel`,"data-comment-anchor":`configuration-panel`,children:[(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-home`,"data-comment-anchor":`config-home`,style:{display:`flex`},html:ue}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-rewards`,"data-comment-anchor":`config-rewards`,style:{display:`none`},html:T(ne)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-locations`,"data-comment-anchor":`config-locations`,style:{display:`none`},html:T(ee)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-menu`,"data-comment-anchor":`config-menu`,style:{display:`none`},html:T(te)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-more`,"data-comment-anchor":`config-more`,style:{display:`none`},html:T(S)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-business`,"data-comment-anchor":`config-business`,style:{display:`none`},html:re}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-online-ordering`,"data-comment-anchor":`config-online-ordering`,style:{display:`none`},html:ie}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-branding`,"data-comment-anchor":`config-branding-step`,style:{display:`none`},html:ae}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-publish`,"data-comment-anchor":`config-publish`,style:{display:`none`},html:oe})]}),(0,C.jsxs)(`div`,{className:`cp-step-foot`,"data-comment-anchor":`step-footer`,children:[(0,C.jsxs)(`button`,{className:`cp-step-back`,id:`gf-step-back`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{id:`gf-step-back-label`,children:`Back`})]}),(0,C.jsxs)(`button`,{className:`cp-step-next`,id:`gf-step-next`,type:`button`,children:[(0,C.jsx)(`span`,{id:`gf-step-next-label`,children:`Continue`}),(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M5 12h14M13 6l6 6-6 6`})})]}),(0,C.jsxs)(`button`,{className:`gf-oo-return-btn`,id:`gf-oo-return-btn`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{className:`ms-btn-spinner`,"aria-hidden":`true`}),(0,C.jsx)(`span`,{children:`Back to Online ordering`})]})]})]})}var de=`<div class="toast-hint" id="toast-hint" role="status" aria-live="polite" aria-atomic="true">
   <span id="toast-message"></span>
   <button class="toast-action" id="toast-action" type="button" hidden></button>
 </div>
@@ -2111,27 +1914,22 @@ Error generating stack: `+e.message+`
 
             <div class="category-badge"></div>
 
-            <!-- Empty canvas (visible only when NOT in skeleton mode and Home has no widgets) -->
+            <!-- Blank placeholder shown on Step 1 before merchant edits anything -->
+            <div class="phone-blank-placeholder">
+              <div class="ec-graphic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              </div>
+              <div class="ec-title">Your app preview</div>
+              <div class="ec-sub">Start filling in your details to see your app come to life.</div>
+            </div>
+
+            <!-- Empty canvas (visible when Home has no widgets) -->
             <div class="empty-canvas" data-empty="home">
               <div class="ec-graphic">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
               </div>
               <div class="ec-title">Start building your Home</div>
               <div class="ec-sub">Add widgets from the left panel to build up your app.</div>
-              <div class="ec-hint" id="ec-preset-hint" role="button" tabindex="0">Or pick a preset above</div>
-            </div>
-
-            <!-- Skeleton: Profile & Loyalty (hidden once the real widget below is on) -->
-            <div class="gf-skel-widget" data-skel-for="profile">
-              <div class="gf-skel-card">
-                <div class="gf-skel-lines">
-                  <div class="gf-skel-line w40"></div>
-                  <div class="gf-skel-line w70 tall"></div>
-                  <div class="gf-skel-line w55"></div>
-                </div>
-                <div class="gf-skel-ring"></div>
-              </div>
-              <div class="gf-skel-tag">Profile &amp; Loyalty · add from the left panel</div>
             </div>
 
             <div class="greet-row hidden-slot" data-widget="profile">
@@ -2167,17 +1965,17 @@ Error generating stack: `+e.message+`
               </div>
             </div>
 
-            <!-- Skeleton: Promo Cards -->
-            <div class="gf-skel-widget" data-skel-for="promo-cards">
-              <div class="gf-skel-promo">
-                <div class="gf-skel-promo-img"></div>
-                <div class="gf-skel-lines">
-                  <div class="gf-skel-line w60"></div>
-                  <div class="gf-skel-line w90"></div>
-                  <div class="gf-skel-btn"></div>
-                </div>
+            <!-- Webview ordering CTA (shown only when merchant picks "Link your ordering website" in Step 2) -->
+            <div class="webview-cta-card" data-widget="webview-cta">
+              <div class="webview-cta-image" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14h32v22a4 4 0 01-4 4H12a4 4 0 01-4-4z"/><path d="M8 14l4-6h24l4 6"/><path d="M18 22h12"/><path d="M18 28h8"/></svg>
               </div>
-              <div class="gf-skel-tag">Promo Cards · add from the left panel</div>
+              <div class="webview-cta-body">
+                <div class="webview-cta-eyebrow">Order online</div>
+                <div class="webview-cta-title">Hungry? Order in seconds</div>
+                <div class="webview-cta-sub">Delivery or pickup — earn points on every order</div>
+                <button class="webview-cta-btn" type="button">Order now →</button>
+              </div>
             </div>
 
             <!-- Promo Cards Widget · Featured (unified — carousel or stack layout) -->
@@ -2192,32 +1990,11 @@ Error generating stack: `+e.message+`
               <div class="pc-dots" id="pc2-dots"></div>
             </div>
 
-            <!-- Skeleton: Social Links -->
-            <div class="gf-skel-widget" data-skel-for="social">
-              <div class="gf-skel-social">
-                <span></span><span></span><span></span><span></span>
-              </div>
-              <div class="gf-skel-tag">Social Links · add from the left panel</div>
-            </div>
-
             <div class="social-strip hidden-slot" data-widget="social">
               <span title="Instagram">📷</span>
               <span title="Facebook">📘</span>
               <span title="TikTok">🎵</span>
               <span title="YouTube">▶</span>
-            </div>
-
-            <!-- Skeleton: Order Again -->
-            <div class="gf-skel-widget" data-skel-for="order-again">
-              <div class="gf-skel-order-again">
-                <div class="gf-skel-order-img"></div>
-                <div class="gf-skel-lines">
-                  <div class="gf-skel-line w50"></div>
-                  <div class="gf-skel-line w75"></div>
-                  <div class="gf-skel-btn"></div>
-                </div>
-              </div>
-              <div class="gf-skel-tag">Order Again · add from the left panel</div>
             </div>
 
             <!-- Order Again widget -->
@@ -2240,19 +2017,6 @@ Error generating stack: `+e.message+`
               </div>
             </div>
 
-            <!-- Skeleton: Top Items -->
-            <div class="gf-skel-widget" data-skel-for="top-items">
-              <div class="gf-skel-topitems">
-                <div class="gf-skel-line w40"></div>
-                <div class="gf-skel-topitems-row">
-                  <div class="gf-skel-tile"></div>
-                  <div class="gf-skel-tile"></div>
-                  <div class="gf-skel-tile"></div>
-                </div>
-              </div>
-              <div class="gf-skel-tag">Top Items · add from the left panel</div>
-            </div>
-
             <!-- Top Items carousel -->
             <div class="ti-widget hidden-slot" data-widget="top-items">
               <div class="ti-head">
@@ -2260,20 +2024,6 @@ Error generating stack: `+e.message+`
                 <button class="ti-see-all" type="button">See all →</button>
               </div>
               <div class="ti-carousel" id="ti-carousel"></div>
-            </div>
-
-            <!-- Skeleton: Menu Categories -->
-            <div class="gf-skel-widget" data-skel-for="menu-categories">
-              <div class="gf-skel-mcat">
-                <div class="gf-skel-line w40"></div>
-                <div class="gf-skel-mcat-grid">
-                  <div class="gf-skel-tile sq"></div>
-                  <div class="gf-skel-tile sq"></div>
-                  <div class="gf-skel-tile sq"></div>
-                  <div class="gf-skel-tile sq"></div>
-                </div>
-              </div>
-              <div class="gf-skel-tag">Menu Categories · add from the left panel</div>
             </div>
 
             <!-- Menu Categories grid -->
@@ -2298,32 +2048,6 @@ Error generating stack: `+e.message+`
             </div>
 
             <div class="search-bar hidden-slot">🔍 <span>Search branches</span></div>
-
-            <!-- Locations skeleton (visible in skeleton mode). Real content is pulled from Hub 2. -->
-            <div class="gf-skel-widget" data-skel-for="locations-list">
-              <div class="gf-skel-loc">
-                <div class="gf-skel-loc-thumb"></div>
-                <div class="gf-skel-lines">
-                  <div class="gf-skel-line w60 tall"></div>
-                  <div class="gf-skel-line w80"></div>
-                </div>
-              </div>
-              <div class="gf-skel-loc">
-                <div class="gf-skel-loc-thumb"></div>
-                <div class="gf-skel-lines">
-                  <div class="gf-skel-line w55 tall"></div>
-                  <div class="gf-skel-line w70"></div>
-                </div>
-              </div>
-              <div class="gf-skel-loc">
-                <div class="gf-skel-loc-thumb"></div>
-                <div class="gf-skel-lines">
-                  <div class="gf-skel-line w60 tall"></div>
-                  <div class="gf-skel-line w90"></div>
-                </div>
-              </div>
-              <div class="gf-skel-tag">Locations · pulled from Hub 2</div>
-            </div>
 
             <div class="filter-chips hidden-slot">
               <div class="chip active">Open now</div>
@@ -2526,17 +2250,6 @@ Error generating stack: `+e.message+`
               <button class="icon-btn px-profile-icon" onclick="openAccountPage()" aria-label="Open profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg></button>
             </div>
 
-            <!-- Skeleton for More tiles — visible while no tiles are turned on -->
-            <div class="gf-skel-widget" data-skel-for="more-tiles">
-              <div class="gf-skel-more-grid">
-                <div class="gf-skel-tile"><div class="gf-skel-tile-ic"></div><div class="gf-skel-line w70 tall"></div><div class="gf-skel-line w90"></div></div>
-                <div class="gf-skel-tile"><div class="gf-skel-tile-ic"></div><div class="gf-skel-line w60 tall"></div><div class="gf-skel-line w80"></div></div>
-                <div class="gf-skel-tile"><div class="gf-skel-tile-ic"></div><div class="gf-skel-line w60 tall"></div><div class="gf-skel-line w70"></div></div>
-                <div class="gf-skel-tile"><div class="gf-skel-tile-ic"></div><div class="gf-skel-line w55 tall"></div><div class="gf-skel-line w80"></div></div>
-              </div>
-              <div class="gf-skel-tag">Tiles · turn on from the left panel</div>
-            </div>
-
             <div class="more-grid">
               <button class="more-tile hidden-slot" onclick="goToPage('home')">
                 <div class="t-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div>
@@ -2665,15 +2378,6 @@ Error generating stack: `+e.message+`
             <!-- One stage for reward cards and merchant-added widgets alike.
                  layoutRewardsStage() wraps runs of reward cards in .rewards-progs. -->
             <div class="rewards-stage" id="rewards-stage">
-              <!-- My Gifts: skeleton + real card share the same slot -->
-              <div class="gf-skel-widget" data-skel-for="rewards-gifts">
-                <div class="gf-skel-reward">
-                  <div class="gf-skel-line w40 tall"></div>
-                  <div class="gf-skel-line w70"></div>
-                  <div class="gf-skel-line w55"></div>
-                </div>
-                <div class="gf-skel-tag">My Gifts · add from the left panel</div>
-              </div>
               <div class="prog-card hidden-slot" data-widget="rewards-gifts" data-slot-name="rewards-gifts" data-rw-tile="gifts" role="button" tabindex="0" onclick="showPhonePage('gifts')">
                 <div class="rw-img" style="display:none;"></div>
                 <div class="kicker">My Gifts</div>
@@ -2682,15 +2386,7 @@ Error generating stack: `+e.message+`
                 <button class="rw-btn" style="display:none;"></button>
               </div>
 
-              <!-- Points Shop: skeleton + real card share the same slot -->
-              <div class="gf-skel-widget" data-skel-for="rewards-points">
-                <div class="gf-skel-reward">
-                  <div class="gf-skel-line w55 tall"></div>
-                  <div class="gf-skel-line w90"></div>
-                  <div class="gf-skel-line w60"></div>
-                </div>
-                <div class="gf-skel-tag">Points Shop · add from the left panel</div>
-              </div>
+              <!-- Points Shop -->
               <div class="prog-card hidden-slot" data-widget="rewards-points" data-slot-name="rewards-points" data-rw-tile="points" role="button" tabindex="0" onclick="showPhonePage('point-shop')">
                 <div class="rw-img" style="display:none;"></div>
                 <div class="kicker">My Points Shop</div>
@@ -2699,18 +2395,7 @@ Error generating stack: `+e.message+`
                 <button class="rw-btn" style="display:none;"></button>
               </div>
 
-              <!-- Punch Card: skeleton + real card share the same slot -->
-              <div class="gf-skel-widget" data-skel-for="rewards-punch">
-                <div class="gf-skel-reward">
-                  <div class="gf-skel-line w60 tall"></div>
-                  <div class="gf-skel-punch">
-                    <span></span><span></span><span></span><span></span><span></span>
-                    <span></span><span></span><span></span><span></span><span></span>
-                  </div>
-                  <div class="gf-skel-line w55"></div>
-                </div>
-                <div class="gf-skel-tag">Punch Card · add from the left panel</div>
-              </div>
+              <!-- Punch Card -->
               <div class="punch-card hidden-slot" data-widget="rewards-punch" data-slot-name="rewards-punch" data-rw-tile="punch">
                 <div class="rw-img" style="display:none;"></div>
                 <div class="prog-title">Coffee Punch Card</div>
@@ -2732,7 +2417,7 @@ Error generating stack: `+e.message+`
     <p>Como uses what you already have to create a proven first draft, then guides the decisions that need your attention.</p>
     <div class="gf-welcome-list">
       <div class="gf-welcome-item"><span class="n">1</span> Tell us about your business</div>
-      <div class="gf-welcome-item"><span class="n">2</span> Choose whether loyalty or ordering leads</div>
+      <div class="gf-welcome-item"><span class="n">2</span> Set up online ordering</div>
       <div class="gf-welcome-item"><span class="n">3</span> Add your brand and review each screen</div>
       <div class="gf-welcome-item"><span class="n">4</span> Publish content when everything is ready</div>
     </div>
@@ -4106,18 +3791,6 @@ Error generating stack: `+e.message+`
 
   <div class="top-spacer"></div>
 
-  <div class="preset-dropdown" id="preset-dropdown">
-    <button class="preset-btn" id="preset-btn" type="button" aria-haspopup="menu" aria-expanded="false" title="Change app focus">
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg>
-      <span class="preset-prefix">Focus:</span><span id="preset-btn-label">Choose focus</span>
-      <svg class="chev-ic" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </button>
-    <div class="preset-menu" id="preset-menu">
-      <button class="preset-menu-item" data-goal="loyalty" type="button">Loyalty &amp; Rewards</button>
-      <button class="preset-menu-item" data-goal="ordering" type="button">Online Ordering</button>
-    </div>
-  </div>
-
   <button class="save-btn disabled" id="save-btn" type="button" aria-live="polite" data-state="saved">Draft saved</button>
 </div>
-`,ze=Re.indexOf(`<div class="topbar">`),Be=Re.slice(Re.indexOf(`>`,ze)+1,Re.lastIndexOf(`</div>`));function Ve(){return(0,C.jsx)(w,{as:`div`,className:`topbar`,"data-comment-anchor":`top-bar`,html:Be})}var He=`modulepreload`,Ue=function(e){return`/html-commnet/app-builder-p1/`+e},We={},Ge=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}r=o(t.map(t=>{if(t=Ue(t,n),t=s(t),t in We)return;We[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:He,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})};function Ke(){return(0,l.useEffect)(()=>{Ge(()=>import(`./prototype-b8zDx2lG.js`).then(e=>e.initPrototype()),[]).catch(e=>{console.error(`Could not initialize the App Builder prototype`,e)})},[]),(0,l.useEffect)(()=>{let e=()=>{},t=!1;return Ge(async()=>{let{initComments:e}=await import(`./comments-BtVHjoCF.js`);return{initComments:e}},__vite__mapDeps([0,1])).then(({initComments:n})=>{t||(e=n())}),()=>{t=!0,e()}},[]),(0,C.jsxs)(C.Fragment,{children:[(0,C.jsx)(Ve,{}),(0,C.jsxs)(`div`,{className:`workspace`,"data-comment-anchor":`app-builder-workspace`,children:[(0,C.jsx)(Pe,{}),(0,C.jsx)(E,{}),(0,C.jsx)(pe,{}),(0,C.jsx)(Oe,{})]}),(0,C.jsx)(fe,{}),(0,C.jsx)(Le,{}),(0,C.jsx)(Ae,{})]})}(0,u.createRoot)(document.getElementById(`root`)).render((0,C.jsx)(Ke,{}));export{c as n,i as r,ce as t};
+`,ze=Re.indexOf(`<div class="topbar">`),Be=Re.slice(Re.indexOf(`>`,ze)+1,Re.lastIndexOf(`</div>`));function Ve(){return(0,C.jsx)(w,{as:`div`,className:`topbar`,"data-comment-anchor":`top-bar`,html:Be})}var He=`modulepreload`,Ue=function(e){return`/html-commnet/app-builder-p1/`+e},We={},Ge=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}r=o(t.map(t=>{if(t=Ue(t,n),t=s(t),t in We)return;We[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:He,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})};function Ke(){return(0,l.useEffect)(()=>{Ge(()=>import(`./prototype-D9TTcX44.js`).then(e=>e.initPrototype()),[]).catch(e=>{console.error(`Could not initialize the App Builder prototype`,e)})},[]),(0,l.useEffect)(()=>{let e=()=>{},t=!1;return Ge(async()=>{let{initComments:e}=await import(`./comments-11dRg8QP.js`);return{initComments:e}},__vite__mapDeps([0,1])).then(({initComments:n})=>{t||(e=n())}),()=>{t=!0,e()}},[]),(0,C.jsxs)(C.Fragment,{children:[(0,C.jsx)(Ve,{}),(0,C.jsxs)(`div`,{className:`workspace`,"data-comment-anchor":`app-builder-workspace`,children:[(0,C.jsx)(Pe,{}),(0,C.jsx)(E,{}),(0,C.jsx)(pe,{}),(0,C.jsx)(Oe,{})]}),(0,C.jsx)(fe,{}),(0,C.jsx)(Le,{}),(0,C.jsx)(Ae,{})]})}(0,u.createRoot)(document.getElementById(`root`)).render((0,C.jsx)(Ke,{}));export{c as n,i as r,ce as t};

@@ -8,8 +8,8 @@
 
 const STEPS = [
   { key: 'business', label: 'Business details', kind: 'setup' },
-  { key: 'online-ordering', label: 'Online ordering', kind: 'setup' },
   { key: 'branding', label: 'Branding', kind: 'setup' },
+  { key: 'online-ordering', label: 'Online ordering', kind: 'setup' },
   { key: 'home', label: 'Home', kind: 'screen' },
   { key: 'rewards', label: 'Rewards', kind: 'screen' },
   { key: 'locations', label: 'Locations', kind: 'screen' },
@@ -39,7 +39,7 @@ export function initGuidedFlow(ctx) {
   const stepButtons = [...document.querySelectorAll('.side-step[data-step]')];
   const indexOf = (key) => STEPS.findIndex((s) => s.key === key);
 
-  const REQUIRED_STEPS = ['business', 'online-ordering', 'branding', 'home'];
+  const REQUIRED_STEPS = ['business', 'branding', 'online-ordering', 'home'];
 
   function activeHomeWidgetCount() {
     return document.querySelectorAll('#cp-home [data-widget-toggle].on').length;

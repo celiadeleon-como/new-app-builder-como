@@ -2,6 +2,22 @@
      APP CONTENT PATTERNS
      ============================================================ */
 
+  .app-shell :is(h1, h2, h3, h4, h5, h6, .p-section-hd, .greet-row .hello, .lc-points) {
+    font-family: var(--p-heading-font, inherit);
+  }
+  .app-shell :is(.stat-tile, .loyalty-card, .promo-cards-widget .pc-card, .prog-card, .punch-card, .howto-row) {
+    border-radius: var(--p-card-radius, 12px);
+  }
+  .app-shell :is(button, .chip, .pc-cta, .guest-cta, .lc-cta) {
+    border-radius: var(--p-button-radius, 9px);
+  }
+  body[data-icon-style="solid"] .app-shell svg {
+    fill: currentColor;
+  }
+  body[data-icon-style="duotone"] .app-shell svg {
+    color: var(--p-accent);
+    filter: drop-shadow(1px 1px 0 color-mix(in srgb, var(--p-text) 32%, transparent));
+  }
   .app-top-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 14px 0 10px;
