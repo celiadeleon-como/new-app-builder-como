@@ -1,0 +1,148 @@
+          <!-- ============ HOME PAGE (Template 2 - Fine Dining) ============ -->
+          <div class="app-page active" data-page="home">
+            <!-- Reels chip: floating overlay above app-top-header, always at top of phone -->
+            <div class="phone-reels-chip hidden-slot" data-widget="menu-reels" role="button" tabindex="0">
+              <div class="reels-chip-body">
+                <span class="reels-chip-ic">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3l14 9-14 9z"/></svg>
+                </span>
+                <span class="reels-chip-label" id="phone-reels-chip-label">New reels · tap to watch</span>
+              </div>
+              <button class="reels-chip-dismiss" type="button" title="Dismiss" aria-label="Dismiss reels">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg>
+              </button>
+            </div>
+
+            <div class="app-top-header pos-center">
+              <div class="header-tap-target header-group" onclick="openBusinessNameSettings()" title="Edit business name & header">
+                <div class="brand-mark" id="phone-brand-mark">?</div>
+                <div class="brand-text">
+                  <div class="name" id="phone-brand-name">Your Business</div>
+                  <div class="sub" id="phone-brand-sub">Storefront headline</div>
+                </div>
+              </div>
+              <button class="icon-btn px-profile-icon" onclick="openAccountPage()" aria-label="Open profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg></button>
+            </div>
+
+            <div class="category-badge"></div>
+
+            <!-- Blank placeholder shown on Step 1 before merchant edits anything -->
+            <div class="phone-blank-placeholder">
+              <div class="ec-graphic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+              </div>
+              <div class="ec-title">Your app preview</div>
+              <div class="ec-sub">Start filling in your details to see your app come to life.</div>
+            </div>
+
+            <!-- Empty canvas (visible when Home has no widgets) -->
+            <div class="empty-canvas" data-empty="home">
+              <div class="ec-graphic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              </div>
+              <div class="ec-title">Start building your Home</div>
+              <div class="ec-sub">Add widgets from the left panel to build up your app.</div>
+            </div>
+
+            <div class="greet-row hidden-slot" data-widget="profile">
+              <div class="hello">Welcome back!</div>
+              <div class="guest-state">
+                <div class="g-title">Welcome!</div>
+                <div class="g-sub">Log in to see your points &amp; rewards</div>
+                <button class="g-login-btn" type="button">Log In</button>
+              </div>
+            </div>
+
+            <div class="loyalty-card hidden-slot" data-widget="profile" data-loyalty="ring">
+              <div class="lc-body">
+                <div class="lc-balance">
+                  <div class="lc-label">Rewards balance</div>
+                  <div class="lc-points"><b>200</b> points</div>
+                </div>
+                <div class="lc-next">
+                  <div class="lc-next-txt">50 points to your next reward</div>
+                  <div class="lc-bar"><span style="width:80%"></span></div>
+                </div>
+                <button class="lc-card-btn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20v.01M20 20v.01M17 20h.01M20 17h.01"/></svg>
+                  Show loyalty card
+                </button>
+              </div>
+              <div class="lc-ring" aria-hidden="true">
+                <svg viewBox="0 0 72 72">
+                  <circle class="lc-ring-track" cx="36" cy="36" r="30"/>
+                  <circle class="lc-ring-fill" cx="36" cy="36" r="30"/>
+                </svg>
+                <div class="lc-ring-label"><b>200</b><span>/250</span></div>
+              </div>
+            </div>
+
+            <!-- Webview ordering CTA (shown only when merchant picks "Link your ordering website" in Step 2) -->
+            <div class="webview-cta-card" data-widget="webview-cta">
+              <div class="webview-cta-image" aria-hidden="true">
+                <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14h32v22a4 4 0 01-4 4H12a4 4 0 01-4-4z"/><path d="M8 14l4-6h24l4 6"/><path d="M18 22h12"/><path d="M18 28h8"/></svg>
+              </div>
+              <div class="webview-cta-body">
+                <div class="webview-cta-eyebrow">Order online</div>
+                <div class="webview-cta-title">Hungry? Order in seconds</div>
+                <div class="webview-cta-sub">Delivery or pickup — earn points on every order</div>
+                <button class="webview-cta-btn" type="button">Order now →</button>
+              </div>
+            </div>
+
+            <!-- Promo Cards Widget · Featured (unified — carousel or stack layout) -->
+            <div class="promo-cards-widget hidden-slot" data-widget="promo-cards" data-pc-display="carousel" data-pc-image="cover" data-pc-cta="filled" data-pc-corners="rounded">
+              <div class="pc-carousel-wrap" id="pc-carousel-wrap"></div>
+              <div class="pc-dots" id="pc-dots"></div>
+            </div>
+
+            <!-- Promo Cards Widget · More Offers (second, independent instance) -->
+            <div class="promo-cards-widget hidden-slot" data-widget="promo-cards-2" data-pc-display="stack" data-pc-image="beside" data-pc-cta="filled" data-pc-corners="rounded">
+              <div class="pc-carousel-wrap" id="pc2-carousel-wrap"></div>
+              <div class="pc-dots" id="pc2-dots"></div>
+            </div>
+
+            <div class="social-strip hidden-slot" data-widget="social">
+              <span title="Instagram">📷</span>
+              <span title="Facebook">📘</span>
+              <span title="TikTok">🎵</span>
+              <span title="YouTube">▶</span>
+            </div>
+
+            <!-- Order Again widget -->
+            <div class="oa-widget hidden-slot" data-widget="order-again">
+              <div class="oa-header">
+                <div class="oa-eyebrow">Your last order</div>
+                <div class="oa-sub" id="oa-when">Ordered 3 days ago · Downtown</div>
+              </div>
+              <div class="oa-card">
+                <div class="oa-img" id="oa-img"></div>
+                <div class="oa-body">
+                  <div class="oa-name" id="oa-name">Creamy Pesto Rigatoni</div>
+                  <div class="oa-meta" id="oa-meta">+ Parmesan · Sparkling water</div>
+                  <div class="oa-price" id="oa-price">$18.50</div>
+                </div>
+                <button class="oa-btn" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 01-9 9 9 9 0 01-7.6-4.2"/><path d="M3 12a9 9 0 019-9 9 9 0 017.6 4.2"/><path d="M20 3v5h-5M4 21v-5h5"/></svg>
+                  Reorder
+                </button>
+              </div>
+            </div>
+
+            <!-- Top Items carousel -->
+            <div class="ti-widget hidden-slot" data-widget="top-items">
+              <div class="ti-head">
+                <div class="ti-title">Popular right now</div>
+                <button class="ti-see-all" type="button">See all →</button>
+              </div>
+              <div class="ti-carousel" id="ti-carousel"></div>
+            </div>
+
+            <!-- Menu Categories grid -->
+            <div class="mc-widget hidden-slot" data-widget="menu-categories" data-mc-cols="2">
+              <div class="mc-head">
+                <div class="mc-title">Browse the menu</div>
+              </div>
+              <div class="mc-grid" id="mc-grid"></div>
+            </div>
+          </div>
