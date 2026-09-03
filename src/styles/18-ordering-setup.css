@@ -162,6 +162,11 @@
 .nav-item.slot-hidden,
 .side-item.slot-hidden { display: none; }
 
+/* A merchant can defer checkout and still publish a Menu tab from a PDF or
+  public page; hide only ordering-dependent menu-source choices. */
+body.oo-mode-skip #cp-menu [data-approach="ordering"],
+body.oo-mode-skip #cp-menu [data-approach="manual"] { display: none; }
+
 /* ---- info tooltip button ---- */
 .oo-tip-btn {
   display: inline-flex;

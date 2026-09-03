@@ -76,7 +76,7 @@ export function initCoreNavigation(ctx) {
     toggle.click();
   }
   function setMenuSlotMode(mode) {
-    // mode = 'menu' | 'qr' | 'webview' | 'hidden'
+    // mode = 'menu' | 'qr' | 'webview' | 'select-screen' | 'hidden'
     // 'webview' and 'hidden' exist so the Step 2 ordering choice has a visible
     // consequence on the phone: an embedded site reads differently from a native
     // menu, and skipping ordering removes the tab altogether.
@@ -93,6 +93,11 @@ export function initCoreNavigation(ctx) {
         label: 'Order',
         icon: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
         title: 'Order (web view)',
+      },
+      'select-screen': {
+        label: 'Select screen',
+        icon: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h5"/>',
+        title: 'Select screen',
       },
     };
     const menuSlot = document.getElementById('nav-menu-slot');

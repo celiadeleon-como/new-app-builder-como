@@ -304,6 +304,55 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
 .ms-drop-sub { font-size: 11.5px; color: var(--muted); margin-top: 5px; }
 .ms-drop .ms-btn { width: auto; display: inline-flex; margin-top: 14px; }
 
+/* ---------- Configure another page: page picker + per-page hero editor ---------- */
+.ms-page-picker { position: relative; }
+.ms-page-picker-trigger {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  border: 1.5px solid var(--line); border-radius: 11px;
+  padding: 12px 14px; background: var(--panel);
+  font: inherit; font-size: 14px; font-weight: 700; color: var(--como);
+  cursor: pointer; transition: border-color .12s, box-shadow .12s;
+}
+.ms-page-picker-trigger svg:first-child { width: 17px; height: 17px; color: var(--como); flex: none; }
+.ms-page-picker-trigger span { flex: 1; text-align: left; }
+.ms-page-picker-chev { width: 16px; height: 16px; color: var(--como); flex: none; transition: transform .15s; }
+.ms-page-picker-trigger[aria-expanded="true"] { border-color: var(--como); box-shadow: 0 0 0 3px var(--como-soft); }
+.ms-page-picker-trigger[aria-expanded="true"] .ms-page-picker-chev { transform: rotate(180deg); }
+.ms-page-picker-list {
+  position: absolute; z-index: 40; left: 0; right: 0; top: calc(100% + 8px);
+  background: var(--panel); border: 1px solid var(--line); border-radius: 13px;
+  box-shadow: 0 14px 34px -12px rgba(20, 20, 40, .28);
+  padding: 6px; max-height: 320px; overflow-y: auto;
+}
+.ms-page-picker-item {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; border: none; background: transparent; border-radius: 9px;
+  padding: 11px 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--ink);
+  cursor: pointer; text-align: left;
+}
+.ms-page-picker-item:hover { background: var(--bg); }
+.ms-page-picker-item.active { background: var(--como-soft); color: var(--como); font-weight: 700; }
+.ms-page-picker-item svg { width: 16px; height: 16px; color: var(--como); flex: none; visibility: hidden; }
+.ms-page-picker-item.active svg { visibility: visible; }
+
+.ms-page-config-title { font-size: 30px; font-weight: 800; letter-spacing: -.6px; margin: 22px 0 4px; }
+.ms-hero-card {
+  border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin-bottom: 8px; background: var(--panel);
+}
+.ms-hero-card .cp-field:last-child { margin-bottom: 0; }
+
+.ms-page-pdf-status {
+  display: flex; align-items: center; gap: 8px; margin-top: 10px;
+  padding: 10px 12px; border: 1px solid #cdebd8; background: var(--ok-soft, #ecfdf3);
+  border-radius: 10px; font-size: 12.5px; font-weight: 650; color: var(--ok, #16a34a);
+}
+.ms-page-pdf-status svg { width: 16px; height: 16px; flex: none; }
+.ms-page-pdf-status span { flex: 1; }
+.ms-page-pdf-status button {
+  border: none; background: transparent; color: var(--como); font-weight: 700; font-size: 12px; cursor: pointer; padding: 2px 4px;
+}
+.ms-page-pdf-status button:hover { text-decoration: underline; }
+
 .ms-file {
   display: flex; align-items: center; gap: 12px;
   border: 1px solid #bfe3cf; border-radius: 12px;

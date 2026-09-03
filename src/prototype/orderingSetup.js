@@ -36,7 +36,7 @@ const OUTCOMES = {
   },
   skip: {
     title: 'Loyalty leads your home screen',
-    sub: 'No Menu tab yet. Add ordering later from Settings and the widgets appear here.',
+    sub: 'Add a PDF menu or a public page to the Select screen. Online ordering can be enabled later from Settings.',
     action: null,
   },
 };
@@ -77,7 +77,10 @@ export function initOrderingSetup(ctx = {}) {
     const showUnlocked = target === 'native' && (preview || !!window.isOrderingConnected?.());
     document.body.classList.toggle('oo-connected', showUnlocked);
     window.applyGoalPreset?.(focus, { emit: !preview, source: preview ? 'oo-preview' : 'oo-setup' });
-    window.setMenuSlotMode?.(target === 'skip' ? 'hidden' : target === 'webview' ? 'webview' : 'menu');
+    // Even without online ordering, merchants can still offer a Menu tab via
+    // a PDF or a public web page. Its label reflects that a screen is chosen
+    // rather than a native ordering menu being configured.
+    window.setMenuSlotMode?.(target === 'skip' ? 'select-screen' : target === 'webview' ? 'webview' : 'menu');
     renumberSteps();
   }
 
@@ -141,6 +144,7 @@ export function initOrderingSetup(ctx = {}) {
     // A committed mode fills the phone preview, so we leave the header-only state.
     document.body.classList.remove('phone-header-only');
     document.dispatchEvent(new CustomEvent('como:ordering-mode', { detail: { mode: target, focus: MODE_FOCUS[target] } }));
+    if (target === 'skip') ctx.openDeferredMenuSetup?.();
     ctx.markDirty?.();
     if (!launchConfig) return;
     // Each capability is configured somewhere concrete: native connects a provider

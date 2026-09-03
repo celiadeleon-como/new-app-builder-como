@@ -24,6 +24,21 @@ const ICON = {
 
 const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'];
 
+// Every page a merchant can pick from "Configure another page" — matches the
+// tile list on the More screen so the two stay in sync.
+const PAGE_DEFS = [
+  { key: 'home', label: 'Home' },
+  { key: 'account', label: 'My Account' },
+  { key: 'orders', label: 'My Orders' },
+  { key: 'rewards', label: 'Loyalty Rewards' },
+  { key: 'menu', label: 'Our Menu' },
+  { key: 'locations', label: 'Find a Cafe' },
+  { key: 'referral', label: 'Refer a Friend' },
+  { key: 'story', label: 'Our Story' },
+  { key: 'contact', label: 'Contact Us' },
+  { key: 'about', label: 'About Us' },
+];
+
 const HEROES = [
   { name: 'hero-dining.jpg', background: 'linear-gradient(135deg,#8a6a4a,#5c4433 58%,#25160f)' },
   { name: 'chef-counter.jpg', background: 'linear-gradient(135deg,#334155,#111827 56%,#0f766e)' },
@@ -73,6 +88,9 @@ export function initMenuSource(ctx) {
   const phonePage = document.querySelector('.app-page[data-page="menu"]');
   const phoneRender = document.getElementById('pm-render');
   const screens = [...page.querySelectorAll('.ms-screen')];
+  // Reassigned once the "Configure another page" picker is wired further down;
+  // declared here so the earlier entry-point handler can call the final version.
+  let selectConfigPage = () => {};
 
   const state = {
     approach: null,
@@ -84,6 +102,16 @@ export function initMenuSource(ctx) {
     custom: { url: 'https://order.velvetbistro.com', connected: false, back: true, bottombar: true, inapp: true, membersonly: true, theme: true, hideheader: true, color: '#6d28d9' },
     ordering: { layout: 'grid', color: '#6d28d9', allergens: true, banner: true, hero: 0 },
     manual: { started: false, categories: seedCategories(), activeCat: null, activeItem: null, hero: null },
+    pageSettings: {
+      selected: 'menu',
+      origin: 'pdf',
+      hero: Object.fromEntries(PAGE_DEFS.map((p) => [p.key, {
+        image: null,
+        headline: p.key === 'menu' ? 'Discover tonight’s menu' : '',
+        description: p.key === 'menu' ? 'Browse categories, dietary tags, and prices' : '',
+        buttonText: '',
+      }])),
+    },
   };
 
   /* ------------------------------------------------------------- screens */
@@ -91,6 +119,20 @@ export function initMenuSource(ctx) {
   function show(screen) {
     state.screen = screen;
     screens.forEach(s => s.classList.toggle('active', s.dataset.ms === screen));
+    const deferredOrdering = document.body.classList.contains('oo-mode-skip');
+    const configurePageLink = document.getElementById('ms-configure-page');
+    if (configurePageLink) configurePageLink.hidden = !(deferredOrdering && screen === 'pdf');
+    page.querySelector('[data-menu-chooser-title]')?.replaceChildren(
+      document.createTextNode(deferredOrdering ? 'Add a menu to your app' : 'Choose menu approach'),
+    );
+    page.querySelector('[data-menu-chooser-sub]')?.replaceChildren(
+      document.createTextNode(deferredOrdering
+        ? 'Upload a PDF menu or choose a public web page to show in the Menu tab.'
+        : 'Pick how your in-app menu is powered. You can change this anytime.'),
+    );
+    page.querySelectorAll('[data-approach="ordering"], [data-approach="manual"]').forEach((option) => {
+      option.hidden = deferredOrdering;
+    });
     document.getElementById('config-panel').scrollTop = 0;
     if (screen !== 'build-items') closeL3Panel();
     renderPhone();
@@ -122,6 +164,11 @@ export function initMenuSource(ctx) {
 
   page.querySelectorAll('[data-ms-change]').forEach(b => b.addEventListener('click', resetApproach));
   page.querySelectorAll('[data-ms-back]').forEach(b => b.addEventListener('click', () => show(b.dataset.msBack)));
+  document.getElementById('ms-configure-page')?.addEventListener('click', () => {
+    state.pageSettings.origin = 'pdf';
+    show('page-settings');
+    selectConfigPage(state.pageSettings.selected);
+  });
   page.querySelectorAll('[data-ms-help]').forEach(b => {
     b.addEventListener('click', () => showToast('The Help Center would open in a new tab'));
   });
@@ -284,6 +331,21 @@ export function initMenuSource(ctx) {
     markDirty();
   }
 
+  function openDeferredMenuSetup() {
+    state.approach = null;
+    state.fromOrdering = false;
+    page.querySelectorAll('[data-approach]').forEach(o => o.classList.remove('on'));
+    // Product Experience normally places a simple Menu editor ahead of this
+    // source flow. A deferred ordering choice specifically needs the page
+    // picker + hero editor as its default Select screen, so reveal the
+    // source panel here and land straight on Page Settings for Our Menu.
+    page.classList.add('px-show-advanced');
+    window.setMenuSlotMode?.('select-screen');
+    state.pageSettings.origin = 'chooser';
+    show('page-settings');
+    selectConfigPage('menu');
+  }
+
   // Navigation may close the third panel without using its return button.
   // Restore the moved screen so the Menu workflow remains available afterwards.
   document.addEventListener('como:navchange', () => {
@@ -333,6 +395,128 @@ export function initMenuSource(ctx) {
   pdfDrop.addEventListener('click', () => { setPdf(true); markDirty(); showToast('velvet-bistro-dinner.pdf rendered in the preview'); });
   document.getElementById('ms-pdf-remove').addEventListener('click', () => { setPdf(false); markDirty(); });
   pdfReplace.addEventListener('click', () => { setPdf(false); });
+
+  /* --------------------------------------------- configure another page */
+
+  const pagePicker = document.getElementById('ms-page-picker');
+  const pagePickerTrigger = document.getElementById('ms-page-picker-trigger');
+  const pagePickerLabel = document.getElementById('ms-page-picker-label');
+  const pagePickerList = document.getElementById('ms-page-picker-list');
+  const pageConfigTitle = document.getElementById('ms-page-config-title');
+  const pageMenuPdf = document.getElementById('ms-page-menu-pdf');
+  const heroImageZone = document.getElementById('ms-hero-image-zone');
+  const heroImageFile = document.getElementById('ms-hero-image-file');
+  const heroImagePreview = document.getElementById('ms-hero-image-preview');
+  const heroImageEmpty = document.getElementById('ms-hero-image-empty');
+  const heroImageRemove = document.getElementById('ms-hero-image-remove');
+  const heroHeadline = document.getElementById('ms-hero-headline');
+  const heroDesc = document.getElementById('ms-hero-desc');
+  const heroBtnText = document.getElementById('ms-hero-btn-text');
+  const pagePdfDrop = document.getElementById('ms-page-pdf-drop');
+  const pagePdfStatus = document.getElementById('ms-page-pdf-status');
+  const pagePdfReplace = document.getElementById('ms-page-pdf-replace');
+
+  if (pagePicker) {
+    pagePickerList.innerHTML = PAGE_DEFS.map((p) => (
+      '<button type="button" class="ms-page-picker-item" role="option" data-page-key="' + p.key + '">'
+      + '<span>' + p.label + '</span>'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>'
+      + '</button>'
+    )).join('');
+
+    function togglePagePicker(open) {
+      const next = open ?? pagePickerList.hidden;
+      pagePickerList.hidden = !next;
+      pagePickerTrigger.setAttribute('aria-expanded', String(next));
+    }
+    pagePickerTrigger.addEventListener('click', () => togglePagePicker());
+    document.addEventListener('click', (e) => {
+      if (!pagePicker.contains(e.target)) togglePagePicker(false);
+    });
+    pagePickerList.querySelectorAll('[data-page-key]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        selectConfigPage(btn.dataset.pageKey);
+        togglePagePicker(false);
+      });
+    });
+
+    function renderHeroFields() {
+      const hero = state.pageSettings.hero[state.pageSettings.selected];
+      heroHeadline.value = hero.headline;
+      heroDesc.value = hero.description;
+      heroBtnText.value = hero.buttonText;
+      heroImageZone.classList.toggle('has-image', !!hero.image);
+      heroImagePreview.style.display = hero.image ? 'block' : 'none';
+      heroImageEmpty.style.display = hero.image ? 'none' : 'flex';
+      heroImageRemove.style.display = hero.image ? 'block' : 'none';
+      if (hero.image) heroImagePreview.src = hero.image;
+    }
+
+    function renderPagePdfStatus() {
+      pagePdfDrop.style.display = state.pdf.uploaded ? 'none' : '';
+      pagePdfStatus.hidden = !state.pdf.uploaded;
+    }
+
+    selectConfigPage = function (key) {
+      const def = PAGE_DEFS.find((p) => p.key === key) || PAGE_DEFS[0];
+      state.pageSettings.selected = def.key;
+      pagePickerLabel.textContent = def.label;
+      pagePickerList.querySelectorAll('[data-page-key]').forEach((btn) => {
+        btn.classList.toggle('active', btn.dataset.pageKey === def.key);
+      });
+      pageConfigTitle.textContent = def.key === 'menu' ? 'Menu' : def.label;
+      pageMenuPdf.hidden = def.key !== 'menu';
+      renderHeroFields();
+      if (def.key === 'menu') renderPagePdfStatus();
+    };
+
+    const heroField = (input, key) => input.addEventListener('input', () => {
+      state.pageSettings.hero[state.pageSettings.selected][key] = input.value;
+      markDirty();
+    });
+    heroField(heroHeadline, 'headline');
+    heroField(heroDesc, 'description');
+    heroField(heroBtnText, 'buttonText');
+
+    function handleHeroImage(file) {
+      if (!file) return;
+      if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Only png, jpg, or webp supported'); return; }
+      if (file.size > 5 * 1024 * 1024) { showToast('File too big \u2014 max 5MB'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        state.pageSettings.hero[state.pageSettings.selected].image = e.target.result;
+        renderHeroFields();
+        markDirty();
+      };
+      reader.readAsDataURL(file);
+    }
+    heroImageZone.addEventListener('click', () => heroImageFile.click());
+    heroImageFile.addEventListener('change', () => handleHeroImage(heroImageFile.files?.[0]));
+    heroImageRemove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      state.pageSettings.hero[state.pageSettings.selected].image = null;
+      renderHeroFields();
+      markDirty();
+    });
+
+    pagePdfDrop.addEventListener('click', () => {
+      setPdf(true);
+      renderPagePdfStatus();
+      markDirty();
+      showToast('velvet-bistro-dinner.pdf rendered in the preview');
+    });
+    pagePdfReplace.addEventListener('click', () => { setPdf(false); renderPagePdfStatus(); markDirty(); });
+
+    const pageSettingsKickerSuffix = document.getElementById('ms-page-settings-kicker-suffix');
+    document.getElementById('ms-page-settings-back')?.addEventListener('click', () => {
+      show(state.pageSettings.origin === 'chooser' ? 'chooser' : 'pdf');
+    });
+    const originalSelectConfigPage = selectConfigPage;
+    selectConfigPage = function (key) {
+      originalSelectConfigPage(key);
+      if (pageSettingsKickerSuffix) pageSettingsKickerSuffix.hidden = state.pageSettings.origin === 'chooser';
+    };
+  }
 
   /* ----------------------------------------------- online ordering (both) */
 
@@ -1159,6 +1343,7 @@ export function initMenuSource(ctx) {
     importMenuSource,
     openMenuTab: () => goToPage('menu'),
     openWebviewSetup,
+    openDeferredMenuSetup,
     isWebviewConfigured: () => state.webview.connected,
   };
 }

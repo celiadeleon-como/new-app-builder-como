@@ -1,8 +1,8 @@
 const ANALYTICS_KEY = 'como-app-builder-analytics:v1';
+// Menu has its own source/page picker, so a separate include-screen switch is redundant there.
 const SCREEN_DEFS = {
   rewards: { label: 'Rewards', description: 'Gifts, Points Shop, and loyalty progress' },
   locations: { label: 'Locations', description: 'Branches, hours, directions, and contact' },
-  menu: { label: 'Menu', description: 'A polished menu that inherits your global brand' },
   more: { label: 'More', description: 'Profile, orders, referral, support, and brand story' },
 };
 

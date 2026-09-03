@@ -192,6 +192,12 @@ export function initGuidedFlow(ctx) {
   function titleOf(el, fallback) {
     return el?.querySelector('.cp-detail-title')?.textContent?.trim() || fallback;
   }
+  // The Menu step becomes a general page picker once ordering is deferred,
+  // so its breadcrumb should match the sidebar's "Select screen" relabel.
+  function stepLabel(step) {
+    if (step.key === 'menu' && document.body.classList.contains('oo-mode-skip')) return 'Select screen';
+    return step.label;
+  }
   function exitOneLevel() {
     if (openL3El()) { window.closeL3Panel?.(); return true; }
     const drill = openDrillEl();
@@ -203,7 +209,7 @@ export function initGuidedFlow(ctx) {
     const bar = document.getElementById('cp-breadcrumb');
     if (!bar) return;
     bar.innerHTML = '';
-    const trail = [{ label: step.label, exit: 2 }];
+    const trail = [{ label: stepLabel(step), exit: 2 }];
     if (drill) trail.push({ label: titleOf(drill, 'Widget'), exit: 1 });
     if (l3) trail.push({ label: titleOf(l3, 'Item'), exit: 0 });
 
@@ -262,7 +268,7 @@ export function initGuidedFlow(ctx) {
     const backLabel = document.getElementById('gf-step-back-label');
 
     if (drill || l3) {
-      const parentLabel = l3 ? titleOf(drill, step.label) : step.label;
+      const parentLabel = l3 ? titleOf(drill, stepLabel(step)) : stepLabel(step);
       if (backLabel) backLabel.textContent = `Back to ${parentLabel}`;
       if (backBtn) backBtn.style.visibility = '';
       if (nextLabel) nextLabel.textContent = 'Done';
