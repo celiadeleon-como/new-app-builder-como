@@ -52,17 +52,13 @@
 
   <!-- ========== 2 · Webview ========== -->
   <div class="ms-screen" data-ms="webview">
-    <div class="ms-kicker">Menu source · Webview
+    <div class="ms-kicker" id="ms-webview-kicker">Menu source · Webview
       <button class="ms-kicker-link" type="button" data-ms-change>Change</button>
     </div>
 
-    <div class="ms-return" id="ms-webview-return" hidden>
-      <span class="ms-return-ic" aria-hidden="true">
-        <svg class="ic-todo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 19l-7-7 7-7"/><path d="M3 12h13a5 5 0 015 5v1"/></svg>
-        <svg class="ic-done" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-      </span>
-      <span class="ms-return-text" data-return-label>You are setting up online ordering. Add your menu, then head back.</span>
-      <button class="ms-return-btn" type="button" id="ms-webview-return-btn">Back to Online ordering</button>
+    <div class="cp-detail-header" id="ms-webview-back-header" hidden>
+      <button class="cp-back" type="button" id="ms-webview-return-btn">‹</button>
+      <div class="cp-detail-title">Webview</div>
     </div>
 
     <div class="ms-title">Show a webview menu</div>
@@ -598,10 +594,10 @@
 
   <!-- ========== Item editor — moved into the third panel on open ========== -->
   <div class="cp-detail ms-item-editor" data-detail="menu-item" id="ms-item-editor">
-    <button class="ms-back" type="button" id="ms-item-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
-      <span id="ms-item-back-label">Category</span>
-    </button>
+    <div class="cp-detail-header">
+      <button class="cp-back" type="button" id="ms-item-back">‹</button>
+      <div class="cp-detail-title" id="ms-item-back-label">Category</div>
+    </div>
 
     <div class="ms-editor-head">
       <div class="ms-editor-title" id="ms-item-heading">Item</div>

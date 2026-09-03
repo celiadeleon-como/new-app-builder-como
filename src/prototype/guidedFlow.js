@@ -161,11 +161,15 @@ export function initGuidedFlow(ctx) {
     document.body.classList.toggle('on-step-online-ordering', onOrdering);
     // Any navigation exits the "arrived from ordering to configure webview" state.
     if (key !== 'menu') document.body.classList.remove('oo-webview-from-step2');
+    // Publish is the only step where every configured screen needs to be
+    // visible together, so the main preview panel swaps for a gallery.
+    document.body.classList.toggle('gf-publish-preview-active', key === 'publish');
     if (step.kind === 'screen') window.goToPage(key);
     else showSetupPage(key);
     if (key === 'publish') {
       updatePublishReadiness();
       renderReview();
+      renderScreenPreviews();
     }
     render();
   }
@@ -308,7 +312,7 @@ export function initGuidedFlow(ctx) {
   });
   document.addEventListener('como:ordering', () => {
     updatePublishReadiness();
-    if (flow.current === 'publish') renderReview();
+    if (flow.current === 'publish') { renderReview(); renderScreenPreviews(); }
   });
 
   function renderReview() {
@@ -342,6 +346,39 @@ export function initGuidedFlow(ctx) {
       b.addEventListener('click', () => {
         goToStep(b.dataset.reviewGo);
       });
+    });
+  }
+
+  // Publish is the only step where the merchant needs every configured screen
+  // visible together, so each preview is a scaled clone of the live phone
+  // frame with just its active page and nav highlight swapped.
+  function renderScreenPreviews() {
+    const strip = document.getElementById('gf-publish-preview');
+    const sourceFrame = document.getElementById('device-frame');
+    if (!strip || !sourceFrame) return;
+    const included = STEPS.filter((s) => s.kind === 'screen' && (s.key === 'home' || ctx.getScreenState?.(s.key) !== false));
+    strip.innerHTML = '';
+    included.forEach((s) => {
+      const frame = sourceFrame.cloneNode(true);
+      frame.classList.add('gf-preview-frame');
+      frame.setAttribute('aria-hidden', 'true');
+      frame.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+      frame.querySelectorAll('.app-page').forEach((page) => {
+        page.classList.toggle('active', page.dataset.page === s.key);
+      });
+      frame.querySelectorAll('.nav-item').forEach((item) => {
+        item.classList.toggle('active', item.dataset.nav === s.key);
+      });
+      const wrap = document.createElement('div');
+      wrap.className = 'gf-preview-frame-wrap';
+      wrap.appendChild(frame);
+      const item = document.createElement('div');
+      item.className = 'gf-preview-item';
+      const label = document.createElement('span');
+      label.className = 'gf-preview-label';
+      label.textContent = s.label;
+      item.append(wrap, label);
+      strip.appendChild(item);
     });
   }
 

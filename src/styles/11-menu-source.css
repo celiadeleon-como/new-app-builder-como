@@ -227,32 +227,6 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
 .ms-status svg { width: 15px; height: 15px; flex: none; }
 .ms-status.hidden { display: none; }
 
-/* Contextual banner shown when the merchant reached this screen from the Online
-   ordering step, so the round-trip back to that step is obvious. */
-.ms-return {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; margin-bottom: 14px;
-  border-radius: 12px;
-  background: var(--como-soft);
-  border: 1px solid #e0d6fb;
-}
-.ms-return[hidden] { display: none; }
-.ms-return.done { background: var(--ok-soft); border-color: #cdebd8; }
-.ms-return-ic { flex: none; width: 20px; height: 20px; color: var(--como); }
-.ms-return.done .ms-return-ic { color: var(--ok); }
-.ms-return-ic svg { width: 100%; height: 100%; }
-.ms-return .ic-done { display: none; }
-.ms-return.done .ic-todo { display: none; }
-.ms-return.done .ic-done { display: block; }
-.ms-return-text { flex: 1; min-width: 0; font-size: 12px; line-height: 1.45; font-weight: 650; color: var(--ink); }
-.ms-return-btn {
-  flex: none; font: inherit; font-size: 12px; font-weight: 750;
-  color: #fff; background: var(--como); border: 0;
-  border-radius: 999px; padding: 7px 13px; cursor: pointer;
-}
-.ms-return.done .ms-return-btn { background: var(--ok); }
-.ms-return-btn:hover { filter: brightness(.96); }
-
 /* Info dot reuses the settings-modal tooltip look, scaled for the panel */
 .ms-info,
 .config-column button.ms-info {

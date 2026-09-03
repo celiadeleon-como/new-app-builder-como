@@ -73,6 +73,11 @@ export default function PhonePreview() {
           </div>
         </div>
       </div>
+      <div
+        className="gf-publish-preview"
+        id="gf-publish-preview"
+        data-comment-anchor="publish-preview"
+      />
     </div>
   );
 }

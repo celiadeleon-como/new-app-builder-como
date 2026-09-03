@@ -27,12 +27,9 @@ const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'
 // Every page a merchant can pick from "Configure another page" — matches the
 // tile list on the More screen so the two stay in sync.
 const PAGE_DEFS = [
-  { key: 'home', label: 'Home' },
   { key: 'account', label: 'My Account' },
   { key: 'orders', label: 'My Orders' },
-  { key: 'rewards', label: 'Loyalty Rewards' },
   { key: 'menu', label: 'Our Menu' },
-  { key: 'locations', label: 'Find a Cafe' },
   { key: 'referral', label: 'Refer a Friend' },
   { key: 'story', label: 'Our Story' },
   { key: 'contact', label: 'Contact Us' },
@@ -178,7 +175,8 @@ export function initMenuSource(ctx) {
   const webUrl = document.getElementById('ms-webview-url');
   const webStatus = document.getElementById('ms-webview-status');
   const webviewDisplayOptions = document.getElementById('ms-webview-display-options');
-  const webviewReturn = document.getElementById('ms-webview-return');
+  const webviewKicker = document.getElementById('ms-webview-kicker');
+  const webviewBackHeader = document.getElementById('ms-webview-back-header');
   const webviewReturnBtn = document.getElementById('ms-webview-return-btn');
   const webviewScreen = page.querySelector('[data-ms="webview"]');
   let webviewPanelPlaceholder = null;
@@ -188,18 +186,11 @@ export function initMenuSource(ctx) {
     webviewPanelPlaceholder.replaceWith(webviewScreen);
     webviewPanelPlaceholder = null;
   }
-  // Contextual banner: only present when the merchant reached this screen from the
-  // Online ordering step, so the round-trip back to that step stays obvious.
+  // Reached from the Online ordering step: swap the menu-source kicker for a
+  // simple back header, matching the Rewards edit drill-in navigation style.
   function updateWebviewReturn() {
-    if (!webviewReturn) return;
-    webviewReturn.hidden = !state.fromOrdering;
-    const done = state.webview.connected;
-    webviewReturn.classList.toggle('done', done);
-    const label = webviewReturn.querySelector('[data-return-label]');
-    if (label) label.textContent = done
-      ? 'Menu connected. Head back to Online ordering to finish.'
-      : 'You are setting up online ordering. Add your menu, then head back.';
-    if (webviewReturnBtn) webviewReturnBtn.textContent = done ? 'Return to Online ordering' : 'Back to Online ordering';
+    if (webviewBackHeader) webviewBackHeader.hidden = !state.fromOrdering;
+    if (webviewKicker) webviewKicker.hidden = state.fromOrdering;
   }
   webviewReturnBtn?.addEventListener('click', () => {
     restoreWebviewPanel();
