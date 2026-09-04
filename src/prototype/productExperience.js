@@ -128,12 +128,12 @@ export function initProductExperience(ctx) {
     panel.className = 'px-menu-simple';
     panel.innerHTML = `
       <h3>Menu</h3>
-      <p>Como supplies the mobile layout. Your menu data and global brand do the rest.</p>
+      <p>We supply the mobile layout. Your menu data and global brand do the rest.</p>
       <div class="px-menu-preview-note"><strong>Proven menu screen</strong><span>Categories, item cards, dietary information, and member pricing are already designed.</span></div>
       <fieldset><legend>Layout</legend><div class="px-menu-layouts"><button type="button" class="active" data-px-menu-layout="grid">Visual cards</button><button type="button" data-px-menu-layout="list">Compact list</button></div></fieldset>
       <label class="px-simple-check"><input type="checkbox" id="px-menu-hero" checked /> <span><strong>Show menu hero</strong><small>Uses the global accent and one approved image treatment.</small></span></label>
       <div class="px-menu-ordering-state" id="px-menu-ordering-state"></div>
-      <button class="px-advanced-link" type="button" id="px-menu-advanced">Advanced menu source setup</button>`;
+      <button class="px-advanced-link" type="button" id="px-menu-advanced" hidden>Advanced menu source setup</button>`;
     page.insertBefore(panel, page.firstChild);
 
     panel.querySelectorAll('[data-px-menu-layout]').forEach((button) => {

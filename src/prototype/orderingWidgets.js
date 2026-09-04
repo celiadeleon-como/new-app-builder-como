@@ -249,9 +249,8 @@ export function initOrderingWidgets(ctx) {
     document.getElementById('ti-item-price').value = item.price;
     document.getElementById('ti-item-badge').value = item.badge || '';
     document.getElementById('ti-item-image').value = item.image;
-    const cpHome = document.getElementById('cp-home');
-    cpHome.querySelector('.cp-master').classList.add('hide');
-    cpHome.querySelectorAll('.cp-detail').forEach((d) => d.classList.toggle('show', d.dataset.detail === 'top-items'));
+    // This widget's item list (level 2) already lives in the third panel;
+    // swap it for the individual item editor one level deeper, same slot.
     openL3Panel(document.querySelector('[data-detail="ti-item-edit"]'));
   }
 
@@ -304,7 +303,8 @@ export function initOrderingWidgets(ctx) {
     });
     document.getElementById('ti-item-back')?.addEventListener('click', () => {
       state.topItems.editing = null;
-      closeL3Panel();
+      tiItemsList?.querySelectorAll('.pc-item.l3-active').forEach((r) => r.classList.remove('l3-active'));
+      openL3Panel(document.querySelector('[data-detail="top-items"]'));
     });
   }
 
@@ -377,9 +377,8 @@ export function initOrderingWidgets(ctx) {
     document.getElementById('mc-item-name').value = cat.name;
     document.getElementById('mc-item-count-input').value = cat.count;
     document.getElementById('mc-item-image').value = cat.image;
-    const cpHome = document.getElementById('cp-home');
-    cpHome.querySelector('.cp-master').classList.add('hide');
-    cpHome.querySelectorAll('.cp-detail').forEach((d) => d.classList.toggle('show', d.dataset.detail === 'menu-categories'));
+    // This widget's category list (level 2) already lives in the third panel;
+    // swap it for the individual category editor one level deeper, same slot.
     openL3Panel(document.querySelector('[data-detail="mc-item-edit"]'));
   }
 
@@ -425,7 +424,8 @@ export function initOrderingWidgets(ctx) {
     });
     document.getElementById('mc-item-back')?.addEventListener('click', () => {
       state.menuCategories.editing = null;
-      closeL3Panel();
+      mcItemsList?.querySelectorAll('.pc-item.l3-active').forEach((r) => r.classList.remove('l3-active'));
+      openL3Panel(document.querySelector('[data-detail="menu-categories"]'));
     });
   }
 
@@ -638,9 +638,8 @@ export function initOrderingWidgets(ctx) {
     document.getElementById('mr-item-seconds').value = reel.seconds;
     document.getElementById('mr-item-seconds-value').textContent = reel.seconds + 's';
     document.getElementById('mr-item-expires').value = reel.expires || '';
-    const cpHome = document.getElementById('cp-home');
-    cpHome.querySelector('.cp-master').classList.add('hide');
-    cpHome.querySelectorAll('.cp-detail').forEach((d) => d.classList.toggle('show', d.dataset.detail === 'menu-reels'));
+    // This widget's reel list (level 2) already lives in the third panel;
+    // swap it for the individual reel editor one level deeper, same slot.
     openL3Panel(document.querySelector('[data-detail="mr-item-edit"]'));
   }
 
@@ -713,7 +712,8 @@ export function initOrderingWidgets(ctx) {
     });
     document.getElementById('mr-item-back')?.addEventListener('click', () => {
       state.menuReels.editing = null;
-      closeL3Panel();
+      mrItemsList?.querySelectorAll('.pc-item.l3-active').forEach((r) => r.classList.remove('l3-active'));
+      openL3Panel(document.querySelector('[data-detail="menu-reels"]'));
     });
   }
 
