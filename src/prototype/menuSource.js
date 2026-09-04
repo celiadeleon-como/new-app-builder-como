@@ -274,7 +274,7 @@ export function initMenuSource(ctx) {
       webUrl.setAttribute('aria-invalid', 'true');
       webUrl.classList.add('cp-input-error');
       const urlErr = document.getElementById('ms-webview-url-error');
-      if (urlErr) urlErr.textContent = 'Please enter your ordering URL first.';
+      if (urlErr) urlErr.textContent = 'Enter your ordering URL to continue.';
       webUrl.focus();
       return;
     }
@@ -352,7 +352,7 @@ export function initMenuSource(ctx) {
     if (!urlValue) {
       webUrl?.setAttribute('aria-invalid', 'true');
       webUrl?.classList.add('cp-input-error');
-      if (urlError) urlError.textContent = 'Please enter your ordering URL before returning.';
+      if (urlError) urlError.textContent = 'Enter your ordering URL before returning to Online ordering.';
       webUrl?.focus();
       return;
     }
@@ -471,8 +471,8 @@ export function initMenuSource(ctx) {
 
     function handleHeroImage(file) {
       if (!file) return;
-      if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Only png, jpg, or webp supported'); return; }
-      if (file.size > 5 * 1024 * 1024) { showToast('File too big \u2014 max 5MB'); return; }
+      if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Upload a PNG, JPG, or WEBP file.'); return; }
+      if (file.size > 5 * 1024 * 1024) { showToast('This file exceeds the 5MB limit.'); return; }
       const reader = new FileReader();
       reader.onload = (e) => {
         state.pageSettings.hero[state.pageSettings.selected].image = e.target.result;

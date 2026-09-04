@@ -271,7 +271,7 @@ export function initRewardsBlocks(ctx) {
     const file = imgFile.files?.[0];
     const b = byId(editingId);
     if (!file || !b) return;
-    if (file.size > 5 * 1024 * 1024) { showToast?.('File too big — max 5MB'); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.'); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       b.imgData = e.target.result;

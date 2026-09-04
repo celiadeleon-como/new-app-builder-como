@@ -125,11 +125,11 @@ export function initBranding(ctx) {
   function loadCustomFont(file) {
     if (!file) return;
     if (!/\.(woff2|otf|ttf)$/i.test(file.name)) {
-      showToast('Font must be .woff2, .otf, or .ttf');
+      showToast('Upload a .woff2, .otf, or .ttf font file.');
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      showToast('Font too big — max 5MB');
+      showToast('This file exceeds the 5MB limit.');
       return;
     }
     const reader = new FileReader();
@@ -242,11 +242,11 @@ export function initBranding(ctx) {
   function handleLogoFile(file) {
     if (!file) return;
     if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) {
-      showToast('Only png, jpg, or webp supported');
+      showToast('Upload a PNG, JPG, or WEBP file.');
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      showToast('File too big — max 5MB');
+      showToast('This file exceeds the 5MB limit.');
       return;
     }
     const reader = new FileReader();

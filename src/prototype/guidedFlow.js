@@ -810,8 +810,8 @@ export function initGuidedFlow(ctx) {
 
   function readLogoFile(file) {
     if (!file) return;
-    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast?.('Only png, jpg, or webp supported'); return; }
-    if (file.size > 5 * 1024 * 1024) { showToast?.('File too big — max 5MB'); return; }
+    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, or WEBP file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.'); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;

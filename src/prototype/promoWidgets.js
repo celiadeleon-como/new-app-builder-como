@@ -298,8 +298,8 @@ export function initPromoWidgets(ctx) {
 
   // Shared image-file reader for every uploader in the config panel
   function readImageFile(file, onLoad) {
-    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Only png, jpg, or webp'); return; }
-    if (file.size > 5 * 1024 * 1024) { showToast('Max 5 MB'); return; }
+    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Upload a PNG, JPG, or WEBP file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast('This file exceeds the 5MB limit.'); return; }
     const reader = new FileReader();
     reader.onload = (ev) => onLoad(ev.target.result);
     reader.readAsDataURL(file);
