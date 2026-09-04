@@ -288,14 +288,13 @@
 
   /* ---------- Branding setup ---------- */
   .branding-page .cp-page-sub { max-width: 280px; margin-bottom: 18px; }
-  .branding-page { color-scheme: light; }
-  .branding-page .cp-section { margin-bottom: 14px; border-color: #e2e8f0; border-radius: 12px; background: #fff; }
-  .branding-page .cp-head-row { min-height: 51px; padding: 14px 16px; background: #f8fafc; color: #0f172a; font-size: 13px; }
-  .branding-page .cp-body { padding: 14px; background: #fff; }
+  .branding-page .cp-section { margin-bottom: 14px; }
+  .branding-page .cp-head-row { min-height: 51px; }
+  .branding-page .cp-body { padding: 14px; }
   .branding-page .cp-section:has(#gf-logo-zone) .cp-body { padding: 12px 14px 14px; }
-  .branding-upload { display: grid; place-items: center; gap: 7px; min-height: 88px; padding: 12px; border: 1px dashed #afb9d1; border-radius: 8px; color: #8b96ae; font-size: 11px; text-align: center; cursor: pointer; }
+  .branding-upload { display: grid; place-items: center; gap: 7px; min-height: 88px; padding: 12px; border: 1.5px dashed #cfcfe0; border-radius: 8px; color: var(--muted); font-size: 11px; text-align: center; cursor: pointer; }
   .branding-upload.drag-over { border-color: var(--como); background: var(--como-soft); }
-  .branding-upload-button { padding: 6px 13px; border: 1px solid #9b6dff; border-radius: 6px; background: #fff; color: #8255ed; font-size: 11px; font-weight: 700; cursor: pointer; }
+  .branding-upload-button { padding: 6px 13px; border: 1px solid var(--como); border-radius: 6px; background: var(--panel); color: var(--como); font-size: 11px; font-weight: 700; cursor: pointer; }
   .branding-upload-button:hover { background: var(--como-soft); }
   .branding-logo-result { display: flex; align-items: center; gap: 8px; font-size: 11px; }
   .branding-logo-result img { width: 34px; height: 34px; object-fit: contain; border: 1px solid var(--line); border-radius: 6px; }
@@ -303,14 +302,26 @@
   .branding-logo-result button { border: 0; background: transparent; color: var(--como); padding: 4px; cursor: pointer; font-size: 11px; }
   .branding-paired-rows { padding: 14px; }
   .branding-paired-rows .cp-color-row { margin: 0; border-radius: 0; }
-  .branding-paired-rows .cp-color-row:first-child { border-radius: 12px 12px 0 0; }
-  .branding-paired-rows .cp-color-row:last-child { border-radius: 0 0 12px 12px; border-top: 0; }
-  .branding-color-row { min-height: 72px; padding: 14px 16px; border-color: #e4e8ee; border-radius: 12px; background: #fff; }
+  .branding-paired-rows .cp-color-row:first-child { border-radius: 11px 11px 0 0; }
+  .branding-paired-rows .cp-color-row:last-child { border-radius: 0 0 11px 11px; border-top: 0; }
+  .branding-color-row { min-height: 72px; padding: 14px 16px; border-color: var(--line); border-radius: 11px; background: var(--panel); flex-wrap: wrap; }
   .branding-color-row .cp-color-swatch { width: 36px; height: 36px; border: 0; border-radius: 8px; }
-  .branding-color-row .cp-color-label { color: #696f89; font-size: 12px; font-weight: 500; }
-  .branding-color-row .cp-color-hex { width: 100%; padding: 0; border: 0; background: transparent; color: #111827; font-size: 13px; font-weight: 600; }
+  .branding-color-row .cp-color-label { color: var(--muted); font-size: 12px; font-weight: 500; }
+  .branding-color-row .cp-color-hex { width: 100%; padding: 0; border: 0; background: transparent; color: var(--ink); font-size: 13px; font-weight: 600; }
   .branding-color-row .cp-color-hex:focus { box-shadow: none; }
-  .branding-color-trigger { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: none; padding: 0; border: 0; border-radius: 6px; background: transparent; color: #696f89; cursor: pointer; }
+  .branding-contrast-warning {
+    flex: 1 0 100%; display: flex; align-items: flex-start; gap: 7px;
+    margin-top: 10px; padding: 9px 11px; border-radius: 9px;
+    background: var(--warning-soft); color: var(--warning);
+    font-size: 11.5px; font-weight: 650; line-height: 1.45;
+  }
+  .branding-contrast-warning[hidden] { display: none; }
+  .branding-contrast-warning::before {
+    content: "!"; flex: none; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--warning); color: #fff; font-size: 10px; font-weight: 800;
+    display: inline-grid; place-items: center; margin-top: 1px;
+  }
+  .branding-color-trigger { display: inline-grid; place-items: center; width: 28px; height: 28px; flex: none; padding: 0; border: 0; border-radius: 6px; background: transparent; color: var(--muted); cursor: pointer; }
   .branding-color-trigger:hover { color: var(--como); background: var(--como-soft); }
   .branding-color-trigger svg { width: 16px; height: 16px; }
   .branding-select { display: block; position: relative; margin-bottom: 9px; border: 1px solid var(--line); border-radius: 9px; padding: 7px 11px; }
@@ -318,12 +329,12 @@
   .branding-select select { width: 100%; padding: 2px 0 0; border: 0; background: transparent; color: var(--ink); font-size: 12px; cursor: pointer; }
   .branding-select select:focus { outline: 0; }
   .custom-font-upload { min-height: 68px; margin-top: 16px; }
-  .branding-icon-preview { display: flex; justify-content: center; gap: 27px; padding: 13px; margin-bottom: 6px; border: 1px solid var(--line); border-radius: 8px; color: #9064fa; font-size: 20px; }
+  .branding-icon-preview { display: flex; justify-content: center; gap: 27px; padding: 13px; margin-bottom: 6px; border: 1px solid var(--line); border-radius: 8px; color: var(--como); font-size: 20px; }
   .branding-icon-options .cp-radio { min-width: 0; }
-  .branding-corners label { display: grid; grid-template-columns: 1fr auto; gap: 6px; color: #66708a; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-  .branding-corners label span { color: #8f65ed; text-transform: none; font-size: 12px; }
-  .branding-corners input { grid-column: 1 / -1; width: 100%; accent-color: #8f65ed; }
-  .branding-corners p { margin: 2px 0 11px; color: #66708a; font-size: 11px; line-height: 1.4; }
+  .branding-corners label { display: grid; grid-template-columns: 1fr auto; gap: 6px; color: var(--muted); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+  .branding-corners label span { color: var(--como); text-transform: none; font-size: 12px; }
+  .branding-corners input { grid-column: 1 / -1; width: 100%; accent-color: var(--como); }
+  .branding-corners p { margin: 2px 0 11px; color: var(--muted); font-size: 11px; line-height: 1.4; }
 
   /* Segmented control (Solid / Gradient) */
   .cp-seg {

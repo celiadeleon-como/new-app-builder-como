@@ -124,11 +124,8 @@ export function initPromoWidgets(ctx) {
       gid('-edit-action').value = c.action;
       gid('-edit-btn-text').value = c.btnText;
       pcPaintImageState(c.imgData);
-      // Keep this widget's card list (level 2) visible in the config panel...
-      const cpHome = document.getElementById('cp-home');
-      cpHome.querySelector('.cp-master').classList.add('hide');
-      cpHome.querySelectorAll('.cp-detail').forEach(d => d.classList.toggle('show', d === pcDrill));
-      // ...and open the individual card editor one level deeper, in the third panel.
+      // This widget's card list (level 2) already lives in the third panel;
+      // swap it for the individual card editor one level deeper, same slot.
       openL3Panel(pcEditDrill);
       if (pcItemsList) {
         pcItemsList.querySelectorAll('.pc-item').forEach((r, i) => r.classList.toggle('l3-active', i === idx));
@@ -237,12 +234,13 @@ export function initPromoWidgets(ctx) {
       });
     }
 
-    // Back from the card editor (third panel) → return to this widget's card list (level 2)
+    // Back from the card editor (third panel) → return to this widget's card list (level 2), still in the third panel
     const pcCardBack = gid('-card-back');
     if (pcCardBack) {
       pcCardBack.addEventListener('click', () => {
         pcEditIdx = null;
-        closeL3Panel();
+        if (pcItemsList) pcItemsList.querySelectorAll('.pc-item.l3-active').forEach((r) => r.classList.remove('l3-active'));
+        openL3Panel(pcDrill);
       });
     }
 
@@ -501,7 +499,8 @@ export function initPromoWidgets(ctx) {
     nodes.forEach(node => { cpHomeEl.appendChild(node); wireDrillNode(node); });
     // Main drill back → master; edit-drill back is wired by initPromoCards
     const mainDrill = cpHomeEl.querySelector('[data-detail="' + drill + '"]');
-    mainDrill.querySelector('.cp-back').addEventListener('click', () => closeDrill('cp-home'));
+    mainDrill.setAttribute('data-l3-drill', '');
+    mainDrill.querySelector('.cp-back').addEventListener('click', () => closeL3Panel());
 
     // Config row
     buildWidgetRow(title, key, drill, '.promo-cards-widget[data-widget=\'' + key + '\']', () => {

@@ -420,6 +420,14 @@ export function initCoreNavigation(ctx) {
     const page = document.getElementById(pageId);
     if (!page) return;
     closeL3Panel();
+    // A drill marked data-l3-drill edits one level deeper while its parent list
+    // (Home widgets, or this widget's own card list) stays visible behind it,
+    // matching the Online ordering webview setup.
+    const target = document.querySelector('[data-detail="' + key + '"]');
+    if (target && target.hasAttribute('data-l3-drill')) {
+      openL3Panel(target);
+      return;
+    }
     const master = page.querySelector('.cp-master');
     if (master) master.classList.add('hide');
     page.querySelectorAll('.cp-detail').forEach(d => d.classList.toggle('show', d.dataset.detail === key));
@@ -468,6 +476,12 @@ export function initCoreNavigation(ctx) {
   }
   window.openL3Panel = openL3Panel;
   window.closeL3Panel = closeL3Panel;
+
+  // A drill moved permanently into the third panel has no .cp-page ancestor,
+  // so its own back button needs its own listener instead of the generic one below.
+  document.querySelectorAll('[data-l3-drill] > .cp-detail-header > .cp-back').forEach((btn) => {
+    btn.addEventListener('click', () => closeL3Panel());
+  });
 
   // ---------- Jump to the guided Branding step from the phone header ----------
   function openBusinessNameSettings() {

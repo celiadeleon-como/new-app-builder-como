@@ -56,7 +56,7 @@
   .icon-btn {
     width: 36px; height: 36px; border-radius: 12px;
     background: var(--p-panel); border: 1px solid var(--p-border);
-    color: var(--p-text); font-size: 14px;
+    color: var(--p-icon, var(--p-text)); font-size: 14px;
     display: grid; place-items: center; cursor: pointer;
     transition: transform .1s;
     flex: none;

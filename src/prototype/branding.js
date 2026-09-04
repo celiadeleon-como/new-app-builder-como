@@ -273,6 +273,72 @@ export function initBranding(ctx) {
     logoClearBtn.addEventListener('click', (e) => { e.stopPropagation(); clearLogo(); });
   }
 
+  // ---------- WCAG contrast check (Background / Text and Icons color rows) ----------
+  function hexToRgb(hex) {
+    const h = (hex || '').replace('#', '');
+    return /^[0-9a-f]{6}$/i.test(h) ? [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)) : null;
+  }
+  function relativeLuminance(hex) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return null;
+    const channels = rgb.map((c) => {
+      const n = c / 255;
+      return n <= 0.03928 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  }
+  function contrastRatio(hexA, hexB) {
+    const lumA = relativeLuminance(hexA);
+    const lumB = relativeLuminance(hexB);
+    if (lumA === null || lumB === null) return null;
+    const lighter = Math.max(lumA, lumB);
+    const darker = Math.min(lumA, lumB);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+  function currentHex(variable, fallback) {
+    const value = getComputedStyle(document.body).getPropertyValue(variable).trim();
+    return /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
+  }
+
+  const WCAG_AA_TEXT_RATIO = 4.5;
+  const primaryWarning = document.getElementById('branding-contrast-primary');
+  const secondaryWarning = document.getElementById('branding-contrast-secondary');
+  function worstPair(pairs) {
+    return pairs
+      .map(([label, a, b]) => ({ label, ratio: contrastRatio(a, b) }))
+      .filter((c) => c.ratio !== null)
+      .sort((a, b) => a.ratio - b.ratio)[0];
+  }
+  function paintWarning(el, worst) {
+    if (!el) return;
+    const failing = worst && worst.ratio < WCAG_AA_TEXT_RATIO;
+    el.hidden = !failing;
+    if (failing) el.textContent = `Low contrast with ${worst.label} (${worst.ratio.toFixed(1)}:1) \u2014 WCAG AA requires 4.5:1`;
+  }
+  function checkBrandingContrast() {
+    const bg = currentHex('--p-bg', '#f2f2f7');
+    const panel = currentHex('--p-panel', '#ffffff');
+    const text = currentHex('--p-text', '#1d1d28');
+    const textMuted = currentHex('--p-text-muted', '#6b6b7b');
+    paintWarning(primaryWarning, worstPair([
+      ['card background', text, panel],
+      ['app background', text, bg],
+    ]));
+    paintWarning(secondaryWarning, worstPair([
+      ['card background', textMuted, panel],
+      ['app background', textMuted, bg],
+    ]));
+  }
+  // Debounced so dragging the native color wheel doesn't repaint the warning per pixel.
+  let contrastCheckTimer = null;
+  function scheduleContrastCheck() {
+    clearTimeout(contrastCheckTimer);
+    contrastCheckTimer = setTimeout(checkBrandingContrast, 400);
+  }
+  document.querySelectorAll('.branding-page input[type="color"][data-bind-color], .branding-page .cp-color-hex').forEach((input) => {
+    input.addEventListener('input', scheduleContrastCheck);
+  });
+  checkBrandingContrast();
 
   return { applyFontFamily, activateFontItem, wireFontItem, loadCustomFont, applyLogo, clearLogo, handleLogoFile };
 }

@@ -496,15 +496,6 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
 .ms-add-row:hover { border-color: var(--como); background: #faf7ff; }
 .ms-add-row svg { width: 14px; height: 14px; }
 
-.ms-back {
-  display: flex; align-items: center; gap: 6px;
-  background: none; border: none; padding: 0; margin-bottom: 12px;
-  font: inherit; font-size: 12.5px; font-weight: 700; color: var(--muted);
-  cursor: pointer;
-}
-.ms-back:hover { color: var(--ink); }
-.ms-back svg { width: 14px; height: 14px; }
-
 .ms-title-row { display: flex; align-items: center; gap: 9px; }
 .ms-title-row .ms-title { flex: 1; min-width: 0; }
 .ms-icon-btn {
