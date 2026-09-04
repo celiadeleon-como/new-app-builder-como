@@ -300,34 +300,49 @@ export function initBranding(ctx) {
     return /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
   }
 
-  const WCAG_AA_TEXT_RATIO = 4.5;
+  const WCAG_TEXT_RATIO = 4.5;
+  const WCAG_UI_RATIO = 3;
+  const accentWarning = document.getElementById('branding-contrast-accent');
   const primaryWarning = document.getElementById('branding-contrast-primary');
   const secondaryWarning = document.getElementById('branding-contrast-secondary');
+  const iconWarning = document.getElementById('branding-contrast-icon');
   function worstPair(pairs) {
     return pairs
       .map(([label, a, b]) => ({ label, ratio: contrastRatio(a, b) }))
       .filter((c) => c.ratio !== null)
       .sort((a, b) => a.ratio - b.ratio)[0];
   }
-  function paintWarning(el, worst) {
+  function paintWarning(el, worst, minRatio) {
     if (!el) return;
-    const failing = worst && worst.ratio < WCAG_AA_TEXT_RATIO;
+    const failing = worst && worst.ratio < minRatio;
     el.hidden = !failing;
-    if (failing) el.textContent = `Low contrast with ${worst.label} (${worst.ratio.toFixed(1)}:1) \u2014 WCAG AA requires 4.5:1`;
+    if (failing) el.textContent = `Low contrast with ${worst.label} (${worst.ratio.toFixed(1)}:1) \u2014 WCAG requires ${minRatio}:1`;
   }
   function checkBrandingContrast() {
     const bg = currentHex('--p-bg', '#f2f2f7');
     const panel = currentHex('--p-panel', '#ffffff');
     const text = currentHex('--p-text', '#1d1d28');
     const textMuted = currentHex('--p-text-muted', '#6b6b7b');
+    const accent = currentHex('--p-accent', '#6d28d9');
+    const icon = currentHex('--p-icon', '#6d28d9');
+    // Text needs the 4.5:1 AA ratio; accent and icon are graphical UI
+    // elements, held to WCAG 2.1 SC 1.4.11's 3:1 non-text minimum.
     paintWarning(primaryWarning, worstPair([
       ['card background', text, panel],
       ['app background', text, bg],
-    ]));
+    ]), WCAG_TEXT_RATIO);
     paintWarning(secondaryWarning, worstPair([
       ['card background', textMuted, panel],
       ['app background', textMuted, bg],
-    ]));
+    ]), WCAG_TEXT_RATIO);
+    paintWarning(accentWarning, worstPair([
+      ['card background', accent, panel],
+      ['app background', accent, bg],
+    ]), WCAG_UI_RATIO);
+    paintWarning(iconWarning, worstPair([
+      ['card background', icon, panel],
+      ['app background', icon, bg],
+    ]), WCAG_UI_RATIO);
   }
   // Debounced so dragging the native color wheel doesn't repaint the warning per pixel.
   let contrastCheckTimer = null;

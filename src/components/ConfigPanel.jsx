@@ -127,7 +127,7 @@ export default function ConfigPanel() {
           <span id="gf-step-back-label">Back</span>
         </button>
         <button className="cp-step-next" id="gf-step-next" type="button">
-          <span id="gf-step-next-label">Continue</span>
+          <span id="gf-step-next-label">Save &amp; continue</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </button>
         <button className="gf-oo-return-btn" id="gf-oo-return-btn" type="button">

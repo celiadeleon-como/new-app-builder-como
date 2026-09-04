@@ -282,7 +282,7 @@ export function initGuidedFlow(ctx) {
 
     if (backLabel) backLabel.textContent = 'Back';
     if (backBtn) backBtn.style.visibility = position === 0 ? 'hidden' : '';
-    if (nextLabel) nextLabel.textContent = flow.current === 'publish' ? 'Publish content changes' : 'Continue';
+    if (nextLabel) nextLabel.textContent = flow.current === 'publish' ? 'Publish content changes' : 'Save & continue';
     if (nextBtn) nextBtn.style.display = position === STEPS.length - 1 ? 'none' : '';
   }
 
