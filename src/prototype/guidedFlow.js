@@ -34,7 +34,7 @@ export function initGuidedFlow(ctx) {
   const done = new Set();
   let homeVisited = false;
   let businessEdited = false;
-  const flow = { current: 'home', focus: null, bizName: '', headline: '', country: '', bizType: '', category: '', categories: [], accent: '#6d28d9', font: 'sans-serif', published: false };
+  const flow = { current: 'home', focus: null, bizName: '', headline: '', country: '', bizType: '', category: '', categories: [], accent: '#3d40ff', font: 'sans-serif', published: false };
 
   const stepButtons = [...document.querySelectorAll('.side-step[data-step]')];
   const indexOf = (key) => STEPS.findIndex((s) => s.key === key);
@@ -1000,7 +1000,7 @@ export function initGuidedFlow(ctx) {
       chip.tabIndex = selected ? 0 : -1;
     });
     renderCategories();
-    applyAccent(saved.accent || '#6d28d9');
+    applyAccent(saved.accent || '#3d40ff');
     if (saved.focus === 'loyalty' || saved.focus === 'ordering') window.applyGoalPreset?.(saved.focus);
     reflectFocus(saved.focus);
     (saved.done || []).filter((key) => key !== 'publish').forEach((key) => done.add(key));

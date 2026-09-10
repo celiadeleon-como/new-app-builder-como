@@ -21,11 +21,11 @@
   .config-panel::-webkit-scrollbar { width: 8px; }
   .config-panel::-webkit-scrollbar-track { background: transparent; }
   .config-panel::-webkit-scrollbar-thumb {
-    background: #d8d8e3;
+    background: var(--line);
     border: 2px solid var(--panel);
     border-radius: 999px;
   }
-  .config-panel::-webkit-scrollbar-thumb:hover { background: #bdbdca; }
+  .config-panel::-webkit-scrollbar-thumb:hover { background: var(--muted); }
   /* cp-page is toggled to display:flex by JS; the tip block sticks to the panel bottom */
   .cp-page { flex: 1 1 auto; flex-direction: column; min-height: 0; }
   #cp-home .cp-master:not(.hide), #cp-rewards .cp-master:not(.hide) { display: flex; flex-direction: column; flex: 1 1 auto; }
@@ -48,7 +48,7 @@
   .cp-section {
     border: 1px solid var(--line);
     border-radius: 11px;
-    background: #fff;
+    background: var(--panel);
     margin-bottom: 8px;
     overflow: hidden;
   }
@@ -58,7 +58,7 @@
     padding: 11px 14px;
     font-weight: 650; font-size: 13px;
     display: flex; align-items: center; cursor: pointer;
-    background: #fafafe;
+    background: var(--bg);
     border-bottom: 1px solid transparent;
     user-select: none;
   }
@@ -69,7 +69,7 @@
     border-radius: 7px;
     transition: transform .15s, color .15s, background .15s;
   }
-  .cp-section .cp-head-row:hover .chev { color: var(--ink); background: #eeedf5; }
+  .cp-section .cp-head-row:hover .chev { color: var(--ink); background: var(--line-soft); }
   .cp-section.open .cp-head-row { border-bottom-color: var(--line); }
   .cp-section.open .cp-head-row .chev { transform: rotate(90deg); }
   .cp-section .cp-body { display: none; padding: 10px 14px 12px; }
@@ -82,17 +82,17 @@
     padding: 9px 11px;
     margin-bottom: 6px;
     font-size: 12.5px; font-weight: 600;
-    background: #fff;
+    background: var(--panel);
     cursor: pointer;
     transition: border-color .12s, background-color .12s, box-shadow .12s;
   }
   .cp-item:hover { border-color: var(--como); }
   .cp-item.highlight { border-color: var(--como); background: var(--como-soft); }
-  .cp-item .handle { color: #c7c7d4; font-size: 14px; cursor: grab; }
+  .cp-item .handle { color: var(--muted); font-size: 14px; cursor: grab; }
   .cp-item .name { flex: 1; }
-  .cp-item .tag { font-size: 10px; color: var(--muted); background: #f4f4fa; padding: 2px 7px; border-radius: 999px; font-weight: 700; }
+  .cp-item .tag { font-size: 10px; color: var(--muted); background: var(--bg); padding: 2px 7px; border-radius: 999px; font-weight: 700; }
   .cp-item .tag.new { color: var(--ok); background: var(--ok-soft); }
-  .cp-item .chev { color: #c7c7d4; }
+  .cp-item .chev { color: var(--muted); }
   .cp-add {
     display: flex; align-items: center; justify-content: center; gap: 4px;
     margin-top: 6px; padding: 8px;
@@ -110,7 +110,7 @@
   }
   .cp-field .input {
     border: 1px solid var(--line); border-radius: 8px;
-    padding: 8px 10px; font-size: 12.5px; background: #fafafe; color: var(--ink);
+    padding: 8px 10px; font-size: 12.5px; background: var(--bg); color: var(--ink);
   }
   .cp-radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
   .cp-radio {
@@ -118,7 +118,7 @@
     text-align: center; padding: 7px 8px;
     border: 1px solid var(--line); border-radius: 7px;
     font-size: 11.5px; font-weight: 650;
-    cursor: pointer; background: #fff; color: var(--muted);
+    cursor: pointer; background: var(--panel); color: var(--muted);
     transition: border-color .12s, background-color .12s, color .12s;
   }
   .cp-radio.active { border-color: var(--como); color: var(--como); background: var(--como-soft); }
@@ -127,13 +127,13 @@
   .cp-header-switch {
     margin-left: auto; flex: none; gap: 2px;
     border: 1px solid var(--line); border-radius: 8px; padding: 2px;
-    background: #fff;
+    background: var(--panel);
   }
   .cp-header-switch .cp-radio {
     flex: none; min-width: 0; border: none; border-radius: 6px;
     padding: 5px 9px; font-size: 10.5px;
   }
-  .cp-header-switch .cp-radio.active { background: var(--ink); color: #fff; }
+  .cp-header-switch .cp-radio.active { background: var(--ink); color: var(--panel); }
 
   .cp-toggle-row {
     display: flex; align-items: center; justify-content: space-between;
@@ -153,13 +153,13 @@
   .cp-social-item.on .cp-social-link { display: block; }
   .toggle {
     width: 32px; height: 18px; border-radius: 999px;
-    background: #d4d4dd; position: relative; cursor: pointer;
+    background: var(--line); position: relative; cursor: pointer;
     transition: background .15s;
     flex: none;
   }
   .toggle::after {
     content: ""; width: 14px; height: 14px; border-radius: 50%;
-    background: #fff; position: absolute; top: 2px; left: 2px;
+    background: var(--panel); position: absolute; top: 2px; left: 2px;
     transition: left .15s;
     box-shadow: 0 1px 2px rgba(0,0,0,.15);
   }
@@ -201,9 +201,9 @@
 
   /* ---------- Upload zone ---------- */
   .cp-upload-zone {
-    border: 1.5px dashed #cfcfe0;
+    border: 1.5px dashed var(--line);
     border-radius: 11px; padding: 18px 12px;
-    text-align: center; background: #fafafe;
+    text-align: center; background: var(--bg);
     cursor: pointer;
     transition: border-color .15s, background .15s;
   }
@@ -222,7 +222,7 @@
   .cp-upload-preview {
     display: flex; align-items: center; gap: 10px;
     padding: 8px 10px; border: 1px solid var(--line);
-    border-radius: 9px; background: #fff; margin-top: 8px;
+    border-radius: 9px; background: var(--panel); margin-top: 8px;
   }
   .cp-upload-preview .thumb {
     width: 36px; height: 36px; border-radius: 7px;
@@ -261,7 +261,7 @@
   .cp-color-row {
     display: flex; align-items: center; gap: 10px;
     padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px;
-    background: #fff; margin-bottom: 6px;
+    background: var(--panel); margin-bottom: 6px;
   }
   .cp-color-swatch {
     width: 30px; height: 30px; border-radius: 7px;
@@ -281,7 +281,7 @@
     margin-top: 2px; width: 92px;
     border: 1px solid var(--line); border-radius: 6px;
     padding: 3px 7px; font-size: 10.5px; font-weight: 600;
-    color: var(--ink); background: #fafafe;
+    color: var(--ink); background: var(--bg);
     font-family: 'SF Mono', Menlo, monospace; text-transform: uppercase;
   }
   .cp-color-hex:focus { outline: none; border-color: var(--como); box-shadow: 0 0 0 2px var(--como-soft); }
@@ -292,7 +292,7 @@
   .branding-page .cp-head-row { min-height: 51px; }
   .branding-page .cp-body { padding: 14px; }
   .branding-page .cp-section:has(#gf-logo-zone) .cp-body { padding: 12px 14px 14px; }
-  .branding-upload { display: grid; place-items: center; gap: 7px; min-height: 88px; padding: 12px; border: 1.5px dashed #cfcfe0; border-radius: 8px; color: var(--muted); font-size: 11px; text-align: center; cursor: pointer; }
+  .branding-upload { display: grid; place-items: center; gap: 7px; min-height: 88px; padding: 12px; border: 1.5px dashed var(--line); border-radius: 8px; color: var(--muted); font-size: 11px; text-align: center; cursor: pointer; }
   .branding-upload.drag-over { border-color: var(--como); background: var(--como-soft); }
   .branding-upload-button { padding: 6px 13px; border: 1px solid var(--como); border-radius: 6px; background: var(--panel); color: var(--como); font-size: 11px; font-weight: 700; cursor: pointer; }
   .branding-upload-button:hover { background: var(--como-soft); }
@@ -339,7 +339,7 @@
   /* Segmented control (Solid / Gradient) */
   .cp-seg {
     display: inline-flex; gap: 2px; padding: 2px;
-    background: #f4f4fa; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
     margin-bottom: 8px;
   }
   .cp-seg-btn {
@@ -347,19 +347,19 @@
     font-size: 11.5px; font-weight: 650; color: var(--muted);
     padding: 5px 12px; border-radius: 6px; font-family: inherit;
   }
-  .cp-seg-btn.active { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .cp-seg-btn.active { background: var(--panel); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
   .cp-mini-label { font-size: 11px; font-weight: 700; color: var(--muted); min-width: 48px; }
 
   /* Google-Docs-style grid size picker popover */
   .grid-picker {
     position: absolute; z-index: 500;
-    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0,0,0,.18); padding: 10px;
   }
   .grid-picker-grid { display: grid; gap: 3px; }
   .grid-picker-cell {
     width: 16px; height: 16px; border-radius: 3px;
-    border: 1px solid var(--line); background: #fafafe;
+    border: 1px solid var(--line); background: var(--bg);
   }
   .grid-picker-cell.on { background: var(--como-soft); border-color: var(--como); }
   .grid-picker-label { text-align: center; font-size: 11px; font-weight: 700; color: var(--ink); margin-top: 8px; }
@@ -376,7 +376,7 @@
   .cp-add-widget-btn:hover { border-color: var(--como); background: var(--como-soft); }
   .cp-add-widget-menu {
     display: none; position: absolute; left: 0; right: 0; top: calc(100% + 4px);
-    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
     box-shadow: 0 10px 26px rgba(0,0,0,.16); padding: 5px; z-index: 60;
   }
   .cp-add-widget-menu.open { display: block; }
@@ -401,11 +401,11 @@
   .pc-item {
     display: flex; gap: 8px; align-items: center;
     border: 1px solid var(--line); border-radius: 10px;
-    padding: 9px 10px; background: #fff;
+    padding: 9px 10px; background: var(--panel);
     cursor: pointer; transition: border-color .12s;
   }
   .pc-item:hover { border-color: var(--como); }
-  .pc-item .handle { color: #c7c7d4; font-size: 14px; cursor: grab; flex: none; }
+  .pc-item .handle { color: var(--muted); font-size: 14px; cursor: grab; flex: none; }
   .pc-item-name { flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .pc-vis, .pc-del {
     width: 26px; height: 26px; border-radius: 6px; border: none;
@@ -413,10 +413,10 @@
     color: var(--muted); transition: background .1s, color .1s;
   }
   .pc-vis:hover { background: var(--como-soft); color: var(--como); }
-  .pc-del:hover { background: #fef2f2; color: #dc2626; }
+  .pc-del:hover { background: var(--danger-soft); color: var(--danger); }
   .pc-vis svg, .pc-del svg { width: 15px; height: 15px; }
   .pc-vis:not(.on) { opacity: .4; }
-  .pc-item-chev { color: #c7c7d4; font-size: 14px; flex: none; }
+  .pc-item-chev { color: var(--muted); font-size: 14px; flex: none; }
   .pc-add-btn {
     width: 100%; margin-top: 8px; padding: 10px;
     border: 1.5px dashed var(--como); border-radius: 10px;
@@ -429,7 +429,7 @@
   /* ---------- Promo Cards sub-drill (individual card editor) ---------- */
   .cp-select {
     width: 100%; border: 1px solid var(--line); border-radius: 8px;
-    padding: 8px 10px; font-size: 12.5px; background: #fff; color: var(--ink);
+    padding: 8px 10px; font-size: 12.5px; background: var(--panel); color: var(--ink);
     font-family: inherit; cursor: pointer;
     transition: border-color .12s;
   }
@@ -460,7 +460,7 @@
   /* ---------- Editable text input ---------- */
   .cp-input-text {
     width: 100%; border: 1px solid var(--line); border-radius: 8px;
-    padding: 8px 10px; font-size: 12.5px; background: #fff; color: var(--ink);
+    padding: 8px 10px; font-size: 12.5px; background: var(--panel); color: var(--ink);
     font-family: inherit;
     transition: border-color .12s, box-shadow .12s;
   }
@@ -479,7 +479,7 @@
   /* ---------- Font picker ---------- */
   .cp-font-card {
     border: 1px solid var(--line); border-radius: 11px;
-    padding: 14px; background: #fff; margin-bottom: 8px;
+    padding: 14px; background: var(--panel); margin-bottom: 8px;
     cursor: pointer; transition: border-color .12s;
   }
   .cp-font-card:hover { border-color: var(--como); }
@@ -555,17 +555,17 @@
     border-radius: 11px;
     padding: 8px 10px 8px 12px;
     margin-bottom: 6px;
-    background: #fff;
+    background: var(--panel);
     font-size: 13px; font-weight: 600;
     transition: border-color .15s, background-color .15s, box-shadow .15s;
   }
   .cp-widget-row:hover { border-color: #c7bfe3; }
   .cp-widget-row.on {
     border-color: var(--como);
-    background: linear-gradient(90deg, var(--como-soft) 0%, #fff 70%);
+    background: linear-gradient(90deg, var(--como-soft) 0%, var(--panel) 70%);
     box-shadow: 0 1px 3px rgba(109,40,217,.08);
   }
-  .cp-widget-row .handle { color: #c7c7d4; cursor: grab; opacity: 0; transition: opacity .12s; font-size: 14px; }
+  .cp-widget-row .handle { color: var(--muted); cursor: grab; opacity: 0; transition: opacity .12s; font-size: 14px; }
   .cp-widget-row.on .handle { opacity: 1; }
   .cp-widget-row .w-name {
     flex: 1;
@@ -574,7 +574,7 @@
     transition: color .12s;
   }
   .cp-widget-row.off .w-name {
-    color: #7a7686;
+    color: var(--muted);
     cursor: default;
     pointer-events: none;
   }
@@ -584,8 +584,8 @@
     width: 34px; height: 34px;
     min-width: 0;
     border-radius: 9px;
-    background: #f7f6fb;
-    border: 1px solid #e4e2ee;
+    background: var(--bg);
+    border: 1px solid var(--line);
     color: var(--como);
     padding: 0;
     display: inline-flex; align-items: center; justify-content: center;
@@ -619,7 +619,7 @@
     border-radius: 9px;
     background: transparent;
     border: 1px solid transparent;
-    color: #a3a3b0;
+    color: var(--muted);
     padding: 0;
     cursor: pointer;
     display: inline-flex; align-items: center; justify-content: center;
@@ -630,7 +630,7 @@
   .w-edit-icon:hover {
     background: var(--como-soft);
     color: var(--como);
-    border-color: #e4e2ee;
+    border-color: var(--line);
   }
   .cp-widget-row.off .w-edit-icon {
     opacity: .3;
@@ -721,7 +721,7 @@
   .cp-font-list {
     max-height: 260px; overflow-y: auto;
     border: 1px solid var(--line); border-radius: 10px;
-    background: #fff;
+    background: var(--panel);
   }
   .cp-font-item {
     padding: 11px 12px;
@@ -740,7 +740,7 @@
   /* ---------- Icon style radios (Branding → Icons) ---------- */
   .cp-icon-style-preview {
     display: flex; gap: 12px; padding: 12px;
-    background: #fafafe; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
     justify-content: center; margin-bottom: 10px;
   }
   .cp-icon-style-preview svg {
@@ -770,7 +770,7 @@
   .cp-widget-row.dragging {
     z-index: 50; position: relative;
     box-shadow: 0 12px 32px rgba(20,20,40,.18), 0 4px 12px rgba(20,20,40,.08);
-    background: #fff;
+    background: var(--panel);
     cursor: grabbing;
   }
   .cp-widget-row.dragging * { pointer-events: none; }

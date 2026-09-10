@@ -323,8 +323,8 @@ export function initBranding(ctx) {
     const panel = currentHex('--p-panel', '#ffffff');
     const text = currentHex('--p-text', '#1d1d28');
     const textMuted = currentHex('--p-text-muted', '#6b6b7b');
-    const accent = currentHex('--p-accent', '#6d28d9');
-    const icon = currentHex('--p-icon', '#6d28d9');
+    const accent = currentHex('--p-accent', '#3d40ff');
+    const icon = currentHex('--p-icon', '#3d40ff');
     // Text needs the 4.5:1 AA ratio; accent and icon are graphical UI
     // elements, held to WCAG 2.1 SC 1.4.11's 3:1 non-text minimum.
     paintWarning(primaryWarning, worstPair([

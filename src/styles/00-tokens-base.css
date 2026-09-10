@@ -1,23 +1,50 @@
+  /* ============================================================
+     VEGA DESIGN SYSTEM TOKENS — editor chrome only.
+     The simulated phone/app screens below (.tpl-blank/.tpl-2/.tpl-3) are the
+     merchant's own configurable brand and are intentionally untouched by
+     this palette or by the light/dark toggle.
+     ============================================================ */
   :root {
     color-scheme: light;
-    --bg: #f4f5f7;
-    --panel: #ffffff;
-    --ink: #1d1d28;
-    --muted: #6b6b7b;
-    --line: #e6e6ee;
-    --line-soft: #f0f0f6;
-    --como: #6d28d9;
-    --como-soft: #f1ebfd;
+    --bg: #f0f3f7;
+    --panel: #fcfcfc;
+    --ink: rgba(4, 4, 28, .95);
+    --muted: rgba(4, 4, 28, .64);
+    --line: #abc6d8;
+    --line-soft: rgba(171, 198, 216, .35);
+    --como: #262aff;
+    --como-soft: rgba(38, 42, 255, .1);
     --ok: #16a34a;
     --ok-soft: #ecfdf3;
-    --danger: #b42346;
-    --danger-soft: #fff1f4;
+    --danger: #bd2947;
+    --danger-soft: #fef2f2;
     --warning: #9a5b00;
     --warning-soft: #fff7e6;
-    --focus-ring: rgba(109, 40, 217, .3);
-    --radius: 14px;
-    --shadow-sm: 0 1px 2px rgba(20,20,40,.06);
-    --shadow: 0 1px 2px rgba(20,20,40,.06), 0 8px 24px rgba(20,20,40,.06);
+    --focus-ring: rgba(61, 64, 255, .4);
+
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+    /* Full Vega radius scale — new components should reach for these directly. */
+    --radius-xs: 2px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 10px;
+    --radius-xl: 12px;
+    --radius-2xl: 16px;
+    --radius-3xl: 24px;
+    --radius-4xl: 32px;
+    --radius: var(--radius-xl);
+
+    /* Full Vega shadow scale, composed from its multi-layer definitions. */
+    --shadow-2xs: 0 1px 0 rgba(0, 0, 0, .05);
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, .05);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, .02), 0 2px 8px rgba(0, 0, 0, .04);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, .1), 0 4px 6px -4px rgba(0, 0, 0, .1);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, .1), 0 8px 10px -6px rgba(0, 0, 0, .1);
+    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, .25);
+    --shadow: var(--shadow-md);
+
     --motion-press: 120ms;
     --motion-fast: 160ms;
     --motion-panel: 220ms;
@@ -29,6 +56,26 @@
     --ui-ease-drawer: var(--ease-drawer);
   }
 
+  /* Dark mode — toggled via the topbar theme switch, persisted in localStorage. */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #181830;
+    --panel: #04041c;
+    --ink: rgba(252, 252, 254, .95);
+    --muted: rgba(252, 252, 254, .64);
+    --line: #203645;
+    --line-soft: rgba(32, 54, 69, .55);
+    --como: #1cabff;
+    --como-soft: rgba(28, 171, 255, .16);
+    --ok: #22c55e;
+    --ok-soft: rgba(34, 197, 94, .16);
+    --danger: #ff4c61;
+    --danger-soft: rgba(255, 76, 97, .16);
+    --warning: #fbbf24;
+    --warning-soft: rgba(251, 191, 36, .16);
+    --focus-ring: rgba(76, 190, 255, .4);
+  }
+
   /* Phone theme — Blank (default — clean white starter) */
   /* Background and cards must differ, or changing "App background" looks like
      nothing happened. Grouped-background pattern: tinted canvas, white cards. */
@@ -38,13 +85,13 @@
     --p-panel-2: #e9e9f0;
     --p-text: #1d1d28;
     --p-text-muted: #8a8798;
-    --p-accent: #6d28d9;
-    --p-accent-2: #5b1eb5;
-    --p-icon: #6d28d9;
+    --p-accent: hsla(239, 100%, 62%, 1);
+    --p-accent-2: #3335d4;
+    --p-icon: hsla(239, 100%, 62%, 1);
     --p-danger: #dc2626;
     --p-border: #e4e4ee;
     --p-card-grad: linear-gradient(160deg, #ffffff 0%, #f7f7fb 100%);
-    --p-hero-grad: linear-gradient(135deg, #6d28d9 0%, #a855f7 100%);
+    --p-hero-grad: linear-gradient(135deg, hsla(239, 100%, 62%, 1) 0%, #8083ff 100%);
     --p-nav-bg: #ffffff;
   }
 
@@ -84,7 +131,7 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; height: 100%; overflow: hidden; }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: var(--font-sans);
     background: var(--bg);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;

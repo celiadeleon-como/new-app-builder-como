@@ -1,4 +1,12 @@
 export function initSystem(ctx = {}) {
+  // ---------- Light/dark theme toggle ----------
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  themeToggleBtn?.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('como-theme', next); } catch (e) { /* storage unavailable */ }
+  });
+
   // ---------- Autosaved draft ----------
   const saveBtn = document.getElementById('save-btn');
   let saveTimer;

@@ -84,9 +84,9 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
   font: inherit; color: var(--ink);
   transition: border-color .14s, background .14s, box-shadow .14s;
 }
-.ms-option:hover { border-color: #cfc3ee; }
+.ms-option:hover { border-color: var(--como); }
 .ms-option.on {
-  border-color: var(--como); background: #faf7ff;
+  border-color: var(--como); background: var(--como-soft);
   box-shadow: 0 0 0 1px rgba(109, 40, 217, .22);
 }
 .ms-option-ic {
@@ -104,14 +104,14 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
 .ms-option-desc { font-size: 12px; color: var(--muted); line-height: 1.5; margin-top: 5px; }
 .ms-radio {
   width: 18px; height: 18px; border-radius: 50%; flex: none;
-  border: 1.8px solid #d3d3de; margin-top: 2px;
+  border: 1.8px solid var(--line); margin-top: 2px;
   display: grid; place-items: center;
 }
 .ms-option.on .ms-radio { border-color: var(--como); }
 .ms-option.on .ms-radio::after {
   content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--como);
 }
-.ms-option .ms-chev { width: 16px; height: 16px; color: #b6b6c6; flex: none; margin-top: 4px; }
+.ms-option .ms-chev { width: 16px; height: 16px; color: var(--muted); flex: none; margin-top: 4px; }
 .ms-option.disabled { cursor: default; opacity: .72; background: var(--bg); }
 .ms-option.disabled:hover { border-color: var(--line); }
 
@@ -129,7 +129,7 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
   background: var(--panel); padding: 15px;
 }
 .ms-card + .ms-card { margin-top: 11px; }
-.ms-card.featured { border-color: var(--como); background: #faf7ff; box-shadow: 0 0 0 1px rgba(109, 40, 217, .2); }
+.ms-card.featured { border-color: var(--como); background: var(--como-soft); box-shadow: 0 0 0 1px rgba(109, 40, 217, .2); }
 .ms-card.muted { background: var(--bg); }
 .ms-card-head { display: flex; align-items: center; gap: 11px; }
 .ms-card-title { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 800; letter-spacing: -.25px; flex-wrap: wrap; }
@@ -151,14 +151,14 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
   background: var(--como); color: #fff; cursor: pointer;
   transition: background .12s, transform .08s;
 }
-.ms-btn:hover { background: #5d22c8; }
+.ms-btn:hover { filter: brightness(0.88); }
 .ms-btn:active { transform: translateY(1px); }
 .ms-btn svg { width: 15px; height: 15px; }
 .ms-btn.ghost { background: var(--panel); color: var(--ink); border: 1px solid var(--line); }
-.ms-btn.ghost:hover { border-color: #c9c9d8; background: var(--panel); }
+.ms-btn.ghost:hover { border-color: var(--line); background: var(--panel); }
 .ms-btn.soft { background: var(--como-soft); color: var(--como); }
 .ms-btn.soft:hover { background: #e8dffb; }
-.ms-btn:disabled { background: #ececf2; color: #a3a3b4; cursor: default; }
+.ms-btn:disabled { background: var(--line); color: var(--muted); cursor: default; }
 .ms-btn.small { width: auto; padding: 8px 13px; font-size: 12px; margin-top: 0; }
 
 /* Spinner + loading / success states shared by the connect button and the
@@ -232,7 +232,7 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
 .config-column button.ms-info {
   width: 14px; height: 14px; flex: none;
   min-height: 14px;
-  border-radius: 50%; border: 1.3px solid #b9b9c8; color: #8b8b9c;
+  border-radius: 50%; border: 1.3px solid var(--line); color: var(--muted);
   font-size: 9px; font-weight: 800; line-height: 1;
   display: inline-grid; place-items: center; cursor: help;
   position: relative; background: none; padding: 0; font-family: inherit;
@@ -267,7 +267,7 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
 /* ---------- Upload ---------- */
 .ms-drop {
   border: 1.5px dashed var(--como); border-radius: 13px;
-  background: #f9f6ff;
+  background: var(--como-soft);
   padding: 26px 18px; text-align: center;
   cursor: pointer;
   transition: background .14s;
@@ -429,8 +429,8 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
   transition: border-color .12s, background .12s;
 }
 .ms-layout svg { width: 20px; height: 20px; color: var(--muted); }
-.ms-layout:hover { border-color: #cfc3ee; }
-.ms-layout.on { border-color: var(--como); background: #faf7ff; color: var(--como); }
+.ms-layout:hover { border-color: var(--como); }
+.ms-layout.on { border-color: var(--como); background: var(--como-soft); color: var(--como); }
 .ms-layout.on svg { color: var(--como); }
 
 .ms-swatches { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
@@ -451,8 +451,8 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
   cursor: pointer;
   transition: border-color .12s, background .12s, box-shadow .12s;
 }
-.ms-row:hover { border-color: #cfc3ee; }
-.ms-row.on { border-color: var(--como); background: #faf7ff; box-shadow: inset 3px 0 0 var(--como); }
+.ms-row:hover { border-color: var(--como); }
+.ms-row.on { border-color: var(--como); background: var(--como-soft); box-shadow: inset 3px 0 0 var(--como); }
 .ms-row.dragging { box-shadow: 0 12px 26px -8px rgba(20, 20, 40, .3); z-index: 4; }
 .ms-handle {
   width: 16px; flex: none; cursor: grab; color: #c2c2d0;
@@ -493,7 +493,7 @@ body.oo-webview-from-step2 .gf-oo-return-btn {
   cursor: pointer; margin-top: 9px;
   transition: border-color .12s, background .12s;
 }
-.ms-add-row:hover { border-color: var(--como); background: #faf7ff; }
+.ms-add-row:hover { border-color: var(--como); background: var(--como-soft); }
 .ms-add-row svg { width: 14px; height: 14px; }
 
 .ms-title-row { display: flex; align-items: center; gap: 9px; }

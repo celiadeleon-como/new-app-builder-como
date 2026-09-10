@@ -89,6 +89,9 @@
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    /* The merchant's own app keeps its default system font regardless of the
+       editor chrome's typeface — only Branding's font picker should change it. */
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
   .app-shell::-webkit-scrollbar { display: none; }
 

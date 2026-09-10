@@ -20,7 +20,7 @@
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 11px;
-  background: #f4f4fa;
+  background: var(--bg);
 }
 .responsive-view-switch button {
   min-width: 84px;
@@ -38,7 +38,7 @@
 }
 .responsive-view-switch button[aria-pressed="true"] {
   color: var(--ink);
-  background: #fff;
+  background: var(--panel);
   box-shadow: 0 1px 3px rgba(20, 20, 40, .1);
 }
 .responsive-view-switch button:active { transform: scale(.97); }

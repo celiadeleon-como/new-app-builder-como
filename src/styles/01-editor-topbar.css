@@ -42,7 +42,7 @@
     display: flex; align-items: center; gap: 2px;
     border: 1px solid var(--line);
     border-radius: 9px; padding: 3px;
-    background: #fff;
+    background: var(--panel);
   }
   .seg button {
     border: none; background: transparent;
@@ -50,7 +50,7 @@
     font-size: 12px; font-weight: 650; color: var(--muted);
     cursor: pointer; transition: background-color .15s, color .15s, box-shadow .15s;
   }
-  .seg button.active { background: var(--ink); color: #fff; }
+  .seg button.active { background: var(--ink); color: var(--panel); }
 
   .top-spacer { flex: 1; }
 
@@ -69,6 +69,21 @@
     color: var(--muted); font-size: 16px; cursor: pointer;
     display: grid; place-items: center;
   }
+
+  .theme-toggle-btn {
+    border: 1px solid var(--line); background: var(--panel);
+    width: 34px; height: 34px; border-radius: 8px;
+    color: var(--muted); cursor: pointer;
+    display: grid; place-items: center;
+    margin-right: 4px;
+    transition: background-color .15s, color .15s, border-color .15s;
+  }
+  .theme-toggle-btn:hover { color: var(--ink); border-color: var(--como); }
+  .theme-toggle-btn svg { width: 17px; height: 17px; }
+  .theme-toggle-btn .theme-icon-sun { display: none; }
+  .theme-toggle-btn .theme-icon-moon { display: block; }
+  :root[data-theme="dark"] .theme-toggle-btn .theme-icon-sun { display: block; }
+  :root[data-theme="dark"] .theme-toggle-btn .theme-icon-moon { display: none; }
 
   /* ---------- Confirm-before-switch modal ---------- */
   .confirm-overlay {
