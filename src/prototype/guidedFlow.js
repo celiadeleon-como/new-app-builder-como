@@ -34,7 +34,7 @@ export function initGuidedFlow(ctx) {
   const done = new Set();
   let homeVisited = false;
   let businessEdited = false;
-  const flow = { current: 'home', focus: null, bizName: '', headline: '', country: '', bizType: '', category: '', categories: [], accent: '#3d40ff', font: 'sans-serif', published: false };
+  const flow = { current: 'home', focus: null, bizName: '', headline: '', country: '', category: '', categories: [], accent: '#3d40ff', font: 'sans-serif', published: false };
 
   const stepButtons = [...document.querySelectorAll('.side-step[data-step]')];
   const indexOf = (key) => STEPS.findIndex((s) => s.key === key);
@@ -56,20 +56,13 @@ export function initGuidedFlow(ctx) {
     if (key === 'business') {
       const name = document.getElementById('gf-biz-name');
       const country = document.getElementById('gf-country');
-      const businessType = document.getElementById('gf-biz-type-row');
       const nameMissing = !flow.bizName.trim();
       const countryMissing = !flow.country;
-      const typeMissing = !flow.bizType;
       if (showErrors || !nameMissing) setFieldError(name, 'gf-biz-name-error', nameMissing ? 'Enter your company name.' : '');
       if (showErrors || !countryMissing) setFieldError(country, 'gf-country-error', countryMissing ? 'Select your country.' : '');
-      if (showErrors || !typeMissing) {
-        const typeError = document.getElementById('gf-biz-type-error');
-        if (typeError) typeError.textContent = typeMissing ? 'Choose the option that best describes your business.' : '';
-        businessType?.setAttribute('aria-invalid', typeMissing ? 'true' : 'false');
-      }
-      firstInvalid = nameMissing ? name : countryMissing ? country : typeMissing ? businessType?.querySelector('[data-biztype]') : null;
+      firstInvalid = nameMissing ? name : countryMissing ? country : null;
       if (focusFirst) firstInvalid?.focus();
-      return !nameMissing && !countryMissing && !typeMissing;
+      return !nameMissing && !countryMissing;
     }
     if (key === 'online-ordering') {
       const chosen = ctx.getOrderingMode?.();
@@ -663,35 +656,6 @@ export function initGuidedFlow(ctx) {
   headlineInput?.addEventListener('input', () => { revealPhonePreview(); setHeadline(headlineInput.value, headlineInput); });
   brandingHeadlineInput?.addEventListener('input', () => setHeadline(brandingHeadlineInput.value, brandingHeadlineInput));
 
-  const businessTypeChoices = [...document.querySelectorAll('#gf-biz-type-row [data-biztype]')];
-  businessTypeChoices.forEach((chip) => {
-    chip.addEventListener('click', () => {
-      revealPhonePreview();
-      flow.bizType = chip.dataset.biztype;
-      document.querySelectorAll('#gf-biz-type-row [data-biztype]').forEach((c) => {
-        const selected = c === chip;
-        c.classList.toggle('selected', selected);
-        c.setAttribute('aria-checked', selected ? 'true' : 'false');
-        c.tabIndex = selected ? 0 : -1;
-      });
-      validateStep('business');
-      markDirty?.();
-      render();
-    });
-    chip.addEventListener('keydown', (event) => {
-      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
-      event.preventDefault();
-      const current = businessTypeChoices.indexOf(chip);
-      let next = current;
-      if (event.key === 'Home') next = 0;
-      else if (event.key === 'End') next = businessTypeChoices.length - 1;
-      else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = (current - 1 + businessTypeChoices.length) % businessTypeChoices.length;
-      else next = (current + 1) % businessTypeChoices.length;
-      businessTypeChoices[next].focus();
-      businessTypeChoices[next].click();
-    });
-  });
-
   document.getElementById('gf-country')?.addEventListener('change', (e) => {
     flow.country = e.target.value;
     validateStep('business');
@@ -750,7 +714,7 @@ export function initGuidedFlow(ctx) {
   // Step 1's answers change the next step instead of being collected and dropped.
   function emitBusinessChanged() {
     document.dispatchEvent(new CustomEvent('como:business-changed', {
-      detail: { categories: [...flow.categories], category: flow.category, bizType: flow.bizType },
+      detail: { categories: [...flow.categories], category: flow.category },
     }));
   }
   emitBusinessChanged();
@@ -993,12 +957,6 @@ export function initGuidedFlow(ctx) {
       const country = document.getElementById('gf-country');
       if (country) country.value = saved.country;
     }
-    document.querySelectorAll('#gf-biz-type-row [data-biztype]').forEach((chip) => {
-      const selected = chip.dataset.biztype === flow.bizType;
-      chip.classList.toggle('selected', selected);
-      chip.setAttribute('aria-checked', selected ? 'true' : 'false');
-      chip.tabIndex = selected ? 0 : -1;
-    });
     renderCategories();
     applyAccent(saved.accent || '#3d40ff');
     if (saved.focus === 'loyalty' || saved.focus === 'ordering') window.applyGoalPreset?.(saved.focus);
