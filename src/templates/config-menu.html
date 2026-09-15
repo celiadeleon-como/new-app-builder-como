@@ -187,9 +187,6 @@
 
   <!-- ========== Configure another page ========== -->
   <div class="ms-screen" data-ms="page-settings">
-    <div class="ms-kicker">Menu source<span id="ms-page-settings-kicker-suffix"> · Configure another page</span>
-      <button class="ms-kicker-link" type="button" id="ms-page-settings-back">Back</button>
-    </div>
 
     <div class="cp-field">
       <label>Select page to configure</label>
@@ -206,6 +203,8 @@
     <div class="ms-page-config-title" id="ms-page-config-title">Menu</div>
 
     <div class="ms-sub" id="ms-page-activity-desc" hidden>Let customers view their order history, including past purchases, order details, points and credits.</div>
+
+    <div class="ms-sub" id="ms-page-referral-desc" hidden>Let customers invite friends with a personal referral code, earning loyalty points for every friend who joins and orders.</div>
 
     <div id="ms-page-account-block" hidden>
       <div class="ms-sub">Allow customers to access their order history, including previous purchases, order specifics, points, and credits.</div>
@@ -272,6 +271,18 @@
       <div class="cp-field">
         <label>Button text</label>
         <input class="cp-input-text" id="ms-hero-btn-text" placeholder="Leave empty to hide the button" />
+      </div>
+    </div>
+
+    <div id="ms-page-referral-terms" hidden>
+      <div class="ms-section-label" style="margin-top:22px;">Terms &amp; conditions</div>
+      <div class="cp-field">
+        <label>Fine print</label>
+        <textarea class="cp-input-text cp-textarea" id="ms-referral-terms-text" rows="3" placeholder="e.g. Referral points are credited automatically once your friend completes an order of $15 or more."></textarea>
+      </div>
+      <div class="cp-field">
+        <label>Link text</label>
+        <input class="cp-input-text" id="ms-referral-terms-link-text" placeholder="e.g. Read Full Terms &amp; Conditions" />
       </div>
     </div>
 

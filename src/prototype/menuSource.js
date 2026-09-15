@@ -26,6 +26,9 @@ const ICON = {
   gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M12 8v13M3 12h18"/><path d="M12 8H8.5a2.5 2.5 0 010-5C11 3 12 8 12 8zM12 8h3.5a2.5 2.5 0 000-5C13 3 12 8 12 8z"/></svg>',
   card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg>',
   receipt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>',
+  photo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>',
+  copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>',
+  share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.6l7.4-4.2M8.3 13.4l7.4 4.2"/></svg>',
 };
 
 const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'];
@@ -111,11 +114,19 @@ export function initMenuSource(ctx) {
       origin: 'pdf',
       hero: Object.fromEntries(PAGE_DEFS.map((p) => [p.key, {
         image: null,
-        headline: p.key === 'menu' ? 'Discover tonight’s menu' : '',
-        description: p.key === 'menu' ? 'Browse categories, dietary tags, and prices' : '',
+        headline: p.key === 'menu' ? 'Discover tonight’s menu' : p.key === 'referral' ? 'Share & Get $5!' : '',
+        description: p.key === 'menu'
+          ? 'Browse categories, dietary tags, and prices'
+          : p.key === 'referral'
+            ? 'Invite your friends to try the app. They\u2019ll get $5 off their first order, and you\u2019ll earn 500 loyalty points ($5 value)!'
+            : '',
         buttonText: '',
       }])),
       accountOptions: { settings: true, giftcards: true, payments: false, orders: false },
+      referralTerms: {
+        text: 'Referral points are credited automatically once your friend completes an order of $15 or more. Cannot be combined with other sign-up offers.',
+        linkText: 'Read Full Terms & Conditions',
+      },
     },
   };
 
@@ -403,9 +414,13 @@ export function initMenuSource(ctx) {
   const pageConfigTitle = document.getElementById('ms-page-config-title');
   const pageMenuPdf = document.getElementById('ms-page-menu-pdf');
   const pageActivityDesc = document.getElementById('ms-page-activity-desc');
+  const pageReferralDesc = document.getElementById('ms-page-referral-desc');
   const pageAccountBlock = document.getElementById('ms-page-account-block');
   const pageHeroLabel = document.getElementById('ms-page-hero-label');
   const pageHeroCard = document.getElementById('ms-page-hero-card');
+  const pageReferralTerms = document.getElementById('ms-page-referral-terms');
+  const referralTermsText = document.getElementById('ms-referral-terms-text');
+  const referralTermsLinkText = document.getElementById('ms-referral-terms-link-text');
   const heroImageZone = document.getElementById('ms-hero-image-zone');
   const heroImageFile = document.getElementById('ms-hero-image-file');
   const heroImagePreview = document.getElementById('ms-hero-image-preview');
@@ -469,13 +484,19 @@ export function initMenuSource(ctx) {
       pageConfigTitle.textContent = def.key === 'menu' ? 'Menu' : def.label;
       pageMenuPdf.hidden = def.key !== 'menu';
       // "My Activity" and "My Account" are fixed overview screens — no hero banner to edit.
+      // "Refer a Friend" keeps the hero banner (headline/description/image) plus its own terms field.
       const isActivity = def.key === 'activity';
       const isAccount = def.key === 'account';
+      const isReferral = def.key === 'referral';
       if (pageActivityDesc) pageActivityDesc.hidden = !isActivity;
+      if (pageReferralDesc) pageReferralDesc.hidden = !isReferral;
+      if (pageReferralTerms) pageReferralTerms.hidden = !isReferral;
       if (pageAccountBlock) pageAccountBlock.hidden = !isAccount;
       if (pageHeroLabel) pageHeroLabel.hidden = isActivity || isAccount;
       if (pageHeroCard) pageHeroCard.hidden = isActivity || isAccount;
       renderHeroFields();
+      if (referralTermsText) referralTermsText.value = state.pageSettings.referralTerms.text;
+      if (referralTermsLinkText) referralTermsLinkText.value = state.pageSettings.referralTerms.linkText;
       if (def.key === 'menu') renderPagePdfStatus();
       renderPhone?.();
     };
@@ -492,10 +513,22 @@ export function initMenuSource(ctx) {
     const heroField = (input, key) => input.addEventListener('input', () => {
       state.pageSettings.hero[state.pageSettings.selected][key] = input.value;
       markDirty();
+      renderPhone?.();
     });
     heroField(heroHeadline, 'headline');
     heroField(heroDesc, 'description');
     heroField(heroBtnText, 'buttonText');
+
+    referralTermsText?.addEventListener('input', () => {
+      state.pageSettings.referralTerms.text = referralTermsText.value;
+      markDirty();
+      renderPhone?.();
+    });
+    referralTermsLinkText?.addEventListener('input', () => {
+      state.pageSettings.referralTerms.linkText = referralTermsLinkText.value;
+      markDirty();
+      renderPhone?.();
+    });
 
     function handleHeroImage(file) {
       if (!file) return;
@@ -506,6 +539,7 @@ export function initMenuSource(ctx) {
         state.pageSettings.hero[state.pageSettings.selected].image = e.target.result;
         renderHeroFields();
         markDirty();
+        renderPhone?.();
       };
       reader.readAsDataURL(file);
     }
@@ -516,6 +550,7 @@ export function initMenuSource(ctx) {
       state.pageSettings.hero[state.pageSettings.selected].image = null;
       renderHeroFields();
       markDirty();
+      renderPhone?.();
     });
 
     pagePdfDrop.addEventListener('click', () => {
@@ -525,16 +560,6 @@ export function initMenuSource(ctx) {
       showToast('velvet-bistro-dinner.pdf rendered in the preview');
     });
     pagePdfReplace.addEventListener('click', () => { setPdf(false); renderPagePdfStatus(); markDirty(); });
-
-    const pageSettingsKickerSuffix = document.getElementById('ms-page-settings-kicker-suffix');
-    document.getElementById('ms-page-settings-back')?.addEventListener('click', () => {
-      show(state.pageSettings.origin === 'chooser' ? 'chooser' : 'pdf');
-    });
-    const originalSelectConfigPage = selectConfigPage;
-    selectConfigPage = function (key) {
-      originalSelectConfigPage(key);
-      if (pageSettingsKickerSuffix) pageSettingsKickerSuffix.hidden = state.pageSettings.origin === 'chooser';
-    };
   }
 
   /* ----------------------------------------------- online ordering (both) */
@@ -1368,12 +1393,62 @@ export function initMenuSource(ctx) {
     `;
   }
 
+  function renderReferralPreview() {
+    const hero = state.pageSettings.hero.referral;
+    const terms = state.pageSettings.referralTerms;
+    const friends = [
+      { initial: 'A', name: 'Alex Rivera', bg: 'rgba(38,42,255,.14)' },
+      { initial: 'M', name: 'Maya Chen', bg: 'rgba(219,39,119,.14)' },
+      { initial: 'J', name: 'Jordan Lee', bg: 'rgba(15,23,42,.08)' },
+    ];
+    return `
+      <div class="pm-referral">
+        <div class="pm-orders-head">
+          <button class="pm-orders-back" type="button" onclick="goToPage('home')">${ICON.back}</button>
+          <div class="pm-orders-title">Refer a Friend</div>
+        </div>
+        <div class="pm-referral-hero">
+          <div class="pm-referral-photo"${hero.image ? ` style="background-image:url(${hero.image})"` : ''}>${hero.image ? '' : ICON.photo}</div>
+          <span class="pm-referral-badge">${ICON.gift}</span>
+        </div>
+        <div class="pm-referral-headline">${hero.headline || 'Share &amp; Get $5!'}</div>
+        <div class="pm-referral-copy">${hero.description}</div>
+        <div class="pm-referral-code-card">
+          <div class="pm-referral-code-label">Your referral code</div>
+          <div class="pm-referral-code">REFER-FRIEND-99</div>
+          <div class="pm-referral-actions">
+            <button type="button" class="pm-referral-btn ghost">${ICON.copy}Copy code</button>
+            <button type="button" class="pm-referral-btn solid">${ICON.share}Share link</button>
+          </div>
+        </div>
+        <div class="pm-referral-activity-card">
+          <div class="pm-referral-activity-head"><span>Your Invitation Activity</span><span class="pm-referral-showall">Show all →</span></div>
+          <div class="pm-referral-stat-card">
+            <div class="pm-referral-stat-label">Total points earned</div>
+            <div class="pm-referral-stat-value">1,500 pts</div>
+            <div class="pm-referral-stat-sub">3 friends joined</div>
+          </div>
+          <div class="pm-referral-friends">
+            ${friends.map((f) => `
+              <div class="pm-referral-friend">
+                <div class="pm-referral-friend-avatar" style="background:${f.bg}">${f.initial}</div>
+                <div class="pm-referral-friend-name">${f.name}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="pm-referral-terms">* ${terms.text}</div>
+        <a class="pm-referral-terms-link" href="#" onclick="return false;">${terms.linkText}</a>
+      </div>
+    `;
+  }
+
   function renderPhone() {
     if (!phoneRender) return;
     let html;
     let mode = 'none';
     if (state.screen === 'page-settings' && state.pageSettings.selected === 'activity') { mode = 'activity'; html = renderOrderHistory(); }
     else if (state.screen === 'page-settings' && state.pageSettings.selected === 'account') { mode = 'account'; html = renderAccountPreview(); }
+    else if (state.screen === 'page-settings' && state.pageSettings.selected === 'referral') { mode = 'referral'; html = renderReferralPreview(); }
     else if (state.approach === 'webview') { mode = 'webview'; html = renderWebview(); }
     else if (state.approach === 'pdf') { mode = 'pdf'; html = renderPdf(); }
     else if (state.approach === 'manual') { mode = 'manual'; html = renderManual(); }
