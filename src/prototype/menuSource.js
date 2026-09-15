@@ -487,6 +487,7 @@ export function initMenuSource(ctx) {
   const heroHeadline = document.getElementById('ms-hero-headline');
   const heroDesc = document.getElementById('ms-hero-desc');
   const heroBtnText = document.getElementById('ms-hero-btn-text');
+  const heroBtnLabel = document.getElementById('ms-hero-btn-label');
   const pagePdfDrop = document.getElementById('ms-page-pdf-drop');
   const pagePdfStatus = document.getElementById('ms-page-pdf-status');
   const pagePdfReplace = document.getElementById('ms-page-pdf-replace');
@@ -520,6 +521,7 @@ export function initMenuSource(ctx) {
       heroHeadline.value = hero.headline;
       heroDesc.value = hero.description;
       heroBtnText.value = hero.buttonText;
+      heroBtnLabel.textContent = state.pageSettings.selected === 'menu' ? 'Share button text' : 'Button text';
       heroImageZone.classList.toggle('has-image', !!hero.image);
       heroImagePreview.style.display = hero.image ? 'block' : 'none';
       heroImageEmpty.style.display = hero.image ? 'none' : 'flex';
@@ -686,6 +688,7 @@ export function initMenuSource(ctx) {
     });
 
     pagePdfDrop.addEventListener('click', () => {
+      state.approach = 'pdf';
       setPdf(true);
       renderPagePdfStatus();
       markDirty();
@@ -1219,6 +1222,23 @@ export function initMenuSource(ctx) {
     </div>`;
   }
 
+  // Only shown when "Our Menu" is being configured from the Select Screen flow.
+  function renderMenuHero() {
+    if (!(state.screen === 'page-settings' && state.pageSettings.selected === 'menu')) return '';
+    const hero = state.pageSettings.hero.menu;
+    if (!hero.image && !hero.headline && !hero.description && !hero.buttonText) return '';
+    return `
+      <div class="pm-menu-hero"${hero.image ? ` style="background-image:url(${hero.image})"` : ''}>
+        ${hero.image ? '' : `<div class="pm-menu-hero-fallback">${ICON.photo}</div>`}
+        ${(hero.headline || hero.description || hero.buttonText) ? `
+        <div class="pm-menu-hero-overlay">
+          ${hero.headline ? `<div class="pm-menu-hero-title">${escapeHtml(hero.headline)}</div>` : ''}
+          ${hero.description ? `<div class="pm-menu-hero-desc">${escapeHtml(hero.description)}</div>` : ''}
+          ${hero.buttonText ? `<button type="button" class="pm-menu-hero-btn" data-phone-action="Share options opened">${ICON.share}${escapeHtml(hero.buttonText)}</button>` : ''}
+        </div>` : ''}
+      </div>`;
+  }
+
   function renderNone() {
     return appHeader('MENU', 'Not set up yet') + `
       <div class="pm-empty">
@@ -1231,7 +1251,7 @@ export function initMenuSource(ctx) {
   function renderWebview() {
     const w = state.webview;
     if (!w.connected) {
-      return appHeader('MENU', 'Webview · not loaded') + `
+      return appHeader('MENU', 'Webview · not loaded') + renderMenuHero() + `
         <div class="pm-empty">
           <div class="pm-empty-ic">${ICON.cutlery}</div>
           <div class="pm-empty-title">Nothing loaded yet</div>
@@ -1239,7 +1259,7 @@ export function initMenuSource(ctx) {
         </div>`;
     }
     if (w.membersonly) {
-      return `<div class="pm-browser">${browserChrome(w.url, w.back)}
+      return `<div class="pm-browser">${browserChrome(w.url, w.back)}${renderMenuHero()}
         <div class="pm-gate">
           <div class="pm-gate-ic">${ICON.lock}</div>
           <div class="pm-gate-title">Members only</div>
@@ -1253,7 +1273,7 @@ export function initMenuSource(ctx) {
       ['Wood-Fired Branzino', 'Fennel, citrus, olive oil', '$29'],
       ['Dark Chocolate Tart', 'Sea salt, crème fraîche', '$14'],
     ];
-    return `<div class="pm-browser">${browserChrome(w.url, w.back)}
+    return `<div class="pm-browser">${browserChrome(w.url, w.back)}${renderMenuHero()}
       <div class="pm-site">
         ${w.hideheader ? '' : `<div class="pm-site-hero"><div class="n">VELVET BISTRO</div><div class="s">Seasonal · Wood-fired · Est. 2012</div></div>`}
         <div class="pm-site-body">
@@ -1265,7 +1285,7 @@ export function initMenuSource(ctx) {
 
   function renderPdf() {
     if (!state.pdf.uploaded) {
-      return appHeader('MENU', 'PDF menu · no file') + `
+      return appHeader('MENU', 'PDF menu · no file') + renderMenuHero() + `
         <div class="pm-empty">
           <div class="pm-empty-ic">${ICON.cutlery}</div>
           <div class="pm-empty-title">No PDF uploaded</div>
@@ -1277,7 +1297,7 @@ export function initMenuSource(ctx) {
       ['MAINS', [['Wagyu Gold Stack', '42'], ['Angus Smash', '24'], ['Seared Sea Bass', '36']]],
       ['DESSERTS', [['Dark Chocolate Torte', '12'], ['Vanilla Bean Crème', '11']]],
     ];
-    return appHeader('MENU', 'PDF menu · Page 1 of 2') + `
+    return appHeader('MENU', 'PDF menu · Page 1 of 2') + renderMenuHero() + `
       <div class="pm-pdf">
         <div class="pm-paper">
           <div class="pm-paper-title">VELVET BISTRO</div>

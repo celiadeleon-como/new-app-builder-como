@@ -29,6 +29,16 @@
   padding: 8px 18px; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer;
 }
 
+/* ---------- "Our Menu" hero banner (Select Screen page settings) ---------- */
+.pm-menu-hero { position: relative; min-height: 120px; margin: 0 -14px; background: var(--p-panel-2) center/cover no-repeat; display: flex; align-items: flex-end; overflow: hidden; }
+.pm-menu-hero-fallback { position: absolute; inset: 0; display: grid; place-items: center; color: var(--p-text-muted); }
+.pm-menu-hero-fallback svg { width: 26px; height: 26px; }
+.pm-menu-hero-overlay { position: relative; width: 100%; padding: 14px; color: #fff; background: linear-gradient(0deg, rgba(0,0,0,.62), rgba(0,0,0,0)); }
+.pm-menu-hero-title { font-size: 14px; font-weight: 800; }
+.pm-menu-hero-desc { font-size: 10px; opacity: .9; margin-top: 3px; line-height: 1.4; }
+.pm-menu-hero-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 9px; border: none; border-radius: 999px; background: #fff; color: #1d1d28; padding: 7px 14px; font: inherit; font-size: 10.5px; font-weight: 800; cursor: pointer; }
+.pm-menu-hero-btn svg { width: 12px; height: 12px; }
+
 /* ---------- In-app browser chrome ---------- */
 .pm-browser { margin: 0 -14px; }
 .pm-chrome {
