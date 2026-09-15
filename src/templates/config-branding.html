@@ -3,9 +3,46 @@
   <div class="cp-page-title">Branding</div>
   <div class="cp-page-sub">Consistent branding helps customers recognize you and builds trust.</div>
 
-  <div class="cp-section open">
-    <div class="cp-head-row">Logo <span class="chev">›</span></div>
-    <div class="cp-body">
+  <div id="brand-widget-list">
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-logo">Logo</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-logo" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-colour">Brand colour</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-colour" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-background">Background</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-background" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-text-icons">Text and Icons</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-text-icons" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-font">Font family</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-font" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-icon-style">Icon Style</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-icon-style" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-corner">Corner</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-corner" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-splash">Splash screen</span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-splash" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<div class="cp-detail branding-page" data-detail="brand-logo" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Logo</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Logo</div>
+<div class="cp-body">
       <div class="branding-upload" id="gf-logo-zone"><button class="branding-upload-button" type="button">+ Upload from Computer</button><div>or drag &amp; drop files here</div></div>
       <input type="file" id="gf-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden />
       <div class="cp-upload-note">Supported: png, jpg, jpeg, webp. Max 5MB.</div>
@@ -24,24 +61,67 @@
       <div class="cp-field"><label>Storefront headline</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .sub" value="Welcome back!" /></div>
     </div>
   </div>
+</div>
 
-  <div class="cp-section"><div class="cp-head-row">Brand colour <span class="chev">›</span></div><div class="cp-body"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#22d087" data-bind-color="--p-accent" /></div><div class="cp-color-info"><div class="cp-color-label">Primary brand color</div><input class="cp-color-hex" value="#22D087" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary brand color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-accent" role="alert" hidden></div></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-colour" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Brand colour</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Brand colour</div>
+<div class="cp-body"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#22d087" data-bind-color="--p-accent" /></div><div class="cp-color-info"><div class="cp-color-label">Primary brand color</div><input class="cp-color-hex" value="#22D087" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary brand color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-accent" role="alert" hidden></div></div></div>
+  </div>
+</div>
 
-  <div class="cp-section"><div class="cp-head-row">Background <span class="chev">›</span></div><div class="cp-body"><div class="cp-mini-label">App background fill</div><div class="cp-seg" id="bgfill-mode"><button type="button" class="cp-seg-btn active" data-mode="solid">Solid</button><button type="button" class="cp-seg-btn" data-mode="gradient">Gradient</button></div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#c5c5f3" data-bind-color="--p-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#C5C5F3" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div><div class="cp-color-row branding-color-row" id="bgfill-row2" hidden><div class="cp-color-swatch"><input type="color" value="#e4e4f5" data-bind-color="--p-bg-2" /></div><div class="cp-color-info"><div class="cp-color-label">Gradient end color</div><input class="cp-color-hex" value="#E4E4F5" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background gradient end color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div><div class="cp-body"><div class="cp-mini-label">Cards</div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#ffffff" data-bind-color="--p-panel" /></div><div class="cp-color-info"><div class="cp-color-label">Card background color</div><input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit card background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-background" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Background</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Background</div>
+<div class="cp-body"><div class="cp-mini-label">App background fill</div><div class="cp-seg" id="bgfill-mode"><button type="button" class="cp-seg-btn active" data-mode="solid">Solid</button><button type="button" class="cp-seg-btn" data-mode="gradient">Gradient</button></div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#c5c5f3" data-bind-color="--p-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#C5C5F3" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div><div class="cp-color-row branding-color-row" id="bgfill-row2" hidden><div class="cp-color-swatch"><input type="color" value="#e4e4f5" data-bind-color="--p-bg-2" /></div><div class="cp-color-info"><div class="cp-color-label">Gradient end color</div><input class="cp-color-hex" value="#E4E4F5" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background gradient end color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div><div class="cp-body"><div class="cp-mini-label">Cards</div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#ffffff" data-bind-color="--p-panel" /></div><div class="cp-color-info"><div class="cp-color-label">Card background color</div><input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit card background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div>
+  </div>
+</div>
 
-  <div class="cp-section"><div class="cp-head-row">Text and Icons <span class="chev">›</span></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#072105" data-bind-color="--p-text" /></div><div class="cp-color-info"><div class="cp-color-label">Primary text color</div><input class="cp-color-hex" value="#072105" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-primary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#000000" data-bind-color="--p-text-muted" /></div><div class="cp-color-info"><div class="cp-color-label">Secondary text color</div><input class="cp-color-hex" value="#000000" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit secondary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-secondary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#6d28d9" data-bind-color="--p-icon" /></div><div class="cp-color-info"><div class="cp-color-label">Icon color</div><input class="cp-color-hex" value="#6D28D9" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit icon color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-icon" role="alert" hidden></div></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-text-icons" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Text and Icons</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Text and Icons</div>
+<div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#072105" data-bind-color="--p-text" /></div><div class="cp-color-info"><div class="cp-color-label">Primary text color</div><input class="cp-color-hex" value="#072105" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-primary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#000000" data-bind-color="--p-text-muted" /></div><div class="cp-color-info"><div class="cp-color-label">Secondary text color</div><input class="cp-color-hex" value="#000000" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit secondary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-secondary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#6d28d9" data-bind-color="--p-icon" /></div><div class="cp-color-info"><div class="cp-color-label">Icon color</div><input class="cp-color-hex" value="#6D28D9" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit icon color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-icon" role="alert" hidden></div></div></div>
+  </div>
+</div>
 
-  <div class="cp-section"><div class="cp-head-row">Font family <span class="chev">›</span></div><div class="cp-body"><label class="branding-select"><span>Headings</span><select id="branding-heading-font"><option value="'Questrial', sans-serif">Questrial</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Playfair Display</option><option value="'Roboto', sans-serif">Roboto</option></select></label><label class="branding-select"><span>Body</span><select id="branding-body-font"><option value="'Roboto', sans-serif">Roboto</option><option value="-apple-system, BlinkMacSystemFont, sans-serif">SF Pro</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Merriweather</option></select></label><div class="branding-upload custom-font-upload" id="font-drop-zone"><button class="branding-upload-button" type="button" id="font-upload-button">+ Upload custom font</button></div><input id="font-file" type="file" accept=".woff2,.otf,.ttf" hidden /></div></div>
+<div class="cp-detail branding-page" data-detail="brand-font" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Font family</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Font family</div>
+<div class="cp-body"><label class="branding-select"><span>Headings</span><select id="branding-heading-font"><option value="'Questrial', sans-serif">Questrial</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Playfair Display</option><option value="'Roboto', sans-serif">Roboto</option></select></label><label class="branding-select"><span>Body</span><select id="branding-body-font"><option value="'Roboto', sans-serif">Roboto</option><option value="-apple-system, BlinkMacSystemFont, sans-serif">SF Pro</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Merriweather</option></select></label><div class="branding-upload custom-font-upload" id="font-drop-zone"><button class="branding-upload-button" type="button" id="font-upload-button">+ Upload custom font</button></div><input id="font-file" type="file" accept=".woff2,.otf,.ttf" hidden /></div>
+  </div>
+</div>
 
-  <div class="cp-section"><div class="cp-head-row">Icon Style <span class="chev">›</span></div><div class="cp-body"><div class="branding-icon-preview" aria-hidden="true"><span>⌂</span><span>♔</span><span>⌖</span></div><div class="cp-radio-group branding-icon-options"><div class="cp-radio" data-bind-radio="icon-style" data-value="outline">Outline</div><div class="cp-radio" data-bind-radio="icon-style" data-value="solid">Solid</div><div class="cp-radio active" data-bind-radio="icon-style" data-value="duotone">Duotone</div></div><div class="branding-upload custom-font-upload"><button class="branding-upload-button" type="button" id="icon-upload-button">+ Upload custom icon</button></div><input id="icon-file" type="file" accept="image/svg+xml,image/png" hidden /></div></div>
+<div class="cp-detail branding-page" data-detail="brand-icon-style" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Icon Style</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Icon Style</div>
+<div class="cp-body"><div class="branding-icon-preview" aria-hidden="true"><span>⌂</span><span>♔</span><span>⌖</span></div><div class="cp-radio-group branding-icon-options"><div class="cp-radio" data-bind-radio="icon-style" data-value="outline">Outline</div><div class="cp-radio" data-bind-radio="icon-style" data-value="solid">Solid</div><div class="cp-radio active" data-bind-radio="icon-style" data-value="duotone">Duotone</div></div><div class="branding-upload custom-font-upload"><button class="branding-upload-button" type="button" id="icon-upload-button">+ Upload custom icon</button></div><input id="icon-file" type="file" accept="image/svg+xml,image/png" hidden /></div>
+  </div>
+</div>
 
-  <div class="cp-section"><div class="cp-head-row">Corner <span class="chev">›</span></div><div class="cp-body branding-corners"><label>Card corners <span id="card-corner-value">11px</span><input id="card-corner-radius" type="range" min="0" max="24" value="11" /></label><p>Adjust the corner radius applied to panels and cards.</p><label>Button corners <span id="button-corner-value">9px</span><input id="button-corner-radius" type="range" min="0" max="24" value="9" /></label><p>Control how rounded buttons appear across the UI.</p></div></div>
+<div class="cp-detail branding-page" data-detail="brand-corner" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Corner</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Corner</div>
+<div class="cp-body branding-corners"><label>Card corners <span id="card-corner-value">11px</span><input id="card-corner-radius" type="range" min="0" max="24" value="11" /></label><p>Adjust the corner radius applied to panels and cards.</p><label>Button corners <span id="button-corner-value">9px</span><input id="button-corner-radius" type="range" min="0" max="24" value="9" /></label><p>Control how rounded buttons appear across the UI.</p></div>
+  </div>
+</div>
 
-  <div class="cp-section" id="gf-splash-section"><div class="cp-head-row">Splash screen <span class="chev">›</span></div><div class="cp-body">
-    <div class="cp-section-note">Shown briefly when the app launches, before Home appears. Uses your logo automatically.</div>
+<div class="cp-detail branding-page" data-detail="brand-splash" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Splash screen</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Splash screen</div>
+<div class="cp-body">
+    <div class="cp-section-note">Shown briefly when the app launches, before Home appears.</div>
+    <div class="cp-field">
+      <label>Splash image (optional)</label>
+      <div class="branding-upload" id="gf-splash-zone"><button class="branding-upload-button" type="button">+ Upload from Computer</button><div>or drag &amp; drop files here</div></div>
+      <input type="file" id="gf-splash-file" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif" hidden />
+      <div class="cp-upload-note">Supported: png, jpg, jpeg, webp, gif (animated GIFs play normally). Max 5MB. Leave empty to show your logo instead.</div>
+      <div class="branding-logo-result" id="gf-splash-result" style="display:none;"><img id="gf-splash-thumb-img" alt="Uploaded splash image" /><span id="gf-splash-filename"></span><button id="gf-splash-replace" type="button">Replace</button><button id="gf-splash-remove" type="button">Remove</button></div>
+    </div>
     <div class="cp-field">
       <label>Splash background</label>
       <div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#0f0d17" data-bind-color="--splash-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#0F0D17" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit splash background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div>
     </div>
-  </div></div>
+  </div>
+  </div>
 </div>
+

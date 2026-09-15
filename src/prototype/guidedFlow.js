@@ -745,8 +745,25 @@ export function initGuidedFlow(ctx) {
   const logoFilename = document.getElementById('gf-logo-filename');
   const logoControls = document.getElementById('gf-logo-controls');
 
+  // The splash screen shows a custom image/GIF when uploaded, otherwise it
+  // falls back to whatever logo is set above.
+  let logoDataUrl = null;
+  let splashImageDataUrl = null;
+
+  function paintSplashMark() {
+    const mark = document.getElementById('gf-splash-mark');
+    if (!mark) return;
+    const src = splashImageDataUrl || logoDataUrl;
+    mark.classList.toggle('has-logo', !!src);
+    mark.style.backgroundImage = src ? `url(${src})` : '';
+    mark.style.backgroundSize = src ? 'cover' : '';
+    mark.style.backgroundPosition = src ? 'center' : '';
+    if (!src) mark.textContent = '?';
+  }
+
   function paintLogoTargets(dataUrl) {
-    document.querySelectorAll('.app-page .app-top-header .brand-mark, #brand-logo, #gf-splash-mark').forEach((el) => {
+    logoDataUrl = dataUrl;
+    document.querySelectorAll('.app-page .app-top-header .brand-mark, #brand-logo').forEach((el) => {
       if (!el) return;
       el.classList.toggle('has-logo', !!dataUrl);
       el.style.backgroundImage = dataUrl ? `url(${dataUrl})` : '';
@@ -754,6 +771,7 @@ export function initGuidedFlow(ctx) {
       el.style.backgroundPosition = dataUrl ? 'center' : '';
       if (!dataUrl) el.textContent = el.id === 'brand-logo' ? '?' : '?';
     });
+    paintSplashMark();
   }
 
   function showLogoResult(dataUrl, name) {
@@ -803,20 +821,78 @@ export function initGuidedFlow(ctx) {
     document.getElementById('gf-logo-remove')?.addEventListener('click', clearLogoResult);
   }
 
-  // Preview the splash screen on the phone only while its accordion section
-  // is expanded and the Branding step itself is visible.
-  const splashSection = document.getElementById('gf-splash-section');
-  const splashOverlay = document.getElementById('gf-splash-overlay');
-  const brandingPage = document.getElementById('cp-branding');
-  if (splashSection && splashOverlay && brandingPage) {
-    const syncSplashOverlay = () => {
-      const brandingVisible = brandingPage.style.display !== 'none';
-      splashOverlay.hidden = !(brandingVisible && splashSection.classList.contains('open'));
+  // ---------- Splash screen: optional custom image/GIF, falls back to logo ----------
+  const splashZone = document.getElementById('gf-splash-zone');
+  const splashFile = document.getElementById('gf-splash-file');
+  const splashResult = document.getElementById('gf-splash-result');
+  const splashThumb = document.getElementById('gf-splash-thumb-img');
+  const splashFilename = document.getElementById('gf-splash-filename');
+
+  function showSplashResult(dataUrl, name) {
+    if (splashThumb) splashThumb.src = dataUrl;
+    if (splashFilename) splashFilename.textContent = name;
+    if (splashResult) splashResult.style.display = '';
+    if (splashZone) splashZone.style.display = 'none';
+  }
+
+  function clearSplashResult() {
+    splashImageDataUrl = null;
+    if (splashResult) splashResult.style.display = 'none';
+    if (splashZone) splashZone.style.display = '';
+    if (splashFile) splashFile.value = '';
+    paintSplashMark();
+    markDirty?.();
+    showToast?.('Splash image removed — showing your logo instead');
+  }
+
+  function readSplashFile(file) {
+    if (!file) return;
+    if (!/^image\/(png|jpeg|jpg|webp|gif)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, WEBP, or GIF file.'); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.'); return; }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target.result;
+      splashImageDataUrl = dataUrl;
+      paintSplashMark();
+      showSplashResult(dataUrl, file.name);
+      markDirty?.();
+      showToast?.('Splash image uploaded');
     };
-    new MutationObserver(syncSplashOverlay).observe(splashSection, { attributes: true, attributeFilter: ['class'] });
-    new MutationObserver(syncSplashOverlay).observe(brandingPage, { attributes: true, attributeFilter: ['style'] });
+    reader.readAsDataURL(file);
+  }
+
+  if (splashZone && splashFile) {
+    splashZone.addEventListener('click', () => splashFile.click());
+    splashZone.addEventListener('dragover', (e) => { e.preventDefault(); splashZone.classList.add('drag-over'); });
+    splashZone.addEventListener('dragleave', () => splashZone.classList.remove('drag-over'));
+    splashZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      splashZone.classList.remove('drag-over');
+      readSplashFile(e.dataTransfer.files?.[0]);
+    });
+    splashFile.addEventListener('change', () => readSplashFile(splashFile.files?.[0]));
+    document.getElementById('gf-splash-replace')?.addEventListener('click', () => splashFile.click());
+    document.getElementById('gf-splash-remove')?.addEventListener('click', clearSplashResult);
+  }
+
+  // Branding rows drill into their own third-panel editor (pencil icon, same
+  // pattern as Rewards widgets) instead of an inline accordion.
+  document.querySelectorAll('#brand-widget-list [data-brand-key]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.openDrill?.('cp-branding', el.dataset.brandKey);
+    });
+  });
+
+  // Preview the splash screen on the phone only while its drill panel is open.
+  const splashDetail = document.querySelector('[data-detail="brand-splash"]');
+  const splashOverlay = document.getElementById('gf-splash-overlay');
+  if (splashDetail && splashOverlay) {
+    const syncSplashOverlay = () => { splashOverlay.hidden = !splashDetail.classList.contains('show'); };
+    new MutationObserver(syncSplashOverlay).observe(splashDetail, { attributes: true, attributeFilter: ['class'] });
     syncSplashOverlay();
   }
+
 
   document.querySelectorAll('#gf-font-row [data-font]').forEach((chip) => {
     chip.addEventListener('click', () => {
