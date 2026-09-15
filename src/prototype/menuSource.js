@@ -50,7 +50,6 @@ const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'
 const PAGE_DEFS = [
   { key: 'account', label: 'My Account' },
   { key: 'activity', label: 'My Activity' },
-  { key: 'orders', label: 'My Orders' },
   { key: 'menu', label: 'Our Menu' },
   { key: 'referral', label: 'Refer a Friend' },
   { key: 'story', label: 'About Us' },
