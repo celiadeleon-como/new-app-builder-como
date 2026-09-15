@@ -275,3 +275,28 @@
 .pm-referral-friend-name { font-size: 11px; font-weight: 650; text-align: center; line-height: 1.3; }
 .pm-referral-terms { font-size: 10.5px; color: var(--p-text-muted); line-height: 1.5; margin-bottom: 6px; }
 .pm-referral-terms-link { font-size: 11.5px; font-weight: 700; color: var(--p-accent); text-decoration: none; }
+
+/* ---------- "About Us" — hardcoded brand copy, only brand colour varies ---------- */
+.pm-story-card { border: 1px solid var(--p-border); border-radius: 16px; padding: 18px; margin-bottom: 14px; background: var(--p-panel); }
+.pm-story-h2 { font-size: 15px; font-weight: 800; margin-bottom: 10px; }
+.pm-story-card p { font-size: 12.5px; line-height: 1.6; color: var(--p-text-muted); margin: 0 0 12px; }
+.pm-story-card p:last-child { margin-bottom: 0; }
+.pm-story-values { display: flex; flex-direction: column; gap: 14px; }
+.pm-story-value { display: flex; align-items: flex-start; gap: 12px; }
+.pm-story-value-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--p-accent-soft, rgba(38,42,255,.12)); color: var(--p-accent); }
+.pm-story-value-ic svg { width: 18px; height: 18px; }
+.pm-story-value strong { display: block; font-size: 13px; font-weight: 750; }
+.pm-story-value span { font-size: 11.5px; color: var(--p-text-muted); }
+.pm-story-quote-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.pm-story-quote-avatar { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--p-panel-2); color: var(--p-text-muted); }
+.pm-story-quote-avatar svg { width: 20px; height: 20px; }
+.pm-story-quote-name { font-size: 13px; font-weight: 800; }
+.pm-story-quote-role { font-size: 11px; color: var(--p-text-muted); }
+.pm-story-quote-text { font-size: 13px; line-height: 1.55; color: var(--p-text); font-style: normal; }
+.pm-story-ctas { display: flex; gap: 8px; margin-top: 4px; }
+
+/* ---------- "Contact Us" — reuses the story card look ---------- */
+.pm-story-follow-card { padding: 18px 18px 20px; }
+.pm-story-follow { display: flex; justify-content: center; gap: 14px; margin-top: 14px; }
+.pm-story-follow-ic { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; background: var(--p-panel-2); color: var(--p-text); }
+.pm-story-follow-ic svg { width: 20px; height: 20px; }

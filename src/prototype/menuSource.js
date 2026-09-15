@@ -29,6 +29,18 @@ const ICON = {
   photo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>',
   copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>',
   share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.6l7.4-4.2M8.3 13.4l7.4 4.2"/></svg>',
+  heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-10-9.3C.6 8 2 4.5 5.5 4c2-.3 3.9.7 6.5 3 2.6-2.3 4.5-3.3 6.5-3C22 4.5 23.4 8 22 11.2c-2.5 4.7-10 9.3-10 9.3z"/></svg>',
+  fish: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12c3-4 8-6 13-4 2 1 4 2.5 5 4-1 1.5-3 3-5 4-5 2-10 0-13-4z"/><circle cx="16" cy="10.5" r=".8" fill="currentColor" stroke="none"/><path d="M3 12l-2-3M3 12l-2 3"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4c0 9-6.5 15.5-16 16-.5-9.5 6-16 16-16z"/><path d="M5 19c3-5 7-9 12-12"/></svg>',
+  smile: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5c1 1.2 2.2 1.8 3.5 1.8s2.5-.6 3.5-1.8"/><path d="M9 9.5h.01M15 9.5h.01"/></svg>',
+  pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0119 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.4"/></svg>',
+  bag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8h12l1 12H5z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>',
+  phone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M4 6.5l8 6 8-6"/></svg>',
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+  instagram: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17 7h.01"/></svg>',
+  tiktok: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14 3c.4 2.1 1.8 3.6 4 3.9v2.6a6.6 6.6 0 01-4-1.3v6.3a5.3 5.3 0 11-5.3-5.3c.3 0 .6 0 .9.1v2.7a2.7 2.7 0 100 5.3 2.7 2.7 0 002.7-2.7V3z"/></svg>',
+  facebook: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M14 22v-8h2.7l.4-3H14V9c0-.9.2-1.5 1.5-1.5H17V5c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8.5v3H11v8h3z"/></svg>',
 };
 
 const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'];
@@ -41,9 +53,8 @@ const PAGE_DEFS = [
   { key: 'orders', label: 'My Orders' },
   { key: 'menu', label: 'Our Menu' },
   { key: 'referral', label: 'Refer a Friend' },
-  { key: 'story', label: 'Our Story' },
+  { key: 'story', label: 'About Us' },
   { key: 'contact', label: 'Contact Us' },
-  { key: 'about', label: 'About Us' },
 ];
 
 const HEROES = [
@@ -114,18 +125,45 @@ export function initMenuSource(ctx) {
       origin: 'pdf',
       hero: Object.fromEntries(PAGE_DEFS.map((p) => [p.key, {
         image: null,
-        headline: p.key === 'menu' ? 'Discover tonight’s menu' : p.key === 'referral' ? 'Share & Get $5!' : '',
+        headline: p.key === 'menu' ? 'Discover tonight’s menu' : p.key === 'referral' ? 'Share & Get $5!' : p.key === 'story' ? 'Made with Aloha' : p.key === 'contact' ? 'We\u2019d Love to Hear from You' : '',
         description: p.key === 'menu'
           ? 'Browse categories, dietary tags, and prices'
           : p.key === 'referral'
             ? 'Invite your friends to try the app. They\u2019ll get $5 off their first order, and you\u2019ll earn 500 loyalty points ($5 value)!'
-            : '',
-        buttonText: '',
+            : p.key === 'story'
+              ? 'How three friends brought the vibrant, fresh spirit of Hawaiian coastlines straight to your neighborhood table.'
+              : p.key === 'contact'
+                ? 'Have a question about our traceable fish, want to book a large ohana event, or just want to say aloha? Drop us a line below!'
+                : '',
+        buttonText: p.key === 'contact' ? 'Send Aloha Message' : '',
       }])),
       accountOptions: { settings: true, giftcards: true, payments: false, orders: false },
       referralTerms: {
         text: 'Referral points are credited automatically once your friend completes an order of $15 or more. Cannot be combined with other sign-up offers.',
         linkText: 'Read Full Terms & Conditions',
+      },
+      story: {
+        sparkHeading: 'The Spark',
+        sparkP1: 'In the summer of 2018, we set out with a simple craving: high-quality, authentic poké that fit into our busy, active schedules. We wanted real, uncompromised ingredients handled with the utmost care.',
+        sparkP2: 'By partnering directly with sustainable fishermen and local organic farms, we created a menu that honors tradition while fueling your daily potential. No shortcuts. Just clean, raw joy in every scoop.',
+        valuesHeading: 'Our Core Values',
+        values: [
+          { title: '100% Traceable Fish', desc: 'Sustainably and ethically sourced daily.' },
+          { title: 'Zero Artificial Junk', desc: 'All sauces and marinades are house-made.' },
+          { title: 'Radical Hospitality', desc: 'Welcome as you are, eat what makes you shine.' },
+        ],
+        quoteText: 'We wanted to build more than a healthy restaurant. We wanted to build a sanctuary where people walk out feeling lighter and happier than when they walked in.',
+        quoteName: 'Katty Chen',
+        quoteRole: 'Co-Founder & Head of Culinary',
+        cta1: 'Our Locations',
+        cta2: 'Order Now',
+      },
+      contact: {
+        direct: [
+          { title: 'Culinary & General Inquiry', value: 'aloha@coastlinepoke.com' },
+          { title: 'Phone Support', value: '+1 (212) 555-POKE (7653)' },
+          { title: 'Our Flagship Location', value: '91 Orchard St, New York, NY 10002' },
+        ],
       },
     },
   };
@@ -415,12 +453,33 @@ export function initMenuSource(ctx) {
   const pageMenuPdf = document.getElementById('ms-page-menu-pdf');
   const pageActivityDesc = document.getElementById('ms-page-activity-desc');
   const pageReferralDesc = document.getElementById('ms-page-referral-desc');
+  const pageStoryDesc = document.getElementById('ms-page-story-desc');
   const pageAccountBlock = document.getElementById('ms-page-account-block');
   const pageHeroLabel = document.getElementById('ms-page-hero-label');
   const pageHeroCard = document.getElementById('ms-page-hero-card');
   const pageReferralTerms = document.getElementById('ms-page-referral-terms');
   const referralTermsText = document.getElementById('ms-referral-terms-text');
   const referralTermsLinkText = document.getElementById('ms-referral-terms-link-text');
+  const pageStoryBlock = document.getElementById('ms-page-story-block');
+  const storySparkHeading = document.getElementById('ms-story-spark-heading');
+  const storySparkP1 = document.getElementById('ms-story-spark-p1');
+  const storySparkP2 = document.getElementById('ms-story-spark-p2');
+  const storyValuesHeading = document.getElementById('ms-story-values-heading');
+  const storyValueInputs = [0, 1, 2].map((i) => ({
+    title: document.getElementById(`ms-story-value-${i}-title`),
+    desc: document.getElementById(`ms-story-value-${i}-desc`),
+  }));
+  const storyQuoteText = document.getElementById('ms-story-quote-text');
+  const storyQuoteName = document.getElementById('ms-story-quote-name');
+  const storyQuoteRole = document.getElementById('ms-story-quote-role');
+  const storyCta1 = document.getElementById('ms-story-cta-1');
+  const storyCta2 = document.getElementById('ms-story-cta-2');
+  const pageContactDesc = document.getElementById('ms-page-contact-desc');
+  const pageContactBlock = document.getElementById('ms-page-contact-block');
+  const contactDirectInputs = [0, 1, 2].map((i) => ({
+    title: document.getElementById(`ms-contact-direct-${i}-title`),
+    value: document.getElementById(`ms-contact-direct-${i}-value`),
+  }));
   const heroImageZone = document.getElementById('ms-hero-image-zone');
   const heroImageFile = document.getElementById('ms-hero-image-file');
   const heroImagePreview = document.getElementById('ms-hero-image-preview');
@@ -474,6 +533,71 @@ export function initMenuSource(ctx) {
       pagePdfStatus.hidden = !state.pdf.uploaded;
     }
 
+    function renderStoryFields() {
+      const story = state.pageSettings.story;
+      if (storySparkHeading) storySparkHeading.value = story.sparkHeading;
+      if (storySparkP1) storySparkP1.value = story.sparkP1;
+      if (storySparkP2) storySparkP2.value = story.sparkP2;
+      if (storyValuesHeading) storyValuesHeading.value = story.valuesHeading;
+      storyValueInputs.forEach((inputs, i) => {
+        if (inputs.title) inputs.title.value = story.values[i].title;
+        if (inputs.desc) inputs.desc.value = story.values[i].desc;
+      });
+      if (storyQuoteText) storyQuoteText.value = story.quoteText;
+      if (storyQuoteName) storyQuoteName.value = story.quoteName;
+      if (storyQuoteRole) storyQuoteRole.value = story.quoteRole;
+      if (storyCta1) storyCta1.value = story.cta1;
+      if (storyCta2) storyCta2.value = story.cta2;
+    }
+
+    const storyField = (input, key) => input?.addEventListener('input', () => {
+      state.pageSettings.story[key] = input.value;
+      markDirty();
+      renderPhone?.();
+    });
+    storyField(storySparkHeading, 'sparkHeading');
+    storyField(storySparkP1, 'sparkP1');
+    storyField(storySparkP2, 'sparkP2');
+    storyField(storyValuesHeading, 'valuesHeading');
+    storyField(storyQuoteText, 'quoteText');
+    storyField(storyQuoteName, 'quoteName');
+    storyField(storyQuoteRole, 'quoteRole');
+    storyField(storyCta1, 'cta1');
+    storyField(storyCta2, 'cta2');
+    storyValueInputs.forEach((inputs, i) => {
+      inputs.title?.addEventListener('input', () => {
+        state.pageSettings.story.values[i].title = inputs.title.value;
+        markDirty();
+        renderPhone?.();
+      });
+      inputs.desc?.addEventListener('input', () => {
+        state.pageSettings.story.values[i].desc = inputs.desc.value;
+        markDirty();
+        renderPhone?.();
+      });
+    });
+
+    function renderContactFields() {
+      const contact = state.pageSettings.contact;
+      contactDirectInputs.forEach((inputs, i) => {
+        if (inputs.title) inputs.title.value = contact.direct[i].title;
+        if (inputs.value) inputs.value.value = contact.direct[i].value;
+      });
+    }
+
+    contactDirectInputs.forEach((inputs, i) => {
+      inputs.title?.addEventListener('input', () => {
+        state.pageSettings.contact.direct[i].title = inputs.title.value;
+        markDirty();
+        renderPhone?.();
+      });
+      inputs.value?.addEventListener('input', () => {
+        state.pageSettings.contact.direct[i].value = inputs.value.value;
+        markDirty();
+        renderPhone?.();
+      });
+    });
+
     selectConfigPage = function (key) {
       const def = PAGE_DEFS.find((p) => p.key === key) || PAGE_DEFS[0];
       state.pageSettings.selected = def.key;
@@ -484,17 +608,26 @@ export function initMenuSource(ctx) {
       pageConfigTitle.textContent = def.key === 'menu' ? 'Menu' : def.label;
       pageMenuPdf.hidden = def.key !== 'menu';
       // "My Activity" and "My Account" are fixed overview screens — no hero banner to edit.
-      // "Refer a Friend" keeps the hero banner (headline/description/image) plus its own terms field.
+      // "Refer a Friend", "About Us" and "Contact Us" keep the hero banner (headline/description/image)
+      // plus their own extra fields below.
       const isActivity = def.key === 'activity';
       const isAccount = def.key === 'account';
       const isReferral = def.key === 'referral';
+      const isStory = def.key === 'story';
+      const isContact = def.key === 'contact';
       if (pageActivityDesc) pageActivityDesc.hidden = !isActivity;
       if (pageReferralDesc) pageReferralDesc.hidden = !isReferral;
+      if (pageStoryDesc) pageStoryDesc.hidden = !isStory;
+      if (pageContactDesc) pageContactDesc.hidden = !isContact;
       if (pageReferralTerms) pageReferralTerms.hidden = !isReferral;
+      if (pageStoryBlock) pageStoryBlock.hidden = !isStory;
+      if (pageContactBlock) pageContactBlock.hidden = !isContact;
       if (pageAccountBlock) pageAccountBlock.hidden = !isAccount;
       if (pageHeroLabel) pageHeroLabel.hidden = isActivity || isAccount;
       if (pageHeroCard) pageHeroCard.hidden = isActivity || isAccount;
       renderHeroFields();
+      renderStoryFields();
+      renderContactFields();
       if (referralTermsText) referralTermsText.value = state.pageSettings.referralTerms.text;
       if (referralTermsLinkText) referralTermsLinkText.value = state.pageSettings.referralTerms.linkText;
       if (def.key === 'menu') renderPagePdfStatus();
@@ -1442,6 +1575,104 @@ export function initMenuSource(ctx) {
     `;
   }
 
+  function renderStoryPreview() {
+    const hero = state.pageSettings.hero.story;
+    const story = state.pageSettings.story;
+    const icons = [ICON.fish, ICON.leaf, ICON.smile];
+    return `
+      <div class="pm-story">
+        <div class="pm-orders-head">
+          <button class="pm-orders-back" type="button" onclick="goToPage('home')">${ICON.back}</button>
+          <div class="pm-orders-title">About Us</div>
+        </div>
+        <div class="pm-referral-hero">
+          <div class="pm-referral-photo"${hero.image ? ` style="background-image:url(${hero.image})"` : ''}>${hero.image ? '' : ICON.photo}</div>
+          <span class="pm-referral-badge">${ICON.heart}</span>
+        </div>
+        <div class="pm-referral-headline">${hero.headline}</div>
+        <div class="pm-referral-copy">${hero.description}</div>
+
+        <div class="pm-story-card">
+          <div class="pm-story-h2">${story.sparkHeading}</div>
+          <p>${story.sparkP1}</p>
+          <p>${story.sparkP2}</p>
+        </div>
+
+        <div class="pm-story-card">
+          <div class="pm-story-h2">${story.valuesHeading}</div>
+          <div class="pm-story-values">
+            ${story.values.map((v, i) => `
+              <div class="pm-story-value">
+                <span class="pm-story-value-ic">${icons[i]}</span>
+                <div>
+                  <strong>${v.title}</strong>
+                  <span>${v.desc}</span>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+
+        <div class="pm-story-card pm-story-quote-card">
+          <div class="pm-story-quote-head">
+            <div class="pm-story-quote-avatar">${ICON.user}</div>
+            <div>
+              <div class="pm-story-quote-name">${story.quoteName}</div>
+              <div class="pm-story-quote-role">${story.quoteRole}</div>
+            </div>
+          </div>
+          <p class="pm-story-quote-text">"${story.quoteText}"</p>
+        </div>
+
+        <div class="pm-story-ctas">
+          <button type="button" class="pm-referral-btn ghost">${ICON.pin}${story.cta1}</button>
+          <button type="button" class="pm-referral-btn solid">${ICON.bag}${story.cta2}</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderContactPreview() {
+    const hero = state.pageSettings.hero.contact;
+    const contact = state.pageSettings.contact;
+    const directIcons = [ICON.mail, ICON.phone, ICON.pin];
+    return `
+      <div class="pm-story">
+        <div class="pm-orders-head">
+          <button class="pm-orders-back" type="button" onclick="goToPage('home')">${ICON.back}</button>
+          <div class="pm-orders-title">Contact Us</div>
+        </div>
+        <div class="pm-referral-hero">
+          <div class="pm-referral-photo"${hero.image ? ` style="background-image:url(${hero.image})"` : ''}>${hero.image ? '' : ICON.photo}</div>
+          <span class="pm-referral-badge">${ICON.heart}</span>
+        </div>
+        <div class="pm-referral-headline">${hero.headline}</div>
+        <div class="pm-referral-copy">${hero.description}</div>
+
+        <div class="pm-story-card">
+          <div class="pm-story-values">
+            ${contact.direct.map((row, i) => `
+              <div class="pm-story-value">
+                <span class="pm-story-value-ic">${directIcons[i]}</span>
+                <div>
+                  <strong>${row.title}</strong>
+                  <span>${row.value}</span>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+
+        <div class="pm-story-card pm-story-follow-card">
+          <div class="pm-story-h2" style="text-align:center;">Follow Us</div>
+          <div class="pm-story-follow">
+            <span class="pm-story-follow-ic">${ICON.instagram}</span>
+            <span class="pm-story-follow-ic">${ICON.tiktok}</span>
+            <span class="pm-story-follow-ic">${ICON.facebook}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   function renderPhone() {
     if (!phoneRender) return;
     let html;
@@ -1449,6 +1680,8 @@ export function initMenuSource(ctx) {
     if (state.screen === 'page-settings' && state.pageSettings.selected === 'activity') { mode = 'activity'; html = renderOrderHistory(); }
     else if (state.screen === 'page-settings' && state.pageSettings.selected === 'account') { mode = 'account'; html = renderAccountPreview(); }
     else if (state.screen === 'page-settings' && state.pageSettings.selected === 'referral') { mode = 'referral'; html = renderReferralPreview(); }
+    else if (state.screen === 'page-settings' && state.pageSettings.selected === 'story') { mode = 'story'; html = renderStoryPreview(); }
+    else if (state.screen === 'page-settings' && state.pageSettings.selected === 'contact') { mode = 'contact'; html = renderContactPreview(); }
     else if (state.approach === 'webview') { mode = 'webview'; html = renderWebview(); }
     else if (state.approach === 'pdf') { mode = 'pdf'; html = renderPdf(); }
     else if (state.approach === 'manual') { mode = 'manual'; html = renderManual(); }
