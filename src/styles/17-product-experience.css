@@ -440,8 +440,8 @@ body.oo-connected .px-ordering-sample-label { display: none; }
 .px-profile-loyalty { color: var(--p-text-muted); font-size: 8.5px; }
 .px-profile-points { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; padding: 4px 12px; border-radius: 99px; color: var(--p-text-muted); background: var(--p-panel-2); font-size: 8.5px; font-weight: 700; }
 .px-profile-points b { color: var(--p-accent); font-size: 9px; font-weight: 820; }
-.px-profile-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin: 10px 0; }
-.px-profile-actions button { display: grid; justify-items: center; gap: 5px; min-height: 62px; border: 0; border-radius: 13px; color: var(--p-text); background: var(--p-panel); font: inherit; font-size: 8px; font-weight: 720; box-shadow: 0 4px 12px rgba(20,20,40,.05); }
+.px-profile-actions { display: flex; gap: 7px; margin: 10px 0; }
+.px-profile-actions button { flex: 1 1 0; display: grid; justify-items: center; gap: 5px; min-height: 62px; border: 0; border-radius: 13px; color: var(--p-text); background: var(--p-panel); font: inherit; font-size: 8px; font-weight: 720; box-shadow: 0 4px 12px rgba(20,20,40,.05); }
 .px-profile-actions svg { width: 19px; height: 19px; color: var(--p-accent); }
 .px-profile-list { overflow: hidden; border-radius: 15px; background: var(--p-panel); }
 .px-profile-list button { width: 100%; display: grid; grid-template-columns: 30px minmax(0,1fr) auto; align-items: center; gap: 8px; min-height: 51px; border: 0; border-bottom: 1px solid color-mix(in srgb, var(--p-text) 8%, transparent); padding: 7px 10px; color: var(--p-text); background: transparent; text-align: left; font: inherit; }
