@@ -152,6 +152,8 @@ export function initGuidedFlow(ctx) {
     // until the merchant commits an ordering choice that fills the preview.
     document.body.classList.toggle('phone-header-only', (onBusiness && businessEdited) || (onOrdering && !window.getOrderingMode?.()));
     document.body.classList.toggle('on-step-online-ordering', onOrdering);
+    // The industry badge is only relevant while picking industries in step 1.
+    document.body.classList.toggle('on-step-business', onBusiness);
     // Any navigation exits the "arrived from ordering to configure webview" state.
     if (key !== 'menu') document.body.classList.remove('oo-webview-from-step2');
     // Publish is the only step where every configured screen needs to be

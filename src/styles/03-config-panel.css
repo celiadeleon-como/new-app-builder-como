@@ -293,6 +293,7 @@
   .branding-page .cp-head-row { min-height: 51px; }
   .branding-page .cp-body { padding: 14px; }
   .branding-page .cp-section:has(#gf-logo-zone) .cp-body { padding: 12px 14px 14px; }
+  .branding-page .cp-section:has(#gf-logo-zone) .cp-toggle-row:first-of-type { margin-top: 10px; }
   .branding-upload { display: grid; place-items: center; gap: 7px; min-height: 88px; padding: 12px; border: 1.5px dashed var(--line); border-radius: 8px; color: var(--muted); font-size: 11px; text-align: center; cursor: pointer; }
   .branding-upload.drag-over { border-color: var(--como); background: var(--como-soft); }
   .branding-upload-button { padding: 6px 13px; border: 1px solid var(--como); border-radius: 6px; background: var(--panel); color: var(--como); font-size: 11px; font-weight: 700; cursor: pointer; }
@@ -301,6 +302,7 @@
   .branding-logo-result img { width: 34px; height: 34px; object-fit: contain; border: 1px solid var(--line); border-radius: 6px; }
   .branding-logo-result span { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .branding-logo-result button { border: 0; background: transparent; color: var(--como); padding: 4px; cursor: pointer; font-size: 11px; }
+  #gf-logo-controls { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
   .branding-paired-rows { padding: 14px; }
   .branding-paired-rows .cp-color-row { margin: 0; border-radius: 0; }
   .branding-paired-rows .cp-color-row:first-child { border-radius: 11px 11px 0 0; }
