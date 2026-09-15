@@ -94,6 +94,7 @@
     --p-card-grad: linear-gradient(160deg, #ffffff 0%, #f7f7fb 100%);
     --p-hero-grad: linear-gradient(135deg, hsla(239, 100%, 62%, 1) 0%, #8083ff 100%);
     --p-nav-bg: #ffffff;
+    --splash-bg: #0f0d17;
   }
 
   /* Phone theme — Template 2 (Fine Dining · Velvet Bistro) */
@@ -112,6 +113,7 @@
     --p-card-grad: linear-gradient(160deg, #2a2438 0%, #1a1728 100%);
     --p-hero-grad: linear-gradient(135deg, #3a2f52 0%, #6d28d9 100%);
     --p-nav-bg: #14111f;
+    --splash-bg: #0f0d17;
   }
   /* Phone theme — Template 3 (Café · QR Code layout) */
   body.tpl-3 {
@@ -129,6 +131,7 @@
     --p-card-grad: linear-gradient(160deg, #ffffff 0%, #f5f0e4 100%);
     --p-hero-grad: linear-gradient(135deg, #92400e 0%, #d97706 100%);
     --p-nav-bg: #ffffff;
+    --splash-bg: #0f0d17;
   }
 
   * { box-sizing: border-box; }

@@ -97,6 +97,24 @@
   }
   .app-shell::-webkit-scrollbar { display: none; }
 
+  /* Preview-only: shown while the Branding > Splash screen accordion is open */
+  .gf-splash-overlay {
+    position: absolute; top: 28px; left: 0; right: 0; bottom: 0;
+    z-index: 40;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--splash-bg);
+  }
+  .gf-splash-overlay[hidden] { display: none; }
+  .gf-splash-mark {
+    display: grid; place-items: center;
+    width: 72px; height: 72px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.12);
+    background-size: cover; background-position: center;
+    color: #fff; font-size: 20px; font-weight: 800;
+  }
+  .gf-splash-mark.has-logo { background-color: transparent; }
+
   .app-page {
     display: none;
     padding: 0 16px 24px;

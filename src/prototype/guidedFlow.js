@@ -746,7 +746,7 @@ export function initGuidedFlow(ctx) {
   const logoControls = document.getElementById('gf-logo-controls');
 
   function paintLogoTargets(dataUrl) {
-    document.querySelectorAll('.app-page .app-top-header .brand-mark, #brand-logo').forEach((el) => {
+    document.querySelectorAll('.app-page .app-top-header .brand-mark, #brand-logo, #gf-splash-mark').forEach((el) => {
       if (!el) return;
       el.classList.toggle('has-logo', !!dataUrl);
       el.style.backgroundImage = dataUrl ? `url(${dataUrl})` : '';
@@ -802,6 +802,22 @@ export function initGuidedFlow(ctx) {
     document.getElementById('gf-logo-replace')?.addEventListener('click', () => logoFile.click());
     document.getElementById('gf-logo-remove')?.addEventListener('click', clearLogoResult);
   }
+
+  // Preview the splash screen on the phone only while its accordion section
+  // is expanded and the Branding step itself is visible.
+  const splashSection = document.getElementById('gf-splash-section');
+  const splashOverlay = document.getElementById('gf-splash-overlay');
+  const brandingPage = document.getElementById('cp-branding');
+  if (splashSection && splashOverlay && brandingPage) {
+    const syncSplashOverlay = () => {
+      const brandingVisible = brandingPage.style.display !== 'none';
+      splashOverlay.hidden = !(brandingVisible && splashSection.classList.contains('open'));
+    };
+    new MutationObserver(syncSplashOverlay).observe(splashSection, { attributes: true, attributeFilter: ['class'] });
+    new MutationObserver(syncSplashOverlay).observe(brandingPage, { attributes: true, attributeFilter: ['style'] });
+    syncSplashOverlay();
+  }
+
   document.querySelectorAll('#gf-font-row [data-font]').forEach((chip) => {
     chip.addEventListener('click', () => {
       flow.font = chip.dataset.font;

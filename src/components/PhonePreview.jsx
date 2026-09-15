@@ -70,6 +70,10 @@ export default function PhonePreview() {
               data-comment-anchor="phone-bottom-navigation"
               html={bottomNavInner}
             />
+
+            <div className="gf-splash-overlay" id="gf-splash-overlay" aria-hidden="true" hidden>
+              <div className="gf-splash-mark" id="gf-splash-mark">?</div>
+            </div>
           </div>
         </div>
       </div>
