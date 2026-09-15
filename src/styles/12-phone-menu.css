@@ -235,6 +235,10 @@
 .pm-account-points { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 14px; border-radius: 999px; background: var(--p-panel-2); font-size: 11.5px; font-weight: 700; }
 .pm-account-points span { color: var(--p-text-muted); font-weight: 650; }
 .pm-account-points strong { color: var(--p-accent); }
+.pm-account-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin: 0 0 18px; }
+.pm-account-action { display: grid; justify-items: center; gap: 7px; padding: 14px 6px; border: none; border-radius: 14px; background: var(--p-panel); box-shadow: 0 4px 12px rgba(20,20,40,.05); font: inherit; font-size: 11px; font-weight: 700; color: var(--p-text); cursor: pointer; }
+.pm-account-action-ic { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--p-panel-2); color: var(--p-accent); }
+.pm-account-action-ic svg { width: 17px; height: 17px; }
 .pm-account-list { display: flex; flex-direction: column; }
 .pm-account-row { display: flex; align-items: center; gap: 12px; padding: 13px 2px; border-bottom: 1px solid var(--p-border); }
 .pm-account-row:last-child { border-bottom: none; }
@@ -244,6 +248,7 @@
 .pm-account-row-name { font-size: 13px; font-weight: 700; }
 .pm-account-row-desc { font-size: 11px; color: var(--p-text-muted); }
 .pm-account-row > .ms-row-chev { width: 14px; height: 14px; flex: none; margin-left: auto; color: var(--p-text-muted); }
+.pm-account-signout { width: 100%; min-height: 48px; margin-top: 18px; border: none; border-radius: 14px; color: #a62a45; background: color-mix(in srgb, #d44765 9%, var(--p-panel)); font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
 
 /* ---------- "Refer a Friend" — hardcoded, brand colour is the only variable ---------- */
 .pm-referral { padding: 14px 0 28px; color: var(--p-text); }

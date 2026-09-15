@@ -1493,12 +1493,18 @@ export function initMenuSource(ctx) {
 
   function renderAccountPreview() {
     const opts = state.pageSettings.accountOptions;
-    const rows = [
-      { key: 'settings', icon: ICON.user, name: 'Account settings', desc: 'Contact info' },
-      { key: 'giftcards', icon: ICON.gift, name: 'Gift cards', desc: 'Add and view gift cards' },
-      { key: 'payments', icon: ICON.card, name: 'Payment', desc: 'Saved payment methods' },
-      { key: 'orders', icon: ICON.receipt, name: 'Past orders', desc: 'View orders and receipts' },
+    const actions = [
+      { key: 'settings', icon: ICON.pencil, name: 'Edit profile' },
+      { key: 'giftcards', icon: ICON.gift, name: 'My gifts' },
+      { key: 'payments', icon: ICON.card, name: 'Payments' },
+      { key: 'orders', icon: ICON.receipt, name: 'Orders' },
     ].filter((r) => opts[r.key]);
+    const settingsRows = [
+      { icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>', name: 'Security', desc: 'Password and sign-in methods' },
+      { icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg>', name: 'Language & region', desc: 'English · Canada' },
+      { icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 00-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M10 20h4"/></svg>', name: 'Notifications', desc: 'Offers, rewards, and order updates' },
+      { icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>', name: 'Privacy & terms', desc: 'Your choices and data' },
+    ];
     return `
       <div class="pm-account">
         <div class="pm-orders-head">
@@ -1511,8 +1517,16 @@ export function initMenuSource(ctx) {
           <div class="pm-account-loyalty">Loyalty number • 1234 5678 9012</div>
           <div class="pm-account-points"><span>Points</span><strong>1,250 pts</strong></div>
         </div>
+        ${actions.length ? `
+        <div class="pm-account-actions">
+          ${actions.map((r) => `
+            <button type="button" class="pm-account-action">
+              <span class="pm-account-action-ic">${r.icon}</span>
+              <span class="pm-account-action-name">${r.name}</span>
+            </button>`).join('')}
+        </div>` : ''}
         <div class="pm-account-list">
-          ${rows.map((r) => `
+          ${settingsRows.map((r) => `
             <div class="pm-account-row">
               <span class="pm-account-row-ic">${r.icon}</span>
               <span class="pm-account-row-info">
@@ -1522,6 +1536,7 @@ export function initMenuSource(ctx) {
               ${ICON.chev}
             </div>`).join('')}
         </div>
+        <button type="button" class="pm-account-signout">Sign out</button>
       </div>
     `;
   }
