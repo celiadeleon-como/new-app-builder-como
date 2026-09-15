@@ -205,8 +205,47 @@
 
     <div class="ms-page-config-title" id="ms-page-config-title">Menu</div>
 
-    <div class="ms-section-label">Hero Banner text</div>
-    <div class="ms-hero-card">
+    <div class="ms-sub" id="ms-page-activity-desc" hidden>Let customers view their order history, including past purchases, order details, points and credits.</div>
+
+    <div id="ms-page-account-block" hidden>
+      <div class="ms-sub">Allow customers to access their order history, including previous purchases, order specifics, points, and credits.</div>
+      <div class="ms-section-label" style="margin-top:18px;">Display options</div>
+      <div class="ms-toggle-card">
+        <div class="ms-toggle-row">
+          <div class="ms-toggle-text">
+            <div class="ms-toggle-name">Account settings</div>
+            <div class="ms-toggle-desc">Manage your account details and preferences.</div>
+          </div>
+          <span class="toggle on" data-account-opt="settings"></span>
+        </div>
+        <div class="ms-toggle-row">
+          <div class="ms-toggle-text">
+            <div class="ms-toggle-name">Gift cards</div>
+            <div class="ms-toggle-desc">View, purchase, and manage your gift cards.</div>
+          </div>
+          <span class="toggle on" data-account-opt="giftcards"></span>
+        </div>
+        <div class="ms-toggle-row">
+          <div class="ms-toggle-text">
+            <div class="ms-toggle-name">Payments</div>
+            <div class="ms-toggle-desc">Manage payment methods and payment details.</div>
+          </div>
+          <span class="toggle" data-account-opt="payments"></span>
+        </div>
+        <div class="ms-toggle-row">
+          <div class="ms-toggle-text">
+            <div class="ms-toggle-name">Previous orders
+              <button class="ms-info" type="button" data-tip="Only relevant when online ordering or Menu source · My Activity is in use.">i</button>
+            </div>
+            <div class="ms-toggle-desc">View your order history and past purchase details.</div>
+          </div>
+          <span class="toggle" data-account-opt="orders"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ms-section-label" id="ms-page-hero-label">Hero Banner text</div>
+    <div class="ms-hero-card" id="ms-page-hero-card">
       <div class="cp-field">
         <label>Image</label>
         <div class="pc-edit-image-zone" id="ms-hero-image-zone">

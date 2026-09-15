@@ -20,6 +20,12 @@ const ICON = {
   cutlery: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3l7 7"/><path d="M20 3L9.5 13.5"/><path d="M13.5 12.5L20 19"/><path d="M7.5 14.5L4 18"/></svg>',
   star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8L3.5 9.7l5.9-.9z"/></svg>',
   list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8h12M6 12h12M6 16h8"/></svg>',
+  wallet: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M15 14.5h3"/></svg>',
+  coin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.2"/></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg>',
+  gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1.5"/><path d="M12 8v13M3 12h18"/><path d="M12 8H8.5a2.5 2.5 0 010-5C11 3 12 8 12 8zM12 8h3.5a2.5 2.5 0 000-5C13 3 12 8 12 8z"/></svg>',
+  card: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19"/></svg>',
+  receipt: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg>',
 };
 
 const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'];
@@ -28,6 +34,7 @@ const SWATCH = ['#8a6a4a', '#b4585e', '#7a6bb0', '#5f8a6a', '#c08a3e', '#4a6f8a'
 // tile list on the More screen so the two stay in sync.
 const PAGE_DEFS = [
   { key: 'account', label: 'My Account' },
+  { key: 'activity', label: 'My Activity' },
   { key: 'orders', label: 'My Orders' },
   { key: 'menu', label: 'Our Menu' },
   { key: 'referral', label: 'Refer a Friend' },
@@ -108,6 +115,7 @@ export function initMenuSource(ctx) {
         description: p.key === 'menu' ? 'Browse categories, dietary tags, and prices' : '',
         buttonText: '',
       }])),
+      accountOptions: { settings: true, giftcards: true, payments: false, orders: false },
     },
   };
 
@@ -327,14 +335,13 @@ export function initMenuSource(ctx) {
     state.fromOrdering = false;
     page.querySelectorAll('[data-approach]').forEach(o => o.classList.remove('on'));
     // Product Experience normally places a simple Menu editor ahead of this
-    // source flow. A deferred ordering choice specifically needs the page
-    // picker + hero editor as its default Select screen, so reveal the
-    // source panel here and land straight on Page Settings for Our Menu.
+    // source flow. A deferred ordering choice has no menu to show, so it
+    // defaults to My Activity — the fixed order-history overview — instead.
     page.classList.add('px-show-advanced');
     window.setMenuSlotMode?.('select-screen');
     state.pageSettings.origin = 'chooser';
     show('page-settings');
-    selectConfigPage('menu');
+    selectConfigPage('activity');
   }
 
   // Navigation may close the third panel without using its return button.
@@ -395,6 +402,10 @@ export function initMenuSource(ctx) {
   const pagePickerList = document.getElementById('ms-page-picker-list');
   const pageConfigTitle = document.getElementById('ms-page-config-title');
   const pageMenuPdf = document.getElementById('ms-page-menu-pdf');
+  const pageActivityDesc = document.getElementById('ms-page-activity-desc');
+  const pageAccountBlock = document.getElementById('ms-page-account-block');
+  const pageHeroLabel = document.getElementById('ms-page-hero-label');
+  const pageHeroCard = document.getElementById('ms-page-hero-card');
   const heroImageZone = document.getElementById('ms-hero-image-zone');
   const heroImageFile = document.getElementById('ms-hero-image-file');
   const heroImagePreview = document.getElementById('ms-hero-image-preview');
@@ -457,9 +468,26 @@ export function initMenuSource(ctx) {
       });
       pageConfigTitle.textContent = def.key === 'menu' ? 'Menu' : def.label;
       pageMenuPdf.hidden = def.key !== 'menu';
+      // "My Activity" and "My Account" are fixed overview screens — no hero banner to edit.
+      const isActivity = def.key === 'activity';
+      const isAccount = def.key === 'account';
+      if (pageActivityDesc) pageActivityDesc.hidden = !isActivity;
+      if (pageAccountBlock) pageAccountBlock.hidden = !isAccount;
+      if (pageHeroLabel) pageHeroLabel.hidden = isActivity || isAccount;
+      if (pageHeroCard) pageHeroCard.hidden = isActivity || isAccount;
       renderHeroFields();
       if (def.key === 'menu') renderPagePdfStatus();
+      renderPhone?.();
     };
+
+    // These reuse the generic .toggle wiring from bindings.js (which already
+    // flips the "on" class); this listener just mirrors the resulting state.
+    page.querySelectorAll('[data-account-opt]').forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        state.pageSettings.accountOptions[toggle.dataset.accountOpt] = toggle.classList.contains('on');
+        renderPhone?.();
+      });
+    });
 
     const heroField = (input, key) => input.addEventListener('input', () => {
       state.pageSettings.hero[state.pageSettings.selected][key] = input.value;
@@ -1268,11 +1296,85 @@ export function initMenuSource(ctx) {
     return `<span class="pm-editing-badge">${ICON.pencil}Editing</span>`;
   }
 
+  // My Activity is a fixed overview — only the brand colour is configurable.
+  function renderOrderHistory() {
+    // No online ordering is connected in this scenario, so there's nothing to
+    // buy from yet — only loyalty points and credits are shown.
+    const rows = [
+      { points: 250, name: 'Daily Login', date: '9/25/2024, 08:09 AM' },
+      { points: 1200, name: 'Weekly Challenge', date: '9/22/2024, 02:45 PM' },
+      { points: 500, name: 'Referral Bonus', date: '9/18/2024, 11:20 AM' },
+      { points: 150, name: 'Survey Completion', date: '9/15/2024, 04:10 PM' },
+      { points: 300, name: 'Achievement Unlocked', date: '9/12/2024, 09:00 AM' },
+      { points: 800, name: 'Purchase Reward', date: '9/05/2024, 01:30 PM' },
+      { points: 400, name: 'Level Up', date: '8/28/2024, 06:15 PM' },
+    ];
+    return `
+      <div class="pm-orders">
+        <div class="pm-orders-head">
+          <button class="pm-orders-back" type="button" onclick="goToPage('home')">${ICON.back}</button>
+          <div class="pm-orders-title">My Activity</div>
+        </div>
+        <div class="pm-orders-summary"><span class="pm-orders-summary-ic">${ICON.star}</span><span>1.8K Points | 817.22 Credits</span></div>
+        <div class="pm-orders-seg"><span class="on">Points</span><span>Credits</span></div>
+        <div class="pm-orders-list">
+          ${rows.map((r) => `
+            <div class="pm-orders-row">
+              <span class="pm-orders-row-ic">${ICON.star}</span>
+              <span class="pm-orders-row-amount">+${r.points.toLocaleString()} Points</span>
+              <span class="pm-orders-row-info">
+                <span class="pm-orders-row-name">${r.name}</span>
+                <span class="pm-orders-row-date">${r.date}</span>
+              </span>
+              ${ICON.chev}
+            </div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  function renderAccountPreview() {
+    const opts = state.pageSettings.accountOptions;
+    const rows = [
+      { key: 'settings', icon: ICON.user, name: 'Account settings', desc: 'Contact info' },
+      { key: 'giftcards', icon: ICON.gift, name: 'Gift cards', desc: 'Add and view gift cards' },
+      { key: 'payments', icon: ICON.card, name: 'Payment', desc: 'Saved payment methods' },
+      { key: 'orders', icon: ICON.receipt, name: 'Past orders', desc: 'View orders and receipts' },
+    ].filter((r) => opts[r.key]);
+    return `
+      <div class="pm-account">
+        <div class="pm-orders-head">
+          <button class="pm-orders-back" type="button" onclick="goToPage('home')">${ICON.back}</button>
+          <div class="pm-orders-title">My Account</div>
+        </div>
+        <div class="pm-account-profile">
+          <div class="pm-account-avatar">${ICON.user}</div>
+          <div class="pm-account-name">Customer name</div>
+          <div class="pm-account-loyalty">Loyalty number • 1234 5678 9012</div>
+          <div class="pm-account-points"><span>Points</span><strong>1,250 pts</strong></div>
+        </div>
+        <div class="pm-account-list">
+          ${rows.map((r) => `
+            <div class="pm-account-row">
+              <span class="pm-account-row-ic">${r.icon}</span>
+              <span class="pm-account-row-info">
+                <span class="pm-account-row-name">${r.name}</span>
+                <span class="pm-account-row-desc">${r.desc}</span>
+              </span>
+              ${ICON.chev}
+            </div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
   function renderPhone() {
     if (!phoneRender) return;
     let html;
     let mode = 'none';
-    if (state.approach === 'webview') { mode = 'webview'; html = renderWebview(); }
+    if (state.screen === 'page-settings' && state.pageSettings.selected === 'activity') { mode = 'activity'; html = renderOrderHistory(); }
+    else if (state.screen === 'page-settings' && state.pageSettings.selected === 'account') { mode = 'account'; html = renderAccountPreview(); }
+    else if (state.approach === 'webview') { mode = 'webview'; html = renderWebview(); }
     else if (state.approach === 'pdf') { mode = 'pdf'; html = renderPdf(); }
     else if (state.approach === 'manual') { mode = 'manual'; html = renderManual(); }
     else if (state.approach === 'ordering') {

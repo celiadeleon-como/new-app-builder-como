@@ -25,7 +25,7 @@
 .pm-empty-sub { font-size: 10.5px; color: var(--p-text-muted); line-height: 1.55; margin-top: 6px; }
 .pm-empty-btn {
   margin-top: 14px; border: none; border-radius: 9px;
-  background: var(--p-accent); color: #fff;
+  background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff;
   padding: 8px 18px; font: inherit; font-size: 11px; font-weight: 800; cursor: pointer;
 }
 
@@ -62,7 +62,7 @@
 .pm-site-item .p { font-size: 11.5px; font-weight: 800; flex: none; }
 .pm-site-item .add {
   border: none; border-radius: 7px; padding: 5px 12px; flex: none;
-  background: var(--p-accent); color: #fff; font: inherit; font-size: 9.5px; font-weight: 800;
+  background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff; font: inherit; font-size: 9.5px; font-weight: 800;
 }
 .pm-gate { padding: 60px 24px; text-align: center; background: #fff; color: #1d1d28; }
 .pm-gate-ic { width: 40px; height: 40px; margin: 0 auto 12px; color: #a3a3b4; }
@@ -71,7 +71,7 @@
 .pm-gate-sub { font-size: 10px; color: #7a7a88; margin-top: 6px; line-height: 1.5; }
 .pm-gate-btn {
   margin-top: 14px; border: none; border-radius: 8px;
-  background: var(--p-accent); color: #fff; padding: 8px 18px;
+  background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff; padding: 8px 18px;
   font: inherit; font-size: 10.5px; font-weight: 800;
 }
 
@@ -201,3 +201,46 @@
   padding: 2px 6px; border-radius: 999px;
   background: var(--p-panel-2); color: var(--p-text-muted);
 }
+
+/* ---------- "My Activity" — hardcoded, brand colour is the only variable ---------- */
+.pm-orders { padding: 14px 0 24px; color: var(--p-text); }
+.pm-orders-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.pm-orders-back { width: 32px; height: 32px; border-radius: 50%; border: none; background: var(--p-panel-2); color: var(--p-text); display: grid; place-items: center; cursor: pointer; flex: none; }
+.pm-orders-back svg { width: 16px; height: 16px; }
+.pm-orders-title { font-size: 20px; font-weight: 800; }
+.pm-orders-summary { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+.pm-orders-summary-ic { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff; }
+.pm-orders-summary-ic svg { width: 13px; height: 13px; }
+.pm-orders-seg { display: flex; border-radius: 999px; background: var(--p-panel-2); padding: 4px; margin-bottom: 16px; }
+.pm-orders-seg span { flex: 1; text-align: center; padding: 9px 0; border-radius: 999px; font-size: 12.5px; font-weight: 700; color: var(--p-text-muted); }
+.pm-orders-seg span.on { background: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff; }
+.pm-orders-list { border-radius: 16px; background: var(--p-accent); background-image: var(--p-accent-image, none); overflow: hidden; }
+.pm-orders-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,.18); color: #fff; }
+.pm-orders-row:last-child { border-bottom: none; }
+.pm-orders-row-ic { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; flex: none; background: rgba(255,255,255,.92); color: var(--p-accent); }
+.pm-orders-row-ic svg { width: 16px; height: 16px; }
+.pm-orders-row-amount { font-size: 13.5px; font-weight: 700; white-space: nowrap; }
+.pm-orders-row-info { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; margin-left: auto; text-align: right; }
+.pm-orders-row-name { font-size: 12.5px; font-weight: 650; }
+.pm-orders-row-date { font-size: 11px; opacity: .85; }
+.pm-orders-row > .ms-row-chev { width: 14px; height: 14px; flex: none; opacity: .9; }
+
+/* ---------- "My Account" — hardcoded, brand colour is the only variable ---------- */
+.pm-account { padding: 14px 0 24px; color: var(--p-text); }
+.pm-account-profile { display: flex; flex-direction: column; align-items: center; text-align: center; margin: 6px 0 22px; }
+.pm-account-avatar { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: var(--p-panel-2); color: var(--p-accent); margin-bottom: 12px; }
+.pm-account-avatar svg { width: 30px; height: 30px; }
+.pm-account-name { font-size: 15px; font-weight: 800; }
+.pm-account-loyalty { font-size: 11.5px; color: var(--p-text-muted); margin-top: 2px; }
+.pm-account-points { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 14px; border-radius: 999px; background: var(--p-panel-2); font-size: 11.5px; font-weight: 700; }
+.pm-account-points span { color: var(--p-text-muted); font-weight: 650; }
+.pm-account-points strong { color: var(--p-accent); }
+.pm-account-list { display: flex; flex-direction: column; }
+.pm-account-row { display: flex; align-items: center; gap: 12px; padding: 13px 2px; border-bottom: 1px solid var(--p-border); }
+.pm-account-row:last-child { border-bottom: none; }
+.pm-account-row-ic { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; flex: none; background: var(--p-panel-2); color: var(--p-accent); }
+.pm-account-row-ic svg { width: 17px; height: 17px; }
+.pm-account-row-info { display: flex; flex-direction: column; gap: 2px; }
+.pm-account-row-name { font-size: 13px; font-weight: 700; }
+.pm-account-row-desc { font-size: 11px; color: var(--p-text-muted); }
+.pm-account-row > .ms-row-chev { width: 14px; height: 14px; flex: none; margin-left: auto; color: var(--p-text-muted); }

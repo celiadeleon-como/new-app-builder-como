@@ -56,34 +56,38 @@
   .gf-btn.ghost { background: var(--panel); border-color: var(--line); color: var(--muted); }
   .gf-btn.ghost:hover { border-color: var(--como); color: var(--ink); }
 
-  /* ---------- Sidebar stepper ---------- */
+  /* ---------- Sidebar stepper ----------
+     The rail is always dark, but the accent still follows --como so the
+     stepper picks up the app's light/dark indigo-vs-cyan brand color. */
   .side-step { position: relative; }
   .side-step .step-dot {
     width: 22px; height: 22px; border-radius: 50%; flex: none;
     display: grid; place-items: center; position: relative;
-    border: 1.5px solid var(--line); background: var(--panel);
-    font-size: 11px; font-weight: 800; color: var(--muted);
-    transition: background .18s, border-color .18s, color .18s;
+    border: none; background: #26223a;
+    font-size: 11px; font-weight: 800; color: #8d88a3;
+    transition: background .18s, border-color .18s, color .18s, box-shadow .18s;
   }
   .side-step .step-dot .tick { width: 12px; height: 12px; display: none; }
   .side-step .screen-dot { border-radius: 7px; font-size: 13px; }
   .side-step.done .step-dot {
-    background: #16a34a; border-color: #16a34a; color: #fff;
+    background: transparent; border: 1.5px solid var(--como); color: var(--como);
   }
   .side-step.done .step-dot .n { display: none; }
   .side-step.done .step-dot .tick { display: block; }
   .side-step.active .step-dot {
-    background: var(--como); border-color: var(--como); color: #fff;
+    background: var(--como); border: none; color: #fff;
+    box-shadow: 0 0 0 4px var(--focus-ring);
   }
-  .side-step.done .side-lbl { color: var(--muted); }
+  .side-step.active .side-lbl { font-weight: 800; color: #fff; }
+  .side-step.done .side-lbl { color: #8d88a3; }
 
   /* Connector line between consecutive steps */
   .side-steps { position: relative; }
   .side-steps .side-step + .side-step::before {
     content: ""; position: absolute; left: 21px; top: -7px; height: 7px;
-    width: 1.5px; background: var(--line);
+    width: 1.5px; background: #33304a;
   }
-  .side-steps .side-step.done + .side-step::before { background: #86d5a3; }
+  .side-steps .side-step.done + .side-step::before { background: var(--como); }
   body.side-collapsed .side-steps .side-step + .side-step::before { display: none; }
 
   /* ---------- Step footer (always-visible bar below the scrollable config panel) ---------- */

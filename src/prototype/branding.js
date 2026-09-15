@@ -1,5 +1,5 @@
 export function initBranding(ctx) {
-  const { markDirty, showToast, wireColorControl } = ctx;
+  const { markDirty, showToast } = ctx;
 
   const headingFont = document.getElementById('branding-heading-font');
   const bodyFont = document.getElementById('branding-body-font');
@@ -58,39 +58,39 @@ export function initBranding(ctx) {
     '.app-shell button, .app-shell .chip, .app-shell .pc-cta, .app-shell .guest-cta, .app-shell .lc-cta',
   );
 
-  // ---------- App background: Solid / Gradient + opacity ----------
-  (function initAppBg() {
-    const c1 = document.getElementById('appbg-color1');
-    const c2 = document.getElementById('appbg-color2');
-    const op = document.getElementById('appbg-opacity');
-    const opVal = document.getElementById('appbg-opacity-val');
-    const row2 = document.getElementById('appbg-row2');
-    const seg = document.getElementById('appbg-mode');
-    if (!c1 || !c2 || !op || !seg) return;
-    let mode = 'solid';
-    const hexToRgb = (h) => { const m = h.replace('#', ''); return [0, 2, 4].map(i => parseInt(m.slice(i, i + 2), 16)); };
-    const rgba = (h, a) => { const [r, g, b] = hexToRgb(h); return `rgba(${r},${g},${b},${a})`; };
-    function apply() {
-      const a = (+op.value) / 100;
-      const bg = mode === 'gradient'
-        ? `linear-gradient(180deg, ${rgba(c1.value, a)} 0%, ${rgba(c2.value, a)} 100%)`
-        : rgba(c1.value, a);
-      document.body.style.setProperty('--p-bg', bg);
+  // ---------- Background: Solid vs Gradient fill ----------
+  // The base color lives in --p-bg (used everywhere as a flat color, including
+  // WCAG contrast checks) and layers an optional gradient on top via
+  // --p-bg-image, built from a second stop color the same generic
+  // data-bind-color inputs already manage.
+  function initFillMode({ segId, row2Id, baseVar, secondVar, imageVar, angle }) {
+    const seg = document.getElementById(segId);
+    const row2 = document.getElementById(row2Id);
+    if (!seg) return;
+    function refresh() {
+      const mode = seg.querySelector('.cp-seg-btn.active')?.dataset.mode || 'solid';
+      if (row2) row2.hidden = mode !== 'gradient';
+      if (mode === 'gradient') {
+        document.body.style.setProperty(imageVar, `linear-gradient(${angle}deg, var(${baseVar}), var(${secondVar}))`);
+      } else {
+        document.body.style.removeProperty(imageVar);
+      }
     }
-    wireColorControl(c1, apply);
-    wireColorControl(c2, apply);
-    op.addEventListener('input', () => { opVal.textContent = op.value + '%'; apply(); markDirty(); });
-    seg.querySelectorAll('.cp-seg-btn').forEach(b => {
-      b.addEventListener('click', () => {
-        seg.querySelectorAll('.cp-seg-btn').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        mode = b.dataset.mode;
-        row2.style.display = mode === 'gradient' ? '' : 'none';
-        apply();
+    seg.querySelectorAll('.cp-seg-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        seg.querySelectorAll('.cp-seg-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        refresh();
         markDirty();
       });
     });
-  })();
+    document.addEventListener('como:draft-restored', () => {
+      const active = Boolean(document.body.style.getPropertyValue(imageVar).trim());
+      seg.querySelectorAll('.cp-seg-btn').forEach((b) => b.classList.toggle('active', b.dataset.mode === (active ? 'gradient' : 'solid')));
+      if (row2) row2.hidden = !active;
+    });
+  }
+  initFillMode({ segId: 'bgfill-mode', row2Id: 'bgfill-row2', baseVar: '--p-bg', secondVar: '--p-bg-2', imageVar: '--p-bg-image', angle: 180 });
 
   // ---------- Font picker (Branding drill: list + search + custom upload) ----------
   function applyFontFamily(font) {
@@ -320,6 +320,7 @@ export function initBranding(ctx) {
   }
   function checkBrandingContrast() {
     const bg = currentHex('--p-bg', '#f2f2f7');
+    const bg2 = currentHex('--p-bg-2', bg);
     const panel = currentHex('--p-panel', '#ffffff');
     const text = currentHex('--p-text', '#1d1d28');
     const textMuted = currentHex('--p-text-muted', '#6b6b7b');
@@ -327,21 +328,26 @@ export function initBranding(ctx) {
     const icon = currentHex('--p-icon', '#3d40ff');
     // Text needs the 4.5:1 AA ratio; accent and icon are graphical UI
     // elements, held to WCAG 2.1 SC 1.4.11's 3:1 non-text minimum.
+    // The app background is always a gradient, so both stops are checked.
     paintWarning(primaryWarning, worstPair([
       ['card background', text, panel],
       ['app background', text, bg],
+      ['app background gradient end', text, bg2],
     ]), WCAG_TEXT_RATIO);
     paintWarning(secondaryWarning, worstPair([
       ['card background', textMuted, panel],
       ['app background', textMuted, bg],
+      ['app background gradient end', textMuted, bg2],
     ]), WCAG_TEXT_RATIO);
     paintWarning(accentWarning, worstPair([
       ['card background', accent, panel],
       ['app background', accent, bg],
+      ['app background gradient end', accent, bg2],
     ]), WCAG_UI_RATIO);
     paintWarning(iconWarning, worstPair([
       ['card background', icon, panel],
       ['app background', icon, bg],
+      ['app background gradient end', icon, bg2],
     ]), WCAG_UI_RATIO);
   }
   // Debounced so dragging the native color wheel doesn't repaint the warning per pixel.

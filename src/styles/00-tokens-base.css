@@ -81,6 +81,7 @@
      nothing happened. Grouped-background pattern: tinted canvas, white cards. */
   body.tpl-blank {
     --p-bg: #f2f2f7;
+    --p-bg-2: #e4e4f5;
     --p-panel: #ffffff;
     --p-panel-2: #e9e9f0;
     --p-text: #1d1d28;
@@ -98,6 +99,7 @@
   /* Phone theme — Template 2 (Fine Dining · Velvet Bistro) */
   body.tpl-2 {
     --p-bg: #0f0d17;
+    --p-bg-2: #1a1728;
     --p-panel: #1a1728;
     --p-panel-2: #221e34;
     --p-text: #ffffff;
@@ -114,6 +116,7 @@
   /* Phone theme — Template 3 (Café · QR Code layout) */
   body.tpl-3 {
     --p-bg: #faf7f0;
+    --p-bg-2: #f5f0e4;
     --p-panel: #ffffff;
     --p-panel-2: #f5f0e4;
     --p-text: #2a2418;

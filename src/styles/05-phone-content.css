@@ -25,13 +25,13 @@
   }
   .app-top-header .brand-mark {
     width: 40px; height: 40px; border-radius: 12px;
-    background: var(--p-accent); color: #111;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111;
     display: grid; place-items: center;
     font-weight: 800; font-size: 15px;
     box-shadow: 0 2px 8px rgba(212,166,72,.3);
     flex: none;
   }
-  body.tpl-3 .app-top-header .brand-mark { background: var(--p-accent); color: #fff; box-shadow: 0 2px 8px rgba(217,119,6,.3); }
+  body.tpl-3 .app-top-header .brand-mark { background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff; box-shadow: 0 2px 8px rgba(217,119,6,.3); }
   .app-top-header .brand-text .name { font-size: 13px; font-weight: 800; letter-spacing: .5px; }
   .app-top-header .brand-text .sub { font-size: 10px; color: var(--p-text-muted); margin-top: 1px; }
   .app-top-header .brand-text .sub:empty { display: none; }
@@ -77,7 +77,7 @@
   .guest-state .g-title { font-size: 18px; font-weight: 700; color: var(--p-text); }
   .guest-state .g-sub { font-size: 11.5px; color: var(--p-text-muted); margin: 4px 0 10px; }
   .guest-state .g-login-btn {
-    background: var(--p-accent); color: #111; border: none; border-radius: 9px;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111; border: none; border-radius: 9px;
     padding: 8px 16px; font-size: 12.5px; font-weight: 700; cursor: pointer;
   }
   body.tpl-3 .guest-state .g-login-btn { color: #fff; }
@@ -121,7 +121,7 @@
   .lc-points b { font-weight: 800; }
   .lc-next-txt { font-size: 10.5px; color: var(--p-text-muted); margin-bottom: 6px; }
   .lc-bar { height: 6px; border-radius: 4px; background: rgba(255,255,255,.14); overflow: hidden; }
-  .lc-bar span { display: block; height: 100%; border-radius: 4px; background: var(--p-accent); }
+  .lc-bar span { display: block; height: 100%; border-radius: 4px; background-color: var(--p-accent); background-image: var(--p-accent-image, none); }
   .lc-card-btn {
     align-self: flex-start; display: inline-flex; align-items: center; gap: 7px;
     background: none; border: 1px solid var(--p-text); color: var(--p-text);
@@ -264,7 +264,7 @@
     transition: opacity .15s;
   }
   .promo-cards-widget[data-pc-cta="filled"] .pc-card-btn {
-    background: var(--p-accent); color: #fff;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff;
     border-radius: 999px; padding: 6px 14px;
   }
 
@@ -305,7 +305,7 @@
     background: var(--p-border);
     cursor: pointer; transition: background-color .2s;
   }
-  .pc-dot.active { background: var(--p-accent); width: 18px; border-radius: 999px; }
+  .pc-dot.active { background-color: var(--p-accent); background-image: var(--p-accent-image, none); width: 18px; border-radius: 999px; }
 
   /* Section header (in-page) */
   .p-section-hd {
@@ -339,7 +339,7 @@
   .reward-banner .rb-arrow {
     position: absolute; right: 12px; bottom: 12px;
     width: 30px; height: 30px; border-radius: 50%;
-    background: var(--p-accent); color: #111;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111;
     display: grid; place-items: center; font-size: 14px; font-weight: 800;
   }
   body.tpl-3 .reward-banner .rb-arrow { color: #fff; }
@@ -371,7 +371,7 @@
   .rw-btn {
     margin-top: 10px; width: 100%;
     border: none; border-radius: 8px; cursor: pointer;
-    background: var(--p-accent); color: #10121a;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #10121a;
     font-size: 10.5px; font-weight: 800; padding: 8px 10px;
     font-family: inherit;
   }
@@ -391,7 +391,7 @@
     background: var(--p-panel-2); border: 1px solid var(--p-border);
   }
   .punch-card .punch.filled {
-    background: var(--p-accent); border-color: var(--p-accent);
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); border-color: var(--p-accent);
   }
 
   /* How to Start Earning */
@@ -408,7 +408,7 @@
   }
   .howto-card .h-head .badge {
     width: 22px; height: 22px; border-radius: 7px;
-    background: var(--p-accent); color: #111;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111;
     display: grid; place-items: center; font-size: 11px; font-weight: 800; flex: none;
   }
   body.tpl-3 .howto-card .h-head .badge { color: #fff; }
@@ -451,7 +451,7 @@
     border: 1px solid var(--p-border); cursor: pointer;
     transition: background-color .12s, color .12s, border-color .12s;
   }
-  .chip.active { background: var(--p-accent); color: #111; border-color: var(--p-accent); }
+  .chip.active { background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111; border-color: var(--p-accent); }
   body.tpl-3 .chip.active { color: #fff; }
 
   .loc-card {
@@ -481,7 +481,7 @@
   .loc-card .meta { font-size: 9.5px; color: var(--p-accent); font-weight: 700; }
   .loc-card .actions { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; flex: none; }
   .loc-card .nav-btn {
-    background: var(--p-accent); color: #111;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111;
     border: none; border-radius: 8px;
     padding: 6px 10px; font-size: 9.5px; font-weight: 700; cursor: pointer;
     display: flex; align-items: center; gap: 4px;
@@ -597,7 +597,7 @@
   .empty-state .e-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
   .empty-state .e-sub { font-size: 10.5px; color: var(--p-text-muted); margin-bottom: 14px; line-height: 1.5; }
   .empty-state .e-btn {
-    background: var(--p-accent); color: #111;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111;
     border: none; border-radius: 9px;
     padding: 8px 18px; font-weight: 700; font-size: 11px; cursor: pointer;
   }
@@ -666,7 +666,7 @@
   .drop-card .drop-kicker { font-size: 9px; font-weight: 800; letter-spacing: 1.5px; color: var(--p-accent); text-transform: uppercase; margin-bottom: 4px; }
   .drop-card .drop-title { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
   .drop-card .drop-btn {
-    background: var(--p-accent); color: #fff;
+    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #fff;
     border: none; border-radius: 999px;
     padding: 8px 16px; font-size: 11px; font-weight: 700; cursor: pointer;
   }

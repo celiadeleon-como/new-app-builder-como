@@ -263,6 +263,7 @@
     padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px;
     background: var(--panel); margin-bottom: 6px;
   }
+  .cp-color-row[hidden] { display: none; }
   .cp-color-swatch {
     width: 30px; height: 30px; border-radius: 7px;
     border: 1px solid var(--line); cursor: pointer;
@@ -304,6 +305,9 @@
   .branding-paired-rows .cp-color-row { margin: 0; border-radius: 0; }
   .branding-paired-rows .cp-color-row:first-child { border-radius: 11px 11px 0 0; }
   .branding-paired-rows .cp-color-row:last-child { border-radius: 0 0 11px 11px; border-top: 0; }
+  /* A lone row (or one whose only sibling is a hidden Solid/Gradient row) needs all four corners rounded. */
+  .branding-paired-rows .cp-color-row:first-child:last-child { border-radius: 11px; border-top: 1px solid var(--line); }
+  .branding-paired-rows .cp-color-row:first-child:has(~ .cp-color-row[hidden]:last-child) { border-radius: 11px; }
   .branding-color-row { min-height: 72px; padding: 14px 16px; border-color: var(--line); border-radius: 11px; background: var(--panel); flex-wrap: wrap; }
   .branding-color-row .cp-color-swatch { width: 36px; height: 36px; border: 0; border-radius: 8px; }
   .branding-color-row .cp-color-label { color: var(--muted); font-size: 12px; font-weight: 500; }
