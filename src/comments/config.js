@@ -1,5 +1,5 @@
 export const DEFAULT_COMMENT_CONFIG = Object.freeze({
-  repository: 'galcohen-ctrl/html-commnet',
+  repository: 'celiadeleon-como/new-app-builder-como',
   page: 'app-builder-p1',
   project: 'app-builder-p1',
   dataBranch: 'data',

@@ -2,7 +2,7 @@ import { mkdir, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const repository = 'galcohen-ctrl/html-commnet';
+const repository = 'celiadeleon-como/new-app-builder-como';
 const issuePrefix = '[APP-BUILDER-P1]';
 const outputDirectory = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
