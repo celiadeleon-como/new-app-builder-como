@@ -893,6 +893,21 @@ export function initGuidedFlow(ctx) {
     syncSplashOverlay();
   }
 
+  // Mark a Branding row "set up" (small dot) the first time the merchant
+  // interacts with anything inside its drill.
+  document.querySelectorAll('.cp-detail.branding-page[data-l3-drill]').forEach((detail) => {
+    const key = detail.dataset.detail;
+    const dot = document.querySelector('[data-brand-dot="' + key + '"]');
+    const section = detail.querySelector('.cp-section');
+    if (!dot || !section) return;
+    const markSet = () => { dot.hidden = false; };
+    section.addEventListener('input', markSet);
+    section.addEventListener('change', markSet);
+    section.addEventListener('click', (e) => {
+      if (e.target.closest('.cp-radio, .cp-seg-btn')) markSet();
+    });
+  });
+
 
   document.querySelectorAll('#gf-font-row [data-font]').forEach((chip) => {
     chip.addEventListener('click', () => {

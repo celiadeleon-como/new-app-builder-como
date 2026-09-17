@@ -579,6 +579,15 @@
     color: var(--ink);
     transition: color .12s;
   }
+  .brand-set-dot {
+    display: none;
+    width: 6px; height: 6px;
+    margin-left: 7px;
+    border-radius: 50%;
+    background: var(--como);
+    vertical-align: middle;
+  }
+  .brand-set-dot:not([hidden]) { display: inline-block; }
   .cp-widget-row.off .w-name {
     color: var(--muted);
     cursor: default;
