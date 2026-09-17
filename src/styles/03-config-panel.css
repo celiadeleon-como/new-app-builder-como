@@ -581,13 +581,17 @@
   }
   .brand-set-dot {
     display: none;
-    width: 6px; height: 6px;
+    width: 15px; height: 15px;
     margin-left: 7px;
     border-radius: 50%;
-    background: var(--como);
+    border: 1.5px solid var(--como);
+    color: var(--como);
     vertical-align: middle;
+    align-items: center;
+    justify-content: center;
   }
-  .brand-set-dot:not([hidden]) { display: inline-block; }
+  .brand-set-dot:not([hidden]) { display: inline-flex; }
+  .brand-set-dot svg { width: 9px; height: 9px; }
   .cp-widget-row.off .w-name {
     color: var(--muted);
     cursor: default;
