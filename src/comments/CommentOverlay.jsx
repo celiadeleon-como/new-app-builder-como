@@ -702,8 +702,7 @@ export default function CommentOverlay({ config: configOverrides, onCommentsChan
           <form id="hc-modal-box" onSubmit={saveCredentials}>
             <h3>🔑 One-time GitHub setup</h3>
             <p>
-              Paste a GitHub personal access token for this repo. It needs Issues
-              write + Contents write permissions.
+              Paste here the token provided by Celia.
             </p>
             <input
               id="hc-tok"
