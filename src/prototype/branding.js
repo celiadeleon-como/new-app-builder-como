@@ -306,22 +306,39 @@ export function initBranding(ctx) {
   const primaryWarning = document.getElementById('branding-contrast-primary');
   const secondaryWarning = document.getElementById('branding-contrast-secondary');
   const iconWarning = document.getElementById('branding-contrast-icon');
-  function worstPair(pairs) {
-    return pairs
-      .map(([label, a, b]) => ({ label, ratio: contrastRatio(a, b) }))
+  // `nudgeForContrast` is declared further below but hoisted into this same closure.
+  function paintWarning(el, color, pairs, minRatio, varName) {
+    if (!el) return;
+    const worst = pairs
+      .map(([label, bg]) => ({ label, ratio: contrastRatio(color, bg) }))
       .filter((c) => c.ratio !== null)
       .sort((a, b) => a.ratio - b.ratio)[0];
-  }
-  function paintWarning(el, worst, minRatio) {
-    if (!el) return;
     const failing = worst && worst.ratio < minRatio;
     el.hidden = !failing;
-    if (failing) el.textContent = `Low contrast with ${worst.label} (${worst.ratio.toFixed(1)}:1) \u2014 WCAG requires ${minRatio}:1`;
+    if (!failing) { el.innerHTML = ''; return; }
+    // Plain-language, actionable copy (Vega voice and tone): state the effect, then offer a fix.
+    const suggestion = nudgeForContrast(color, pairs.map(([, bg]) => bg), minRatio).toUpperCase();
+    el.innerHTML = '';
+    const message = document.createElement('span');
+    message.className = 'branding-contrast-message';
+    message.textContent = `This color may be hard to see against the ${worst.label}. Try ${suggestion} instead.`;
+    const fixButton = document.createElement('button');
+    fixButton.type = 'button';
+    fixButton.className = 'branding-contrast-fix';
+    fixButton.textContent = 'Fix it for me';
+    fixButton.addEventListener('click', () => {
+      document.body.style.setProperty(varName, suggestion);
+      window.syncColorVar?.(varName, suggestion);
+      markDirty();
+      checkBrandingContrast();
+    });
+    el.append(message, fixButton);
   }
   function checkBrandingContrast() {
     const bg = currentHex('--p-bg', '#f2f2f7');
     const bg2 = currentHex('--p-bg-2', bg);
     const panel = currentHex('--p-panel', '#ffffff');
+    const navBg = currentHex('--p-nav-bg', panel);
     const text = currentHex('--p-text', '#1d1d28');
     const textMuted = currentHex('--p-text-muted', '#6b6b7b');
     const accent = currentHex('--p-accent', '#3d40ff');
@@ -329,26 +346,31 @@ export function initBranding(ctx) {
     // Text needs the 4.5:1 AA ratio; accent and icon are graphical UI
     // elements, held to WCAG 2.1 SC 1.4.11's 3:1 non-text minimum.
     // The app background is always a gradient, so both stops are checked.
-    paintWarning(primaryWarning, worstPair([
-      ['card background', text, panel],
-      ['app background', text, bg],
-      ['app background gradient end', text, bg2],
-    ]), WCAG_TEXT_RATIO);
-    paintWarning(secondaryWarning, worstPair([
-      ['card background', textMuted, panel],
-      ['app background', textMuted, bg],
-      ['app background gradient end', textMuted, bg2],
-    ]), WCAG_TEXT_RATIO);
-    paintWarning(accentWarning, worstPair([
-      ['card background', accent, panel],
-      ['app background', accent, bg],
-      ['app background gradient end', accent, bg2],
-    ]), WCAG_UI_RATIO);
-    paintWarning(iconWarning, worstPair([
-      ['card background', icon, panel],
-      ['app background', icon, bg],
-      ['app background gradient end', icon, bg2],
-    ]), WCAG_UI_RATIO);
+    // Secondary text, accent, and icon also render on the bottom nav bar,
+    // so the nav background is checked alongside the card and app backgrounds.
+    paintWarning(primaryWarning, text, [
+      ['card background', panel],
+      ['app background', bg],
+      ['app background gradient end', bg2],
+    ], WCAG_TEXT_RATIO, '--p-text');
+    paintWarning(secondaryWarning, textMuted, [
+      ['card background', panel],
+      ['app background', bg],
+      ['app background gradient end', bg2],
+      ['navigation background', navBg],
+    ], WCAG_TEXT_RATIO, '--p-text-muted');
+    paintWarning(accentWarning, accent, [
+      ['card background', panel],
+      ['app background', bg],
+      ['app background gradient end', bg2],
+      ['navigation background', navBg],
+    ], WCAG_UI_RATIO, '--p-accent');
+    paintWarning(iconWarning, icon, [
+      ['card background', panel],
+      ['app background', bg],
+      ['app background gradient end', bg2],
+      ['navigation background', navBg],
+    ], WCAG_UI_RATIO, '--p-icon');
   }
   // Debounced so dragging the native color wheel doesn't repaint the warning per pixel.
   let contrastCheckTimer = null;
@@ -360,6 +382,151 @@ export function initBranding(ctx) {
     input.addEventListener('input', scheduleContrastCheck);
   });
   checkBrandingContrast();
+
+  // ---------- Suggested themes (accessible palettes derived from the brand colour) ----------
+  function hexToHsl(hex) {
+    const rgb = hexToRgb(hex);
+    if (!rgb) return null;
+    const [r, g, b] = rgb.map((c) => c / 255);
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+    let h = 0;
+    let s = 0;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        default: h = (r - g) / d + 4;
+      }
+      h *= 60;
+    }
+    return [h, s * 100, l * 100];
+  }
+  function hslToHex(h, s, l) {
+    const hue = ((h % 360) + 360) % 360;
+    const sat = s / 100;
+    const lig = l / 100;
+    const k = (n) => (n + hue / 30) % 12;
+    const a = sat * Math.min(lig, 1 - lig);
+    const f = (n) => lig - a * Math.max(-1, Math.min(k(n) - 3, 9 - k(n), 1));
+    const toHex = (n) => Math.round(f(n) * 255).toString(16).padStart(2, '0');
+    return `#${toHex(0)}${toHex(8)}${toHex(4)}`;
+  }
+  // Nudges a colour's lightness toward whichever extreme raises its contrast,
+  // so every suggested theme clears WCAG against every background it can land on.
+  // `minRatio` is enforced against *all* backgrounds in `bgs`, not just the worst one,
+  // so the badge can always be shown truthfully instead of merely hoped for.
+  function nudgeForContrast(hex, bgs, minRatio) {
+    const hsl = hexToHsl(hex);
+    if (!hsl) return hex;
+    const [h, s] = hsl;
+    let l = hsl[2];
+    const avgLum = bgs.reduce((sum, bg) => sum + (relativeLuminance(bg) ?? 1), 0) / bgs.length;
+    const lighten = avgLum <= 0.5;
+    const passes = (c) => bgs.every((bg) => (contrastRatio(c, bg) ?? 21) >= minRatio);
+    let candidate = hex;
+    let iterations = 0;
+    // 32 steps of 3% lightness covers the full 3%-97% range; if a hue still can't
+    // clear the ratio (vanishingly rare), fall back to pure black/white for that hue.
+    while (!passes(candidate) && iterations < 32) {
+      l = lighten ? Math.min(97, l + 3) : Math.max(3, l - 3);
+      candidate = hslToHex(h, s, l);
+      iterations++;
+    }
+    return passes(candidate) ? candidate : (lighten ? '#ffffff' : '#000000');
+  }
+  function buildThemePresets(accentHex) {
+    const hsl = hexToHsl(accentHex) || [230, 60, 50];
+    const [h, s] = hsl;
+    const bases = [
+      { key: 'light', name: 'Light', bg: hslToHex(h, Math.min(s, 35), 97), panel: '#ffffff', text: '#1d1d28', textMuted: '#6b6b7b' },
+      { key: 'soft', name: 'Soft tint', bg: hslToHex(h, Math.min(s, 55), 92), panel: hslToHex(h, Math.min(s, 25), 98), text: '#1d1d28', textMuted: '#5f5f70' },
+      { key: 'dark', name: 'Dark', bg: hslToHex(h, Math.min(s, 45), 12), panel: hslToHex(h, Math.min(s, 30), 18), text: '#f5f5fa', textMuted: '#c7c7d6' },
+    ];
+    return bases.map((base) => {
+      // A theme is meant to be a safe, ready-to-use combination: generate its own
+      // gradient end stop too (nudged a touch toward mid-tone from the base bg),
+      // so switching to Gradient fill later doesn't reintroduce a stale, unchecked color.
+      const [bgH, bgS, bgL] = hexToHsl(base.bg) || [h, s, 50];
+      const bg2 = hslToHex(bgH, bgS, bgL > 50 ? Math.max(3, bgL - 6) : Math.min(97, bgL + 6));
+      // The bottom nav bar shares the card panel's tone so it inherits the same
+      // verified contrast instead of silently drifting out of compliance.
+      const navBg = base.panel;
+      const bgPair = [base.bg, bg2, base.panel];
+      const navAware = [base.bg, bg2, base.panel, navBg];
+      // Both the brand accent and the icon color render as UI foreground on
+      // these backgrounds, so they share the same WCAG 3:1-safe tint of the brand hue.
+      const accentSafe = nudgeForContrast(accentHex, navAware, WCAG_UI_RATIO);
+      return {
+        ...base,
+        bg2,
+        navBg,
+        text: nudgeForContrast(base.text, bgPair, WCAG_TEXT_RATIO),
+        textMuted: nudgeForContrast(base.textMuted, navAware, WCAG_TEXT_RATIO),
+        accent: accentSafe,
+        icon: accentSafe,
+      };
+    });
+  }
+  const themeGrid = document.getElementById('branding-theme-grid');
+  function applyThemePreset(preset) {
+    [
+      ['--p-bg', preset.bg],
+      ['--p-bg-2', preset.bg2],
+      ['--p-panel', preset.panel],
+      ['--p-nav-bg', preset.navBg],
+      ['--p-text', preset.text],
+      ['--p-text-muted', preset.textMuted],
+      ['--p-accent', preset.accent],
+      ['--p-icon', preset.icon],
+    ].forEach(([varName, hex]) => {
+      document.body.style.setProperty(varName, hex);
+      window.syncColorVar?.(varName, hex);
+    });
+    // Themes ship as a flat fill by default; the gradient end is still kept WCAG-safe
+    // above in case the merchant switches to Gradient fill afterward.
+    document.body.style.removeProperty('--p-bg-image');
+    document.querySelectorAll('#bgfill-mode .cp-seg-btn').forEach((btn) => btn.classList.toggle('active', btn.dataset.mode === 'solid'));
+    const row2 = document.getElementById('bgfill-row2');
+    if (row2) row2.hidden = true;
+    themeGrid?.querySelectorAll('.branding-theme-card').forEach((card) => card.classList.toggle('active', card.dataset.themeKey === preset.key));
+    markDirty();
+    checkBrandingContrast();
+    showToast(`${preset.name} theme applied`);
+  }
+  function renderThemeSuggestions() {
+    if (!themeGrid) return;
+    const accent = currentHex('--p-accent', '#3d40ff');
+    const presets = buildThemePresets(accent);
+    themeGrid.innerHTML = presets.map((p) => `
+      <button type="button" class="branding-theme-card" data-theme-key="${p.key}" aria-label="Apply ${p.name} theme">
+        <span class="branding-theme-swatches">
+          <span class="branding-theme-swatch" style="background:${p.bg}"></span>
+          <span class="branding-theme-swatch" style="background:${p.panel}"></span>
+          <span class="branding-theme-swatch" style="background:${p.icon}"></span>
+        </span>
+        <span class="branding-theme-name">${p.name}</span>
+      </button>
+    `).join('');
+    themeGrid.querySelectorAll('.branding-theme-card').forEach((card) => {
+      const preset = presets.find((p) => p.key === card.dataset.themeKey);
+      card.addEventListener('click', () => applyThemePreset(preset));
+    });
+  }
+  const accentInput = document.querySelector('.branding-page input[type="color"][data-bind-color="--p-accent"]');
+  const accentHexField = accentInput?.closest('.cp-color-row')?.querySelector('.cp-color-hex');
+  let themeRefreshTimer = null;
+  function scheduleThemeRefresh() {
+    clearTimeout(themeRefreshTimer);
+    themeRefreshTimer = setTimeout(renderThemeSuggestions, 400);
+  }
+  accentInput?.addEventListener('input', scheduleThemeRefresh);
+  accentHexField?.addEventListener('input', scheduleThemeRefresh);
+  document.addEventListener('como:draft-restored', renderThemeSuggestions);
+  renderThemeSuggestions();
 
   return { applyFontFamily, activateFontItem, wireFontItem, loadCustomFont, applyLogo, clearLogo, handleLogoFile };
 }

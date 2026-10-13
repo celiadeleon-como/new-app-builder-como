@@ -392,6 +392,14 @@ export function initMenuSource(ctx) {
     selectConfigPage('activity');
   }
 
+  // Reverses openDeferredMenuSetup: committing a real ordering mode after
+  // having previewed "Not yet" must not leave the Menu step stuck on Select Screen.
+  function closeDeferredMenuSetup() {
+    page.classList.remove('px-show-advanced');
+    state.pageSettings.origin = null;
+    show('chooser');
+  }
+
   // Navigation may close the third panel without using its return button.
   // Restore the moved screen so the Menu workflow remains available afterwards.
   document.addEventListener('como:navchange', () => {
@@ -1779,6 +1787,7 @@ export function initMenuSource(ctx) {
     openMenuTab: () => goToPage('menu'),
     openWebviewSetup,
     openDeferredMenuSetup,
+    closeDeferredMenuSetup,
     isWebviewConfigured: () => state.webview.connected,
   };
 }

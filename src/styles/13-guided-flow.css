@@ -31,8 +31,8 @@
     background: var(--como); color: #fff; font-size: 26px;
   }
   .gf-welcome h1 {
-    max-width: 19ch; margin: 0 auto 8px; color: var(--ink);
-    font-size: 24px; font-weight: 800; letter-spacing: -.02em; text-wrap: balance;
+    max-width: 30ch; margin: 0 auto 8px; color: var(--ink);
+    font-size: 24px; font-weight: 800; letter-spacing: -.02em;
   }
   .gf-welcome p { font-size: 14.5px; color: var(--muted); line-height: 1.55; margin-bottom: 22px; }
   .gf-welcome-list { text-align: left; margin: 0 0 24px; display: flex; flex-direction: column; gap: 10px; }
@@ -353,14 +353,14 @@
   }
   .cp-focus-recap .cp-focus-ic {
     width: 34px; height: 34px; border-radius: 9px; flex: none;
-    background: #fff; color: var(--como); display: grid; place-items: center;
+    background: var(--panel); color: var(--como); display: grid; place-items: center;
   }
   .cp-focus-recap .cp-focus-ic svg { width: 18px; height: 18px; }
   .cp-focus-recap .cp-focus-text { flex: 1; min-width: 0; }
   .cp-focus-recap .cp-focus-lbl { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--como); }
   .cp-focus-recap .cp-focus-val { font-size: 13.5px; font-weight: 700; color: var(--ink); }
   .cp-focus-recap .cp-focus-change {
-    background: #fff; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
     padding: 6px 11px; font-size: 12.5px; font-weight: 650; color: var(--ink);
     cursor: pointer; display: flex; align-items: center; gap: 4px; flex: none;
   }
@@ -369,7 +369,7 @@
   /* Inline focus dropdown on the Home recap card. */
   .cp-focus-recap .cp-focus-menu {
     position: absolute; top: calc(100% + 4px); right: 13px; z-index: 40;
-    background: #fff; border: 1px solid var(--line); border-radius: 10px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, .12); padding: 5px; min-width: 190px;
     display: none;
   }

@@ -85,14 +85,14 @@
     --p-panel: #ffffff;
     --p-panel-2: #e9e9f0;
     --p-text: #1d1d28;
-    --p-text-muted: #8a8798;
-    --p-accent: hsla(239, 100%, 62%, 1);
+    --p-text-muted: #646171;
+    --p-accent: #262aff;
     --p-accent-2: #3335d4;
-    --p-icon: hsla(239, 100%, 62%, 1);
+    --p-icon: #262aff;
     --p-danger: #dc2626;
     --p-border: #e4e4ee;
     --p-card-grad: linear-gradient(160deg, #ffffff 0%, #f7f7fb 100%);
-    --p-hero-grad: linear-gradient(135deg, hsla(239, 100%, 62%, 1) 0%, #8083ff 100%);
+    --p-hero-grad: linear-gradient(135deg, #262aff 0%, #8083ff 100%);
     --p-nav-bg: #ffffff;
     --splash-bg: #0f0d17;
   }

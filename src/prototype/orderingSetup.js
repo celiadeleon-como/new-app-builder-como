@@ -138,6 +138,9 @@ export function initOrderingSetup(ctx = {}) {
   function commit(target, { launchConfig = true } = {}) {
     // A committed choice ends any in-flight preview, so the snapshot is stale.
     hoverSnapshot = null;
+    // "Not yet" parks the Menu step on the deferred Select Screen flow. If the
+    // merchant later commits to a real ordering mode, that flow must not linger.
+    const leavingSkip = mode === 'skip' && target !== 'skip';
     mode = target;
     applyMode(target);
     reflect();
@@ -145,6 +148,7 @@ export function initOrderingSetup(ctx = {}) {
     document.body.classList.remove('phone-header-only');
     document.dispatchEvent(new CustomEvent('como:ordering-mode', { detail: { mode: target, focus: MODE_FOCUS[target] } }));
     if (target === 'skip') ctx.openDeferredMenuSetup?.();
+    else if (leavingSkip) ctx.closeDeferredMenuSetup?.();
     ctx.markDirty?.();
     if (!launchConfig) return;
     // Each capability is configured somewhere concrete: native connects a provider

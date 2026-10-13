@@ -26,6 +26,7 @@ const FOCUS_LABELS = {
 const FOCUS_ICONS = {
   loyalty: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>',
   ordering: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg>',
+  blank: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>',
 };
 
 export function initGuidedFlow(ctx) {
@@ -894,16 +895,16 @@ export function initGuidedFlow(ctx) {
   }
 
   // Mark a Branding row "set up" (small dot) the first time the merchant
-  // interacts with anything inside its drill.
+  // interacts with anything inside its drill (the Colour drill now bundles
+  // several sections, so listen across the whole detail, not just the first).
   document.querySelectorAll('.cp-detail.branding-page[data-l3-drill]').forEach((detail) => {
     const key = detail.dataset.detail;
     const dot = document.querySelector('[data-brand-dot="' + key + '"]');
-    const section = detail.querySelector('.cp-section');
-    if (!dot || !section) return;
+    if (!dot || !detail.querySelector('.cp-section')) return;
     const markSet = () => { dot.hidden = false; };
-    section.addEventListener('input', markSet);
-    section.addEventListener('change', markSet);
-    section.addEventListener('click', (e) => {
+    detail.addEventListener('input', markSet);
+    detail.addEventListener('change', markSet);
+    detail.addEventListener('click', (e) => {
       if (e.target.closest('.cp-radio, .cp-seg-btn')) markSet();
     });
   });
@@ -940,7 +941,7 @@ export function initGuidedFlow(ctx) {
       el.textContent = FOCUS_LABELS[flow.focus] || 'Not chosen yet';
     });
     document.querySelectorAll('.cp-focus-ic').forEach((el) => {
-      el.innerHTML = FOCUS_ICONS[flow.focus] || '';
+      el.innerHTML = FOCUS_ICONS[flow.focus] || FOCUS_ICONS.blank;
     });
     document.querySelectorAll('.cp-focus-menu [data-focus]').forEach((b) => {
       const selected = b.dataset.focus === flow.focus;
