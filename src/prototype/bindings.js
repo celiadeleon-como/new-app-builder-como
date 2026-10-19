@@ -319,13 +319,40 @@ export function initBindings(ctx) {
     colorControls.forEach((c) => {
       if (c.dataset.bindColor === varName) paintColorControl(c, hex);
     });
+    if (varName === '--p-accent') updateAccentInk(hex);
   }
   window.syncColorVar = syncColorVar;
+
+  // Buttons/badges painted with the brand accent as background default to white
+  // text, which fails WCAG AA once the accent itself is light. --p-accent-ink
+  // picks whichever of white/near-black text keeps a 4.5:1 contrast ratio.
+  function accentInkRatio(hex, textHex) {
+    const toRgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+    const luminance = (h) => {
+      const channels = toRgb(h).map((c) => {
+        const n = c / 255;
+        return n <= 0.03928 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4;
+      });
+      return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+    };
+    const lumA = luminance(hex);
+    const lumB = luminance(textHex);
+    const lighter = Math.max(lumA, lumB);
+    const darker = Math.min(lumA, lumB);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+  function updateAccentInk(hex) {
+    if (!/^#[0-9a-f]{6}$/i.test(hex || '')) return;
+    const DARK_INK = '#1d1d28';
+    const ink = accentInkRatio(hex, '#ffffff') >= accentInkRatio(hex, DARK_INK) ? '#ffffff' : DARK_INK;
+    document.body.style.setProperty('--p-accent-ink', ink);
+  }
 
   colorControls.forEach((inp) => {
     const varName = inp.dataset.bindColor;
     const live = toHex(getComputedStyle(document.body).getPropertyValue(varName));
     if (live) paintColorControl(inp, live);
+    if (varName === '--p-accent' && live) updateAccentInk(live);
     wireColorControl(inp, (hex) => {
       document.body.style.setProperty(varName, hex);
       syncColorVar(varName, hex);

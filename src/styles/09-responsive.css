@@ -16,8 +16,8 @@
 .responsive-view-switch {
   display: none;
   align-items: center;
-  gap: 3px;
-  padding: 3px;
+  gap: 4px;
+  padding: 4px;
   border: 1px solid var(--line);
   border-radius: 11px;
   background: var(--bg);
@@ -25,7 +25,7 @@
 .responsive-view-switch button {
   min-width: 84px;
   min-height: 38px;
-  padding: 0 13px;
+  padding: 0 12px;
   border: 0;
   border-radius: 8px;
   background: transparent;
@@ -75,7 +75,6 @@ body .cp-step-next,
   min-height: 44px;
 }
 .topbar .close-btn { width: 44px; height: 44px; }
-.cp-widget-row .toggle,
 .w-edit-icon,
 .cp-widget-row .handle,
 .rw-row-head .handle {
@@ -159,7 +158,7 @@ body .cp-step-next,
   .side-nav {
     grid-column: 1;
     grid-row: 1;
-    padding: 10px;
+    padding: 12px;
     overflow-x: visible;
     overflow-y: auto;
   }
@@ -175,7 +174,7 @@ body .cp-step-next,
     min-width: 44px;
     min-height: 44px;
     justify-content: center;
-    padding: 9px;
+    padding: 8px;
     margin-inline: auto;
   }
   .side-steps .side-step + .side-step::before { display: none; }
@@ -263,8 +262,8 @@ body .cp-step-next,
     grid-row: 1;
     flex-direction: row;
     align-items: center;
-    gap: 2px;
-    padding: 6px;
+    gap: 4px;
+    padding: 8px;
     border-right: 0;
     border-bottom: 1px solid #26223a;
     overflow-x: auto;
@@ -279,7 +278,7 @@ body .cp-step-next,
   .side-spacer,
   .side-toggle-btn { display: none; }
   .side-items,
-  .side-foot { display: flex; flex: 0 0 auto; flex-direction: row; gap: 2px; }
+  .side-foot { display: flex; flex: 0 0 auto; flex-direction: row; gap: 4px; }
   .side-foot { margin: 0; padding: 0; border: 0; }
   .side-nav .side-item,
   body.side-collapsed .side-nav .side-item {
@@ -288,7 +287,7 @@ body .cp-step-next,
     min-width: 44px;
     min-height: 44px;
     margin: 0;
-    padding: 9px;
+    padding: 8px;
   }
   .side-nav .side-item.active::before {
     left: 8px;
@@ -317,12 +316,12 @@ body .cp-step-next,
     grid-row: 2;
   }
   .config-panel {
-    padding: 18px clamp(16px, 5vw, 24px);
+    padding: 20px clamp(16px, 5vw, 24px);
     scrollbar-gutter: auto;
   }
   .cp-breadcrumb { padding-inline: clamp(16px, 5vw, 24px); }
   body .cp-step-foot {
-    padding: 10px clamp(12px, 4vw, 20px);
+    padding: 12px clamp(12px, 4vw, 20px);
     gap: 8px;
     flex-wrap: wrap;
   }
@@ -346,7 +345,7 @@ body .cp-step-next,
     inset: 56px 0 0 0;
     width: auto;
   }
-  .l3-inner { padding: 18px clamp(16px, 5vw, 24px); }
+  .l3-inner { padding: 20px clamp(16px, 5vw, 24px); }
 
   .config-column,
   .config-panel,

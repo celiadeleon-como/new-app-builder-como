@@ -41,6 +41,23 @@ export default function PhonePreview() {
       id="preview-area"
       data-comment-anchor="phone-preview"
     >
+      <div className="splash-preview-stage" id="splash-preview-stage" hidden>
+        <div className="splash-preview-col">
+          <div className="splash-preview-caption">Launch screen</div>
+          <div className="device-frame splash-preview-frame">
+            <div className="device-screen" style={{ background: 'var(--splash-bg)' }}>
+              <div className="gf-splash-mark" id="splash-preview-mark">?</div>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video id="splash-preview-video" className="gf-splash-video" muted loop autoPlay playsInline hidden />
+              <div className="gf-splash-loader" aria-hidden="true"><span /><span /><span /></div>
+            </div>
+          </div>
+        </div>
+        <div className="splash-preview-arrow" aria-hidden="true">&#8594;</div>
+        <div className="splash-preview-col" id="splash-preview-app-slot">
+          <div className="splash-preview-caption">Your app</div>
+        </div>
+      </div>
       <div className="device-stage" id="device-stage">
         <div className="device-frame" id="device-frame">
           <div className="device-screen">
@@ -73,6 +90,9 @@ export default function PhonePreview() {
 
             <div className="gf-splash-overlay" id="gf-splash-overlay" aria-hidden="true" hidden>
               <div className="gf-splash-mark" id="gf-splash-mark">?</div>
+              {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+              <video id="gf-splash-video" className="gf-splash-video" muted loop autoPlay playsInline hidden />
+              <div className="gf-splash-loader" aria-hidden="true"><span /><span /><span /></div>
             </div>
           </div>
         </div>

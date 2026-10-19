@@ -137,12 +137,12 @@ export function initCoreNavigation(ctx) {
       homeWidgetKeys.forEach(k => setWidgetOn(k, true));
       setBrand('Velvet Bistro', 'V', 'Fine dining · Loyalty');
       setMenuSlotMode('menu');
-      showToast('Loaded Fine Dining preset · Velvet Bistro');
+      showToast('Loaded Fine Dining preset · Velvet Bistro', { variant: 'success' });
     } else if (tpl === 'tpl-3') {
       homeWidgetKeys.forEach(k => setWidgetOn(k, false));
       setBrand('Café Concerto', 'C', 'Coffee · Bakery');
       setMenuSlotMode('qr');
-      showToast('Loaded Café preset · Café Concerto');
+      showToast('Loaded Café preset · Café Concerto', { variant: 'success' });
     } else {
       homeWidgetKeys.forEach(k => setWidgetOn(k, false));
       setBrand('Your Business', '?', '');
@@ -310,7 +310,7 @@ export function initCoreNavigation(ctx) {
           onAction: () => window.openSettings?.('online-ordering'),
         });
       } else {
-        showToast(`Your starting app is ready — ${presetConfirmNames[goal]} layout applied`);
+        showToast(`Your starting app is ready — ${presetConfirmNames[goal]} layout applied`, { variant: 'success' });
       }
       return;
     }
@@ -347,9 +347,10 @@ export function initCoreNavigation(ctx) {
       goToPage(state.page);
       showToast(`Layout updated: ${presetConfirmNames[applied]}`, {
         actionLabel: 'Undo',
+        variant: 'success',
         onAction: () => {
           restoreLayout(before);
-          showToast('Previous layout restored');
+          showToast('Previous layout restored', { variant: 'success' });
         },
       });
       pendingGoal = null;

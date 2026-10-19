@@ -154,7 +154,7 @@
         <div class="ms-drop-sub">or click to browse your files</div>
         <span class="ms-btn small">Choose file</span>
       </div>
-      <div class="ms-hint" style="margin-top:10px">
+      <div class="ms-hint" style="margin-top: 12px">
         <span>PDF only · up to 20 MB · one file. Multi-page menus are supported.</span>
       </div>
 
@@ -188,12 +188,15 @@
   <!-- ========== Configure another page ========== -->
   <div class="ms-screen" data-ms="page-settings">
 
+    <div class="ms-title">Choose a page to display</div>
+    <div class="ms-sub">Select the page you want to display in your app.</div>
+
     <div class="cp-field">
-      <label>Select page to configure</label>
+      <label>App page</label>
       <div class="ms-page-picker" id="ms-page-picker">
         <button class="ms-page-picker-trigger" type="button" id="ms-page-picker-trigger" aria-haspopup="listbox" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.5H7a2 2 0 00-2 2v15a2 2 0 002 2h10a2 2 0 002-2V7.5z"/><path d="M14 2.5v5h5"/></svg>
-          <span id="ms-page-picker-label">Our Menu</span>
+          <span id="ms-page-picker-label">My Activity</span>
           <svg class="ms-page-picker-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="ms-page-picker-list" id="ms-page-picker-list" role="listbox" aria-label="Pages" hidden></div>
@@ -212,7 +215,7 @@
 
     <div id="ms-page-account-block" hidden>
       <div class="ms-sub">Allow customers to access their order history, including previous purchases, order specifics, points, and credits.</div>
-      <div class="ms-section-label" style="margin-top:18px;">Display options</div>
+      <div class="ms-section-label" style="margin-top: 20px;">Display options</div>
       <div class="ms-toggle-card">
         <div class="ms-toggle-row">
           <div class="ms-toggle-text">
@@ -279,7 +282,7 @@
     </div>
 
     <div id="ms-page-referral-terms" hidden>
-      <div class="ms-section-label" style="margin-top:22px;">Terms &amp; conditions</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Terms &amp; conditions</div>
       <div class="cp-field">
         <label>Fine print</label>
         <textarea class="cp-input-text cp-textarea" id="ms-referral-terms-text" rows="3" placeholder="e.g. Referral points are credited automatically once your friend completes an order of $15 or more."></textarea>
@@ -291,7 +294,7 @@
     </div>
 
     <div id="ms-page-story-block" hidden>
-      <div class="ms-section-label" style="margin-top:22px;">"The Spark" section</div>
+      <div class="ms-section-label" style="margin-top: 24px;">"The Spark" section</div>
       <div class="cp-field">
         <label>Heading</label>
         <input class="cp-input-text" id="ms-story-spark-heading" placeholder="e.g. The Spark" />
@@ -305,7 +308,7 @@
         <textarea class="cp-input-text cp-textarea" id="ms-story-spark-p2" rows="3"></textarea>
       </div>
 
-      <div class="ms-section-label" style="margin-top:22px;">Core values</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Core values</div>
       <div class="cp-field">
         <label>Heading</label>
         <input class="cp-input-text" id="ms-story-values-heading" placeholder="e.g. Our Core Values" />
@@ -341,7 +344,7 @@
         </div>
       </div>
 
-      <div class="ms-section-label" style="margin-top:22px;">Founder quote</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Founder quote</div>
       <div class="cp-field">
         <label>Quote</label>
         <textarea class="cp-input-text cp-textarea" id="ms-story-quote-text" rows="3"></textarea>
@@ -355,7 +358,7 @@
         <input class="cp-input-text" id="ms-story-quote-role" />
       </div>
 
-      <div class="ms-section-label" style="margin-top:22px;">Buttons</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Buttons</div>
       <div class="cp-field">
         <label>First button label</label>
         <input class="cp-input-text" id="ms-story-cta-1" />
@@ -367,7 +370,7 @@
     </div>
 
     <div id="ms-page-contact-block" hidden>
-      <div class="ms-section-label" style="margin-top:22px;">Direct contact</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Direct contact</div>
       <div class="ms-hero-card">
         <div class="cp-field">
           <label>Row 1 title</label>
@@ -401,7 +404,7 @@
     </div>
 
     <div id="ms-page-menu-pdf">
-      <div class="ms-section-label" style="margin-top:22px;">Upload PDF Menu</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Upload PDF Menu</div>
       <div class="ms-sub" style="margin-top:-4px;">Upload your menu as a PDF file. Customers can view and download it directly.</div>
       <div class="ms-block">
         <div class="ms-drop" id="ms-page-pdf-drop">
@@ -517,7 +520,7 @@
     </div>
 
     <div class="ms-section-label">Look &amp; feel</div>
-    <div class="ms-label" style="margin-bottom:10px">Accent colour</div>
+    <div class="ms-label" style="margin-bottom: 12px">Accent colour</div>
     <div class="ms-swatches" data-swatches="custom">
       <span class="ms-swatch on" style="background:#6d28d9" data-color="#6d28d9"></span>
       <span class="ms-swatch" style="background:#c7355a" data-color="#c7355a"></span>
@@ -525,7 +528,7 @@
       <span class="ms-swatch" style="background:#1d63b8" data-color="#1d63b8"></span>
       <span class="ms-swatch" style="background:#d6a535" data-color="#d6a535"></span>
     </div>
-    <div class="ms-toggle-card" style="margin-top:14px">
+    <div class="ms-toggle-card" style="margin-top: 16px">
       <div class="ms-toggle-row">
         <div class="ms-toggle-text">
           <div class="ms-toggle-name">Match app theme</div>
@@ -700,7 +703,7 @@
       <button class="ms-info" type="button" data-tip="One wide image at the very top of the Menu tab. Category images sit inside each section.">i</button>
       <button class="ms-inline-action ok" type="button" id="ms-hero-set">Set</button>
     </div>
-    <div class="ms-tip" style="margin:-4px 0 10px">Shown at the top of your whole menu.</div>
+    <div class="ms-tip" style="margin: -4px 0 12px">Shown at the top of your whole menu.</div>
     <div class="ms-hero" id="ms-menu-hero"></div>
 
     <div class="ms-section-label">
@@ -771,10 +774,10 @@
     <div class="ms-label">Item name</div>
     <input class="ms-input" type="text" id="ms-item-name">
 
-    <div class="ms-label" style="margin-top:14px">Description</div>
+    <div class="ms-label" style="margin-top: 16px">Description</div>
     <textarea class="ms-textarea" id="ms-item-desc"></textarea>
 
-    <div class="ms-row2" style="margin-top:14px">
+    <div class="ms-row2" style="margin-top: 16px">
       <div>
         <div class="ms-label">Price</div>
         <input class="ms-input" type="text" id="ms-item-price">
@@ -815,6 +818,6 @@
     </div>
     <div class="ms-tags" id="ms-item-tags"></div>
 
-    <button class="ms-btn ghost" type="button" id="ms-item-delete" style="margin-top:22px;color:var(--danger,#c7355a)">Delete item</button>
+    <button class="ms-btn ghost" type="button" id="ms-item-delete" style="margin-top: 24px;color:var(--danger,#c7355a)">Delete item</button>
   </div>
 </div>

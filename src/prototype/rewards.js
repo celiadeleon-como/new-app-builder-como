@@ -8,7 +8,7 @@ export function initRewards(ctx) {
   const rwTiles = {
     gifts: { name: 'My Gifts', headline: 'Active Rewards ready to be redeemed', desc: '3 rewards available · Tap to view', btnText: '', imgData: null },
     points: { name: 'My Points Shop', headline: '1 pt per AED spent', desc: 'Trade points for gifts, discounts, and exclusive perks', btnText: '', imgData: null },
-    punch: { name: 'Punch Card', headline: 'Coffee Punch Card', desc: '7 of 10 · Free coffee after 10 stamps', btnText: '', imgData: null },
+    punch: { name: 'Punch Card', headline: 'Coffee Punch Card', desc: '7 of 10 · Free coffee after 10 stamps', btnText: '', imgData: null, stampImgData: null },
   };
   let rwEditKey = null;
 
@@ -28,6 +28,12 @@ export function initRewards(ctx) {
       btn.style.display = t.btnText.trim() ? '' : 'none';
       btn.textContent = t.btnText;
     }
+    if (key === 'punch') {
+      el.querySelectorAll('.punch').forEach((punch) => {
+        punch.classList.toggle('custom-stamp', !!t.stampImgData);
+        punch.style.backgroundImage = t.stampImgData ? 'url(' + t.stampImgData + ')' : '';
+      });
+    }
   }
 
   function rwPaintImageState(imgData) {
@@ -35,6 +41,26 @@ export function initRewards(ctx) {
     const empty = document.getElementById('rw-edit-image-empty');
     const removeBtn = document.getElementById('rw-edit-image-remove');
     const zone = document.getElementById('rw-edit-image-zone');
+    if (imgData) {
+      preview.src = imgData;
+      preview.style.display = 'block';
+      empty.style.display = 'none';
+      removeBtn.style.display = '';
+      zone.classList.add('has-image');
+    } else {
+      preview.style.display = 'none';
+      empty.style.display = '';
+      removeBtn.style.display = 'none';
+      zone.classList.remove('has-image');
+    }
+  }
+
+  function rwPaintStampState(imgData) {
+    const preview = document.getElementById('rw-edit-stamp-preview');
+    const empty = document.getElementById('rw-edit-stamp-empty');
+    const removeBtn = document.getElementById('rw-edit-stamp-remove');
+    const zone = document.getElementById('rw-edit-stamp-zone');
+    if (!zone) return;
     if (imgData) {
       preview.src = imgData;
       preview.style.display = 'block';
@@ -58,6 +84,11 @@ export function initRewards(ctx) {
     document.getElementById('rw-edit-desc').value = t.desc;
     document.getElementById('rw-edit-btn-text').value = t.btnText;
     rwPaintImageState(t.imgData);
+    const stampField = document.getElementById('rw-edit-stamp-field');
+    if (stampField) {
+      stampField.hidden = key !== 'punch';
+      if (key === 'punch') rwPaintStampState(t.stampImgData);
+    }
     // Editing one reward card is an item-level edit, so it opens in the third
     // panel and the reward list stays visible beside it.
     const node = document.querySelector('[data-detail="rw-tile"]');
@@ -128,6 +159,46 @@ export function initRewards(ctx) {
       rwPaintImageState(null);
       rwImageFile.value = '';
       rwRenderPhone(rwEditKey);
+      markDirty();
+    });
+  }
+
+  const rwStampZone = document.getElementById('rw-edit-stamp-zone');
+  const rwStampFile = document.getElementById('rw-edit-stamp-file');
+  if (rwStampZone) {
+    rwStampZone.addEventListener('click', () => rwStampFile.click());
+    rwStampZone.addEventListener('dragover', (e) => { e.preventDefault(); rwStampZone.style.borderColor = 'var(--como)'; });
+    rwStampZone.addEventListener('dragleave', () => { rwStampZone.style.borderColor = ''; });
+    rwStampZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      rwStampZone.style.borderColor = '';
+      const file = e.dataTransfer.files && e.dataTransfer.files[0];
+      if (file) rwApplyStamp(file);
+    });
+  }
+  if (rwStampFile) {
+    rwStampFile.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files[0]) rwApplyStamp(e.target.files[0]);
+    });
+  }
+  function rwApplyStamp(file) {
+    readImageFile(file, (dataUrl) => {
+      if (rwEditKey !== 'punch') return;
+      rwTiles.punch.stampImgData = dataUrl;
+      rwPaintStampState(dataUrl);
+      rwRenderPhone('punch');
+      markDirty();
+    });
+  }
+  const rwStampRemove = document.getElementById('rw-edit-stamp-remove');
+  if (rwStampRemove) {
+    rwStampRemove.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (rwEditKey !== 'punch') return;
+      rwTiles.punch.stampImgData = null;
+      rwPaintStampState(null);
+      rwStampFile.value = '';
+      rwRenderPhone('punch');
       markDirty();
     });
   }

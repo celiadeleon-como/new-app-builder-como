@@ -6,8 +6,6 @@ export function initBranding(ctx) {
   const fontUploadButton = document.getElementById('font-upload-button');
   const iconUploadButton = document.getElementById('icon-upload-button');
   const iconFile = document.getElementById('icon-file');
-  const cardCorner = document.getElementById('card-corner-radius');
-  const buttonCorner = document.getElementById('button-corner-radius');
 
   document.querySelectorAll('.branding-color-trigger').forEach((trigger) => {
     trigger.addEventListener('click', () => {
@@ -29,49 +27,50 @@ export function initBranding(ctx) {
   fontUploadButton?.addEventListener('click', () => document.getElementById('font-file')?.click());
   iconUploadButton?.addEventListener('click', () => iconFile?.click());
   iconFile?.addEventListener('change', () => {
-    if (iconFile.files?.[0]) showToast('Custom icon uploaded');
+    if (iconFile.files?.[0]) showToast('Custom icon uploaded', { variant: 'success' });
     markDirty();
   });
 
-  function applyCornerRadius(input, valueElement, variable, previewSelector) {
-    if (!input) return;
-    input.addEventListener('input', () => {
-      const value = input.value + 'px';
+  // Corner radius: Square/Soft/Round buttons map to fixed px values per group,
+  // read straight off the clicked radio rather than the shared "active" class.
+  function applyCornerRadiusGroup(group) {
+    if (!group) return;
+    const radii = (group.dataset.cornerRadii || '').split(',').map(Number);
+    const variable = group.dataset.cornerVar;
+    const previewSelector = group.dataset.cornerPreview;
+    function apply(radio) {
+      const value = radii[Number(radio.dataset.value)] + 'px';
       document.documentElement.style.setProperty(variable, value);
       document.querySelectorAll(previewSelector).forEach((element) => {
         element.style.borderRadius = value;
       });
-      if (valueElement) valueElement.textContent = value;
-      markDirty();
+    }
+    group.querySelectorAll('.cp-radio').forEach((radio) => {
+      radio.addEventListener('click', () => { apply(radio); markDirty(); });
     });
+    apply(group.querySelector('.cp-radio.active') || group.querySelector('.cp-radio'));
   }
-  applyCornerRadius(
-    cardCorner,
-    document.getElementById('card-corner-value'),
-    '--p-card-radius',
-    '.app-shell .stat-tile, .app-shell .loyalty-card, .app-shell .pc-card, .app-shell .prog-card, .app-shell .punch-card, .app-shell .howto-row, .app-shell .webview-cta-card, .app-shell .oa-card, .app-shell .ti-card, .app-shell .mc-card, .app-shell .px-login-card',
-  );
-  applyCornerRadius(
-    buttonCorner,
-    document.getElementById('button-corner-value'),
-    '--p-button-radius',
-    '.app-shell button, .app-shell .chip, .app-shell .pc-cta, .app-shell .guest-cta, .app-shell .lc-cta',
-  );
+  document.querySelectorAll('.branding-corners .cp-radio-group[data-corner-var]').forEach(applyCornerRadiusGroup);
 
-  // ---------- Background: Solid vs Gradient fill ----------
+  // ---------- Background: Solid vs Gradient vs Image fill ----------
   // The base color lives in --p-bg (used everywhere as a flat color, including
-  // WCAG contrast checks) and layers an optional gradient on top via
-  // --p-bg-image, built from a second stop color the same generic
-  // data-bind-color inputs already manage.
-  function initFillMode({ segId, row2Id, baseVar, secondVar, imageVar, angle }) {
+  // WCAG contrast checks) and layers an optional gradient or uploaded photo on
+  // top via --p-bg-image.
+  function initFillMode({ segId, row2Id, imageRowId, baseVar, secondVar, imageVar, angle }) {
     const seg = document.getElementById(segId);
     const row2 = document.getElementById(row2Id);
+    const imageRow = document.getElementById(imageRowId);
     if (!seg) return;
+    // Cached so switching away from "Image" and back doesn't force a re-upload.
+    let uploadedImage = null;
     function refresh() {
       const mode = seg.querySelector('.cp-seg-btn.active')?.dataset.mode || 'solid';
       if (row2) row2.hidden = mode !== 'gradient';
+      if (imageRow) imageRow.hidden = mode !== 'image';
       if (mode === 'gradient') {
         document.body.style.setProperty(imageVar, `linear-gradient(${angle}deg, var(${baseVar}), var(${secondVar}))`);
+      } else if (mode === 'image' && uploadedImage) {
+        document.body.style.setProperty(imageVar, `url("${uploadedImage}")`);
       } else {
         document.body.style.removeProperty(imageVar);
       }
@@ -85,12 +84,69 @@ export function initBranding(ctx) {
       });
     });
     document.addEventListener('como:draft-restored', () => {
-      const active = Boolean(document.body.style.getPropertyValue(imageVar).trim());
-      seg.querySelectorAll('.cp-seg-btn').forEach((b) => b.classList.toggle('active', b.dataset.mode === (active ? 'gradient' : 'solid')));
-      if (row2) row2.hidden = !active;
+      const current = document.body.style.getPropertyValue(imageVar).trim();
+      const urlMatch = /^url\(["']?(.+?)["']?\)$/.exec(current);
+      let mode = 'solid';
+      if (urlMatch) { mode = 'image'; uploadedImage = urlMatch[1]; } else if (current) { mode = 'gradient'; }
+      seg.querySelectorAll('.cp-seg-btn').forEach((b) => b.classList.toggle('active', b.dataset.mode === mode));
+      refresh();
     });
+
+    // ---------- Background image upload (shown only while "Image" is active) ----------
+    const zone = document.getElementById('bg-image-zone');
+    const fileInput = document.getElementById('bg-image-file');
+    const result = document.getElementById('bg-image-result');
+    const thumb = document.getElementById('bg-image-thumb-img');
+    const filenameEl = document.getElementById('bg-image-filename');
+    const replaceBtn = document.getElementById('bg-image-replace');
+    const removeBtn = document.getElementById('bg-image-remove');
+    function applyBackgroundImage(dataUrl, name) {
+      uploadedImage = dataUrl;
+      document.body.style.setProperty(imageVar, `url("${dataUrl}")`);
+      if (thumb) thumb.src = dataUrl;
+      if (filenameEl) filenameEl.textContent = name || '';
+      if (result) result.style.display = 'flex';
+      if (zone) zone.style.display = 'none';
+      markDirty();
+      showToast('Background image uploaded', { variant: 'success' });
+    }
+    function clearBackgroundImage() {
+      uploadedImage = null;
+      document.body.style.removeProperty(imageVar);
+      if (fileInput) fileInput.value = '';
+      if (result) result.style.display = 'none';
+      if (zone) zone.style.display = '';
+      markDirty();
+      showToast('Background image removed', { variant: 'success' });
+    }
+    function handleBackgroundImageFile(file) {
+      if (!file) return;
+      if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) {
+        showToast('Upload a PNG, JPG, or WEBP file.', { variant: 'error' });
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('This file exceeds the 5MB limit.', { variant: 'error' });
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = (ev) => applyBackgroundImage(ev.target.result, file.name);
+      reader.readAsDataURL(file);
+    }
+    fileInput?.addEventListener('change', (e) => handleBackgroundImageFile(e.target.files?.[0]));
+    zone?.addEventListener('click', () => fileInput?.click());
+    zone?.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone?.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      handleBackgroundImageFile(e.dataTransfer.files?.[0]);
+    });
+    replaceBtn?.addEventListener('click', () => fileInput?.click());
+    removeBtn?.addEventListener('click', clearBackgroundImage);
   }
-  initFillMode({ segId: 'bgfill-mode', row2Id: 'bgfill-row2', baseVar: '--p-bg', secondVar: '--p-bg-2', imageVar: '--p-bg-image', angle: 180 });
+  initFillMode({ segId: 'bgfill-mode', row2Id: 'bgfill-row2', imageRowId: 'bgfill-image-row', baseVar: '--p-bg', secondVar: '--p-bg-2', imageVar: '--p-bg-image', angle: 180 });
+
 
   // ---------- Font picker (Branding drill: list + search + custom upload) ----------
   function applyFontFamily(font) {
@@ -125,11 +181,11 @@ export function initBranding(ctx) {
   function loadCustomFont(file) {
     if (!file) return;
     if (!/\.(woff2|otf|ttf)$/i.test(file.name)) {
-      showToast('Upload a .woff2, .otf, or .ttf font file.');
+      showToast('Upload a .woff2, .otf, or .ttf font file.', { variant: 'error' });
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      showToast('This file exceeds the 5MB limit.');
+      showToast('This file exceeds the 5MB limit.', { variant: 'error' });
       return;
     }
     const reader = new FileReader();
@@ -161,7 +217,7 @@ export function initBranding(ctx) {
         wireFontItem(item);
       }
       markDirty();
-      showToast('Custom font “' + file.name + '” applied');
+      showToast('Custom font “' + file.name + '” applied', { variant: 'success' });
     };
     reader.readAsDataURL(file);
   }
@@ -223,7 +279,7 @@ export function initBranding(ctx) {
     if (logoToggle && !logoToggle.classList.contains('on')) logoToggle.click();
 
     markDirty();
-    showToast('Logo uploaded · rendered live on the phone');
+    showToast('Logo uploaded · rendered live on the phone', { variant: 'success' });
   }
 
   function clearLogo() {
@@ -236,17 +292,17 @@ export function initBranding(ctx) {
     });
     if (logoFile) logoFile.value = '';
     markDirty();
-    showToast('Logo removed');
+    showToast('Logo removed', { variant: 'success' });
   }
 
   function handleLogoFile(file) {
     if (!file) return;
     if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) {
-      showToast('Upload a PNG, JPG, or WEBP file.');
+      showToast('Upload a PNG, JPG, or WEBP file.', { variant: 'error' });
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      showToast('This file exceeds the 5MB limit.');
+      showToast('This file exceeds the 5MB limit.', { variant: 'error' });
       return;
     }
     const reader = new FileReader();
@@ -334,6 +390,56 @@ export function initBranding(ctx) {
     });
     el.append(message, fixButton);
   }
+  // Nudges a background's lightness toward whichever extreme actually clears
+  // contrast against a *fixed* foreground colour (the brand accent/icon). Picking
+  // direction by testing both extremes — rather than assuming "light foreground
+  // needs a dark background" — matters because WCAG's blue-discounting luminance
+  // formula can make a visually light colour (e.g. periwinkle) read as "dark".
+  function nudgeBackgroundForContrast(bgHex, fixedHex, minRatio) {
+    const hsl = hexToHsl(bgHex);
+    if (!hsl) return bgHex;
+    const [h, s] = hsl;
+    let l = hsl[2];
+    const lighten = (contrastRatio(hslToHex(h, s, 97), fixedHex) ?? 0) >= (contrastRatio(hslToHex(h, s, 3), fixedHex) ?? 0);
+    const passes = (c) => (contrastRatio(c, fixedHex) ?? 0) >= minRatio;
+    let candidate = bgHex;
+    let iterations = 0;
+    while (!passes(candidate) && iterations < 32) {
+      l = lighten ? Math.min(97, l + 3) : Math.max(3, l - 3);
+      candidate = hslToHex(h, s, l);
+      iterations++;
+    }
+    return passes(candidate) ? candidate : (lighten ? '#ffffff' : '#000000');
+  }
+  // Brand colour (and icon colour, which usually matches it) is dictated by the
+  // merchant's identity, not something the builder should suggest changing — so
+  // when it clashes, nudge the background it sits on instead and leave it alone.
+  function paintFixedColorWarning(el, fixedColor, bgPairs, minRatio) {
+    if (!el) return;
+    const worst = bgPairs
+      .map(([label, bg, varName]) => ({ label, bg, varName, ratio: contrastRatio(fixedColor, bg) }))
+      .filter((c) => c.ratio !== null)
+      .sort((a, b) => a.ratio - b.ratio)[0];
+    const failing = worst && worst.ratio < minRatio;
+    el.hidden = !failing;
+    if (!failing) { el.innerHTML = ''; return; }
+    const suggestion = nudgeBackgroundForContrast(worst.bg, fixedColor, minRatio).toUpperCase();
+    el.innerHTML = '';
+    const message = document.createElement('span');
+    message.className = 'branding-contrast-message';
+    message.textContent = `Your brand colour may be hard to see against the ${worst.label}. We can adjust the ${worst.label} to ${suggestion} to fix it.`;
+    const fixButton = document.createElement('button');
+    fixButton.type = 'button';
+    fixButton.className = 'branding-contrast-fix';
+    fixButton.textContent = 'Fix it for me';
+    fixButton.addEventListener('click', () => {
+      document.body.style.setProperty(worst.varName, suggestion);
+      window.syncColorVar?.(worst.varName, suggestion);
+      markDirty();
+      checkBrandingContrast();
+    });
+    el.append(message, fixButton);
+  }
   function checkBrandingContrast() {
     const bg = currentHex('--p-bg', '#f2f2f7');
     const bg2 = currentHex('--p-bg-2', bg);
@@ -359,18 +465,18 @@ export function initBranding(ctx) {
       ['app background gradient end', bg2],
       ['navigation background', navBg],
     ], WCAG_TEXT_RATIO, '--p-text-muted');
-    paintWarning(accentWarning, accent, [
-      ['card background', panel],
-      ['app background', bg],
-      ['app background gradient end', bg2],
-      ['navigation background', navBg],
-    ], WCAG_UI_RATIO, '--p-accent');
-    paintWarning(iconWarning, icon, [
-      ['card background', panel],
-      ['app background', bg],
-      ['app background gradient end', bg2],
-      ['navigation background', navBg],
-    ], WCAG_UI_RATIO, '--p-icon');
+    paintFixedColorWarning(accentWarning, accent, [
+      ['card background', panel, '--p-panel'],
+      ['app background', bg, '--p-bg'],
+      ['app background gradient end', bg2, '--p-bg-2'],
+      ['navigation background', navBg, '--p-nav-bg'],
+    ], WCAG_UI_RATIO);
+    paintFixedColorWarning(iconWarning, icon, [
+      ['card background', panel, '--p-panel'],
+      ['app background', bg, '--p-bg'],
+      ['app background gradient end', bg2, '--p-bg-2'],
+      ['navigation background', navBg, '--p-nav-bg'],
+    ], WCAG_UI_RATIO);
   }
   // Debounced so dragging the native color wheel doesn't repaint the warning per pixel.
   let contrastCheckTimer = null;
@@ -492,10 +598,12 @@ export function initBranding(ctx) {
     document.querySelectorAll('#bgfill-mode .cp-seg-btn').forEach((btn) => btn.classList.toggle('active', btn.dataset.mode === 'solid'));
     const row2 = document.getElementById('bgfill-row2');
     if (row2) row2.hidden = true;
+    const imageRow = document.getElementById('bgfill-image-row');
+    if (imageRow) imageRow.hidden = true;
     themeGrid?.querySelectorAll('.branding-theme-card').forEach((card) => card.classList.toggle('active', card.dataset.themeKey === preset.key));
     markDirty();
     checkBrandingContrast();
-    showToast(`${preset.name} theme applied`);
+    showToast(`${preset.name} theme applied`, { variant: 'success' });
   }
   function renderThemeSuggestions() {
     if (!themeGrid) return;

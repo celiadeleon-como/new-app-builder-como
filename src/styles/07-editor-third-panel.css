@@ -12,7 +12,7 @@
   }
   .l3-inner {
     flex: 1;
-    padding: 20px 18px;
+    padding: 20px 20px;
     overflow-y: auto;
     overflow-x: hidden;
     width: 100%;
@@ -27,7 +27,7 @@
   .l3-inner::-webkit-scrollbar-thumb { background: #e0e0ea; border-radius: 8px; }
   /* Tiny "you are here" kicker at the top of the third panel */
   .l3-kicker {
-    display: flex; align-items: center; gap: 6px;
+    display: flex; align-items: center; gap: 8px;
     font-size: 10px; text-transform: uppercase; letter-spacing: .6px;
     color: var(--como); font-weight: 800;
     margin-bottom: 12px;

@@ -33,12 +33,17 @@ export function initGuidedFlow(ctx) {
   const { showToast, markDirty } = ctx;
 
   const done = new Set();
+  // Screens (rewards/locations/menu/more) start out showing sample content — track which ones a merchant has actually edited.
+  const editedScreens = new Set();
   let homeVisited = false;
   let businessEdited = false;
-  const flow = { current: 'home', focus: null, bizName: '', headline: '', country: '', category: '', categories: [], accent: '#3d40ff', font: 'sans-serif', published: false };
+  let setupMilestoneShown = false;
+  const flow = { current: 'home', focus: null, bizName: '', headline: '', countries: [], category: '', categories: [], accent: '#3d40ff', font: 'sans-serif', published: false };
 
   const stepButtons = [...document.querySelectorAll('.side-step[data-step]')];
   const indexOf = (key) => STEPS.findIndex((s) => s.key === key);
+  // The "Set up" sidebar group — finishing all three is the first real milestone.
+  const SETUP_STEPS = ['business', 'branding', 'online-ordering'];
 
   const REQUIRED_STEPS = ['business', 'branding', 'online-ordering', 'home'];
 
@@ -56,11 +61,11 @@ export function initGuidedFlow(ctx) {
     let firstInvalid = null;
     if (key === 'business') {
       const name = document.getElementById('gf-biz-name');
-      const country = document.getElementById('gf-country');
+      const country = document.getElementById('gf-country-search');
       const nameMissing = !flow.bizName.trim();
-      const countryMissing = !flow.country;
-      if (showErrors || !nameMissing) setFieldError(name, 'gf-biz-name-error', nameMissing ? 'Enter your company name.' : '');
-      if (showErrors || !countryMissing) setFieldError(country, 'gf-country-error', countryMissing ? 'Select your country.' : '');
+      const countryMissing = !flow.countries.length;
+      if (showErrors || !nameMissing) setFieldError(name, 'gf-biz-name-error', nameMissing ? 'Enter your business name.' : '');
+      if (showErrors || !countryMissing) setFieldError(country, 'gf-country-error', countryMissing ? 'Select at least one country.' : '');
       firstInvalid = nameMissing ? name : countryMissing ? country : null;
       if (focusFirst) firstInvalid?.focus();
       return !nameMissing && !countryMissing;
@@ -71,8 +76,8 @@ export function initGuidedFlow(ctx) {
       // or menu wired up before the step is genuinely done.
       const complete = ctx.isOrderingStepComplete ? ctx.isOrderingStepComplete() : Boolean(chosen);
       let message = 'Choose how customers place online orders.';
-      if (chosen === 'native') message = 'Connect your online ordering provider to finish, or choose Not yet.';
-      else if (chosen === 'webview') message = 'Add your menu web address to finish, or choose Not yet.';
+      if (chosen === 'native') message = 'Connect your online ordering provider to finish, or choose Add online ordering later.';
+      else if (chosen === 'webview') message = 'Add your menu web address to finish, or choose Add online ordering later.';
       const error = document.getElementById('oo-choice-error');
       if (error && (showErrors || complete)) error.textContent = complete ? '' : message;
       document.getElementById('oo-choice')?.setAttribute('aria-invalid', complete ? 'false' : 'true');
@@ -81,7 +86,7 @@ export function initGuidedFlow(ctx) {
     }
     if (key === 'home') {
       const valid = homeVisited && activeHomeWidgetCount() > 0;
-      if (!valid && showErrors) showToast?.('Add at least one Home widget before publishing');
+      if (!valid && showErrors) showToast?.('Add at least one Home widget before publishing', { variant: 'error' });
       if (!valid && focusFirst) document.querySelector('#cp-home [data-widget-toggle]')?.focus();
       return valid;
     }
@@ -276,9 +281,9 @@ export function initGuidedFlow(ctx) {
       return;
     }
 
-    if (backLabel) backLabel.textContent = 'Back';
+    if (backLabel) backLabel.textContent = ['online-ordering', 'rewards'].includes(flow.current) ? 'Go Back' : 'Back';
     if (backBtn) backBtn.style.visibility = position === 0 ? 'hidden' : '';
-    if (nextLabel) nextLabel.textContent = flow.current === 'publish' ? 'Publish content changes' : 'Save & continue';
+    if (nextLabel) nextLabel.textContent = flow.current === 'publish' ? 'Publish content changes' : 'Continue';
     if (nextBtn) nextBtn.style.display = position === STEPS.length - 1 ? 'none' : '';
   }
 
@@ -292,7 +297,10 @@ export function initGuidedFlow(ctx) {
     }
   });
   document.addEventListener('como:draft-dirty', (event) => {
-    if (event.detail?.scope === 'submission') return;
+    const scope = event.detail?.scope;
+    // 'screens' marks an include/exclude toggle, not a content edit, so it doesn't count.
+    if (scope !== 'screens' && ['rewards', 'locations', 'menu', 'more'].includes(flow.current)) editedScreens.add(flow.current);
+    if (scope === 'submission') return;
     if (!flow.published) return;
     flow.published = false;
     done.delete('publish');
@@ -319,12 +327,27 @@ export function initGuidedFlow(ctx) {
       const required = REQUIRED_STEPS.includes(s.key);
       if (s.kind === 'screen' && s.key !== 'home') {
         const included = ctx.getScreenState?.(s.key) !== false;
-        return { ...s, ready: included, required: false, status: included ? 'Using proven layout' : 'Not in app', action: included ? 'Review' : 'Include' };
+        const edited = editedScreens.has(s.key);
+        return {
+          ...s,
+          ready: included,
+          required: false,
+          status: !included ? 'Not in app' : edited ? 'Complete' : 'Sample content',
+          state: !included ? 'neutral' : edited ? 'ok' : 'neutral',
+          action: included ? `Review ${s.label}` : `Include ${s.label}`,
+        };
       }
       const ready = s.key === 'branding'
         ? done.has('branding') || document.body.dataset.brandImported === 'true'
         : validateStep(s.key);
-      return { ...s, ready, required, status: ready ? 'Ready' : 'Missing', action: required && !ready ? 'Complete' : 'Edit' };
+      return {
+        ...s,
+        ready,
+        required,
+        status: ready ? 'Complete' : 'Needs attention',
+        state: ready ? 'ok' : 'warn',
+        action: required && !ready ? `Complete ${s.label}` : `Edit ${s.label}`,
+      };
     });
     list.innerHTML = rows
       .map(
@@ -332,7 +355,7 @@ export function initGuidedFlow(ctx) {
           return `<div class="gf-review-row${s.ready ? ' done' : ''}">
           <span class="rv-tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
           <span class="gf-review-name">${s.label}</span>
-          <span class="gf-review-state ${s.status.toLowerCase().replace(/\s+/g, '-')}">${s.status}</span>
+          <span class="gf-review-state ${s.state}">${s.status}</span>
           <button class="gf-review-edit" data-review-go="${s.key}" type="button">${s.action}</button>
         </div>`;
         },
@@ -384,6 +407,23 @@ export function initGuidedFlow(ctx) {
     btn.addEventListener('click', () => goToStep(btn.dataset.step));
   });
 
+  // ---------- Setup-milestone celebration: a brief completion card that
+  // fades itself out, no action required to dismiss it.
+  const milestoneOverlay = document.getElementById('gf-milestone');
+  let milestoneHideTimer = null;
+  function hideMilestone() {
+    milestoneOverlay?.classList.remove('open');
+    clearTimeout(milestoneHideTimer);
+  }
+  function celebrateSetupMilestone() {
+    if (!milestoneOverlay) return;
+    milestoneOverlay.setAttribute('aria-hidden', 'false');
+    milestoneOverlay.classList.add('open');
+    clearTimeout(milestoneHideTimer);
+    milestoneHideTimer = setTimeout(hideMilestone, 3600);
+  }
+  milestoneOverlay?.addEventListener('click', (e) => { if (e.target === milestoneOverlay) hideMilestone(); });
+
   const nextBtn = document.getElementById('gf-step-next');
   if (nextBtn) {
     nextBtn.addEventListener('click', () => {
@@ -392,8 +432,13 @@ export function initGuidedFlow(ctx) {
         render();
         return;
       }
+      const completingSetupStep = SETUP_STEPS.includes(flow.current);
       done.add(flow.current);
       markDirty?.();
+      if (completingSetupStep && !setupMilestoneShown && SETUP_STEPS.every((key) => done.has(key))) {
+        setupMilestoneShown = true;
+        celebrateSetupMilestone();
+      }
       const next = STEPS[indexOf(flow.current) + 1];
       if (next) goToStep(next.key);
       else render();
@@ -659,12 +704,74 @@ export function initGuidedFlow(ctx) {
   headlineInput?.addEventListener('input', () => { revealPhonePreview(); setHeadline(headlineInput.value, headlineInput); });
   brandingHeadlineInput?.addEventListener('input', () => setHeadline(brandingHeadlineInput.value, brandingHeadlineInput));
 
-  document.getElementById('gf-country')?.addEventListener('change', (e) => {
-    flow.country = e.target.value;
+  const countryCombo = document.getElementById('gf-country-combo');
+  const countryTrigger = document.getElementById('gf-country-trigger');
+  const countryTriggerText = document.getElementById('gf-country-trigger-text');
+  const countryPanel = document.getElementById('gf-country-panel');
+  const countrySearch = document.getElementById('gf-country-search');
+  const countryList = document.getElementById('gf-country-list');
+  const countryEmpty = document.getElementById('gf-country-empty');
+
+  function renderCountryTags() {
+    if (!countryTriggerText) return;
+    const count = flow.countries.length;
+    countryTriggerText.textContent = count
+      ? `${count} ${count === 1 ? 'country' : 'countries'} selected`
+      : 'Select countries';
+    countryTriggerText.classList.toggle('placeholder', !count);
+  }
+  function renderCountryOptions() {
+    if (!countryList) return;
+    const query = (countrySearch?.value || '').trim().toLowerCase();
+    let visibleCount = 0;
+    countryList.querySelectorAll('[data-country]').forEach((opt) => {
+      const match = !query || opt.dataset.label.toLowerCase().includes(query);
+      opt.hidden = !match;
+      if (match) visibleCount++;
+      const selected = flow.countries.includes(opt.dataset.country);
+      opt.classList.toggle('selected', selected);
+      opt.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+    if (countryEmpty) countryEmpty.hidden = visibleCount > 0;
+  }
+  function toggleCountry(code) {
+    const idx = flow.countries.indexOf(code);
+    if (idx > -1) flow.countries.splice(idx, 1);
+    else flow.countries.push(code);
+    renderCountryTags();
+    renderCountryOptions();
     validateStep('business');
     markDirty?.();
     render();
+  }
+  countryList?.querySelectorAll('[data-country]').forEach((opt) => {
+    opt.addEventListener('click', () => toggleCountry(opt.dataset.country));
   });
+  function openCountryList() {
+    countryCombo?.classList.add('open');
+    if (countryPanel) countryPanel.hidden = false;
+    countryTrigger?.setAttribute('aria-expanded', 'true');
+    renderCountryOptions();
+    countrySearch?.focus();
+  }
+  function closeCountryList() {
+    countryCombo?.classList.remove('open');
+    if (countryPanel) countryPanel.hidden = true;
+    countryTrigger?.setAttribute('aria-expanded', 'false');
+  }
+  countryTrigger?.addEventListener('click', () => {
+    if (countryPanel?.hidden === false) closeCountryList();
+    else openCountryList();
+  });
+  countrySearch?.addEventListener('input', renderCountryOptions);
+  countrySearch?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeCountryList(); countryTrigger?.focus(); }
+  });
+  document.addEventListener('click', (e) => {
+    if (countryCombo && !countryCombo.contains(e.target)) closeCountryList();
+  });
+  renderCountryTags();
+  renderCountryOptions();
 
   // Merchants can span industries (restaurant + convenience store), so this is a
   // capped multi-select rather than one choice.
@@ -689,7 +796,7 @@ export function initGuidedFlow(ctx) {
     if (hint) {
       hint.textContent = atCap
         ? `You've picked ${MAX_CATEGORIES} of ${MAX_CATEGORIES}. Deselect one to choose a different industry.`
-        : 'Pick every industry you operate in — a restaurant with a convenience store counts as both.';
+        : 'Choose up to 3 industries that represent your business operations';
     }
   }
 
@@ -702,7 +809,7 @@ export function initGuidedFlow(ctx) {
       } else if (flow.categories.length < MAX_CATEGORIES) {
         flow.categories.push(cat);
       } else {
-        showToast?.(`You can pick up to ${MAX_CATEGORIES} industries`);
+        showToast?.(`You can pick up to ${MAX_CATEGORIES} industries`, { variant: 'error' });
         return;
       }
       flow.category = flow.categories[0] || '';
@@ -746,20 +853,35 @@ export function initGuidedFlow(ctx) {
   const logoFilename = document.getElementById('gf-logo-filename');
   const logoControls = document.getElementById('gf-logo-controls');
 
-  // The splash screen shows a custom image/GIF when uploaded, otherwise it
-  // falls back to whatever logo is set above.
+  // The splash screen shows a custom image/GIF/video full-bleed when uploaded,
+  // otherwise it falls back to a small centered logo (or a "?" placeholder).
   let logoDataUrl = null;
   let splashImageDataUrl = null;
+  let splashImageIsVideo = false;
+
+  function paintSplashTarget(markEl, videoEl) {
+    const src = splashImageDataUrl || logoDataUrl;
+    const fullBleed = !!splashImageDataUrl;
+    if (videoEl) {
+      videoEl.hidden = !(splashImageIsVideo && splashImageDataUrl);
+      if (splashImageIsVideo && splashImageDataUrl && videoEl.src !== splashImageDataUrl) videoEl.src = splashImageDataUrl;
+    }
+    if (!markEl) return;
+    markEl.hidden = splashImageIsVideo && !!splashImageDataUrl;
+    markEl.classList.toggle('has-logo', !!src);
+    markEl.classList.toggle('full-bleed', fullBleed && !splashImageIsVideo);
+    const showAsBackground = src && !(splashImageIsVideo && splashImageDataUrl);
+    markEl.style.backgroundImage = showAsBackground ? `url(${src})` : '';
+    markEl.style.backgroundSize = showAsBackground ? 'cover' : '';
+    markEl.style.backgroundPosition = showAsBackground ? 'center' : '';
+    markEl.textContent = src ? '' : '?';
+  }
 
   function paintSplashMark() {
-    const mark = document.getElementById('gf-splash-mark');
-    if (!mark) return;
-    const src = splashImageDataUrl || logoDataUrl;
-    mark.classList.toggle('has-logo', !!src);
-    mark.style.backgroundImage = src ? `url(${src})` : '';
-    mark.style.backgroundSize = src ? 'cover' : '';
-    mark.style.backgroundPosition = src ? 'center' : '';
-    if (!src) mark.textContent = '?';
+    const status = document.getElementById('brand-splash-status');
+    if (status) status.textContent = splashImageDataUrl ? (splashImageIsVideo ? 'Custom video' : 'Custom image') : (logoDataUrl ? 'Using your logo' : 'Default design');
+    paintSplashTarget(document.getElementById('gf-splash-mark'), document.getElementById('gf-splash-video'));
+    paintSplashTarget(document.getElementById('splash-preview-mark'), document.getElementById('splash-preview-video'));
   }
 
   function paintLogoTargets(dataUrl) {
@@ -790,20 +912,20 @@ export function initGuidedFlow(ctx) {
     if (logoFile) logoFile.value = '';
     paintLogoTargets(null);
     markDirty?.();
-    showToast?.('Logo removed');
+    showToast?.('Logo removed', { variant: 'success' });
   }
 
   function readLogoFile(file) {
     if (!file) return;
-    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, or WEBP file.'); return; }
-    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.'); return; }
+    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, or WEBP file.', { variant: 'error' }); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.', { variant: 'error' }); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
       paintLogoTargets(dataUrl);
       showLogoResult(dataUrl, file.name);
       markDirty?.();
-      showToast?.('Logo uploaded');
+      showToast?.('Logo uploaded', { variant: 'success' });
     };
     reader.readAsDataURL(file);
   }
@@ -822,42 +944,49 @@ export function initGuidedFlow(ctx) {
     document.getElementById('gf-logo-remove')?.addEventListener('click', clearLogoResult);
   }
 
-  // ---------- Splash screen: optional custom image/GIF, falls back to logo ----------
+  // ---------- Splash screen: optional custom image/GIF/video, falls back to logo ----------
   const splashZone = document.getElementById('gf-splash-zone');
   const splashFile = document.getElementById('gf-splash-file');
+  const splashUploadLabel = document.getElementById('gf-splash-upload-label');
   const splashResult = document.getElementById('gf-splash-result');
   const splashThumb = document.getElementById('gf-splash-thumb-img');
   const splashFilename = document.getElementById('gf-splash-filename');
 
-  function showSplashResult(dataUrl, name) {
-    if (splashThumb) splashThumb.src = dataUrl;
+  function showSplashResult(dataUrl, name, isVideo) {
+    if (splashThumb) {
+      splashThumb.hidden = !!isVideo;
+      if (!isVideo) splashThumb.src = dataUrl;
+    }
     if (splashFilename) splashFilename.textContent = name;
     if (splashResult) splashResult.style.display = '';
-    if (splashZone) splashZone.style.display = 'none';
+    if (splashUploadLabel) splashUploadLabel.textContent = 'Replace image, GIF, or video';
   }
 
   function clearSplashResult() {
     splashImageDataUrl = null;
+    splashImageIsVideo = false;
     if (splashResult) splashResult.style.display = 'none';
-    if (splashZone) splashZone.style.display = '';
+    if (splashUploadLabel) splashUploadLabel.textContent = 'Upload image, GIF, or video';
     if (splashFile) splashFile.value = '';
     paintSplashMark();
     markDirty?.();
-    showToast?.('Splash image removed — showing your logo instead');
+    showToast?.('Showing default design');
   }
 
   function readSplashFile(file) {
     if (!file) return;
-    if (!/^image\/(png|jpeg|jpg|webp|gif)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, WEBP, or GIF file.'); return; }
-    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.'); return; }
+    const isVideo = /^video\/(mp4|webm)/i.test(file.type);
+    if (!isVideo && !/^image\/(png|jpeg|jpg|webp|gif)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, WEBP, GIF, MP4, or WEBM file.', { variant: 'error' }); return; }
+    if (file.size > 10 * 1024 * 1024) { showToast?.('This file exceeds the 10MB limit.', { variant: 'error' }); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
       splashImageDataUrl = dataUrl;
+      splashImageIsVideo = isVideo;
       paintSplashMark();
-      showSplashResult(dataUrl, file.name);
+      showSplashResult(dataUrl, file.name, isVideo);
       markDirty?.();
-      showToast?.('Splash image uploaded');
+      showToast?.(isVideo ? 'Splash video uploaded' : 'Splash image uploaded', { variant: 'success' });
     };
     reader.readAsDataURL(file);
   }
@@ -872,8 +1001,62 @@ export function initGuidedFlow(ctx) {
       readSplashFile(e.dataTransfer.files?.[0]);
     });
     splashFile.addEventListener('change', () => readSplashFile(splashFile.files?.[0]));
-    document.getElementById('gf-splash-replace')?.addEventListener('click', () => splashFile.click());
-    document.getElementById('gf-splash-remove')?.addEventListener('click', clearSplashResult);
+    document.getElementById('gf-splash-default')?.addEventListener('click', clearSplashResult);
+  }
+
+  // ---------- "Preview app opening" — side-by-side Launch screen / Your app ----------
+  // Only relevant inside Branding > Splash screen, so it must close itself the
+  // moment that drill isn't open — otherwise it keeps covering every other step.
+  const splashPreviewBtn = document.getElementById('gf-splash-preview-btn');
+  const splashPreviewStage = document.getElementById('splash-preview-stage');
+  const splashPreviewAppSlot = document.getElementById('splash-preview-app-slot');
+  const deviceStage = document.getElementById('device-stage');
+  if (splashPreviewBtn && splashPreviewStage && splashPreviewAppSlot && deviceStage) {
+    const deviceStageHome = deviceStage.parentElement;
+    const deviceStageAnchor = deviceStage.nextElementSibling;
+    let previewOpen = false;
+    let splashRevealTimer = null;
+    // How long the "Your app" phone lingers on the launch screen before
+    // revealing Home, matching the brief splash a real app shows on open.
+    const SPLASH_REVEAL_DELAY = 1300;
+    function setSplashPreviewOpen(open) {
+      previewOpen = open;
+      splashPreviewStage.hidden = !open;
+      clearTimeout(splashRevealTimer);
+      const overlay = document.getElementById('gf-splash-overlay');
+      if (open) {
+        splashPreviewAppSlot.appendChild(deviceStage);
+        paintSplashMark();
+        if (overlay) {
+          overlay.hidden = false;
+          overlay.classList.remove('gf-splash-revealing');
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          splashRevealTimer = setTimeout(() => {
+            overlay.classList.add('gf-splash-revealing');
+          }, reduced ? 0 : SPLASH_REVEAL_DELAY);
+        }
+      } else {
+        if (deviceStageAnchor) deviceStageHome.insertBefore(deviceStage, deviceStageAnchor);
+        else deviceStageHome.appendChild(deviceStage);
+        if (overlay) {
+          // Restore whatever the Splash screen drill would normally show.
+          overlay.classList.remove('gf-splash-revealing');
+          overlay.hidden = !document.querySelector('[data-detail="brand-splash"]')?.classList.contains('show');
+        }
+      }
+      splashPreviewBtn.innerHTML = open
+        ? '<span class="branding-preview-icon" aria-hidden="true">&#10005;</span> Close preview'
+        : '<span class="branding-preview-icon" aria-hidden="true">&#9655;</span> Preview app opening';
+    }
+    splashPreviewBtn.addEventListener('click', () => setSplashPreviewOpen(!previewOpen));
+
+    // Closing or leaving the Splash screen drill must also close the side-by-side preview.
+    const splashDrillDetail = document.querySelector('[data-detail="brand-splash"]');
+    if (splashDrillDetail) {
+      new MutationObserver(() => {
+        if (previewOpen && !splashDrillDetail.classList.contains('show')) setSplashPreviewOpen(false);
+      }).observe(splashDrillDetail, { attributes: true, attributeFilter: ['class'] });
+    }
   }
 
   // Branding rows drill into their own third-panel editor (pencil icon, same
@@ -1028,7 +1211,7 @@ export function initGuidedFlow(ctx) {
       publishBtn.dataset.state = 'published';
       status?.setAttribute('data-state', 'live');
       if (status) status.innerHTML = '<span class="gf-publish-status-dot"></span><span><b>Live content</b><small>Customers may need to reopen the app to see these changes.</small></span>';
-      showToast?.('Content changes published — no store review was required');
+      showToast?.('Content changes published — no store review was required', { variant: 'success' });
       ctx.savePublishedVersion?.();
       render();
       document.dispatchEvent(new CustomEvent('como:draft-save'));
@@ -1045,7 +1228,7 @@ export function initGuidedFlow(ctx) {
   homeVisited = false;
 
   function exportDraft() {
-    return { ...flow, categories: [...flow.categories], done: [...done] };
+    return { ...flow, categories: [...flow.categories], countries: [...flow.countries], done: [...done], editedScreens: [...editedScreens] };
   }
 
   function importDraft(saved = {}) {
@@ -1061,17 +1244,18 @@ export function initGuidedFlow(ctx) {
     });
     Object.assign(flow, saved, {
       categories: Array.isArray(saved.categories) ? saved.categories.slice(0, MAX_CATEGORIES) : [],
+      // Back-compat: older drafts saved a single `country` string instead of `countries`.
+      countries: Array.isArray(saved.countries) ? [...saved.countries] : (saved.country ? [saved.country] : []),
       published: false,
     });
-    if (saved.country) {
-      const country = document.getElementById('gf-country');
-      if (country) country.value = saved.country;
-    }
+    renderCountryTags();
+    renderCountryOptions();
     renderCategories();
     applyAccent(saved.accent || '#3d40ff');
     if (saved.focus === 'loyalty' || saved.focus === 'ordering') window.applyGoalPreset?.(saved.focus);
     reflectFocus(saved.focus);
     (saved.done || []).filter((key) => key !== 'publish').forEach((key) => done.add(key));
+    (saved.editedScreens || []).forEach((key) => editedScreens.add(key));
     if (flow.bizName) {
       const initials = flow.bizName.trim().split(/\s+/).map((word) => word[0]).join('').slice(0, 2).toUpperCase();
       ctx.setBrand?.(flow.bizName, initials || '?', flow.headline || FOCUS_LABELS[flow.focus] || '');

@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/comments-CcwKpnET.js","assets/comments-BgV5jwaY.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/comments-3pkfBzY3.js","assets/comments-BgV5jwaY.css"])))=>i.map(i=>d[i]);
 var e=(e,t)=>()=>(t||(e((t={exports:{}}).exports,t),e=null),t.exports);(function(){let e=document.createElement(`link`).relList;if(e&&e.supports&&e.supports(`modulepreload`))return;for(let e of document.querySelectorAll(`link[rel="modulepreload"]`))n(e);new MutationObserver(e=>{for(let t of e)if(t.type===`childList`)for(let e of t.addedNodes)e.tagName===`LINK`&&e.rel===`modulepreload`&&n(e)}).observe(document,{childList:!0,subtree:!0});function t(e){let t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),t.credentials=e.crossOrigin===`use-credentials`?`include`:e.crossOrigin===`anonymous`?`omit`:`same-origin`,t}function n(e){if(e.ep)return;e.ep=!0;let n=t(e);fetch(e.href,n)}})();var t=e((e=>{function t(e,t){var n=e.length;e.push(t);a:for(;0<n;){var r=n-1>>>1,a=e[r];if(0<i(a,t))e[r]=t,e[n]=a,n=r;else break a}}function n(e){return e.length===0?null:e[0]}function r(e){if(e.length===0)return null;var t=e[0],n=e.pop();if(n!==t){e[0]=n;a:for(var r=0,a=e.length,o=a>>>1;r<o;){var s=2*(r+1)-1,c=e[s],l=s+1,u=e[l];if(0>i(c,n))l<a&&0>i(u,c)?(e[r]=u,e[l]=n,r=l):(e[r]=c,e[s]=n,r=s);else if(l<a&&0>i(u,n))e[r]=u,e[l]=n,r=l;else break a}}return t}function i(e,t){var n=e.sortIndex-t.sortIndex;return n===0?e.id-t.id:n}if(e.unstable_now=void 0,typeof performance==`object`&&typeof performance.now==`function`){var a=performance;e.unstable_now=function(){return a.now()}}else{var o=Date,s=o.now();e.unstable_now=function(){return o.now()-s}}var c=[],l=[],u=1,d=null,f=3,p=!1,m=!1,h=!1,g=!1,_=typeof setTimeout==`function`?setTimeout:null,v=typeof clearTimeout==`function`?clearTimeout:null,y=typeof setImmediate<`u`?setImmediate:null;function b(e){for(var i=n(l);i!==null;){if(i.callback===null)r(l);else if(i.startTime<=e)r(l),i.sortIndex=i.expirationTime,t(c,i);else break;i=n(l)}}function x(e){if(h=!1,b(e),!m)if(n(c)!==null)m=!0,ee||(ee=!0,ae());else{var t=n(l);t!==null&&ce(x,t.startTime-e)}}var ee=!1,te=-1,S=5,ne=-1;function re(){return g?!0:!(e.unstable_now()-ne<S)}function ie(){if(g=!1,ee){var t=e.unstable_now();ne=t;var i=!0;try{a:{m=!1,h&&(h=!1,v(te),te=-1),p=!0;var a=f;try{b:{for(b(t),d=n(c);d!==null&&!(d.expirationTime>t&&re());){var o=d.callback;if(typeof o==`function`){d.callback=null,f=d.priorityLevel;var s=o(d.expirationTime<=t);if(t=e.unstable_now(),typeof s==`function`){d.callback=s,b(t),i=!0;break b}d===n(c)&&r(c),b(t)}else r(c);d=n(c)}if(d!==null)i=!0;else{var u=n(l);u!==null&&ce(x,u.startTime-t),i=!1}}break a}finally{d=null,f=a,p=!1}}}finally{i?ae():ee=!1}}}var ae;if(typeof y==`function`)ae=function(){y(ie)};else if(typeof MessageChannel<`u`){var oe=new MessageChannel,se=oe.port2;oe.port1.onmessage=ie,ae=function(){se.postMessage(null)}}else ae=function(){_(ie,0)};function ce(t,n){te=_(function(){t(e.unstable_now())},n)}e.unstable_IdlePriority=5,e.unstable_ImmediatePriority=1,e.unstable_LowPriority=4,e.unstable_NormalPriority=3,e.unstable_Profiling=null,e.unstable_UserBlockingPriority=2,e.unstable_cancelCallback=function(e){e.callback=null},e.unstable_forceFrameRate=function(e){0>e||125<e?console.error(`forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported`):S=0<e?Math.floor(1e3/e):5},e.unstable_getCurrentPriorityLevel=function(){return f},e.unstable_next=function(e){switch(f){case 1:case 2:case 3:var t=3;break;default:t=f}var n=f;f=t;try{return e()}finally{f=n}},e.unstable_requestPaint=function(){g=!0},e.unstable_runWithPriority=function(e,t){switch(e){case 1:case 2:case 3:case 4:case 5:break;default:e=3}var n=f;f=e;try{return t()}finally{f=n}},e.unstable_scheduleCallback=function(r,i,a){var o=e.unstable_now();switch(typeof a==`object`&&a?(a=a.delay,a=typeof a==`number`&&0<a?o+a:o):a=o,r){case 1:var s=-1;break;case 2:s=250;break;case 5:s=1073741823;break;case 4:s=1e4;break;default:s=5e3}return s=a+s,r={id:u++,callback:i,priorityLevel:r,startTime:a,expirationTime:s,sortIndex:-1},a>o?(r.sortIndex=a,t(l,r),n(c)===null&&r===n(l)&&(h?(v(te),te=-1):h=!0,ce(x,a-o))):(r.sortIndex=s,t(c,r),m||p||(m=!0,ee||(ee=!0,ae()))),r},e.unstable_shouldYield=re,e.unstable_wrapCallback=function(e){var t=f;return function(){var n=f;f=t;try{return e.apply(this,arguments)}finally{f=n}}}})),n=e(((e,n)=>{n.exports=t()})),r=e((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.portal`),r=Symbol.for(`react.fragment`),i=Symbol.for(`react.strict_mode`),a=Symbol.for(`react.profiler`),o=Symbol.for(`react.consumer`),s=Symbol.for(`react.context`),c=Symbol.for(`react.forward_ref`),l=Symbol.for(`react.suspense`),u=Symbol.for(`react.memo`),d=Symbol.for(`react.lazy`),f=Symbol.for(`react.activity`),p=Symbol.iterator;function m(e){return typeof e!=`object`||!e?null:(e=p&&e[p]||e[`@@iterator`],typeof e==`function`?e:null)}var h={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}},g=Object.assign,_={};function v(e,t,n){this.props=e,this.context=t,this.refs=_,this.updater=n||h}v.prototype.isReactComponent={},v.prototype.setState=function(e,t){if(typeof e!=`object`&&typeof e!=`function`&&e!=null)throw Error(`takes an object of state variables to update or a function which returns an object of state variables.`);this.updater.enqueueSetState(this,e,t,`setState`)},v.prototype.forceUpdate=function(e){this.updater.enqueueForceUpdate(this,e,`forceUpdate`)};function y(){}y.prototype=v.prototype;function b(e,t,n){this.props=e,this.context=t,this.refs=_,this.updater=n||h}var x=b.prototype=new y;x.constructor=b,g(x,v.prototype),x.isPureReactComponent=!0;var ee=Array.isArray;function te(){}var S={H:null,A:null,T:null,S:null},ne=Object.prototype.hasOwnProperty;function re(e,n,r){var i=r.ref;return{$$typeof:t,type:e,key:n,ref:i===void 0?null:i,props:r}}function ie(e,t){return re(e.type,t,e.props)}function ae(e){return typeof e==`object`&&!!e&&e.$$typeof===t}function oe(e){var t={"=":`=0`,":":`=2`};return`$`+e.replace(/[=:]/g,function(e){return t[e]})}var se=/\/+/g;function ce(e,t){return typeof e==`object`&&e&&e.key!=null?oe(``+e.key):t.toString(36)}function C(e){switch(e.status){case`fulfilled`:return e.value;case`rejected`:throw e.reason;default:switch(typeof e.status==`string`?e.then(te,te):(e.status=`pending`,e.then(function(t){e.status===`pending`&&(e.status=`fulfilled`,e.value=t)},function(t){e.status===`pending`&&(e.status=`rejected`,e.reason=t)})),e.status){case`fulfilled`:return e.value;case`rejected`:throw e.reason}}throw e}function le(e,r,i,a,o){var s=typeof e;(s===`undefined`||s===`boolean`)&&(e=null);var c=!1;if(e===null)c=!0;else switch(s){case`bigint`:case`string`:case`number`:c=!0;break;case`object`:switch(e.$$typeof){case t:case n:c=!0;break;case d:return c=e._init,le(c(e._payload),r,i,a,o)}}if(c)return o=o(e),c=a===``?`.`+ce(e,0):a,ee(o)?(i=``,c!=null&&(i=c.replace(se,`$&/`)+`/`),le(o,r,i,``,function(e){return e})):o!=null&&(ae(o)&&(o=ie(o,i+(o.key==null||e&&e.key===o.key?``:(``+o.key).replace(se,`$&/`)+`/`)+c)),r.push(o)),1;c=0;var l=a===``?`.`:a+`:`;if(ee(e))for(var u=0;u<e.length;u++)a=e[u],s=l+ce(a,u),c+=le(a,r,i,s,o);else if(u=m(e),typeof u==`function`)for(e=u.call(e),u=0;!(a=e.next()).done;)a=a.value,s=l+ce(a,u++),c+=le(a,r,i,s,o);else if(s===`object`){if(typeof e.then==`function`)return le(C(e),r,i,a,o);throw r=String(e),Error(`Objects are not valid as a React child (found: `+(r===`[object Object]`?`object with keys {`+Object.keys(e).join(`, `)+`}`:r)+`). If you meant to render a collection of children, use an array instead.`)}return c}function w(e,t,n){if(e==null)return e;var r=[],i=0;return le(e,r,``,``,function(e){return t.call(n,e,i++)}),r}function ue(e){if(e._status===-1){var t=e._result;t=t(),t.then(function(t){(e._status===0||e._status===-1)&&(e._status=1,e._result=t)},function(t){(e._status===0||e._status===-1)&&(e._status=2,e._result=t)}),e._status===-1&&(e._status=0,e._result=t)}if(e._status===1)return e._result.default;throw e._result}var T=typeof reportError==`function`?reportError:function(e){if(typeof window==`object`&&typeof window.ErrorEvent==`function`){var t=new window.ErrorEvent(`error`,{bubbles:!0,cancelable:!0,message:typeof e==`object`&&e&&typeof e.message==`string`?String(e.message):String(e),error:e});if(!window.dispatchEvent(t))return}else if(typeof process==`object`&&typeof process.emit==`function`){process.emit(`uncaughtException`,e);return}console.error(e)},E={map:w,forEach:function(e,t,n){w(e,function(){t.apply(this,arguments)},n)},count:function(e){var t=0;return w(e,function(){t++}),t},toArray:function(e){return w(e,function(e){return e})||[]},only:function(e){if(!ae(e))throw Error(`React.Children.only expected to receive a single React element child.`);return e}};e.Activity=f,e.Children=E,e.Component=v,e.Fragment=r,e.Profiler=a,e.PureComponent=b,e.StrictMode=i,e.Suspense=l,e.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=S,e.__COMPILER_RUNTIME={__proto__:null,c:function(e){return S.H.useMemoCache(e)}},e.cache=function(e){return function(){return e.apply(null,arguments)}},e.cacheSignal=function(){return null},e.cloneElement=function(e,t,n){if(e==null)throw Error(`The argument must be a React element, but you passed `+e+`.`);var r=g({},e.props),i=e.key;if(t!=null)for(a in t.key!==void 0&&(i=``+t.key),t)!ne.call(t,a)||a===`key`||a===`__self`||a===`__source`||a===`ref`&&t.ref===void 0||(r[a]=t[a]);var a=arguments.length-2;if(a===1)r.children=n;else if(1<a){for(var o=Array(a),s=0;s<a;s++)o[s]=arguments[s+2];r.children=o}return re(e.type,i,r)},e.createContext=function(e){return e={$$typeof:s,_currentValue:e,_currentValue2:e,_threadCount:0,Provider:null,Consumer:null},e.Provider=e,e.Consumer={$$typeof:o,_context:e},e},e.createElement=function(e,t,n){var r,i={},a=null;if(t!=null)for(r in t.key!==void 0&&(a=``+t.key),t)ne.call(t,r)&&r!==`key`&&r!==`__self`&&r!==`__source`&&(i[r]=t[r]);var o=arguments.length-2;if(o===1)i.children=n;else if(1<o){for(var s=Array(o),c=0;c<o;c++)s[c]=arguments[c+2];i.children=s}if(e&&e.defaultProps)for(r in o=e.defaultProps,o)i[r]===void 0&&(i[r]=o[r]);return re(e,a,i)},e.createRef=function(){return{current:null}},e.forwardRef=function(e){return{$$typeof:c,render:e}},e.isValidElement=ae,e.lazy=function(e){return{$$typeof:d,_payload:{_status:-1,_result:e},_init:ue}},e.memo=function(e,t){return{$$typeof:u,type:e,compare:t===void 0?null:t}},e.startTransition=function(e){var t=S.T,n={};S.T=n;try{var r=e(),i=S.S;i!==null&&i(n,r),typeof r==`object`&&r&&typeof r.then==`function`&&r.then(te,T)}catch(e){T(e)}finally{t!==null&&n.types!==null&&(t.types=n.types),S.T=t}},e.unstable_useCacheRefresh=function(){return S.H.useCacheRefresh()},e.use=function(e){return S.H.use(e)},e.useActionState=function(e,t,n){return S.H.useActionState(e,t,n)},e.useCallback=function(e,t){return S.H.useCallback(e,t)},e.useContext=function(e){return S.H.useContext(e)},e.useDebugValue=function(){},e.useDeferredValue=function(e,t){return S.H.useDeferredValue(e,t)},e.useEffect=function(e,t){return S.H.useEffect(e,t)},e.useEffectEvent=function(e){return S.H.useEffectEvent(e)},e.useId=function(){return S.H.useId()},e.useImperativeHandle=function(e,t,n){return S.H.useImperativeHandle(e,t,n)},e.useInsertionEffect=function(e,t){return S.H.useInsertionEffect(e,t)},e.useLayoutEffect=function(e,t){return S.H.useLayoutEffect(e,t)},e.useMemo=function(e,t){return S.H.useMemo(e,t)},e.useOptimistic=function(e,t){return S.H.useOptimistic(e,t)},e.useReducer=function(e,t,n){return S.H.useReducer(e,t,n)},e.useRef=function(e){return S.H.useRef(e)},e.useState=function(e){return S.H.useState(e)},e.useSyncExternalStore=function(e,t,n){return S.H.useSyncExternalStore(e,t,n)},e.useTransition=function(){return S.H.useTransition()},e.version=`19.2.8`})),i=e(((e,t)=>{t.exports=r()})),a=e((e=>{var t=i();function n(e){var t=`https://react.dev/errors/`+e;if(1<arguments.length){t+=`?args[]=`+encodeURIComponent(arguments[1]);for(var n=2;n<arguments.length;n++)t+=`&args[]=`+encodeURIComponent(arguments[n])}return`Minified React error #`+e+`; visit `+t+` for the full message or use the non-minified dev environment for full errors and additional helpful warnings.`}function r(){}var a={d:{f:r,r:function(){throw Error(n(522))},D:r,C:r,L:r,m:r,X:r,S:r,M:r},p:0,findDOMNode:null},o=Symbol.for(`react.portal`);function s(e,t,n){var r=3<arguments.length&&arguments[3]!==void 0?arguments[3]:null;return{$$typeof:o,key:r==null?null:``+r,children:e,containerInfo:t,implementation:n}}var c=t.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;function l(e,t){if(e===`font`)return``;if(typeof t==`string`)return t===`use-credentials`?t:``}e.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE=a,e.createPortal=function(e,t){var r=2<arguments.length&&arguments[2]!==void 0?arguments[2]:null;if(!t||t.nodeType!==1&&t.nodeType!==9&&t.nodeType!==11)throw Error(n(299));return s(e,t,null,r)},e.flushSync=function(e){var t=c.T,n=a.p;try{if(c.T=null,a.p=2,e)return e()}finally{c.T=t,a.p=n,a.d.f()}},e.preconnect=function(e,t){typeof e==`string`&&(t?(t=t.crossOrigin,t=typeof t==`string`?t===`use-credentials`?t:``:void 0):t=null,a.d.C(e,t))},e.prefetchDNS=function(e){typeof e==`string`&&a.d.D(e)},e.preinit=function(e,t){if(typeof e==`string`&&t&&typeof t.as==`string`){var n=t.as,r=l(n,t.crossOrigin),i=typeof t.integrity==`string`?t.integrity:void 0,o=typeof t.fetchPriority==`string`?t.fetchPriority:void 0;n===`style`?a.d.S(e,typeof t.precedence==`string`?t.precedence:void 0,{crossOrigin:r,integrity:i,fetchPriority:o}):n===`script`&&a.d.X(e,{crossOrigin:r,integrity:i,fetchPriority:o,nonce:typeof t.nonce==`string`?t.nonce:void 0})}},e.preinitModule=function(e,t){if(typeof e==`string`)if(typeof t==`object`&&t){if(t.as==null||t.as===`script`){var n=l(t.as,t.crossOrigin);a.d.M(e,{crossOrigin:n,integrity:typeof t.integrity==`string`?t.integrity:void 0,nonce:typeof t.nonce==`string`?t.nonce:void 0})}}else t??a.d.M(e)},e.preload=function(e,t){if(typeof e==`string`&&typeof t==`object`&&t&&typeof t.as==`string`){var n=t.as,r=l(n,t.crossOrigin);a.d.L(e,n,{crossOrigin:r,integrity:typeof t.integrity==`string`?t.integrity:void 0,nonce:typeof t.nonce==`string`?t.nonce:void 0,type:typeof t.type==`string`?t.type:void 0,fetchPriority:typeof t.fetchPriority==`string`?t.fetchPriority:void 0,referrerPolicy:typeof t.referrerPolicy==`string`?t.referrerPolicy:void 0,imageSrcSet:typeof t.imageSrcSet==`string`?t.imageSrcSet:void 0,imageSizes:typeof t.imageSizes==`string`?t.imageSizes:void 0,media:typeof t.media==`string`?t.media:void 0})}},e.preloadModule=function(e,t){if(typeof e==`string`)if(t){var n=l(t.as,t.crossOrigin);a.d.m(e,{as:typeof t.as==`string`&&t.as!==`script`?t.as:void 0,crossOrigin:n,integrity:typeof t.integrity==`string`?t.integrity:void 0})}else a.d.m(e)},e.requestFormReset=function(e){a.d.r(e)},e.unstable_batchedUpdates=function(e,t){return e(t)},e.useFormState=function(e,t,n){return c.H.useFormState(e,t,n)},e.useFormStatus=function(){return c.H.useHostTransitionStatus()},e.version=`19.2.8`})),o=e(((e,t)=>{function n(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>`u`||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!=`function`))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(n)}catch(e){console.error(e)}}n(),t.exports=a()})),s=e((e=>{var t=n(),r=i(),a=o();function s(e){var t=`https://react.dev/errors/`+e;if(1<arguments.length){t+=`?args[]=`+encodeURIComponent(arguments[1]);for(var n=2;n<arguments.length;n++)t+=`&args[]=`+encodeURIComponent(arguments[n])}return`Minified React error #`+e+`; visit `+t+` for the full message or use the non-minified dev environment for full errors and additional helpful warnings.`}function c(e){return!(!e||e.nodeType!==1&&e.nodeType!==9&&e.nodeType!==11)}function l(e){var t=e,n=e;if(e.alternate)for(;t.return;)t=t.return;else{e=t;do t=e,t.flags&4098&&(n=t.return),e=t.return;while(e)}return t.tag===3?n:null}function u(e){if(e.tag===13){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function d(e){if(e.tag===31){var t=e.memoizedState;if(t===null&&(e=e.alternate,e!==null&&(t=e.memoizedState)),t!==null)return t.dehydrated}return null}function f(e){if(l(e)!==e)throw Error(s(188))}function p(e){var t=e.alternate;if(!t){if(t=l(e),t===null)throw Error(s(188));return t===e?e:null}for(var n=e,r=t;;){var i=n.return;if(i===null)break;var a=i.alternate;if(a===null){if(r=i.return,r!==null){n=r;continue}break}if(i.child===a.child){for(a=i.child;a;){if(a===n)return f(i),e;if(a===r)return f(i),t;a=a.sibling}throw Error(s(188))}if(n.return!==r.return)n=i,r=a;else{for(var o=!1,c=i.child;c;){if(c===n){o=!0,n=i,r=a;break}if(c===r){o=!0,r=i,n=a;break}c=c.sibling}if(!o){for(c=a.child;c;){if(c===n){o=!0,n=a,r=i;break}if(c===r){o=!0,r=a,n=i;break}c=c.sibling}if(!o)throw Error(s(189))}}if(n.alternate!==r)throw Error(s(190))}if(n.tag!==3)throw Error(s(188));return n.stateNode.current===n?e:t}function m(e){var t=e.tag;if(t===5||t===26||t===27||t===6)return e;for(e=e.child;e!==null;){if(t=m(e),t!==null)return t;e=e.sibling}return null}var h=Object.assign,g=Symbol.for(`react.element`),_=Symbol.for(`react.transitional.element`),v=Symbol.for(`react.portal`),y=Symbol.for(`react.fragment`),b=Symbol.for(`react.strict_mode`),x=Symbol.for(`react.profiler`),ee=Symbol.for(`react.consumer`),te=Symbol.for(`react.context`),S=Symbol.for(`react.forward_ref`),ne=Symbol.for(`react.suspense`),re=Symbol.for(`react.suspense_list`),ie=Symbol.for(`react.memo`),ae=Symbol.for(`react.lazy`),oe=Symbol.for(`react.activity`),se=Symbol.for(`react.memo_cache_sentinel`),ce=Symbol.iterator;function C(e){return typeof e!=`object`||!e?null:(e=ce&&e[ce]||e[`@@iterator`],typeof e==`function`?e:null)}var le=Symbol.for(`react.client.reference`);function w(e){if(e==null)return null;if(typeof e==`function`)return e.$$typeof===le?null:e.displayName||e.name||null;if(typeof e==`string`)return e;switch(e){case y:return`Fragment`;case x:return`Profiler`;case b:return`StrictMode`;case ne:return`Suspense`;case re:return`SuspenseList`;case oe:return`Activity`}if(typeof e==`object`)switch(e.$$typeof){case v:return`Portal`;case te:return e.displayName||`Context`;case ee:return(e._context.displayName||`Context`)+`.Consumer`;case S:var t=e.render;return e=e.displayName,e||=(e=t.displayName||t.name||``,e===``?`ForwardRef`:`ForwardRef(`+e+`)`),e;case ie:return t=e.displayName||null,t===null?w(e.type)||`Memo`:t;case ae:t=e._payload,e=e._init;try{return w(e(t))}catch{}}return null}var ue=Array.isArray,T=r.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,E=a.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE,de={pending:!1,data:null,method:null,action:null},fe=[],pe=-1;function me(e){return{current:e}}function D(e){0>pe||(e.current=fe[pe],fe[pe]=null,pe--)}function O(e,t){pe++,fe[pe]=e.current,e.current=t}var he=me(null),ge=me(null),_e=me(null),ve=me(null);function ye(e,t){switch(O(_e,t),O(ge,e),O(he,null),t.nodeType){case 9:case 11:e=(e=t.documentElement)&&(e=e.namespaceURI)?Vd(e):0;break;default:if(e=t.tagName,t=t.namespaceURI)t=Vd(t),e=Hd(t,e);else switch(e){case`svg`:e=1;break;case`math`:e=2;break;default:e=0}}D(he),O(he,e)}function be(){D(he),D(ge),D(_e)}function xe(e){e.memoizedState!==null&&O(ve,e);var t=he.current,n=Hd(t,e.type);t!==n&&(O(ge,e),O(he,n))}function Se(e){ge.current===e&&(D(he),D(ge)),ve.current===e&&(D(ve),Qf._currentValue=de)}var Ce,we;function Te(e){if(Ce===void 0)try{throw Error()}catch(e){var t=e.stack.trim().match(/\n( *(at )?)/);Ce=t&&t[1]||``,we=-1<e.stack.indexOf(`
     at`)?` (<anonymous>)`:-1<e.stack.indexOf(`@`)?`@unknown:0:0`:``}return`
 `+Ce+e+we}var Ee=!1;function De(e,t){if(!e||Ee)return``;Ee=!0;var n=Error.prepareStackTrace;Error.prepareStackTrace=void 0;try{var r={DetermineComponentFrameRoot:function(){try{if(t){var n=function(){throw Error()};if(Object.defineProperty(n.prototype,"props",{set:function(){throw Error()}}),typeof Reflect==`object`&&Reflect.construct){try{Reflect.construct(n,[])}catch(e){var r=e}Reflect.construct(e,[],n)}else{try{n.call()}catch(e){r=e}e.call(n.prototype)}}else{try{throw Error()}catch(e){r=e}(n=e())&&typeof n.catch==`function`&&n.catch(function(){})}}catch(e){if(e&&r&&typeof e.stack==`string`)return[e.stack,r.stack]}return[null,null]}};r.DetermineComponentFrameRoot.displayName=`DetermineComponentFrameRoot`;var i=Object.getOwnPropertyDescriptor(r.DetermineComponentFrameRoot,`name`);i&&i.configurable&&Object.defineProperty(r.DetermineComponentFrameRoot,"name",{value:`DetermineComponentFrameRoot`});var a=r.DetermineComponentFrameRoot(),o=a[0],s=a[1];if(o&&s){var c=o.split(`
@@ -10,7 +10,7 @@ Error generating stack: `+e.message+`
 `).replace(Ad,``)}function Md(e,t){return t=jd(t),jd(e)===t}function $(e,t,n,r,i,a){switch(n){case`children`:typeof r==`string`?t===`body`||t===`textarea`&&r===``||en(e,r):(typeof r==`number`||typeof r==`bigint`)&&t!==`body`&&en(e,``+r);break;case`className`:Rt(e,`class`,r);break;case`tabIndex`:Rt(e,`tabindex`,r);break;case`dir`:case`role`:case`viewBox`:case`width`:case`height`:Rt(e,n,r);break;case`style`:rn(e,r,a);break;case`data`:if(t!==`object`){Rt(e,`data`,r);break}case`src`:case`href`:if(r===``&&(t!==`a`||n!==`href`)){e.removeAttribute(n);break}if(r==null||typeof r==`function`||typeof r==`symbol`||typeof r==`boolean`){e.removeAttribute(n);break}r=cn(``+r),e.setAttribute(n,r);break;case`action`:case`formAction`:if(typeof r==`function`){e.setAttribute(n,`javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')`);break}if(typeof a==`function`&&(n===`formAction`?(t!==`input`&&$(e,t,`name`,i.name,i,null),$(e,t,`formEncType`,i.formEncType,i,null),$(e,t,`formMethod`,i.formMethod,i,null),$(e,t,`formTarget`,i.formTarget,i,null)):($(e,t,`encType`,i.encType,i,null),$(e,t,`method`,i.method,i,null),$(e,t,`target`,i.target,i,null))),r==null||typeof r==`symbol`||typeof r==`boolean`){e.removeAttribute(n);break}r=cn(``+r),e.setAttribute(n,r);break;case`onClick`:r!=null&&(e.onclick=ln);break;case`onScroll`:r!=null&&Q(`scroll`,e);break;case`onScrollEnd`:r!=null&&Q(`scrollend`,e);break;case`dangerouslySetInnerHTML`:if(r!=null){if(typeof r!=`object`||!(`__html`in r))throw Error(s(61));if(n=r.__html,n!=null){if(i.children!=null)throw Error(s(60));e.innerHTML=n}}break;case`multiple`:e.multiple=r&&typeof r!=`function`&&typeof r!=`symbol`;break;case`muted`:e.muted=r&&typeof r!=`function`&&typeof r!=`symbol`;break;case`suppressContentEditableWarning`:case`suppressHydrationWarning`:case`defaultValue`:case`defaultChecked`:case`innerHTML`:case`ref`:break;case`autoFocus`:break;case`xlinkHref`:if(r==null||typeof r==`function`||typeof r==`boolean`||typeof r==`symbol`){e.removeAttribute(`xlink:href`);break}n=cn(``+r),e.setAttributeNS(`http://www.w3.org/1999/xlink`,`xlink:href`,n);break;case`contentEditable`:case`spellCheck`:case`draggable`:case`value`:case`autoReverse`:case`externalResourcesRequired`:case`focusable`:case`preserveAlpha`:r!=null&&typeof r!=`function`&&typeof r!=`symbol`?e.setAttribute(n,``+r):e.removeAttribute(n);break;case`inert`:case`allowFullScreen`:case`async`:case`autoPlay`:case`controls`:case`default`:case`defer`:case`disabled`:case`disablePictureInPicture`:case`disableRemotePlayback`:case`formNoValidate`:case`hidden`:case`loop`:case`noModule`:case`noValidate`:case`open`:case`playsInline`:case`readOnly`:case`required`:case`reversed`:case`scoped`:case`seamless`:case`itemScope`:r&&typeof r!=`function`&&typeof r!=`symbol`?e.setAttribute(n,``):e.removeAttribute(n);break;case`capture`:case`download`:!0===r?e.setAttribute(n,``):!1!==r&&r!=null&&typeof r!=`function`&&typeof r!=`symbol`?e.setAttribute(n,r):e.removeAttribute(n);break;case`cols`:case`rows`:case`size`:case`span`:r!=null&&typeof r!=`function`&&typeof r!=`symbol`&&!isNaN(r)&&1<=r?e.setAttribute(n,r):e.removeAttribute(n);break;case`rowSpan`:case`start`:r==null||typeof r==`function`||typeof r==`symbol`||isNaN(r)?e.removeAttribute(n):e.setAttribute(n,r);break;case`popover`:Q(`beforetoggle`,e),Q(`toggle`,e),Lt(e,`popover`,r);break;case`xlinkActuate`:zt(e,`http://www.w3.org/1999/xlink`,`xlink:actuate`,r);break;case`xlinkArcrole`:zt(e,`http://www.w3.org/1999/xlink`,`xlink:arcrole`,r);break;case`xlinkRole`:zt(e,`http://www.w3.org/1999/xlink`,`xlink:role`,r);break;case`xlinkShow`:zt(e,`http://www.w3.org/1999/xlink`,`xlink:show`,r);break;case`xlinkTitle`:zt(e,`http://www.w3.org/1999/xlink`,`xlink:title`,r);break;case`xlinkType`:zt(e,`http://www.w3.org/1999/xlink`,`xlink:type`,r);break;case`xmlBase`:zt(e,`http://www.w3.org/XML/1998/namespace`,`xml:base`,r);break;case`xmlLang`:zt(e,`http://www.w3.org/XML/1998/namespace`,`xml:lang`,r);break;case`xmlSpace`:zt(e,`http://www.w3.org/XML/1998/namespace`,`xml:space`,r);break;case`is`:Lt(e,`is`,r);break;case`innerText`:case`textContent`:break;default:(!(2<n.length)||n[0]!==`o`&&n[0]!==`O`||n[1]!==`n`&&n[1]!==`N`)&&(n=on.get(n)||n,Lt(e,n,r))}}function Nd(e,t,n,r,i,a){switch(n){case`style`:rn(e,r,a);break;case`dangerouslySetInnerHTML`:if(r!=null){if(typeof r!=`object`||!(`__html`in r))throw Error(s(61));if(n=r.__html,n!=null){if(i.children!=null)throw Error(s(60));e.innerHTML=n}}break;case`children`:typeof r==`string`?en(e,r):(typeof r==`number`||typeof r==`bigint`)&&en(e,``+r);break;case`onScroll`:r!=null&&Q(`scroll`,e);break;case`onScrollEnd`:r!=null&&Q(`scrollend`,e);break;case`onClick`:r!=null&&(e.onclick=ln);break;case`suppressContentEditableWarning`:case`suppressHydrationWarning`:case`innerHTML`:case`ref`:break;case`innerText`:case`textContent`:break;default:if(!At.hasOwnProperty(n))a:{if(n[0]===`o`&&n[1]===`n`&&(i=n.endsWith(`Capture`),t=n.slice(2,i?n.length-7:void 0),a=e[_t]||null,a=a==null?null:a[n],typeof a==`function`&&e.removeEventListener(t,a,i),typeof r==`function`)){typeof a!=`function`&&a!==null&&(n in e?e[n]=null:e.hasAttribute(n)&&e.removeAttribute(n)),e.addEventListener(t,r,i);break a}n in e?e[n]=r:!0===r?e.setAttribute(n,``):Lt(e,n,r)}}}function Pd(e,t,n){switch(t){case`div`:case`span`:case`svg`:case`path`:case`a`:case`g`:case`p`:case`li`:break;case`img`:Q(`error`,e),Q(`load`,e);var r=!1,i=!1,a;for(a in n)if(n.hasOwnProperty(a)){var o=n[a];if(o!=null)switch(a){case`src`:r=!0;break;case`srcSet`:i=!0;break;case`children`:case`dangerouslySetInnerHTML`:throw Error(s(137,t));default:$(e,t,a,o,n,null)}}i&&$(e,t,`srcSet`,n.srcSet,n,null),r&&$(e,t,`src`,n.src,n,null);return;case`input`:Q(`invalid`,e);var c=a=o=i=null,l=null,u=null;for(r in n)if(n.hasOwnProperty(r)){var d=n[r];if(d!=null)switch(r){case`name`:i=d;break;case`type`:o=d;break;case`checked`:l=d;break;case`defaultChecked`:u=d;break;case`value`:a=d;break;case`defaultValue`:c=d;break;case`children`:case`dangerouslySetInnerHTML`:if(d!=null)throw Error(s(137,t));break;default:$(e,t,r,d,n,null)}}Yt(e,a,c,l,u,o,i,!1);return;case`select`:for(i in Q(`invalid`,e),r=o=a=null,n)if(n.hasOwnProperty(i)&&(c=n[i],c!=null))switch(i){case`value`:a=c;break;case`defaultValue`:o=c;break;case`multiple`:r=c;default:$(e,t,i,c,n,null)}t=a,n=o,e.multiple=!!r,t==null?n!=null&&Zt(e,!!r,n,!0):Zt(e,!!r,t,!1);return;case`textarea`:for(o in Q(`invalid`,e),a=i=r=null,n)if(n.hasOwnProperty(o)&&(c=n[o],c!=null))switch(o){case`value`:r=c;break;case`defaultValue`:i=c;break;case`children`:a=c;break;case`dangerouslySetInnerHTML`:if(c!=null)throw Error(s(91));break;default:$(e,t,o,c,n,null)}$t(e,r,i,a);return;case`option`:for(l in n)if(n.hasOwnProperty(l)&&(r=n[l],r!=null))switch(l){case`selected`:e.selected=r&&typeof r!=`function`&&typeof r!=`symbol`;break;default:$(e,t,l,r,n,null)}return;case`dialog`:Q(`beforetoggle`,e),Q(`toggle`,e),Q(`cancel`,e),Q(`close`,e);break;case`iframe`:case`object`:Q(`load`,e);break;case`video`:case`audio`:for(r=0;r<_d.length;r++)Q(_d[r],e);break;case`image`:Q(`error`,e),Q(`load`,e);break;case`details`:Q(`toggle`,e);break;case`embed`:case`source`:case`link`:Q(`error`,e),Q(`load`,e);case`area`:case`base`:case`br`:case`col`:case`hr`:case`keygen`:case`meta`:case`param`:case`track`:case`wbr`:case`menuitem`:for(u in n)if(n.hasOwnProperty(u)&&(r=n[u],r!=null))switch(u){case`children`:case`dangerouslySetInnerHTML`:throw Error(s(137,t));default:$(e,t,u,r,n,null)}return;default:if(an(t)){for(d in n)n.hasOwnProperty(d)&&(r=n[d],r!==void 0&&Nd(e,t,d,r,n,void 0));return}}for(c in n)n.hasOwnProperty(c)&&(r=n[c],r!=null&&$(e,t,c,r,n,null))}function Fd(e,t,n,r){switch(t){case`div`:case`span`:case`svg`:case`path`:case`a`:case`g`:case`p`:case`li`:break;case`input`:var i=null,a=null,o=null,c=null,l=null,u=null,d=null;for(m in n){var f=n[m];if(n.hasOwnProperty(m)&&f!=null)switch(m){case`checked`:break;case`value`:break;case`defaultValue`:l=f;default:r.hasOwnProperty(m)||$(e,t,m,null,r,f)}}for(var p in r){var m=r[p];if(f=n[p],r.hasOwnProperty(p)&&(m!=null||f!=null))switch(p){case`type`:a=m;break;case`name`:i=m;break;case`checked`:u=m;break;case`defaultChecked`:d=m;break;case`value`:o=m;break;case`defaultValue`:c=m;break;case`children`:case`dangerouslySetInnerHTML`:if(m!=null)throw Error(s(137,t));break;default:m!==f&&$(e,t,p,m,r,f)}}Jt(e,o,c,l,u,d,a,i);return;case`select`:for(a in m=o=c=p=null,n)if(l=n[a],n.hasOwnProperty(a)&&l!=null)switch(a){case`value`:break;case`multiple`:m=l;default:r.hasOwnProperty(a)||$(e,t,a,null,r,l)}for(i in r)if(a=r[i],l=n[i],r.hasOwnProperty(i)&&(a!=null||l!=null))switch(i){case`value`:p=a;break;case`defaultValue`:c=a;break;case`multiple`:o=a;default:a!==l&&$(e,t,i,a,r,l)}t=c,n=o,r=m,p==null?!!r!=!!n&&(t==null?Zt(e,!!n,n?[]:``,!1):Zt(e,!!n,t,!0)):Zt(e,!!n,p,!1);return;case`textarea`:for(c in m=p=null,n)if(i=n[c],n.hasOwnProperty(c)&&i!=null&&!r.hasOwnProperty(c))switch(c){case`value`:break;case`children`:break;default:$(e,t,c,null,r,i)}for(o in r)if(i=r[o],a=n[o],r.hasOwnProperty(o)&&(i!=null||a!=null))switch(o){case`value`:p=i;break;case`defaultValue`:m=i;break;case`children`:break;case`dangerouslySetInnerHTML`:if(i!=null)throw Error(s(91));break;default:i!==a&&$(e,t,o,i,r,a)}Qt(e,p,m);return;case`option`:for(var h in n)if(p=n[h],n.hasOwnProperty(h)&&p!=null&&!r.hasOwnProperty(h))switch(h){case`selected`:e.selected=!1;break;default:$(e,t,h,null,r,p)}for(l in r)if(p=r[l],m=n[l],r.hasOwnProperty(l)&&p!==m&&(p!=null||m!=null))switch(l){case`selected`:e.selected=p&&typeof p!=`function`&&typeof p!=`symbol`;break;default:$(e,t,l,p,r,m)}return;case`img`:case`link`:case`area`:case`base`:case`br`:case`col`:case`embed`:case`hr`:case`keygen`:case`meta`:case`param`:case`source`:case`track`:case`wbr`:case`menuitem`:for(var g in n)p=n[g],n.hasOwnProperty(g)&&p!=null&&!r.hasOwnProperty(g)&&$(e,t,g,null,r,p);for(u in r)if(p=r[u],m=n[u],r.hasOwnProperty(u)&&p!==m&&(p!=null||m!=null))switch(u){case`children`:case`dangerouslySetInnerHTML`:if(p!=null)throw Error(s(137,t));break;default:$(e,t,u,p,r,m)}return;default:if(an(t)){for(var _ in n)p=n[_],n.hasOwnProperty(_)&&p!==void 0&&!r.hasOwnProperty(_)&&Nd(e,t,_,void 0,r,p);for(d in r)p=r[d],m=n[d],!r.hasOwnProperty(d)||p===m||p===void 0&&m===void 0||Nd(e,t,d,p,r,m);return}}for(var v in n)p=n[v],n.hasOwnProperty(v)&&p!=null&&!r.hasOwnProperty(v)&&$(e,t,v,null,r,p);for(f in r)p=r[f],m=n[f],!r.hasOwnProperty(f)||p===m||p==null&&m==null||$(e,t,f,p,r,m)}function Id(e){switch(e){case`css`:case`script`:case`font`:case`img`:case`image`:case`input`:case`link`:return!0;default:return!1}}function Ld(){if(typeof performance.getEntriesByType==`function`){for(var e=0,t=0,n=performance.getEntriesByType(`resource`),r=0;r<n.length;r++){var i=n[r],a=i.transferSize,o=i.initiatorType,s=i.duration;if(a&&s&&Id(o)){for(o=0,s=i.responseEnd,r+=1;r<n.length;r++){var c=n[r],l=c.startTime;if(l>s)break;var u=c.transferSize,d=c.initiatorType;u&&Id(d)&&(c=c.responseEnd,o+=u*(c<s?1:(s-l)/(c-l)))}if(--r,t+=8*(a+o)/(i.duration/1e3),e++,10<e)break}}if(0<e)return t/e/1e6}return navigator.connection&&(e=navigator.connection.downlink,typeof e==`number`)?e:5}var Rd=null,zd=null;function Bd(e){return e.nodeType===9?e:e.ownerDocument}function Vd(e){switch(e){case`http://www.w3.org/2000/svg`:return 1;case`http://www.w3.org/1998/Math/MathML`:return 2;default:return 0}}function Hd(e,t){if(e===0)switch(t){case`svg`:return 1;case`math`:return 2;default:return 0}return e===1&&t===`foreignObject`?0:e}function Ud(e,t){return e===`textarea`||e===`noscript`||typeof t.children==`string`||typeof t.children==`number`||typeof t.children==`bigint`||typeof t.dangerouslySetInnerHTML==`object`&&t.dangerouslySetInnerHTML!==null&&t.dangerouslySetInnerHTML.__html!=null}var Wd=null;function Gd(){var e=window.event;return e&&e.type===`popstate`?e!==Wd&&(Wd=e,!0):(Wd=null,!1)}var Kd=typeof setTimeout==`function`?setTimeout:void 0,qd=typeof clearTimeout==`function`?clearTimeout:void 0,Jd=typeof Promise==`function`?Promise:void 0,Yd=typeof queueMicrotask==`function`?queueMicrotask:Jd===void 0?Kd:function(e){return Jd.resolve(null).then(e).catch(Xd)};function Xd(e){setTimeout(function(){throw e})}function Zd(e){return e===`head`}function Qd(e,t){var n=t,r=0;do{var i=n.nextSibling;if(e.removeChild(n),i&&i.nodeType===8)if(n=i.data,n===`/$`||n===`/&`){if(r===0){e.removeChild(i),Np(t);return}r--}else if(n===`$`||n===`$?`||n===`$~`||n===`$!`||n===`&`)r++;else if(n===`html`)pf(e.ownerDocument.documentElement);else if(n===`head`){n=e.ownerDocument.head,pf(n);for(var a=n.firstChild;a;){var o=a.nextSibling,s=a.nodeName;a[Ct]||s===`SCRIPT`||s===`STYLE`||s===`LINK`&&a.rel.toLowerCase()===`stylesheet`||n.removeChild(a),a=o}}else n===`body`&&pf(e.ownerDocument.body);n=i}while(n);Np(t)}function $d(e,t){var n=e;e=0;do{var r=n.nextSibling;if(n.nodeType===1?t?(n._stashedDisplay=n.style.display,n.style.display=`none`):(n.style.display=n._stashedDisplay||``,n.getAttribute(`style`)===``&&n.removeAttribute(`style`)):n.nodeType===3&&(t?(n._stashedText=n.nodeValue,n.nodeValue=``):n.nodeValue=n._stashedText||``),r&&r.nodeType===8)if(n=r.data,n===`/$`){if(e===0)break;e--}else n!==`$`&&n!==`$?`&&n!==`$~`&&n!==`$!`||e++;n=r}while(n)}function ef(e){var t=e.firstChild;for(t&&t.nodeType===10&&(t=t.nextSibling);t;){var n=t;switch(t=t.nextSibling,n.nodeName){case`HTML`:case`HEAD`:case`BODY`:ef(n),wt(n);continue;case`SCRIPT`:case`STYLE`:continue;case`LINK`:if(n.rel.toLowerCase()===`stylesheet`)continue}e.removeChild(n)}}function tf(e,t,n,r){for(;e.nodeType===1;){var i=n;if(e.nodeName.toLowerCase()!==t.toLowerCase()){if(!r&&(e.nodeName!==`INPUT`||e.type!==`hidden`))break}else if(!r)if(t===`input`&&e.type===`hidden`){var a=i.name==null?null:``+i.name;if(i.type===`hidden`&&e.getAttribute(`name`)===a)return e}else return e;else if(!e[Ct])switch(t){case`meta`:if(!e.hasAttribute(`itemprop`))break;return e;case`link`:if(a=e.getAttribute(`rel`),a===`stylesheet`&&e.hasAttribute(`data-precedence`)||a!==i.rel||e.getAttribute(`href`)!==(i.href==null||i.href===``?null:i.href)||e.getAttribute(`crossorigin`)!==(i.crossOrigin==null?null:i.crossOrigin)||e.getAttribute(`title`)!==(i.title==null?null:i.title))break;return e;case`style`:if(e.hasAttribute(`data-precedence`))break;return e;case`script`:if(a=e.getAttribute(`src`),(a!==(i.src==null?null:i.src)||e.getAttribute(`type`)!==(i.type==null?null:i.type)||e.getAttribute(`crossorigin`)!==(i.crossOrigin==null?null:i.crossOrigin))&&a&&e.hasAttribute(`async`)&&!e.hasAttribute(`itemprop`))break;return e;default:return e}if(e=cf(e.nextSibling),e===null)break}return null}function nf(e,t,n){if(t===``)return null;for(;e.nodeType!==3;)if((e.nodeType!==1||e.nodeName!==`INPUT`||e.type!==`hidden`)&&!n||(e=cf(e.nextSibling),e===null))return null;return e}function rf(e,t){for(;e.nodeType!==8;)if((e.nodeType!==1||e.nodeName!==`INPUT`||e.type!==`hidden`)&&!t||(e=cf(e.nextSibling),e===null))return null;return e}function af(e){return e.data===`$?`||e.data===`$~`}function of(e){return e.data===`$!`||e.data===`$?`&&e.ownerDocument.readyState!==`loading`}function sf(e,t){var n=e.ownerDocument;if(e.data===`$~`)e._reactRetry=t;else if(e.data!==`$?`||n.readyState!==`loading`)t();else{var r=function(){t(),n.removeEventListener(`DOMContentLoaded`,r)};n.addEventListener(`DOMContentLoaded`,r),e._reactRetry=r}}function cf(e){for(;e!=null;e=e.nextSibling){var t=e.nodeType;if(t===1||t===3)break;if(t===8){if(t=e.data,t===`$`||t===`$!`||t===`$?`||t===`$~`||t===`&`||t===`F!`||t===`F`)break;if(t===`/$`||t===`/&`)return null}}return e}var lf=null;function uf(e){e=e.nextSibling;for(var t=0;e;){if(e.nodeType===8){var n=e.data;if(n===`/$`||n===`/&`){if(t===0)return cf(e.nextSibling);t--}else n!==`$`&&n!==`$!`&&n!==`$?`&&n!==`$~`&&n!==`&`||t++}e=e.nextSibling}return null}function df(e){e=e.previousSibling;for(var t=0;e;){if(e.nodeType===8){var n=e.data;if(n===`$`||n===`$!`||n===`$?`||n===`$~`||n===`&`){if(t===0)return e;t--}else n!==`/$`&&n!==`/&`||t++}e=e.previousSibling}return null}function ff(e,t,n){switch(t=Bd(n),e){case`html`:if(e=t.documentElement,!e)throw Error(s(452));return e;case`head`:if(e=t.head,!e)throw Error(s(453));return e;case`body`:if(e=t.body,!e)throw Error(s(454));return e;default:throw Error(s(451))}}function pf(e){for(var t=e.attributes;t.length;)e.removeAttributeNode(t[0]);wt(e)}var mf=new Map,hf=new Set;function gf(e){return typeof e.getRootNode==`function`?e.getRootNode():e.nodeType===9?e:e.ownerDocument}var _f=E.d;E.d={f:vf,r:yf,D:Sf,C:Cf,L:wf,m:Tf,X:Df,S:Ef,M:Of};function vf(){var e=_f.f(),t=bu();return e||t}function yf(e){var t=Et(e);t!==null&&t.tag===5&&t.type===`form`?js(t):_f.r(e)}var bf=typeof document>`u`?null:document;function xf(e,t,n){var r=bf;if(r&&typeof t==`string`&&t){var i=qt(t);i=`link[rel="`+e+`"][href="`+i+`"]`,typeof n==`string`&&(i+=`[crossorigin="`+n+`"]`),hf.has(i)||(hf.add(i),e={rel:e,crossOrigin:n,href:t},r.querySelector(i)===null&&(t=r.createElement(`link`),Pd(t,`link`,e),k(t),r.head.appendChild(t)))}}function Sf(e){_f.D(e),xf(`dns-prefetch`,e,null)}function Cf(e,t){_f.C(e,t),xf(`preconnect`,e,t)}function wf(e,t,n){_f.L(e,t,n);var r=bf;if(r&&e&&t){var i=`link[rel="preload"][as="`+qt(t)+`"]`;t===`image`&&n&&n.imageSrcSet?(i+=`[imagesrcset="`+qt(n.imageSrcSet)+`"]`,typeof n.imageSizes==`string`&&(i+=`[imagesizes="`+qt(n.imageSizes)+`"]`)):i+=`[href="`+qt(e)+`"]`;var a=i;switch(t){case`style`:a=Af(e);break;case`script`:a=Pf(e)}mf.has(a)||(e=h({rel:`preload`,href:t===`image`&&n&&n.imageSrcSet?void 0:e,as:t},n),mf.set(a,e),r.querySelector(i)!==null||t===`style`&&r.querySelector(jf(a))||t===`script`&&r.querySelector(Ff(a))||(t=r.createElement(`link`),Pd(t,`link`,e),k(t),r.head.appendChild(t)))}}function Tf(e,t){_f.m(e,t);var n=bf;if(n&&e){var r=t&&typeof t.as==`string`?t.as:`script`,i=`link[rel="modulepreload"][as="`+qt(r)+`"][href="`+qt(e)+`"]`,a=i;switch(r){case`audioworklet`:case`paintworklet`:case`serviceworker`:case`sharedworker`:case`worker`:case`script`:a=Pf(e)}if(!mf.has(a)&&(e=h({rel:`modulepreload`,href:e},t),mf.set(a,e),n.querySelector(i)===null)){switch(r){case`audioworklet`:case`paintworklet`:case`serviceworker`:case`sharedworker`:case`worker`:case`script`:if(n.querySelector(Ff(a)))return}r=n.createElement(`link`),Pd(r,`link`,e),k(r),n.head.appendChild(r)}}}function Ef(e,t,n){_f.S(e,t,n);var r=bf;if(r&&e){var i=Ot(r).hoistableStyles,a=Af(e);t||=`default`;var o=i.get(a);if(!o){var s={loading:0,preload:null};if(o=r.querySelector(jf(a)))s.loading=5;else{e=h({rel:`stylesheet`,href:e,"data-precedence":t},n),(n=mf.get(a))&&Rf(e,n);var c=o=r.createElement(`link`);k(c),Pd(c,`link`,e),c._p=new Promise(function(e,t){c.onload=e,c.onerror=t}),c.addEventListener(`load`,function(){s.loading|=1}),c.addEventListener(`error`,function(){s.loading|=2}),s.loading|=4,Lf(o,t,r)}o={type:`stylesheet`,instance:o,count:1,state:s},i.set(a,o)}}}function Df(e,t){_f.X(e,t);var n=bf;if(n&&e){var r=Ot(n).hoistableScripts,i=Pf(e),a=r.get(i);a||(a=n.querySelector(Ff(i)),a||(e=h({src:e,async:!0},t),(t=mf.get(i))&&zf(e,t),a=n.createElement(`script`),k(a),Pd(a,`link`,e),n.head.appendChild(a)),a={type:`script`,instance:a,count:1,state:null},r.set(i,a))}}function Of(e,t){_f.M(e,t);var n=bf;if(n&&e){var r=Ot(n).hoistableScripts,i=Pf(e),a=r.get(i);a||(a=n.querySelector(Ff(i)),a||(e=h({src:e,async:!0,type:`module`},t),(t=mf.get(i))&&zf(e,t),a=n.createElement(`script`),k(a),Pd(a,`link`,e),n.head.appendChild(a)),a={type:`script`,instance:a,count:1,state:null},r.set(i,a))}}function kf(e,t,n,r){var i=(i=_e.current)?gf(i):null;if(!i)throw Error(s(446));switch(e){case`meta`:case`title`:return null;case`style`:return typeof n.precedence==`string`&&typeof n.href==`string`?(t=Af(n.href),n=Ot(i).hoistableStyles,r=n.get(t),r||(r={type:`style`,instance:null,count:0,state:null},n.set(t,r)),r):{type:`void`,instance:null,count:0,state:null};case`link`:if(n.rel===`stylesheet`&&typeof n.href==`string`&&typeof n.precedence==`string`){e=Af(n.href);var a=Ot(i).hoistableStyles,o=a.get(e);if(o||(i=i.ownerDocument||i,o={type:`stylesheet`,instance:null,count:0,state:{loading:0,preload:null}},a.set(e,o),(a=i.querySelector(jf(e)))&&!a._p&&(o.instance=a,o.state.loading=5),mf.has(e)||(n={rel:`preload`,as:`style`,href:n.href,crossOrigin:n.crossOrigin,integrity:n.integrity,media:n.media,hrefLang:n.hrefLang,referrerPolicy:n.referrerPolicy},mf.set(e,n),a||Nf(i,e,n,o.state))),t&&r===null)throw Error(s(528,``));return o}if(t&&r!==null)throw Error(s(529,``));return null;case`script`:return t=n.async,n=n.src,typeof n==`string`&&t&&typeof t!=`function`&&typeof t!=`symbol`?(t=Pf(n),n=Ot(i).hoistableScripts,r=n.get(t),r||(r={type:`script`,instance:null,count:0,state:null},n.set(t,r)),r):{type:`void`,instance:null,count:0,state:null};default:throw Error(s(444,e))}}function Af(e){return`href="`+qt(e)+`"`}function jf(e){return`link[rel="stylesheet"][`+e+`]`}function Mf(e){return h({},e,{"data-precedence":e.precedence,precedence:null})}function Nf(e,t,n,r){e.querySelector(`link[rel="preload"][as="style"][`+t+`]`)?r.loading=1:(t=e.createElement(`link`),r.preload=t,t.addEventListener(`load`,function(){return r.loading|=1}),t.addEventListener(`error`,function(){return r.loading|=2}),Pd(t,`link`,n),k(t),e.head.appendChild(t))}function Pf(e){return`[src="`+qt(e)+`"]`}function Ff(e){return`script[async]`+e}function If(e,t,n){if(t.count++,t.instance===null)switch(t.type){case`style`:var r=e.querySelector(`style[data-href~="`+qt(n.href)+`"]`);if(r)return t.instance=r,k(r),r;var i=h({},n,{"data-href":n.href,"data-precedence":n.precedence,href:null,precedence:null});return r=(e.ownerDocument||e).createElement(`style`),k(r),Pd(r,`style`,i),Lf(r,n.precedence,e),t.instance=r;case`stylesheet`:i=Af(n.href);var a=e.querySelector(jf(i));if(a)return t.state.loading|=4,t.instance=a,k(a),a;r=Mf(n),(i=mf.get(i))&&Rf(r,i),a=(e.ownerDocument||e).createElement(`link`),k(a);var o=a;return o._p=new Promise(function(e,t){o.onload=e,o.onerror=t}),Pd(a,`link`,r),t.state.loading|=4,Lf(a,n.precedence,e),t.instance=a;case`script`:return a=Pf(n.src),(i=e.querySelector(Ff(a)))?(t.instance=i,k(i),i):(r=n,(i=mf.get(a))&&(r=h({},n),zf(r,i)),e=e.ownerDocument||e,i=e.createElement(`script`),k(i),Pd(i,`link`,r),e.head.appendChild(i),t.instance=i);case`void`:return null;default:throw Error(s(443,t.type))}else t.type===`stylesheet`&&!(t.state.loading&4)&&(r=t.instance,t.state.loading|=4,Lf(r,n.precedence,e));return t.instance}function Lf(e,t,n){for(var r=n.querySelectorAll(`link[rel="stylesheet"][data-precedence],style[data-precedence]`),i=r.length?r[r.length-1]:null,a=i,o=0;o<r.length;o++){var s=r[o];if(s.dataset.precedence===t)a=s;else if(a!==i)break}a?a.parentNode.insertBefore(e,a.nextSibling):(t=n.nodeType===9?n.head:n,t.insertBefore(e,t.firstChild))}function Rf(e,t){e.crossOrigin??=t.crossOrigin,e.referrerPolicy??=t.referrerPolicy,e.title??=t.title}function zf(e,t){e.crossOrigin??=t.crossOrigin,e.referrerPolicy??=t.referrerPolicy,e.integrity??=t.integrity}var Bf=null;function Vf(e,t,n){if(Bf===null){var r=new Map,i=Bf=new Map;i.set(n,r)}else i=Bf,r=i.get(n),r||(r=new Map,i.set(n,r));if(r.has(e))return r;for(r.set(e,null),n=n.getElementsByTagName(e),i=0;i<n.length;i++){var a=n[i];if(!(a[Ct]||a[gt]||e===`link`&&a.getAttribute(`rel`)===`stylesheet`)&&a.namespaceURI!==`http://www.w3.org/2000/svg`){var o=a.getAttribute(t)||``;o=e+o;var s=r.get(o);s?s.push(a):r.set(o,[a])}}return r}function Hf(e,t,n){e=e.ownerDocument||e,e.head.insertBefore(n,t===`title`?e.querySelector(`head > title`):null)}function Uf(e,t,n){if(n===1||t.itemProp!=null)return!1;switch(e){case`meta`:case`title`:return!0;case`style`:if(typeof t.precedence!=`string`||typeof t.href!=`string`||t.href===``)break;return!0;case`link`:if(typeof t.rel!=`string`||typeof t.href!=`string`||t.href===``||t.onLoad||t.onError)break;switch(t.rel){case`stylesheet`:return e=t.disabled,typeof t.precedence==`string`&&e==null;default:return!0}case`script`:if(t.async&&typeof t.async!=`function`&&typeof t.async!=`symbol`&&!t.onLoad&&!t.onError&&t.src&&typeof t.src==`string`)return!0}return!1}function Wf(e){return!(e.type===`stylesheet`&&!(e.state.loading&3))}function Gf(e,t,n,r){if(n.type===`stylesheet`&&(typeof r.media!=`string`||!1!==matchMedia(r.media).matches)&&!(n.state.loading&4)){if(n.instance===null){var i=Af(r.href),a=t.querySelector(jf(i));if(a){t=a._p,typeof t==`object`&&t&&typeof t.then==`function`&&(e.count++,e=Jf.bind(e),t.then(e,e)),n.state.loading|=4,n.instance=a,k(a);return}a=t.ownerDocument||t,r=Mf(r),(i=mf.get(i))&&Rf(r,i),a=a.createElement(`link`),k(a);var o=a;o._p=new Promise(function(e,t){o.onload=e,o.onerror=t}),Pd(a,`link`,r),n.instance=a}e.stylesheets===null&&(e.stylesheets=new Map),e.stylesheets.set(n,t),(t=n.state.preload)&&!(n.state.loading&3)&&(e.count++,n=Jf.bind(e),t.addEventListener(`load`,n),t.addEventListener(`error`,n))}}var Kf=0;function qf(e,t){return e.stylesheets&&e.count===0&&Xf(e,e.stylesheets),0<e.count||0<e.imgCount?function(n){var r=setTimeout(function(){if(e.stylesheets&&Xf(e,e.stylesheets),e.unsuspend){var t=e.unsuspend;e.unsuspend=null,t()}},6e4+t);0<e.imgBytes&&Kf===0&&(Kf=62500*Ld());var i=setTimeout(function(){if(e.waitingForImages=!1,e.count===0&&(e.stylesheets&&Xf(e,e.stylesheets),e.unsuspend)){var t=e.unsuspend;e.unsuspend=null,t()}},(e.imgBytes>Kf?50:800)+t);return e.unsuspend=n,function(){e.unsuspend=null,clearTimeout(r),clearTimeout(i)}}:null}function Jf(){if(this.count--,this.count===0&&(this.imgCount===0||!this.waitingForImages)){if(this.stylesheets)Xf(this,this.stylesheets);else if(this.unsuspend){var e=this.unsuspend;this.unsuspend=null,e()}}}var Yf=null;function Xf(e,t){e.stylesheets=null,e.unsuspend!==null&&(e.count++,Yf=new Map,t.forEach(Zf,e),Yf=null,Jf.call(e))}function Zf(e,t){if(!(t.state.loading&4)){var n=Yf.get(e);if(n)var r=n.get(null);else{n=new Map,Yf.set(e,n);for(var i=e.querySelectorAll(`link[data-precedence],style[data-precedence]`),a=0;a<i.length;a++){var o=i[a];(o.nodeName===`LINK`||o.getAttribute(`media`)!==`not all`)&&(n.set(o.dataset.precedence,o),r=o)}r&&n.set(null,r)}i=t.instance,o=i.getAttribute(`data-precedence`),a=n.get(o)||r,a===r&&n.set(null,i),n.set(o,i),this.count++,r=Jf.bind(this),i.addEventListener(`load`,r),i.addEventListener(`error`,r),a?a.parentNode.insertBefore(i,a.nextSibling):(e=e.nodeType===9?e.head:e,e.insertBefore(i,e.firstChild)),t.state.loading|=4}}var Qf={$$typeof:te,Provider:null,Consumer:null,_currentValue:de,_currentValue2:de,_threadCount:0};function $f(e,t,n,r,i,a,o,s,c){this.tag=1,this.containerInfo=e,this.pingCache=this.current=this.pendingChildren=null,this.timeoutHandle=-1,this.callbackNode=this.next=this.pendingContext=this.context=this.cancelPendingCommit=null,this.callbackPriority=0,this.expirationTimes=at(-1),this.entangledLanes=this.shellSuspendCounter=this.errorRecoveryDisabledLanes=this.expiredLanes=this.warmLanes=this.pingedLanes=this.suspendedLanes=this.pendingLanes=0,this.entanglements=at(0),this.hiddenUpdates=at(null),this.identifierPrefix=r,this.onUncaughtError=i,this.onCaughtError=a,this.onRecoverableError=o,this.pooledCache=null,this.pooledCacheLanes=0,this.formState=c,this.incompleteTransitions=new Map}function ep(e,t,n,r,i,a,o,s,c,l,u,d){return e=new $f(e,t,n,o,c,l,u,d,s),t=1,!0===a&&(t|=24),a=_i(3,null,null,t),e.current=a,a.stateNode=e,t=ha(),t.refCount++,e.pooledCache=t,t.refCount++,a.memoizedState={element:r,isDehydrated:n,cache:t},Ja(a),e}function tp(e){return e?(e=hi,e):hi}function np(e,t,n,r,i,a){i=tp(i),r.context===null?r.context=i:r.pendingContext=i,r=Xa(t),r.payload={element:n},a=a===void 0?null:a,a!==null&&(r.callback=a),n=Za(e,r,t),n!==null&&(hu(n,e,t),Qa(n,e,t))}function rp(e,t){if(e=e.memoizedState,e!==null&&e.dehydrated!==null){var n=e.retryLane;e.retryLane=n!==0&&n<t?n:t}}function ip(e,t){rp(e,t),(e=e.alternate)&&rp(e,t)}function ap(e){if(e.tag===13||e.tag===31){var t=fi(e,67108864);t!==null&&hu(t,e,67108864),ip(e,67108864)}}function op(e){if(e.tag===13||e.tag===31){var t=pu();t=dt(t);var n=fi(e,t);n!==null&&hu(n,e,t),ip(e,t)}}var sp=!0;function cp(e,t,n,r){var i=T.T;T.T=null;var a=E.p;try{E.p=2,up(e,t,n,r)}finally{E.p=a,T.T=i}}function lp(e,t,n,r){var i=T.T;T.T=null;var a=E.p;try{E.p=8,up(e,t,n,r)}finally{E.p=a,T.T=i}}function up(e,t,n,r){if(sp){var i=dp(r);if(i===null)wd(e,t,r,fp,n),Cp(e,r);else if(Tp(i,e,t,n,r))r.stopPropagation();else if(Cp(e,r),t&4&&-1<Sp.indexOf(e)){for(;i!==null;){var a=Et(i);if(a!==null)switch(a.tag){case 3:if(a=a.stateNode,a.current.memoizedState.isDehydrated){var o=et(a.pendingLanes);if(o!==0){var s=a;for(s.pendingLanes|=2,s.entangledLanes|=2;o;){var c=1<<31-qe(o);s.entanglements[1]|=c,o&=~c}rd(a),!(W&6)&&(nu=Fe()+500,id(0,!1))}}break;case 31:case 13:s=fi(a,2),s!==null&&hu(s,a,2),bu(),ip(a,2)}if(a=dp(r),a===null&&wd(e,t,r,fp,n),a===i)break;i=a}i!==null&&r.stopPropagation()}else wd(e,t,r,null,n)}}function dp(e){return e=dn(e),pp(e)}var fp=null;function pp(e){if(fp=null,e=Tt(e),e!==null){var t=l(e);if(t===null)e=null;else{var n=t.tag;if(n===13){if(e=u(t),e!==null)return e;e=null}else if(n===31){if(e=d(t),e!==null)return e;e=null}else if(n===3){if(t.stateNode.current.memoizedState.isDehydrated)return t.tag===3?t.stateNode.containerInfo:null;e=null}else t!==e&&(e=null)}}return fp=e,null}function mp(e){switch(e){case`beforetoggle`:case`cancel`:case`click`:case`close`:case`contextmenu`:case`copy`:case`cut`:case`auxclick`:case`dblclick`:case`dragend`:case`dragstart`:case`drop`:case`focusin`:case`focusout`:case`input`:case`invalid`:case`keydown`:case`keypress`:case`keyup`:case`mousedown`:case`mouseup`:case`paste`:case`pause`:case`play`:case`pointercancel`:case`pointerdown`:case`pointerup`:case`ratechange`:case`reset`:case`resize`:case`seeked`:case`submit`:case`toggle`:case`touchcancel`:case`touchend`:case`touchstart`:case`volumechange`:case`change`:case`selectionchange`:case`textInput`:case`compositionstart`:case`compositionend`:case`compositionupdate`:case`beforeblur`:case`afterblur`:case`beforeinput`:case`blur`:case`fullscreenchange`:case`focus`:case`hashchange`:case`popstate`:case`select`:case`selectstart`:return 2;case`drag`:case`dragenter`:case`dragexit`:case`dragleave`:case`dragover`:case`mousemove`:case`mouseout`:case`mouseover`:case`pointermove`:case`pointerout`:case`pointerover`:case`scroll`:case`touchmove`:case`wheel`:case`mouseenter`:case`mouseleave`:case`pointerenter`:case`pointerleave`:return 8;case`message`:switch(Ie()){case Le:return 2;case Re:return 8;case ze:case Be:return 32;case Ve:return 268435456;default:return 32}default:return 32}}var hp=!1,gp=null,_p=null,vp=null,yp=new Map,bp=new Map,xp=[],Sp=`mousedown mouseup touchcancel touchend touchstart auxclick dblclick pointercancel pointerdown pointerup dragend dragstart drop compositionend compositionstart keydown keypress keyup input textInput copy cut paste click change contextmenu reset`.split(` `);function Cp(e,t){switch(e){case`focusin`:case`focusout`:gp=null;break;case`dragenter`:case`dragleave`:_p=null;break;case`mouseover`:case`mouseout`:vp=null;break;case`pointerover`:case`pointerout`:yp.delete(t.pointerId);break;case`gotpointercapture`:case`lostpointercapture`:bp.delete(t.pointerId)}}function wp(e,t,n,r,i,a){return e===null||e.nativeEvent!==a?(e={blockedOn:t,domEventName:n,eventSystemFlags:r,nativeEvent:a,targetContainers:[i]},t!==null&&(t=Et(t),t!==null&&ap(t)),e):(e.eventSystemFlags|=r,t=e.targetContainers,i!==null&&t.indexOf(i)===-1&&t.push(i),e)}function Tp(e,t,n,r,i){switch(t){case`focusin`:return gp=wp(gp,e,t,n,r,i),!0;case`dragenter`:return _p=wp(_p,e,t,n,r,i),!0;case`mouseover`:return vp=wp(vp,e,t,n,r,i),!0;case`pointerover`:var a=i.pointerId;return yp.set(a,wp(yp.get(a)||null,e,t,n,r,i)),!0;case`gotpointercapture`:return a=i.pointerId,bp.set(a,wp(bp.get(a)||null,e,t,n,r,i)),!0}return!1}function Ep(e){var t=Tt(e.target);if(t!==null){var n=l(t);if(n!==null){if(t=n.tag,t===13){if(t=u(n),t!==null){e.blockedOn=t,mt(e.priority,function(){op(n)});return}}else if(t===31){if(t=d(n),t!==null){e.blockedOn=t,mt(e.priority,function(){op(n)});return}}else if(t===3&&n.stateNode.current.memoizedState.isDehydrated){e.blockedOn=n.tag===3?n.stateNode.containerInfo:null;return}}}e.blockedOn=null}function Dp(e){if(e.blockedOn!==null)return!1;for(var t=e.targetContainers;0<t.length;){var n=dp(e.nativeEvent);if(n===null){n=e.nativeEvent;var r=new n.constructor(n.type,n);un=r,n.target.dispatchEvent(r),un=null}else return t=Et(n),t!==null&&ap(t),e.blockedOn=n,!1;t.shift()}return!0}function Op(e,t,n){Dp(e)&&n.delete(t)}function kp(){hp=!1,gp!==null&&Dp(gp)&&(gp=null),_p!==null&&Dp(_p)&&(_p=null),vp!==null&&Dp(vp)&&(vp=null),yp.forEach(Op),bp.forEach(Op)}function Ap(e,n){e.blockedOn===n&&(e.blockedOn=null,hp||(hp=!0,t.unstable_scheduleCallback(t.unstable_NormalPriority,kp)))}var jp=null;function Mp(e){jp!==e&&(jp=e,t.unstable_scheduleCallback(t.unstable_NormalPriority,function(){jp===e&&(jp=null);for(var t=0;t<e.length;t+=3){var n=e[t],r=e[t+1],i=e[t+2];if(typeof r!=`function`){if(pp(r||n)===null)continue;break}var a=Et(n);a!==null&&(e.splice(t,3),t-=3,ks(a,{pending:!0,data:i,method:n.method,action:r},r,i))}}))}function Np(e){function t(t){return Ap(t,e)}gp!==null&&Ap(gp,e),_p!==null&&Ap(_p,e),vp!==null&&Ap(vp,e),yp.forEach(t),bp.forEach(t);for(var n=0;n<xp.length;n++){var r=xp[n];r.blockedOn===e&&(r.blockedOn=null)}for(;0<xp.length&&(n=xp[0],n.blockedOn===null);)Ep(n),n.blockedOn===null&&xp.shift();if(n=(e.ownerDocument||e).$$reactFormReplay,n!=null)for(r=0;r<n.length;r+=3){var i=n[r],a=n[r+1],o=i[_t]||null;if(typeof a==`function`)o||Mp(n);else if(o){var s=null;if(a&&a.hasAttribute(`formAction`)){if(i=a,o=a[_t]||null)s=o.formAction;else if(pp(i)!==null)continue}else s=o.action;typeof s==`function`?n[r+1]=s:(n.splice(r,3),r-=3),Mp(n)}}}function Pp(){function e(e){e.canIntercept&&e.info===`react-transition`&&e.intercept({handler:function(){return new Promise(function(e){return i=e})},focusReset:`manual`,scroll:`manual`})}function t(){i!==null&&(i(),i=null),r||setTimeout(n,20)}function n(){if(!r&&!navigation.transition){var e=navigation.currentEntry;e&&e.url!=null&&navigation.navigate(e.url,{state:e.getState(),info:`react-transition`,history:`replace`})}}if(typeof navigation==`object`){var r=!1,i=null;return navigation.addEventListener(`navigate`,e),navigation.addEventListener(`navigatesuccess`,t),navigation.addEventListener(`navigateerror`,t),setTimeout(n,100),function(){r=!0,navigation.removeEventListener(`navigate`,e),navigation.removeEventListener(`navigatesuccess`,t),navigation.removeEventListener(`navigateerror`,t),i!==null&&(i(),i=null)}}}function Fp(e){this._internalRoot=e}Ip.prototype.render=Fp.prototype.render=function(e){var t=this._internalRoot;if(t===null)throw Error(s(409));var n=t.current;np(n,pu(),e,t,null,null)},Ip.prototype.unmount=Fp.prototype.unmount=function(){var e=this._internalRoot;if(e!==null){this._internalRoot=null;var t=e.containerInfo;np(e.current,2,null,e,null,null),bu(),t[vt]=null}};function Ip(e){this._internalRoot=e}Ip.prototype.unstable_scheduleHydration=function(e){if(e){var t=pt();e={blockedOn:null,target:e,priority:t};for(var n=0;n<xp.length&&t!==0&&t<xp[n].priority;n++);xp.splice(n,0,e),n===0&&Ep(e)}};var Lp=r.version;if(Lp!==`19.2.8`)throw Error(s(527,Lp,`19.2.8`));E.findDOMNode=function(e){var t=e._reactInternals;if(t===void 0)throw typeof e.render==`function`?Error(s(188)):(e=Object.keys(e).join(`,`),Error(s(268,e)));return e=p(t),e=e===null?null:m(e),e=e===null?null:e.stateNode,e};var Rp={bundleType:0,version:`19.2.8`,rendererPackageName:`react-dom`,currentDispatcherRef:T,reconcilerVersion:`19.2.8`};if(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__<`u`){var zp=__REACT_DEVTOOLS_GLOBAL_HOOK__;if(!zp.isDisabled&&zp.supportsFiber)try{We=zp.inject(Rp),Ge=zp}catch{}}e.createRoot=function(e,t){if(!c(e))throw Error(s(299));var n=!1,r=``,i=Qs,a=$s,o=ec;return t!=null&&(!0===t.unstable_strictMode&&(n=!0),t.identifierPrefix!==void 0&&(r=t.identifierPrefix),t.onUncaughtError!==void 0&&(i=t.onUncaughtError),t.onCaughtError!==void 0&&(a=t.onCaughtError),t.onRecoverableError!==void 0&&(o=t.onRecoverableError)),t=ep(e,1,!1,null,null,n,r,null,i,a,o,Pp),e[vt]=t.current,Sd(e),new Fp(t)}})),c=e(((e,t)=>{function n(){if(!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__>`u`||typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE!=`function`))try{__REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(n)}catch(e){console.error(e)}}n(),t.exports=s()})),l=i(),u=c(),d=`      <div class="cp-master">
         <h3 class="cp-head">App screen</h3>
         <div class="cp-page-title">Home</div>
-        <div class="cp-page-sub">Click any widget to edit it. Every change reflects live on the phone.</div>
+        <div class="cp-page-sub">Select a feature to edit its content, use the toggles to show or hide features, and drag them to change their order. View your changes as you make them in the phone preview.</div>
 
         <div class="cp-focus-recap" id="cp-focus-recap">
           <div class="cp-focus-ic" id="cp-focus-ic"></div>
@@ -37,37 +37,28 @@ Error generating stack: `+e.message+`
         </div>
 
         <div class="cp-section open" id="cp-home-widgets" data-pendo-guide-id="home-widget-composition">
-          <div class="cp-head-row">Home widgets <span class="chev">›</span></div>
+          <div class="cp-head-row">Home Screen Sections <span class="chev">›</span></div>
           <div class="cp-body">
             <div class="cp-widget-row off">
               <span class="handle">⠿</span>
-              <span class="w-name" data-drill="profile">Profile &amp; Loyalty</span>
-              <span class="toggle" data-bind=".greet-row, .loyalty-card" data-widget-toggle="profile" title="Add to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="w-name" data-drill="profile">Profile and loyalty</span>
+              <span class="toggle" data-bind=".greet-row, .loyalty-card" data-widget-toggle="profile" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="profile" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
             </div>
             <div class="cp-widget-row off">
               <span class="handle">⠿</span>
-              <span class="w-name" data-drill="promo-cards">Promo Cards — Featured</span>
-              <span class="toggle" data-bind=".promo-cards-widget[data-widget='promo-cards']" data-widget-toggle="promo-cards" title="Add to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="w-name" data-drill="promo-cards">Featured promotions</span>
+              <span class="toggle" data-bind=".promo-cards-widget[data-widget='promo-cards']" data-widget-toggle="promo-cards" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="promo-cards" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
             </div>
             <div class="cp-widget-row off">
               <span class="handle">⠿</span>
-              <span class="w-name" data-drill="social">Social Links</span>
-              <span class="toggle" data-bind=".social-strip" data-widget-toggle="social" title="Add to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="w-name" data-drill="social">Social links</span>
+              <span class="toggle" data-bind=".social-strip" data-widget-toggle="social" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="social" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -75,10 +66,7 @@ Error generating stack: `+e.message+`
             <div class="cp-widget-row off cp-oo-widget" data-oo-widget="order-again">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="order-again">Order Again</span>
-              <span class="toggle" data-bind=".oa-widget" data-widget-toggle="order-again" title="Add to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="toggle" data-bind=".oa-widget" data-widget-toggle="order-again" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="order-again" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -89,10 +77,7 @@ Error generating stack: `+e.message+`
             <div class="cp-widget-row off cp-oo-widget" data-oo-widget="top-items">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="top-items">Top Items</span>
-              <span class="toggle" data-bind=".ti-widget" data-widget-toggle="top-items" title="Add to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="toggle" data-bind=".ti-widget" data-widget-toggle="top-items" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="top-items" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -104,10 +89,7 @@ Error generating stack: `+e.message+`
             <div class="cp-widget-row off cp-oo-widget" data-oo-widget="menu-categories">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="menu-categories">Menu Categories</span>
-              <span class="toggle" data-bind=".mc-widget" data-widget-toggle="menu-categories" title="Add to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="toggle" data-bind=".mc-widget" data-widget-toggle="menu-categories" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="menu-categories" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -119,19 +101,15 @@ Error generating stack: `+e.message+`
             <div class="cp-widget-row off cp-fixed-slot cp-oo-widget" data-oo-widget="menu-reels" title="Reels chip is pinned to the top of the phone">
               <span class="handle handle-locked" title="Reels chip position is fixed at the top">⠿</span>
               <span class="w-name" data-drill="menu-reels">Menu Reels chip</span>
-              <span class="toggle" data-bind=".phone-reels-chip" data-widget-toggle="menu-reels" title="Add reels chip to Home">
-                <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-              </span>
+              <span class="toggle" data-bind=".phone-reels-chip" data-widget-toggle="menu-reels" title="Add reels chip to Home"></span>
               <button class="w-edit-icon" data-drill="menu-reels" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
             </div>
-            <div class="cp-hint-inline">Select a row to edit its content. Use Show to include it in the app.</div>
             <div class="cp-add-widget-wrap">
               <button class="cp-add-widget-btn" id="add-widget-btn" type="button">
                 <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                Add widget
+                Add Section
               </button>
               <div class="cp-add-widget-menu" id="add-widget-menu">
                 <button type="button" data-add="promo"><span class="aw-ic">▤</span> Promo Cards</button>
@@ -148,7 +126,7 @@ Error generating stack: `+e.message+`
       <div class="cp-detail" data-detail="profile" data-l3-drill>
         <div class="cp-detail-header">
           <button class="cp-back">‹</button>
-          <div class="cp-detail-title">Profile &amp; Loyalty</div>
+          <div class="cp-detail-title">Profile and loyalty</div>
           <div class="cp-radio-group cp-header-switch">
             <div class="cp-radio active" data-bind-radio="member-state" data-value="loggedin">Logged in</div>
             <div class="cp-radio" data-bind-radio="member-state" data-value="guest">Guest</div>
@@ -247,7 +225,7 @@ Error generating stack: `+e.message+`
       <div class="cp-detail" data-detail="promo-cards" data-l3-drill>
         <div class="cp-detail-header">
           <button class="cp-back">‹</button>
-          <div class="cp-detail-title">Promo Cards — Featured</div>
+          <div class="cp-detail-title">Featured promotions</div>
         </div>
 
         <!-- Your cards — item list -->
@@ -327,18 +305,6 @@ Error generating stack: `+e.message+`
               <div class="cp-radio-group">
                 <div class="cp-radio" data-bind-radio="pc-corners" data-value="sharp">Sharp</div>
                 <div class="cp-radio active" data-bind-radio="pc-corners" data-value="rounded">Rounded</div>
-              </div>
-            </div>
-            <div class="cp-field">
-              <label>Card background</label>
-              <div class="cp-color-row compact">
-                <div class="cp-color-swatch" style="background:var(--p-panel);">
-                  <input type="color" value="#1a1728" id="pc-bg-color" />
-                </div>
-                <div class="cp-color-info">
-                  <div class="cp-color-label">Card background</div>
-                  <input class="cp-color-hex" value="#1A1728" spellcheck="false" maxlength="9" />
-                </div>
               </div>
             </div>
           </div>
@@ -447,18 +413,6 @@ Error generating stack: `+e.message+`
                 <div class="cp-radio active" data-bind-radio="pc2-corners" data-value="rounded">Rounded</div>
               </div>
             </div>
-            <div class="cp-field">
-              <label>Card background</label>
-              <div class="cp-color-row compact">
-                <div class="cp-color-swatch" style="background:var(--p-panel);">
-                  <input type="color" value="#1a1728" id="pc2-bg-color" />
-                </div>
-                <div class="cp-color-info">
-                  <div class="cp-color-label">Card background</div>
-                  <input class="cp-color-hex" value="#1A1728" spellcheck="false" maxlength="9" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -466,7 +420,7 @@ Error generating stack: `+e.message+`
       <div class="cp-detail" data-detail="social" data-l3-drill>
         <div class="cp-detail-header">
           <button class="cp-back">‹</button>
-          <div class="cp-detail-title">Social Links</div>
+          <div class="cp-detail-title">Social links</div>
         </div>
         <div class="cp-section open">
           <div class="cp-head-row">Icons <span class="chev">›</span></div>
@@ -965,7 +919,7 @@ Error generating stack: `+e.message+`
         <div class="ms-drop-sub">or click to browse your files</div>
         <span class="ms-btn small">Choose file</span>
       </div>
-      <div class="ms-hint" style="margin-top:10px">
+      <div class="ms-hint" style="margin-top: 12px">
         <span>PDF only · up to 20 MB · one file. Multi-page menus are supported.</span>
       </div>
 
@@ -999,12 +953,15 @@ Error generating stack: `+e.message+`
   <!-- ========== Configure another page ========== -->
   <div class="ms-screen" data-ms="page-settings">
 
+    <div class="ms-title">Choose a page to display</div>
+    <div class="ms-sub">Select the page you want to display in your app.</div>
+
     <div class="cp-field">
-      <label>Select page to configure</label>
+      <label>App page</label>
       <div class="ms-page-picker" id="ms-page-picker">
         <button class="ms-page-picker-trigger" type="button" id="ms-page-picker-trigger" aria-haspopup="listbox" aria-expanded="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2.5H7a2 2 0 00-2 2v15a2 2 0 002 2h10a2 2 0 002-2V7.5z"/><path d="M14 2.5v5h5"/></svg>
-          <span id="ms-page-picker-label">Our Menu</span>
+          <span id="ms-page-picker-label">My Activity</span>
           <svg class="ms-page-picker-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="ms-page-picker-list" id="ms-page-picker-list" role="listbox" aria-label="Pages" hidden></div>
@@ -1023,7 +980,7 @@ Error generating stack: `+e.message+`
 
     <div id="ms-page-account-block" hidden>
       <div class="ms-sub">Allow customers to access their order history, including previous purchases, order specifics, points, and credits.</div>
-      <div class="ms-section-label" style="margin-top:18px;">Display options</div>
+      <div class="ms-section-label" style="margin-top: 20px;">Display options</div>
       <div class="ms-toggle-card">
         <div class="ms-toggle-row">
           <div class="ms-toggle-text">
@@ -1084,13 +1041,13 @@ Error generating stack: `+e.message+`
         <textarea class="cp-input-text cp-textarea" id="ms-hero-desc" rows="2" placeholder="Short supporting text"></textarea>
       </div>
       <div class="cp-field">
-        <label>Button text</label>
+        <label id="ms-hero-btn-label">Button text</label>
         <input class="cp-input-text" id="ms-hero-btn-text" placeholder="Leave empty to hide the button" />
       </div>
     </div>
 
     <div id="ms-page-referral-terms" hidden>
-      <div class="ms-section-label" style="margin-top:22px;">Terms &amp; conditions</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Terms &amp; conditions</div>
       <div class="cp-field">
         <label>Fine print</label>
         <textarea class="cp-input-text cp-textarea" id="ms-referral-terms-text" rows="3" placeholder="e.g. Referral points are credited automatically once your friend completes an order of $15 or more."></textarea>
@@ -1102,7 +1059,7 @@ Error generating stack: `+e.message+`
     </div>
 
     <div id="ms-page-story-block" hidden>
-      <div class="ms-section-label" style="margin-top:22px;">"The Spark" section</div>
+      <div class="ms-section-label" style="margin-top: 24px;">"The Spark" section</div>
       <div class="cp-field">
         <label>Heading</label>
         <input class="cp-input-text" id="ms-story-spark-heading" placeholder="e.g. The Spark" />
@@ -1116,7 +1073,7 @@ Error generating stack: `+e.message+`
         <textarea class="cp-input-text cp-textarea" id="ms-story-spark-p2" rows="3"></textarea>
       </div>
 
-      <div class="ms-section-label" style="margin-top:22px;">Core values</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Core values</div>
       <div class="cp-field">
         <label>Heading</label>
         <input class="cp-input-text" id="ms-story-values-heading" placeholder="e.g. Our Core Values" />
@@ -1152,7 +1109,7 @@ Error generating stack: `+e.message+`
         </div>
       </div>
 
-      <div class="ms-section-label" style="margin-top:22px;">Founder quote</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Founder quote</div>
       <div class="cp-field">
         <label>Quote</label>
         <textarea class="cp-input-text cp-textarea" id="ms-story-quote-text" rows="3"></textarea>
@@ -1166,7 +1123,7 @@ Error generating stack: `+e.message+`
         <input class="cp-input-text" id="ms-story-quote-role" />
       </div>
 
-      <div class="ms-section-label" style="margin-top:22px;">Buttons</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Buttons</div>
       <div class="cp-field">
         <label>First button label</label>
         <input class="cp-input-text" id="ms-story-cta-1" />
@@ -1178,7 +1135,7 @@ Error generating stack: `+e.message+`
     </div>
 
     <div id="ms-page-contact-block" hidden>
-      <div class="ms-section-label" style="margin-top:22px;">Direct contact</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Direct contact</div>
       <div class="ms-hero-card">
         <div class="cp-field">
           <label>Row 1 title</label>
@@ -1212,7 +1169,7 @@ Error generating stack: `+e.message+`
     </div>
 
     <div id="ms-page-menu-pdf">
-      <div class="ms-section-label" style="margin-top:22px;">Upload PDF Menu</div>
+      <div class="ms-section-label" style="margin-top: 24px;">Upload PDF Menu</div>
       <div class="ms-sub" style="margin-top:-4px;">Upload your menu as a PDF file. Customers can view and download it directly.</div>
       <div class="ms-block">
         <div class="ms-drop" id="ms-page-pdf-drop">
@@ -1328,7 +1285,7 @@ Error generating stack: `+e.message+`
     </div>
 
     <div class="ms-section-label">Look &amp; feel</div>
-    <div class="ms-label" style="margin-bottom:10px">Accent colour</div>
+    <div class="ms-label" style="margin-bottom: 12px">Accent colour</div>
     <div class="ms-swatches" data-swatches="custom">
       <span class="ms-swatch on" style="background:#6d28d9" data-color="#6d28d9"></span>
       <span class="ms-swatch" style="background:#c7355a" data-color="#c7355a"></span>
@@ -1336,7 +1293,7 @@ Error generating stack: `+e.message+`
       <span class="ms-swatch" style="background:#1d63b8" data-color="#1d63b8"></span>
       <span class="ms-swatch" style="background:#d6a535" data-color="#d6a535"></span>
     </div>
-    <div class="ms-toggle-card" style="margin-top:14px">
+    <div class="ms-toggle-card" style="margin-top: 16px">
       <div class="ms-toggle-row">
         <div class="ms-toggle-text">
           <div class="ms-toggle-name">Match app theme</div>
@@ -1511,7 +1468,7 @@ Error generating stack: `+e.message+`
       <button class="ms-info" type="button" data-tip="One wide image at the very top of the Menu tab. Category images sit inside each section.">i</button>
       <button class="ms-inline-action ok" type="button" id="ms-hero-set">Set</button>
     </div>
-    <div class="ms-tip" style="margin:-4px 0 10px">Shown at the top of your whole menu.</div>
+    <div class="ms-tip" style="margin: -4px 0 12px">Shown at the top of your whole menu.</div>
     <div class="ms-hero" id="ms-menu-hero"></div>
 
     <div class="ms-section-label">
@@ -1582,10 +1539,10 @@ Error generating stack: `+e.message+`
     <div class="ms-label">Item name</div>
     <input class="ms-input" type="text" id="ms-item-name">
 
-    <div class="ms-label" style="margin-top:14px">Description</div>
+    <div class="ms-label" style="margin-top: 16px">Description</div>
     <textarea class="ms-textarea" id="ms-item-desc"></textarea>
 
-    <div class="ms-row2" style="margin-top:14px">
+    <div class="ms-row2" style="margin-top: 16px">
       <div>
         <div class="ms-label">Price</div>
         <input class="ms-input" type="text" id="ms-item-price">
@@ -1626,7 +1583,7 @@ Error generating stack: `+e.message+`
     </div>
     <div class="ms-tags" id="ms-item-tags"></div>
 
-    <button class="ms-btn ghost" type="button" id="ms-item-delete" style="margin-top:22px;color:var(--danger,#c7355a)">Delete item</button>
+    <button class="ms-btn ghost" type="button" id="ms-item-delete" style="margin-top: 24px;color:var(--danger,#c7355a)">Delete item</button>
   </div>
 </div>
 `,S=`    <div class="cp-page" id="cp-more" style="display:none;">
@@ -1657,8 +1614,8 @@ Error generating stack: `+e.message+`
     <div class="cp-page" id="cp-rewards" style="display:none;">
       <div class="cp-master">
         <h3 class="cp-head">Editing page</h3>
-        <div class="cp-page-title">Rewards</div>
-        <div class="cp-page-sub">Content auto-populates from Hub 2 Campaign Center. You control what shows.</div>
+        <div class="cp-page-title">Customize your rewards page</div>
+        <div class="cp-page-sub">Choose which rewards features customers see in your app. Reward content comes from Hub 2 Campaign Center.</div>
 
         <div class="cp-section open" id="rw-page-content">
           <div class="cp-head-row">Rewards widgets <span class="chev">›</span></div>
@@ -1667,10 +1624,7 @@ Error generating stack: `+e.message+`
               <div class="cp-widget-row off">
                 <span class="handle">⠿</span>
                 <span class="w-name" data-rw-key="gifts">My Gifts</span>
-                <span class="toggle" data-bind="[data-slot-name='rewards-gifts']" title="Show on Rewards">
-                  <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                  <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-                </span>
+                <span class="toggle" data-bind="[data-slot-name='rewards-gifts']" title="Show on Rewards"></span>
                 <button class="w-edit-icon" data-rw-key="gifts" title="Edit card">
                   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
                 </button>
@@ -1678,10 +1632,7 @@ Error generating stack: `+e.message+`
               <div class="cp-widget-row off">
                 <span class="handle">⠿</span>
                 <span class="w-name" data-rw-key="points">My Points Shop</span>
-                <span class="toggle" data-bind="[data-slot-name='rewards-points']" title="Show on Rewards">
-                  <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                  <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-                </span>
+                <span class="toggle" data-bind="[data-slot-name='rewards-points']" title="Show on Rewards"></span>
                 <button class="w-edit-icon" data-rw-key="points" title="Edit card">
                   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
                 </button>
@@ -1689,10 +1640,7 @@ Error generating stack: `+e.message+`
               <div class="cp-widget-row off">
                 <span class="handle">⠿</span>
                 <span class="w-name" data-rw-key="punch">Punch Card</span>
-                <span class="toggle" data-bind="[data-slot-name='rewards-punch']" title="Show on Rewards">
-                  <svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>
-                  <svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>
-                </span>
+                <span class="toggle" data-bind="[data-slot-name='rewards-punch']" title="Show on Rewards"></span>
                 <button class="w-edit-icon" data-rw-key="punch" title="Edit card">
                   <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
                 </button>
@@ -1785,6 +1733,22 @@ Error generating stack: `+e.message+`
               <input type="file" id="rw-edit-image-file" accept="image/png,image/jpeg,image/jpg,image/webp" style="display:none;" />
               <button class="pc-edit-image-remove" id="rw-edit-image-remove" style="display:none;">✕ Remove image</button>
             </div>
+            <div class="cp-field" id="rw-edit-stamp-field" hidden>
+              <label>Stamp icon</label>
+              <div class="pc-edit-image-zone" id="rw-edit-stamp-zone">
+                <img class="pc-edit-image-preview" id="rw-edit-stamp-preview" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" alt="" style="display:none;" />
+                <div class="pc-edit-image-empty" id="rw-edit-stamp-empty">
+                  <div class="pc-upload-prompt">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <span>Drop image or click</span>
+                  </div>
+                  <div class="pc-upload-hint">png · webp · square, max 5 MB</div>
+                </div>
+              </div>
+              <input type="file" id="rw-edit-stamp-file" accept="image/png,image/jpeg,image/jpg,image/webp" style="display:none;" />
+              <button class="pc-edit-image-remove" id="rw-edit-stamp-remove" style="display:none;">✕ Remove image</button>
+              <div class="cp-hint-inline">Replaces the plain dots with your own stamp icon (e.g. a coffee cup). Earned stamps show full color; remaining ones show faded.</div>
+            </div>
             <div class="cp-field">
               <label>Headline</label>
               <input class="cp-input-text" id="rw-edit-headline" placeholder="e.g. Active rewards ready to redeem" />
@@ -1804,36 +1768,51 @@ Error generating stack: `+e.message+`
 `,re=`<div class="cp-master">
   <h3 class="cp-head">Step 1</h3>
   <div class="cp-page-title">Tell us about your business</div>
-  <div class="cp-page-sub">These details appear on your app's home screen. You can change them anytime.</div>
+  <div class="cp-page-sub">Set up your business details for your loyalty app. You can update them later.</div>
 
   <div class="gf-fieldset">
-    <label class="gf-field-label" for="gf-biz-name">Company name <span class="gf-req">*</span></label>
+    <label class="gf-field-label" for="gf-biz-name">Business name <span class="gf-req">*</span></label>
     <input id="gf-biz-name" class="cp-input-text" type="text" placeholder="e.g. Velvet Bistro" value="" autocomplete="organization" maxlength="60" required aria-describedby="gf-biz-name-error" />
+    <div class="gf-field-hint">Enter the name customers know your business by.</div>
     <div class="gf-field-error" id="gf-biz-name-error" aria-live="polite"></div>
   </div>
 
   <div class="gf-fieldset">
-    <label class="gf-field-label" for="gf-country">Country <span class="gf-req">*</span></label>
-    <select id="gf-country" class="cp-select" required aria-describedby="gf-country-error">
-      <option value="" disabled selected>Select country</option>
-      <option value="US">United States</option>
-      <option value="GB">United Kingdom</option>
-      <option value="IE">Ireland</option>
-      <option value="IL">Israel</option>
-      <option value="AU">Australia</option>
-      <option value="CA">Canada</option>
-      <option value="FR">France</option>
-      <option value="DE">Germany</option>
-      <option value="ES">Spain</option>
-      <option value="IT">Italy</option>
-      <option value="NL">Netherlands</option>
-      <option value="SG">Singapore</option>
-    </select>
+    <label class="gf-field-label" id="gf-country-label">Countries <span class="gf-req">*</span></label>
+    <div class="gf-field-hint" id="gf-country-hint">Select the countries where your business operates.</div>
+    <div class="gf-combo" id="gf-country-combo">
+      <button type="button" class="gf-combo-trigger" id="gf-country-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="gf-country-list" aria-describedby="gf-country-hint gf-country-error">
+        <span class="gf-combo-trigger-text" id="gf-country-trigger-text">Select countries</span>
+        <svg class="gf-combo-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="gf-combo-panel" id="gf-country-panel" hidden>
+        <div class="gf-combo-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="gf-country-search" type="text" placeholder="Search" autocomplete="off" />
+        </div>
+        <div class="gf-combo-list" id="gf-country-list" role="listbox" aria-multiselectable="true" aria-labelledby="gf-country-label">
+          <button class="gf-combo-option" type="button" role="option" data-country="US" data-label="United States"><span class="gf-combo-check" aria-hidden="true"></span>United States</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="GB" data-label="United Kingdom"><span class="gf-combo-check" aria-hidden="true"></span>United Kingdom</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="IE" data-label="Ireland"><span class="gf-combo-check" aria-hidden="true"></span>Ireland</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="IL" data-label="Israel"><span class="gf-combo-check" aria-hidden="true"></span>Israel</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="AU" data-label="Australia"><span class="gf-combo-check" aria-hidden="true"></span>Australia</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="CA" data-label="Canada"><span class="gf-combo-check" aria-hidden="true"></span>Canada</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="FR" data-label="France"><span class="gf-combo-check" aria-hidden="true"></span>France</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="DE" data-label="Germany"><span class="gf-combo-check" aria-hidden="true"></span>Germany</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="ES" data-label="Spain"><span class="gf-combo-check" aria-hidden="true"></span>Spain</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="IT" data-label="Italy"><span class="gf-combo-check" aria-hidden="true"></span>Italy</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="NL" data-label="Netherlands"><span class="gf-combo-check" aria-hidden="true"></span>Netherlands</button>
+          <button class="gf-combo-option" type="button" role="option" data-country="SG" data-label="Singapore"><span class="gf-combo-check" aria-hidden="true"></span>Singapore</button>
+          <div class="gf-combo-empty" id="gf-country-empty" hidden>No countries match your search.</div>
+        </div>
+      </div>
+    </div>
     <div class="gf-field-error" id="gf-country-error" aria-live="polite"></div>
   </div>
 
   <div class="gf-fieldset">
-    <label class="gf-field-label" id="gf-cat-label">Primary industry <span class="gf-optional">· optional secondary</span></label>
+    <label class="gf-field-label" id="gf-cat-label">Industries</label>
+    <div class="gf-field-hint" id="gf-cat-hint">Choose up to 3 industries that represent your business operations</div>
     <div class="gf-chip-row" id="gf-cat-row" role="group" aria-labelledby="gf-cat-label" aria-describedby="gf-cat-hint">
       <button class="gf-chip" data-cat="Beauty and Spa" type="button">Beauty and Spa</button>
       <button class="gf-chip" data-cat="Entertainment" type="button">Entertainment</button>
@@ -1845,19 +1824,18 @@ Error generating stack: `+e.message+`
       <button class="gf-chip" data-cat="Travel" type="button">Travel</button>
       <button class="gf-chip" data-cat="Other" type="button">Other</button>
     </div>
-    <div class="gf-field-hint" id="gf-cat-hint">Choose the category customers associate with you first. Add a second only when it materially changes the recommended content.</div>
   </div>
 
   <div class="gf-fieldset">
-    <label class="gf-field-label" for="gf-headline">App tagline</label>
+    <label class="gf-field-label" for="gf-headline">App tagline <span class="gf-optional">· optional</span></label>
     <input id="gf-headline" class="cp-input-text" type="text" placeholder="e.g. Fresh food, real rewards" value="" autocomplete="off" maxlength="60" />
-    <div class="gf-field-hint">A short tagline shown below your business name on the app home screen.</div>
+    <div class="gf-field-hint">Write a short phrase that introduces your business to customers. Up to 60 characters.</div>
   </div>
 </div>
 `,ie=`<div class="cp-master">
   <h3 class="cp-head">Online ordering · Step 3 of 3</h3>
-  <div class="cp-page-title">How do customers place online orders?</div>
-  <div class="cp-page-sub">Choose how orders reach you. Hover an option to preview the app it builds.</div>
+  <div class="cp-page-title">How will customers order through your app?</div>
+  <div class="cp-page-sub">Choose the ordering experience you want to offer your customers.</div>
 
   <div class="oo-choice" id="oo-choice" role="radiogroup" aria-label="Online ordering method" aria-describedby="oo-choice-error" data-pendo-guide-id="online-ordering-choice">
 
@@ -1865,7 +1843,7 @@ Error generating stack: `+e.message+`
       <span class="oo-opt-mark" aria-hidden="true"></span>
       <span class="oo-opt-body">
         <span class="oo-opt-head">
-          <span class="oo-opt-name">In-app ordering</span>
+          <span class="oo-opt-name">Offer ordering in the app</span>
           <span class="oo-tip-btn" role="button" tabindex="0" data-oo-tip="Supports Deliverect, Olo, DoorDash and more. Customers browse your menu, reorder favourites and pay without leaving the app. Loyalty points apply automatically.">i</span>
           <span class="oo-badge oo-badge-rec" data-oo-rec hidden>Recommended</span>
           <span class="oo-opt-status" data-oo-status hidden>
@@ -1873,8 +1851,8 @@ Error generating stack: `+e.message+`
             <span data-oo-status-label>Connected</span>
           </span>
         </span>
-        <span class="oo-opt-desc">Full menu, checkout and reordering — all inside your app with loyalty at checkout.</span>
-        <span class="oo-opt-note">You’ll connect a provider in the next step.</span>
+        <span class="oo-opt-desc">Customers browse your menu and complete checkout without leaving your app.</span>
+        <span class="oo-opt-note">Connect your ordering provider to set up this experience.</span>
         <span class="oo-unlocks">
           <span class="oo-unlocks-label">Unlocks on your home screen</span>
           <span class="oo-unlocks-row">
@@ -1891,15 +1869,15 @@ Error generating stack: `+e.message+`
       <span class="oo-opt-mark" aria-hidden="true"></span>
       <span class="oo-opt-body">
         <span class="oo-opt-head">
-          <span class="oo-opt-name">Link your ordering website</span>
+          <span class="oo-opt-name">Use your existing ordering website</span>
           <span class="oo-tip-btn" role="button" tabindex="0" data-oo-tip="Your ordering website opens inside the app as a seamless screen. Members are signed in automatically so their loyalty profile is linked to every order. You control the look — back button, navigation bar, and where members go after checkout.">i</span>
           <span class="oo-opt-status" data-oo-status hidden>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
             <span data-oo-status-label>Menu connected</span>
           </span>
         </span>
-        <span class="oo-opt-desc">Embed your existing ordering site in the app. Members stay logged in automatically — no extra sign-in needed.</span>
-        <span class="oo-opt-note">You’ll enter your ordering URL and choose how the page looks and behaves inside the app.</span>
+        <span class="oo-opt-desc">Customers view your ordering website within your loyalty app and complete their orders on that website.</span>
+        <span class="oo-opt-note">Add your ordering website address to set up this experience.</span>
       </span>
     </button>
 
@@ -1907,9 +1885,9 @@ Error generating stack: `+e.message+`
       <span class="oo-opt-mark" aria-hidden="true"></span>
       <span class="oo-opt-body">
         <span class="oo-opt-head">
-          <span class="oo-opt-name">Not yet</span>
+          <span class="oo-opt-name">Add online ordering later</span>
         </span>
-        <span class="oo-opt-desc">Launch a loyalty-led app now. You can add ordering later from Settings — nothing you build here is lost.</span>
+        <span class="oo-opt-desc">Launch your loyalty app without online ordering. Add ordering later in Settings.</span>
       </span>
     </button>
 
@@ -1928,34 +1906,138 @@ Error generating stack: `+e.message+`
 </div>
 `,ae=`<div class="branding-page cp-master">
   <h3 class="cp-head">Step 2</h3>
-  <div class="cp-page-title">Branding</div>
-  <div class="cp-page-sub">Consistent branding helps customers recognize you and builds trust.</div>
+  <div class="cp-page-title">Customize your app’s appearance</div>
+  <div class="cp-page-sub">Choose how your app looks to help customers recognize your business.</div>
 
-  <div class="cp-section open">
-    <div class="cp-head-row">Logo <span class="chev">›</span></div>
-    <div class="cp-body">
+  <div id="brand-widget-list">
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-logo">Logo<span class="brand-set-dot" data-brand-dot="brand-logo" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-logo" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-colour">Colour<span class="brand-set-dot" data-brand-dot="brand-colour" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-colour" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-font">Font<span class="brand-set-dot" data-brand-dot="brand-font" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-font" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row">
+      <span class="w-name" data-brand-key="brand-shapes">Shapes and icons<span class="brand-set-dot" data-brand-dot="brand-shapes" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span>
+      <button class="w-edit-icon" type="button" data-brand-key="brand-shapes" title="Edit"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>
+    </div>
+    <div class="cp-widget-row cp-widget-row-rich" data-brand-key="brand-splash">
+      <span class="w-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2.5"/><circle cx="12" cy="17.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+      <span class="w-row-main"><span class="w-name">App launch screen<span class="brand-set-dot" data-brand-dot="brand-splash" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></span>
+      <span class="w-row-status" id="brand-splash-status">Default design</span>
+      <span class="w-row-chev" aria-hidden="true">›</span>
+    </div>
+  </div>
+</div>
+
+<div class="cp-detail branding-page" data-detail="brand-logo" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Logo</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Logo</div>
+<div class="cp-body">
       <div class="branding-upload" id="gf-logo-zone"><button class="branding-upload-button" type="button">+ Upload from Computer</button><div>or drag &amp; drop files here</div></div>
       <input type="file" id="gf-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden />
       <div class="cp-upload-note">Supported: png, jpg, jpeg, webp. Max 5MB.</div>
       <div class="branding-logo-result" id="gf-logo-result" style="display:none;"><img id="gf-logo-thumb-img" alt="Uploaded logo" /><span id="gf-logo-filename"></span><button id="gf-logo-replace" type="button">Replace</button><button id="gf-logo-remove" type="button">Remove</button></div>
-      <div id="gf-logo-controls" hidden></div>
+      <div id="gf-logo-controls" hidden>
+        <div class="cp-field">
+          <label>Logo position</label>
+          <div class="cp-radio-group">
+            <div class="cp-radio" data-bind-radio="logo-position" data-value="left">Left</div>
+            <div class="cp-radio active" data-bind-radio="logo-position" data-value="center">Center</div>
+          </div>
+        </div>
+      </div>
+      <div class="cp-toggle-row"><span class="lbl">Show business name</span><span class="toggle on" data-bind=".app-top-header .brand-text"></span></div>
+      <div class="cp-field"><label>Business name</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .name" value="Your Business" /></div>
+      <div class="cp-field"><label>Storefront headline</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .sub" value="Welcome back!" /></div>
     </div>
   </div>
+</div>
 
-  <div class="cp-section open"><div class="cp-head-row">App header <span class="chev">›</span></div><div class="cp-body"><div class="cp-field"><label>Business name</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .name" value="Your Business" /></div><div class="cp-field"><label>Storefront headline</label><input class="cp-input-text" data-bind-text=".app-top-header .brand-text .sub" value="Welcome back!" /></div><div class="cp-toggle-row"><span class="lbl">Show business name</span><span class="toggle on" data-bind=".app-top-header .brand-text"></span></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-colour" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Colour</div></div>
+  <div class="cp-section open"><div class="cp-head-row">Brand colour <span class="chev">›</span></div>
+<div class="cp-body"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#262aff" data-bind-color="--p-accent" /></div><div class="cp-color-info"><div class="cp-color-label">Primary brand color</div><input class="cp-color-hex" value="#262AFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary brand color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-accent" role="alert" hidden></div></div></div>
+  </div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Suggested themes</div>
+<div class="cp-body">
+      <div class="cp-mini-label branding-theme-label">Suggested themes</div>
+      <div class="branding-theme-sub">Accessible background, card, and icon combinations built from your brand colour.</div>
+      <div class="branding-theme-grid" id="branding-theme-grid"></div>
+    </div>
+  </div>
+  <div class="cp-section open"><div class="cp-head-row">Background <span class="chev">›</span></div>
+<div class="cp-body"><div class="cp-mini-label">App background fill</div><div class="cp-seg" id="bgfill-mode"><button type="button" class="cp-seg-btn active" data-mode="solid">Solid</button><button type="button" class="cp-seg-btn" data-mode="gradient">Gradient</button><button type="button" class="cp-seg-btn" data-mode="image">Image</button></div></div><div class="cp-body" id="bgfill-image-row" hidden><div class="branding-upload" id="bg-image-zone"><button class="branding-upload-button" type="button">+ Upload from Computer</button><div>or drag &amp; drop files here</div></div><input type="file" id="bg-image-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden /><div class="cp-upload-note">Supported: png, jpg, jpeg, webp. Max 5MB.</div><div class="branding-logo-result" id="bg-image-result" style="display:none;"><img id="bg-image-thumb-img" alt="Uploaded background image" /><span id="bg-image-filename"></span><button id="bg-image-replace" type="button">Replace</button><button id="bg-image-remove" type="button">Remove</button></div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#c5c5f3" data-bind-color="--p-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#C5C5F3" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div><div class="cp-color-row branding-color-row" id="bgfill-row2" hidden><div class="cp-color-swatch"><input type="color" value="#e4e4f5" data-bind-color="--p-bg-2" /></div><div class="cp-color-info"><div class="cp-color-label">Gradient end color</div><input class="cp-color-hex" value="#E4E4F5" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background gradient end color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div><div class="cp-body"><div class="cp-mini-label">Cards</div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#ffffff" data-bind-color="--p-panel" /></div><div class="cp-color-info"><div class="cp-color-label">Card background color</div><input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit card background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div><div class="cp-body"><div class="cp-mini-label">Navigation</div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#ffffff" data-bind-color="--p-nav-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Navigation background color</div><input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit navigation background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div>
+  </div>
+  <div class="cp-section open"><div class="cp-head-row">Text and icons <span class="chev">›</span></div>
+<div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#072105" data-bind-color="--p-text" /></div><div class="cp-color-info"><div class="cp-color-label">Primary text color</div><input class="cp-color-hex" value="#072105" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-primary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#646171" data-bind-color="--p-text-muted" /></div><div class="cp-color-info"><div class="cp-color-label">Secondary text color</div><input class="cp-color-hex" value="#646171" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit secondary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-secondary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#262aff" data-bind-color="--p-icon" /></div><div class="cp-color-info"><div class="cp-color-label">Icon color</div><input class="cp-color-hex" value="#262AFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit icon color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-icon" role="alert" hidden></div></div></div>
+  </div>
+</div>
 
-  <div class="cp-section open"><div class="cp-head-row">Brand colour <span class="chev">›</span></div><div class="cp-body"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#22d087" data-bind-color="--p-accent" /></div><div class="cp-color-info"><div class="cp-color-label">Primary brand color</div><input class="cp-color-hex" value="#22D087" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary brand color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-accent" role="alert" hidden></div></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-font" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Font</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Font</div>
+<div class="cp-body"><label class="branding-select"><span>Headings</span><select id="branding-heading-font"><option value="'Questrial', sans-serif">Questrial</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Playfair Display</option><option value="'Roboto', sans-serif">Roboto</option></select></label><label class="branding-select"><span>Body</span><select id="branding-body-font"><option value="'Roboto', sans-serif">Roboto</option><option value="-apple-system, BlinkMacSystemFont, sans-serif">SF Pro</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Merriweather</option></select></label><div class="branding-upload custom-font-upload" id="font-drop-zone"><button class="branding-upload-button" type="button" id="font-upload-button">+ Upload custom font</button></div><input id="font-file" type="file" accept=".woff2,.otf,.ttf" hidden /></div>
+  </div>
+</div>
 
-  <div class="cp-section open"><div class="cp-head-row">Background <span class="chev">›</span></div><div class="cp-body"><div class="cp-mini-label">App background fill</div><div class="cp-seg" id="bgfill-mode"><button type="button" class="cp-seg-btn active" data-mode="solid">Solid</button><button type="button" class="cp-seg-btn" data-mode="gradient">Gradient</button></div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#c5c5f3" data-bind-color="--p-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#C5C5F3" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div><div class="cp-color-row branding-color-row" id="bgfill-row2" hidden><div class="cp-color-swatch"><input type="color" value="#e4e4f5" data-bind-color="--p-bg-2" /></div><div class="cp-color-info"><div class="cp-color-label">Gradient end color</div><input class="cp-color-hex" value="#E4E4F5" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit background gradient end color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div><div class="cp-body"><div class="cp-mini-label">Cards</div></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#ffffff" data-bind-color="--p-panel" /></div><div class="cp-color-info"><div class="cp-color-label">Card background color</div><input class="cp-color-hex" value="#FFFFFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit card background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-shapes" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Shapes and icons</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Shapes and icons</div>
+<div class="cp-body branding-corners">
+  <div class="cp-group-label">Corners</div>
+  <div class="cp-field">
+    <label>Cards</label>
+    <div class="cp-radio-group" data-corner-radii="2,12,22" data-corner-var="--p-card-radius" data-corner-preview=".app-shell .stat-tile, .app-shell .loyalty-card, .app-shell .pc-card, .app-shell .prog-card, .app-shell .punch-card, .app-shell .howto-row, .app-shell .webview-cta-card, .app-shell .oa-card, .app-shell .ti-card, .app-shell .mc-card, .app-shell .px-login-card">
+      <div class="cp-radio" data-bind-radio="card-corner" data-value="0">Square</div>
+      <div class="cp-radio active" data-bind-radio="card-corner" data-value="1">Soft</div>
+      <div class="cp-radio" data-bind-radio="card-corner" data-value="2">Round</div>
+    </div>
+  </div>
+  <div class="cp-field">
+    <label>Buttons</label>
+    <div class="cp-radio-group" data-corner-radii="2,9,18" data-corner-var="--p-button-radius" data-corner-preview=".app-shell button, .app-shell .chip, .app-shell .pc-cta, .app-shell .guest-cta, .app-shell .lc-cta">
+      <div class="cp-radio" data-bind-radio="button-corner" data-value="0">Square</div>
+      <div class="cp-radio active" data-bind-radio="button-corner" data-value="1">Soft</div>
+      <div class="cp-radio" data-bind-radio="button-corner" data-value="2">Round</div>
+    </div>
+  </div>
+</div>
+<div class="cp-body">
+  <div class="cp-group-label">Icon look</div>
+  <div class="branding-icon-preview" aria-hidden="true"><span>⌂</span><span>♔</span><span>⌖</span></div>
+  <div class="cp-radio-group branding-icon-options"><div class="cp-radio" data-bind-radio="icon-style" data-value="outline">Outline</div><div class="cp-radio" data-bind-radio="icon-style" data-value="solid">Solid</div><div class="cp-radio active" data-bind-radio="icon-style" data-value="duotone">Duotone</div></div>
+  <div class="branding-upload custom-font-upload"><button class="branding-upload-button" type="button" id="icon-upload-button">+ Upload custom icon</button></div><input id="icon-file" type="file" accept="image/svg+xml,image/png" hidden />
+</div>
+  </div>
+</div>
 
-  <div class="cp-section open"><div class="cp-head-row">Text and Icons <span class="chev">›</span></div><div class="cp-body branding-paired-rows"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#072105" data-bind-color="--p-text" /></div><div class="cp-color-info"><div class="cp-color-label">Primary text color</div><input class="cp-color-hex" value="#072105" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-primary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#000000" data-bind-color="--p-text-muted" /></div><div class="cp-color-info"><div class="cp-color-label">Secondary text color</div><input class="cp-color-hex" value="#000000" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit secondary text color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-secondary" role="alert" hidden></div></div><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#6d28d9" data-bind-color="--p-icon" /></div><div class="cp-color-info"><div class="cp-color-label">Icon color</div><input class="cp-color-hex" value="#6D28D9" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit icon color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-icon" role="alert" hidden></div></div></div></div>
+<div class="cp-detail branding-page" data-detail="brand-splash" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">App launch screen</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">App launch screen</div>
+<div class="cp-body">
+    <div class="cp-section-note">Shown briefly when the app launches, before Home appears.</div>
+    <div class="cp-field">
+      <label>Splash image (optional)</label>
+      <div class="branding-upload branding-upload-rich" id="gf-splash-zone"><svg class="branding-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4"/><path d="M6 10l6-6 6 6"/><path d="M4 18v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg><span class="branding-upload-link" id="gf-splash-upload-label">Upload image, GIF, or video</span><div class="branding-upload-hint">PNG, JPG, WebP, GIF, MP4 or WebM &middot; up to 10 MB</div></div>
+      <input type="file" id="gf-splash-file" accept="image/png,image/jpeg,image/jpg,image/webp,image/gif,video/mp4,video/webm" hidden />
+      <div class="branding-logo-result" id="gf-splash-result" style="display:none;"><img id="gf-splash-thumb-img" alt="Uploaded splash file" /><span id="gf-splash-filename"></span><button id="gf-splash-default" type="button">Use default design</button></div>
+      <button class="branding-preview-btn" type="button" id="gf-splash-preview-btn"><span class="branding-preview-icon" aria-hidden="true">&#9655;</span> Preview app opening</button>
+    </div>
+    <div class="cp-field">
+      <label>Splash background</label>
+      <div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#0f0d17" data-bind-color="--splash-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#0F0D17" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit splash background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div>
+    </div>
+  </div>
+  </div>
+</div>
 
-  <div class="cp-section open"><div class="cp-head-row">Font family <span class="chev">›</span></div><div class="cp-body"><label class="branding-select"><span>Headings</span><select id="branding-heading-font"><option value="'Questrial', sans-serif">Questrial</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Playfair Display</option><option value="'Roboto', sans-serif">Roboto</option></select></label><label class="branding-select"><span>Body</span><select id="branding-body-font"><option value="'Roboto', sans-serif">Roboto</option><option value="-apple-system, BlinkMacSystemFont, sans-serif">SF Pro</option><option value="'Poppins', sans-serif">Poppins</option><option value="Georgia, serif">Merriweather</option></select></label><div class="branding-upload custom-font-upload" id="font-drop-zone"><button class="branding-upload-button" type="button" id="font-upload-button">+ Upload custom font</button></div><input id="font-file" type="file" accept=".woff2,.otf,.ttf" hidden /></div></div>
-
-  <div class="cp-section open"><div class="cp-head-row">Icon Style <span class="chev">›</span></div><div class="cp-body"><div class="branding-icon-preview" aria-hidden="true"><span>⌂</span><span>♔</span><span>⌖</span></div><div class="cp-radio-group branding-icon-options"><div class="cp-radio" data-bind-radio="icon-style" data-value="outline">Outline</div><div class="cp-radio" data-bind-radio="icon-style" data-value="solid">Solid</div><div class="cp-radio active" data-bind-radio="icon-style" data-value="duotone">Duotone</div></div><div class="branding-upload custom-font-upload"><button class="branding-upload-button" type="button" id="icon-upload-button">+ Upload custom icon</button></div><input id="icon-file" type="file" accept="image/svg+xml,image/png" hidden /></div></div>
-
-  <div class="cp-section open"><div class="cp-head-row">Corner <span class="chev">›</span></div><div class="cp-body branding-corners"><label>Card corners <span id="card-corner-value">11px</span><input id="card-corner-radius" type="range" min="0" max="24" value="11" /></label><p>Adjust the corner radius applied to panels and cards.</p><label>Button corners <span id="button-corner-value">9px</span><input id="button-corner-radius" type="range" min="0" max="24" value="9" /></label><p>Control how rounded buttons appear across the UI.</p></div></div>
-</div>`,oe=`<div class="cp-master">
+`,oe=`<div class="cp-master">
   <h3 class="cp-head">Content publishing</h3>
   <div class="cp-page-title">Prepare your first app</div>
   <div class="cp-page-sub">Review the member experience, publish the content version, then complete native app submission separately.</div>
@@ -1966,8 +2048,11 @@ Error generating stack: `+e.message+`
   </div>
 
   <div class="cp-section open">
-    <div class="cp-head-row">Your setup <span class="chev">›</span></div>
-    <div class="cp-body" id="gf-review-list"><!-- rendered by the guided-flow module --></div>
+    <div class="cp-head-row">Review Your Setup <span class="chev">›</span></div>
+    <div class="cp-body">
+      <div class="cp-section-note">Review each section and update the details you want to change.</div>
+      <div id="gf-review-list"><!-- rendered by the guided-flow module --></div>
+    </div>
   </div>
 
   <button class="gf-publish-btn" id="gf-publish-btn" type="button" disabled aria-describedby="gf-publish-hint">Publish content changes</button>
@@ -1996,9 +2081,19 @@ Error generating stack: `+e.message+`
   <button class="px-restore-published" id="px-restore-published" type="button">Restore last published version</button>
 </div>
 `,se=e((e=>{var t=Symbol.for(`react.transitional.element`),n=Symbol.for(`react.fragment`);function r(e,n,r){var i=null;if(r!==void 0&&(i=``+r),n.key!==void 0&&(i=``+n.key),`key`in n)for(var a in r={},n)a!==`key`&&(r[a]=n[a]);else r=n;return n=r.ref,{$$typeof:t,type:e,key:i,ref:n===void 0?null:n,props:r}}e.Fragment=n,e.jsx=r,e.jsxs=r})),ce=e(((e,t)=>{t.exports=se()})),C=ce();function le({as:e=`div`,html:t,...n}){return(0,C.jsx)(e,{...n,dangerouslySetInnerHTML:{__html:t}})}var w=(0,l.memo)(le),ue=[d,f,m,p,g,h,_,v,y,b,x].join(`
-`),T=e=>{let t=e.indexOf(`<div class="cp-page"`);return e.slice(e.indexOf(`>`,t)+1,e.lastIndexOf(`</div>`))};function E(){return(0,C.jsxs)(`div`,{className:`config-column`,"data-comment-anchor":`config-column`,children:[(0,C.jsx)(`div`,{className:`cp-breadcrumb`,id:`cp-breadcrumb`,"data-comment-anchor":`config-breadcrumb`}),(0,C.jsxs)(`div`,{className:`config-panel`,id:`config-panel`,"data-comment-anchor":`configuration-panel`,children:[(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-home`,"data-comment-anchor":`config-home`,style:{display:`flex`},html:ue}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-rewards`,"data-comment-anchor":`config-rewards`,style:{display:`none`},html:T(ne)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-locations`,"data-comment-anchor":`config-locations`,style:{display:`none`},html:T(ee)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-menu`,"data-comment-anchor":`config-menu`,style:{display:`none`},html:T(te)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-more`,"data-comment-anchor":`config-more`,style:{display:`none`},html:T(S)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-business`,"data-comment-anchor":`config-business`,style:{display:`none`},html:re}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-online-ordering`,"data-comment-anchor":`config-online-ordering`,style:{display:`none`},html:ie}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-branding`,"data-comment-anchor":`config-branding-step`,style:{display:`none`},html:ae}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-publish`,"data-comment-anchor":`config-publish`,style:{display:`none`},html:oe})]}),(0,C.jsxs)(`div`,{className:`cp-step-foot`,"data-comment-anchor":`step-footer`,children:[(0,C.jsxs)(`button`,{className:`cp-step-back`,id:`gf-step-back`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{id:`gf-step-back-label`,children:`Back`})]}),(0,C.jsxs)(`button`,{className:`cp-step-next`,id:`gf-step-next`,type:`button`,children:[(0,C.jsx)(`span`,{id:`gf-step-next-label`,children:`Save & continue`}),(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M5 12h14M13 6l6 6-6 6`})})]}),(0,C.jsxs)(`button`,{className:`gf-oo-return-btn`,id:`gf-oo-return-btn`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{className:`ms-btn-spinner`,"aria-hidden":`true`}),(0,C.jsx)(`span`,{children:`Back to Online ordering`})]})]})]})}var de=`<div class="toast-hint" id="toast-hint" role="status" aria-live="polite" aria-atomic="true">
+`),T=e=>{let t=e.indexOf(`<div class="cp-page"`);return e.slice(e.indexOf(`>`,t)+1,e.lastIndexOf(`</div>`))};function E(){return(0,C.jsxs)(`div`,{className:`config-column`,"data-comment-anchor":`config-column`,children:[(0,C.jsx)(`div`,{className:`cp-breadcrumb`,id:`cp-breadcrumb`,"data-comment-anchor":`config-breadcrumb`}),(0,C.jsxs)(`div`,{className:`config-panel`,id:`config-panel`,"data-comment-anchor":`configuration-panel`,children:[(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-home`,"data-comment-anchor":`config-home`,style:{display:`flex`},html:ue}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-rewards`,"data-comment-anchor":`config-rewards`,style:{display:`none`},html:T(ne)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-locations`,"data-comment-anchor":`config-locations`,style:{display:`none`},html:T(ee)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-menu`,"data-comment-anchor":`config-menu`,style:{display:`none`},html:T(te)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-more`,"data-comment-anchor":`config-more`,style:{display:`none`},html:T(S)}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-business`,"data-comment-anchor":`config-business`,style:{display:`none`},html:re}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-online-ordering`,"data-comment-anchor":`config-online-ordering`,style:{display:`none`},html:ie}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-branding`,"data-comment-anchor":`config-branding-step`,style:{display:`none`},html:ae}),(0,C.jsx)(w,{as:`div`,className:`cp-page`,id:`cp-publish`,"data-comment-anchor":`config-publish`,style:{display:`none`},html:oe})]}),(0,C.jsxs)(`div`,{className:`cp-step-foot`,"data-comment-anchor":`step-footer`,children:[(0,C.jsxs)(`button`,{className:`cp-step-back`,id:`gf-step-back`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{id:`gf-step-back-label`,children:`Back`})]}),(0,C.jsxs)(`button`,{className:`cp-step-next`,id:`gf-step-next`,type:`button`,children:[(0,C.jsx)(`span`,{id:`gf-step-next-label`,children:`Continue`}),(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M5 12h14M13 6l6 6-6 6`})})]}),(0,C.jsxs)(`button`,{className:`gf-oo-return-btn`,id:`gf-oo-return-btn`,type:`button`,children:[(0,C.jsx)(`svg`,{viewBox:`0 0 24 24`,fill:`none`,stroke:`currentColor`,strokeWidth:`2.6`,strokeLinecap:`round`,strokeLinejoin:`round`,children:(0,C.jsx)(`path`,{d:`M19 12H5M11 18l-6-6 6-6`})}),(0,C.jsx)(`span`,{className:`ms-btn-spinner`,"aria-hidden":`true`}),(0,C.jsx)(`span`,{children:`Back to Online ordering`})]})]})]})}var de=`<div class="toast-hint" id="toast-hint" role="status" aria-live="polite" aria-atomic="true">
+  <span class="toast-icon toast-icon-success" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+  <span class="toast-icon toast-icon-error" aria-hidden="true">?</span>
   <span id="toast-message"></span>
   <button class="toast-action" id="toast-action" type="button" hidden></button>
+</div>
+
+<div class="gf-milestone" id="gf-milestone" aria-hidden="true">
+  <div class="gf-milestone-card" role="status" aria-live="polite">
+    <div class="gf-milestone-icon">🎉</div>
+    <div class="gf-milestone-title">Setup complete!</div>
+    <div class="gf-milestone-sub">Now let's configure your app screens.</div>
+  </div>
 </div>
 
 <div class="confirm-overlay" id="preset-confirm-overlay" aria-hidden="true">
@@ -2014,15 +2109,15 @@ Error generating stack: `+e.message+`
 `;function fe(){return(0,C.jsx)(`div`,{dangerouslySetInnerHTML:{__html:de}})}function pe(){return(0,C.jsx)(`div`,{className:`l3-panel`,id:`l3-panel`,"data-comment-anchor":`level-three-editor`,children:(0,C.jsx)(`div`,{className:`l3-inner`,id:`l3-body`})})}var me=`<div class="app-page px-member-experience" data-page="account">
   <header class="px-phone-page-head">
     <button class="px-phone-back" type="button" onclick="showPhonePage('home')" aria-label="Back to Home">‹</button>
-    <div><strong>My Profile</strong><span>Membership and preferences</span></div>
+    <div><strong>My Account</strong><span>Membership and preferences</span></div>
     <button class="icon-btn px-profile-icon" type="button" aria-label="Profile options"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg></button>
   </header>
   <div class="px-member-scroll px-account-scroll">
-    <section class="px-membership-card">
-      <div class="px-membership-top"><span class="px-avatar">OH</span><div><strong>Obaidul Hoque</strong><small>Gold member · Since 2023</small></div><span class="px-member-brand" data-phone-brand>Your Business</span></div>
-      <div class="px-membership-balance"><span><small>Available balance</small><strong>1,240 points</strong></span><button type="button" onclick="showPhonePage('point-shop')">Use points</button></div>
-      <div class="px-points-progress"><span style="width:72%"></span></div>
-      <p>260 points until Platinum</p>
+    <section class="px-profile-summary">
+      <span class="px-profile-avatar" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0114 0"/></svg></span>
+      <strong>Customer name</strong>
+      <span class="px-profile-loyalty">Loyalty number • 1234 5678 9012</span>
+      <span class="px-profile-points">Points <b>1,250 pts</b></span>
     </section>
     <section class="px-profile-actions" aria-label="Profile shortcuts">
       <button type="button" data-phone-action="Edit profile opened"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg><span>Edit profile</span></button>
@@ -2064,7 +2159,7 @@ Error generating stack: `+e.message+`
 `,O=`          <!-- ============ HOME PAGE (Template 3 - Café) ============ -->
           <div class="app-page" data-page="home-t3">
             <div class="app-top-header">
-              <div style="display:flex; align-items:center; gap:10px;">
+              <div style="display:flex; align-items:center; gap: 12px;">
                 <div class="brand-mark">C</div>
                 <div class="brand-text">
                   <div class="name">CAFÉ CONCERTO</div>
@@ -2083,7 +2178,7 @@ Error generating stack: `+e.message+`
               </div>
             </div>
 
-            <div style="font-size:9.5px; font-weight:800; letter-spacing:1.2px; color:var(--p-accent); text-transform:uppercase; margin:16px 0 8px; padding-left:2px;">SHARE THE LOVE</div>
+            <div style="font-size:9.5px; font-weight:800; letter-spacing:1.2px; color:var(--p-accent); text-transform:uppercase; margin:16px 0 8px; padding-left: 4px;">SHARE THE LOVE</div>
             <div class="share-card">
               <div class="s-ic">🛍️</div>
               <div class="s-txt">
@@ -2093,7 +2188,7 @@ Error generating stack: `+e.message+`
               <div class="s-link">Start sharing ›</div>
             </div>
 
-            <div style="font-size:9.5px; font-weight:800; letter-spacing:1.2px; color:var(--p-accent); text-transform:uppercase; margin:16px 0 8px; padding-left:2px;">SEASONAL DROP</div>
+            <div style="font-size:9.5px; font-weight:800; letter-spacing:1.2px; color:var(--p-accent); text-transform:uppercase; margin:16px 0 8px; padding-left: 4px;">SEASONAL DROP</div>
             <div class="drop-card">
               <div class="drop-image">☕</div>
               <div class="drop-body">
@@ -2254,7 +2349,7 @@ Error generating stack: `+e.message+`
 `,ge=`          <!-- ============ LOCATIONS PAGE ============ -->
           <div class="app-page" data-page="locations">
             <div class="app-top-header">
-              <div style="display:flex; align-items:center; gap:10px;">
+              <div style="display:flex; align-items:center; gap: 12px;">
                 <div class="brand-mark">V</div>
                 <div class="brand-text">
                   <div class="name">Find a Branch</div>
@@ -2551,7 +2646,7 @@ Error generating stack: `+e.message+`
               <button class="icon-btn px-profile-icon" onclick="openAccountPage()" aria-label="Open profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg></button>
             </div>
 
-            <div style="padding: 30px 10px; text-align: center;">
+            <div style="padding: 32px 12px; text-align: center;">
               <div class="qr-box" style="width:220px; height:220px; margin: 0 auto 20px;">
                 <div class="qr-pattern"></div>
               </div>
@@ -2572,7 +2667,7 @@ Error generating stack: `+e.message+`
 `,we=[he,O,`          <!-- ============ REWARDS PAGE ============ -->
           <div class="app-page" data-page="rewards">
             <div class="app-top-header">
-              <div style="display:flex; align-items:center; gap:10px;">
+              <div style="display:flex; align-items:center; gap: 12px;">
                 <button class="icon-btn" style="width:32px; height:32px;" onclick="goToPage('home')">‹</button>
                 <div class="brand-text">
                   <div class="name" id="rewards-brand">VELVET BISTRO</div>
@@ -2619,16 +2714,16 @@ Error generating stack: `+e.message+`
           </div>
 `,ge,ye,xe,Se,me,_e,ve].join(`
 `),Te=be+`
-`+Ce,Ee=D.indexOf(`<div class="bottom-nav"`),De=D.slice(D.indexOf(`>`,Ee)+1,D.lastIndexOf(`</div>`));function Oe(){return(0,C.jsxs)(`div`,{className:`preview-area`,id:`preview-area`,"data-comment-anchor":`phone-preview`,children:[(0,C.jsx)(`div`,{className:`device-stage`,id:`device-stage`,children:(0,C.jsx)(`div`,{className:`device-frame`,id:`device-frame`,children:(0,C.jsxs)(`div`,{className:`device-screen`,children:[(0,C.jsxs)(`div`,{className:`status-bar`,children:[(0,C.jsx)(`span`,{id:`clock`,children:`9:41`}),(0,C.jsxs)(`div`,{className:`icons`,children:[(0,C.jsx)(`span`,{children:`􀙇`}),(0,C.jsx)(`span`,{children:`􀋉`}),(0,C.jsx)(`span`,{className:`battery`,children:(0,C.jsx)(`span`,{className:`fill`})})]})]}),(0,C.jsx)(w,{as:`div`,className:`app-shell`,id:`app-shell`,"data-comment-anchor":`phone-screen`,html:we}),(0,C.jsx)(`div`,{dangerouslySetInnerHTML:{__html:Te}}),(0,C.jsx)(w,{as:`div`,className:`bottom-nav`,id:`bottom-nav`,"data-comment-anchor":`phone-bottom-navigation`,html:De})]})})}),(0,C.jsx)(`div`,{className:`gf-publish-preview`,id:`gf-publish-preview`,"data-comment-anchor":`publish-preview`})]})}var ke=`<div class="gf-welcome-overlay" id="gf-welcome" data-comment-anchor="welcome-modal">
+`+Ce,Ee=D.indexOf(`<div class="bottom-nav"`),De=D.slice(D.indexOf(`>`,Ee)+1,D.lastIndexOf(`</div>`));function Oe(){return(0,C.jsxs)(`div`,{className:`preview-area`,id:`preview-area`,"data-comment-anchor":`phone-preview`,children:[(0,C.jsxs)(`div`,{className:`splash-preview-stage`,id:`splash-preview-stage`,hidden:!0,children:[(0,C.jsxs)(`div`,{className:`splash-preview-col`,children:[(0,C.jsx)(`div`,{className:`splash-preview-caption`,children:`Launch screen`}),(0,C.jsx)(`div`,{className:`device-frame splash-preview-frame`,children:(0,C.jsxs)(`div`,{className:`device-screen`,style:{background:`var(--splash-bg)`},children:[(0,C.jsx)(`div`,{className:`gf-splash-mark`,id:`splash-preview-mark`,children:`?`}),(0,C.jsx)(`video`,{id:`splash-preview-video`,className:`gf-splash-video`,muted:!0,loop:!0,autoPlay:!0,playsInline:!0,hidden:!0}),(0,C.jsxs)(`div`,{className:`gf-splash-loader`,"aria-hidden":`true`,children:[(0,C.jsx)(`span`,{}),(0,C.jsx)(`span`,{}),(0,C.jsx)(`span`,{})]})]})})]}),(0,C.jsx)(`div`,{className:`splash-preview-arrow`,"aria-hidden":`true`,children:`→`}),(0,C.jsx)(`div`,{className:`splash-preview-col`,id:`splash-preview-app-slot`,children:(0,C.jsx)(`div`,{className:`splash-preview-caption`,children:`Your app`})})]}),(0,C.jsx)(`div`,{className:`device-stage`,id:`device-stage`,children:(0,C.jsx)(`div`,{className:`device-frame`,id:`device-frame`,children:(0,C.jsxs)(`div`,{className:`device-screen`,children:[(0,C.jsxs)(`div`,{className:`status-bar`,children:[(0,C.jsx)(`span`,{id:`clock`,children:`9:41`}),(0,C.jsxs)(`div`,{className:`icons`,children:[(0,C.jsx)(`span`,{children:`􀙇`}),(0,C.jsx)(`span`,{children:`􀋉`}),(0,C.jsx)(`span`,{className:`battery`,children:(0,C.jsx)(`span`,{className:`fill`})})]})]}),(0,C.jsx)(w,{as:`div`,className:`app-shell`,id:`app-shell`,"data-comment-anchor":`phone-screen`,html:we}),(0,C.jsx)(`div`,{dangerouslySetInnerHTML:{__html:Te}}),(0,C.jsx)(w,{as:`div`,className:`bottom-nav`,id:`bottom-nav`,"data-comment-anchor":`phone-bottom-navigation`,html:De}),(0,C.jsxs)(`div`,{className:`gf-splash-overlay`,id:`gf-splash-overlay`,"aria-hidden":`true`,hidden:!0,children:[(0,C.jsx)(`div`,{className:`gf-splash-mark`,id:`gf-splash-mark`,children:`?`}),(0,C.jsx)(`video`,{id:`gf-splash-video`,className:`gf-splash-video`,muted:!0,loop:!0,autoPlay:!0,playsInline:!0,hidden:!0}),(0,C.jsxs)(`div`,{className:`gf-splash-loader`,"aria-hidden":`true`,children:[(0,C.jsx)(`span`,{}),(0,C.jsx)(`span`,{}),(0,C.jsx)(`span`,{})]})]})]})})}),(0,C.jsx)(`div`,{className:`gf-publish-preview`,id:`gf-publish-preview`,"data-comment-anchor":`publish-preview`})]})}var ke=`<div class="gf-welcome-overlay" id="gf-welcome" data-comment-anchor="welcome-modal">
   <div class="gf-welcome" role="dialog" aria-modal="true" aria-label="Welcome">
     <div class="gf-welcome-logo">✦</div>
-    <h1>Build an app your customers want to return to</h1>
-    <p>We use what you already have to create a proven first draft, then guide the decisions that need your attention.</p>
+    <h1>Build an app your customers<br>want to return to</h1>
     <div class="gf-welcome-list">
       <div class="gf-welcome-item"><span class="n">1</span> Tell us about your business</div>
-      <div class="gf-welcome-item"><span class="n">2</span> Set up online ordering</div>
-      <div class="gf-welcome-item"><span class="n">3</span> Add your brand and review each screen</div>
-      <div class="gf-welcome-item"><span class="n">4</span> Publish content when everything is ready</div>
+      <div class="gf-welcome-item"><span class="n">2</span> Add your brand</div>
+      <div class="gf-welcome-item"><span class="n">3</span> Set up online ordering</div>
+      <div class="gf-welcome-item"><span class="n">4</span> Review and edit each screen</div>
+      <div class="gf-welcome-item"><span class="n">5</span> Publish content when everything is ready</div>
     </div>
     <a class="gf-help-link" href="https://www.como.com/help" target="_blank" rel="noreferrer">Read the App Builder guide</a>
     <div class="gf-welcome-actions">
@@ -2641,14 +2736,14 @@ Error generating stack: `+e.message+`
   <aside class="side-nav" id="side-nav">
     <div class="side-brand">
       <div class="side-brand-logo">✦</div>
-      <div class="side-brand-name">Como Studio</div>
+      <div class="side-brand-name">App Builder</div>
     </div>
     <button class="side-toggle-btn" id="side-toggle-btn" title="Toggle sidebar" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="9" y1="4" x2="9" y2="20"/></svg>
     </button>
 
     <div class="side-kicker">Set up</div>
-    <div class="side-items side-steps">
+    <div class="side-items side-steps" id="side-setup-group">
       <button class="side-item side-step" data-step="business" data-setup-page="business" type="button">
         <span class="step-dot"><span class="n">1</span><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
         <span class="side-lbl">Business details</span>
@@ -2730,14 +2825,6 @@ Error generating stack: `+e.message+`
           <span>Settings</span>
           <span class="am-right">&#8984;,</span>
         </button>
-        <button class="am-item" type="button" data-am="billing">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg>
-          <span>Account &amp; billing</span>
-        </button>
-        <button class="am-item" type="button" data-am="team">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.5a4 4 0 00-4-4H6a4 4 0 00-4 4V20"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-1.5a4 4 0 00-3-3.87"/><path d="M16 3.6a4 4 0 010 6.8"/></svg>
-          <span>Team members</span>
-        </button>
         <div class="am-sep"></div>
         <button class="am-item" type="button" data-am="language">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18 15 15 0 010-18z"/></svg>
@@ -2751,11 +2838,6 @@ Error generating stack: `+e.message+`
         <button class="am-item" type="button" data-am="tour" id="px-retake-tour">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16v12H4z"/><path d="M8 10h8M8 14h5"/></svg>
           <span>Take App Builder tour</span>
-        </button>
-        <button class="am-item" type="button" data-am="whats-new">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M18.5 16.5l.6 1.6 1.6.6-1.6.6-.6 1.6-.6-1.6-1.6-.6 1.6-.6z"/></svg>
-          <span>What&#8217;s new</span>
-          <span class="am-badge">3</span>
         </button>
         <div class="am-sep"></div>
         <button class="am-item danger" type="button" data-am="logout">
@@ -2785,14 +2867,6 @@ Error generating stack: `+e.message+`
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9a3 3 0 006 0 3 3 0 006 0 3 3 0 006 0"/></svg>
       <span>Business profile</span>
     </button>
-    <button class="sm-nav" type="button" data-sm-nav="team">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 20v-1.5a4 4 0 00-4-4H6a4 4 0 00-4 4V20"/><circle cx="9" cy="7" r="3.2"/><path d="M22 20v-1.5a4 4 0 00-3-3.87"/><path d="M16 3.6a4 4 0 010 6.8"/></svg>
-      <span>Team &amp; access</span>
-    </button>
-    <button class="sm-nav" type="button" data-sm-nav="billing">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2.5" y="5" width="19" height="14" rx="2.5"/><path d="M2.5 10h19"/></svg>
-      <span>Billing &amp; plan</span>
-    </button>
   </div>
 
   <div class="sm-group">
@@ -2800,18 +2874,6 @@ Error generating stack: `+e.message+`
     <button class="sm-nav" type="button" data-sm-nav="app-details">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
       <span>App details</span>
-    </button>
-    <button class="sm-nav" type="button" data-sm-nav="branding">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 110-18 8 8 0 018 8c0 2.2-1.8 3.5-3.8 3.5h-1.4a1.6 1.6 0 00-1.1 2.7c.4.4.6.9.6 1.4 0 1.3-1.1 2.4-2.3 2.4z"/><circle cx="8" cy="10.5" r="1.05" fill="currentColor" stroke="none"/><circle cx="12" cy="8" r="1.05" fill="currentColor" stroke="none"/><circle cx="16" cy="10.5" r="1.05" fill="currentColor" stroke="none"/></svg>
-      <span>Branding &amp; icons</span>
-    </button>
-    <button class="sm-nav" type="button" data-sm-nav="loyalty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7.5h20V12H2zM12 21V7.5"/><path d="M12 7.5H7.8a2.4 2.4 0 010-4.8C11 2.7 12 7.5 12 7.5zM12 7.5h4.2a2.4 2.4 0 000-4.8C13 2.7 12 7.5 12 7.5z"/></svg>
-      <span>Loyalty program</span>
-    </button>
-    <button class="sm-nav" type="button" data-sm-nav="notifications">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8.5a6 6 0 00-12 0c0 6-2.5 7.5-2.5 7.5h17S18 14.5 18 8.5z"/><path d="M13.7 20a2 2 0 01-3.4 0"/></svg>
-      <span>Notifications</span>
     </button>
     <button class="sm-nav" type="button" data-sm-nav="online-ordering">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5L3.5 6.5V20a1.5 1.5 0 001.5 1.5h14a1.5 1.5 0 001.5-1.5V6.5L18 2.5z"/><path d="M3.5 6.5h17"/><path d="M16 10.5a4 4 0 01-8 0"/></svg>
@@ -3386,7 +3448,7 @@ Error generating stack: `+e.message+`
       </div>
       <div class="sm-hint">Not sure this is correct? Your ordering specialist can confirm the setup with you.</div>
     </div>
-    <div class="sm-note" style="margin-top:22px">
+    <div class="sm-note" style="margin-top: 24px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 15a4 4 0 01-4 4H8l-4 3v-7a4 4 0 01-2-3.5V7a4 4 0 014-4h12a4 4 0 014 4v4.5a4 4 0 01-2 3.5z"/></svg>
       <span><strong>Need help or don’t have ordering yet?</strong><br/>We’ll coordinate entitlement and setup with your sales or CSM contact.</span>
     </div>
@@ -3401,7 +3463,7 @@ Error generating stack: `+e.message+`
 
     <div class="sm-steps" data-oo-stepper="1"></div>
 
-    <div class="sm-banner" style="margin-bottom:22px">
+    <div class="sm-banner" style="margin-bottom: 24px">
       <span class="sm-logo" data-keys-logo>D</span>
       <div class="sm-banner-text">
         <div class="sm-banner-title" data-keys-name>Deliverect — Headless Commerce</div>
@@ -3430,7 +3492,7 @@ Error generating stack: `+e.message+`
       <div class="sm-hint">Create a Production key in Deliverect → Settings → API. We store it encrypted and never expose it in your app.</div>
     </div>
 
-    <div class="sm-note" style="margin-top:22px">
+    <div class="sm-note" style="margin-top: 24px">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5l8 3v6c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10v-6z"/></svg>
       <span>One signed contract covers sandbox + production. Keys are encrypted at rest and used only to sync your menu and orders.</span>
     </div>
@@ -3553,7 +3615,7 @@ Error generating stack: `+e.message+`
     <div class="sm-banner" style="margin-bottom:24px">
       <div class="sm-check-round"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>
       <div class="sm-banner-text">
-        <div class="sm-banner-title"><span data-admin-provider>Deliverect</span> connected <span style="font-weight:600;color:var(--muted);font-size:12.5px">account 668e…ad1</span></div>
+        <div class="sm-banner-title"><span data-admin-provider>Deliverect</span> connected <span style="font-weight:600;color:#4d7d68;font-size:12.5px">account 668e…ad1</span></div>
         <div class="sm-banner-sub">Last synced <span id="sm-last-sync">just now</span> · <span id="sm-live-locs">2</span> locations live</div>
       </div>
       <button class="sm-banner-btn" type="button" id="sm-resync">
@@ -3619,7 +3681,7 @@ Error generating stack: `+e.message+`
           <option>Provider support</option>
         </select>
       </div>
-      <div class="sm-note" style="margin-top:18px">
+      <div class="sm-note" style="margin-top: 20px">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10.5" width="16" height="10.5" rx="2"/><path d="M8 10.5V7a4 4 0 018 0v3.5"/></svg>
         <span>Menu, prices, item options and the checkout flow are managed by your provider to keep ordering reliable. Learn what you can customise.</span>
       </div>
@@ -4007,4 +4069,4 @@ Error generating stack: `+e.message+`
 
   <button class="save-btn disabled" id="save-btn" type="button" aria-live="polite" data-state="saved">Draft saved</button>
 </div>
-`,ze=Re.indexOf(`<div class="topbar">`),Be=Re.slice(Re.indexOf(`>`,ze)+1,Re.lastIndexOf(`</div>`));function Ve(){return(0,C.jsx)(w,{as:`div`,className:`topbar`,"data-comment-anchor":`top-bar`,html:Be})}var He=`modulepreload`,Ue=function(e){return`/html-commnet/app-builder-p1/`+e},We={},Ge=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}r=o(t.map(t=>{if(t=Ue(t,n),t=s(t),t in We)return;We[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:He,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})};function Ke(){return(0,l.useEffect)(()=>{Ge(()=>import(`./prototype-M25U96Hr.js`).then(e=>e.initPrototype()),[]).catch(e=>{console.error(`Could not initialize the App Builder prototype`,e)})},[]),(0,l.useEffect)(()=>{let e=()=>{},t=!1;return Ge(async()=>{let{initComments:e}=await import(`./comments-CcwKpnET.js`);return{initComments:e}},__vite__mapDeps([0,1])).then(({initComments:n})=>{t||(e=n())}),()=>{t=!0,e()}},[]),(0,C.jsxs)(C.Fragment,{children:[(0,C.jsx)(Ve,{}),(0,C.jsxs)(`div`,{className:`workspace`,"data-comment-anchor":`app-builder-workspace`,children:[(0,C.jsx)(Pe,{}),(0,C.jsx)(E,{}),(0,C.jsx)(pe,{}),(0,C.jsx)(Oe,{})]}),(0,C.jsx)(fe,{}),(0,C.jsx)(Le,{}),(0,C.jsx)(Ae,{})]})}(0,u.createRoot)(document.getElementById(`root`)).render((0,C.jsx)(Ke,{}));export{c as n,i as r,ce as t};
+`,ze=Re.indexOf(`<div class="topbar">`),Be=Re.slice(Re.indexOf(`>`,ze)+1,Re.lastIndexOf(`</div>`));function Ve(){return(0,C.jsx)(w,{as:`div`,className:`topbar`,"data-comment-anchor":`top-bar`,html:Be})}var He=`modulepreload`,Ue=function(e){return`/html-commnet/app-builder-p1/`+e},We={},Ge=function(e,t,n){let r=Promise.resolve();if(t&&t.length>0){let e=document.getElementsByTagName(`link`),i=document.querySelector(`meta[property=csp-nonce]`),a=i?.nonce||i?.getAttribute(`nonce`);function o(e){return Promise.all(e.map(e=>Promise.resolve(e).then(e=>({status:`fulfilled`,value:e}),e=>({status:`rejected`,reason:e}))))}function s(e){return import.meta.resolve?import.meta.resolve(e):new URL(e,import.meta.url).href}r=o(t.map(t=>{if(t=Ue(t,n),t=s(t),t in We)return;We[t]=!0;let r=t.endsWith(`.css`);for(let n=e.length-1;n>=0;n--){let i=e[n];if(i.href===t&&(!r||i.rel===`stylesheet`))return}let i=document.createElement(`link`);if(i.rel=r?`stylesheet`:He,r||(i.as=`script`),i.crossOrigin=``,i.href=t,a&&i.setAttribute(`nonce`,a),document.head.appendChild(i),r)return new Promise((e,n)=>{i.addEventListener(`load`,e),i.addEventListener(`error`,()=>n(Error(`Unable to preload CSS for ${t}`)))})}))}function i(e){let t=new Event(`vite:preloadError`,{cancelable:!0});if(t.payload=e,window.dispatchEvent(t),!t.defaultPrevented)throw e}return r.then(t=>{for(let e of t||[])e.status===`rejected`&&i(e.reason);return e().catch(i)})};function Ke(){return(0,l.useEffect)(()=>{Ge(()=>import(`./prototype-ByuUxjeE.js`).then(e=>e.initPrototype()),[]).catch(e=>{console.error(`Could not initialize the App Builder prototype`,e)})},[]),(0,l.useEffect)(()=>{let e=()=>{},t=!1;return Ge(async()=>{let{initComments:e}=await import(`./comments-3pkfBzY3.js`);return{initComments:e}},__vite__mapDeps([0,1])).then(({initComments:n})=>{t||(e=n())}),()=>{t=!0,e()}},[]),(0,C.jsxs)(C.Fragment,{children:[(0,C.jsx)(Ve,{}),(0,C.jsxs)(`div`,{className:`workspace`,"data-comment-anchor":`app-builder-workspace`,children:[(0,C.jsx)(Pe,{}),(0,C.jsx)(E,{}),(0,C.jsx)(pe,{}),(0,C.jsx)(Oe,{})]}),(0,C.jsx)(fe,{}),(0,C.jsx)(Le,{}),(0,C.jsx)(Ae,{})]})}(0,u.createRoot)(document.getElementById(`root`)).render((0,C.jsx)(Ke,{}));export{c as n,i as r,ce as t};

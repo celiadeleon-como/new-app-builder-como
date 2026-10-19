@@ -97,7 +97,7 @@ export function initOrderingWidgets(ctx) {
     event.preventDefault();
     event.stopPropagation();
     openOrderingWizardFrom('home-widget:' + row.dataset.ooWidget);
-    showToast('Connect your online ordering provider to unlock this widget');
+    showToast('Connect your online ordering provider to unlock this widget', { variant: 'error' });
   }, true);
 
   // React to ordering connection changes fired by the settings modal.
@@ -117,7 +117,7 @@ export function initOrderingWidgets(ctx) {
       if (homeStep) homeStep.click();
       if (row) row.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'center' });
       window.orderingWizardOrigin = null;
-      showToast('Online ordering connected · this widget is now live');
+      showToast('Online ordering connected · this widget is now live', { variant: 'success' });
     }
   });
 

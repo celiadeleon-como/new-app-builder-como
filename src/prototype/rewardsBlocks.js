@@ -136,7 +136,7 @@ export function initRewardsBlocks(ctx) {
       blocks.splice(blocks.indexOf(b), 1);
       row.remove();
       renderPhone();
-      showToast?.(`${BLOCK_DEFS[b.type].label} removed`);
+      showToast?.(`${BLOCK_DEFS[b.type].label} removed`, { variant: 'success' });
       markDirty?.();
     });
     row.querySelectorAll('[data-inline]').forEach((field) => {
@@ -271,13 +271,13 @@ export function initRewardsBlocks(ctx) {
     const file = imgFile.files?.[0];
     const b = byId(editingId);
     if (!file || !b) return;
-    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.'); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.', { variant: 'error' }); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       b.imgData = e.target.result;
       paintImage(b);
       renderPhone();
-      showToast?.('Image uploaded');
+      showToast?.('Image uploaded', { variant: 'success' });
       markDirty?.();
     };
     reader.readAsDataURL(file);

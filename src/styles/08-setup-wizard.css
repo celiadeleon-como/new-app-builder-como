@@ -16,10 +16,10 @@
   .sw-topbar {
     height: 60px; flex: none;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 0 26px;
+    padding: 0 28px;
     border-bottom: 1px solid var(--line);
   }
-  .sw-brand { display: flex; align-items: center; gap: 10px; font-size: 15px; color: var(--ink); font-weight: 500; }
+  .sw-brand { display: flex; align-items: center; gap: 12px; font-size: 15px; color: var(--ink); font-weight: 500; }
   .sw-brand b { font-weight: 800; }
   .sw-brand-logo {
     width: 28px; height: 28px; border-radius: 8px;
@@ -55,20 +55,20 @@
   @keyframes swStepIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
   .sw-kicker {
     font-size: 11.5px; font-weight: 800; letter-spacing: .09em;
-    text-transform: uppercase; color: var(--como); margin-bottom: 10px;
+    text-transform: uppercase; color: var(--como); margin-bottom: 12px;
   }
   .sw-title { font-size: 29px; font-weight: 800; letter-spacing: -.025em; line-height: 1.15; margin-bottom: 8px; color: var(--ink); }
   .sw-sub { font-size: 15px; color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
-  .sw-helper { font-size: 13px; color: var(--muted); margin: -4px 0 10px; line-height: 1.45; }
+  .sw-helper { font-size: 13px; color: var(--muted); margin: -4px 0 12px; line-height: 1.45; }
 
   /* Goal cards */
-  .sw-goal-grid { display: flex; flex-direction: column; gap: 14px; }
+  .sw-goal-grid { display: flex; flex-direction: column; gap: 16px; }
   .sw-goal-card {
     text-align: left; background: var(--panel);
     border: 2px solid var(--line); border-radius: 16px;
-    padding: 20px 18px; cursor: pointer;
+    padding: 20px 20px; cursor: pointer;
     transition: border-color .18s, box-shadow .18s, transform .18s;
-    display: flex; flex-direction: column; gap: 10px;
+    display: flex; flex-direction: column; gap: 12px;
   }
   .sw-goal-card:hover { border-color: var(--como); box-shadow: var(--shadow); transform: translateY(-2px); }
   .sw-goal-card.selected { border-color: var(--como); box-shadow: 0 0 0 4px var(--como-soft); }
@@ -81,18 +81,18 @@
   .sw-goal-card.selected .sw-goal-ic { background: var(--como); color: #fff; }
   .sw-goal-name { font-size: 16px; font-weight: 700; color: var(--ink); }
   .sw-goal-desc { font-size: 13px; color: var(--muted); line-height: 1.45; }
-  .sw-goal-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 2px; }
-  .sw-goal-tag { font-size: 10.5px; font-weight: 600; color: var(--como); background: var(--como-soft); padding: 3px 8px; border-radius: 100px; }
+  .sw-goal-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+  .sw-goal-tag { font-size: 10.5px; font-weight: 600; color: var(--como); background: var(--como-soft); padding: 4px 8px; border-radius: 100px; }
   .sw-blank-link {
-    margin-top: 18px;
+    margin-top: 20px;
     display: flex; align-items: center; gap: 12px;
     width: 100%;
     background: var(--panel); border: 2px solid var(--line); cursor: pointer;
     color: var(--muted); font-size: 14px; font-weight: 600;
-    padding: 14px 18px; border-radius: 12px;
+    padding: 16px 20px; border-radius: 12px;
     transition: background .15s, border-color .15s, color .15s;
   }
-  .sw-blank-link svg { flex: none; width: 20px; height: 20px; border-radius: 6px; padding: 2px; color: var(--muted); }
+  .sw-blank-link svg { flex: none; width: 20px; height: 20px; border-radius: 6px; padding: 4px; color: var(--muted); }
   .sw-blank-box { flex: none; width: 18px; height: 18px; border-radius: 5px; border: 2px solid var(--line); }
   .sw-blank-link:hover { border-color: var(--como); color: var(--ink); }
   .sw-blank-link.selected {
@@ -106,11 +106,11 @@
   }
 
   /* Business step */
-  .sw-block { margin-bottom: 26px; }
+  .sw-block { margin-bottom: 28px; }
   .sw-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--ink); }
   .sw-input {
     width: 100%; font-size: 17px; font-weight: 600;
-    padding: 13px 16px; border: 1.5px solid var(--line);
+    padding: 12px 16px; border: 1.5px solid var(--line);
     border-radius: 12px; background: var(--panel); color: var(--ink);
     transition: border-color .15s, box-shadow .15s; box-sizing: border-box;
   }
@@ -118,7 +118,7 @@
   .sw-input::placeholder { color: var(--muted); font-weight: 400; }
   .sw-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
   .sw-chip {
-    padding: 8px 15px; border: 1.5px solid var(--line); border-radius: 100px;
+    padding: 8px 16px; border: 1.5px solid var(--line); border-radius: 100px;
     font-size: 13px; font-weight: 500; color: var(--muted);
     background: var(--panel); cursor: pointer; transition: background-color .15s, border-color .15s, color .15s;
   }
@@ -126,7 +126,7 @@
   .sw-chip.selected { background: var(--como); border-color: var(--como); color: #fff; font-weight: 600; }
 
   /* Brand step */
-  .sw-swatch-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .sw-swatch-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .sw-swatch {
     width: 38px; height: 38px; border-radius: 50%; cursor: pointer;
     border: 2.5px solid transparent;
@@ -144,7 +144,7 @@
   .sw-swatch-custom input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
   .sw-logo-drop {
     display: flex; align-items: center; gap: 16px;
-    border: 1.5px dashed var(--line); border-radius: 14px; padding: 14px 18px;
+    border: 1.5px dashed var(--line); border-radius: 14px; padding: 16px 20px;
     cursor: pointer; transition: border-color .15s, background .15s;
   }
   .sw-logo-drop:hover, .sw-logo-drop.dragover { border-color: var(--como); background: var(--como-soft); }
@@ -157,23 +157,23 @@
   .sw-logo-prev svg { width: 20px; height: 20px; stroke: var(--muted); stroke-width: 1.8; fill: none; }
   .sw-logo-text b { display: block; font-size: 13.5px; font-weight: 600; color: var(--ink); }
   .sw-logo-text span { font-size: 12px; color: var(--muted); }
-  .sw-logo-remove { margin-left: auto; font-size: 12.5px; font-weight: 600; color: #dc2626; padding: 6px 10px; border-radius: 7px; background: none; border: none; cursor: pointer; }
+  .sw-logo-remove { margin-left: auto; font-size: 12.5px; font-weight: 600; color: #dc2626; padding: 8px 12px; border-radius: 7px; background: none; border: none; cursor: pointer; }
   .sw-logo-remove:hover { background: var(--danger-soft); }
 
   /* Footer */
   .sw-footer {
     display: flex; align-items: center; justify-content: space-between;
-    padding-top: 22px; max-width: 580px;
+    padding-top: 24px; max-width: 580px;
   }
   .sw-back {
     background: none; border: none; cursor: pointer;
     color: var(--muted); font-weight: 600; font-size: 14px;
-    padding: 10px 14px; border-radius: 9px; transition: background .15s, color .15s;
+    padding: 12px 16px; border-radius: 9px; transition: background .15s, color .15s;
   }
   .sw-back:hover { background: var(--line-soft); color: var(--ink); }
   .sw-next {
     background: var(--como); color: #fff; border: none; cursor: pointer;
-    font-weight: 700; font-size: 14.5px; padding: 12px 26px; border-radius: 10px;
+    font-weight: 700; font-size: 14.5px; padding: 12px 28px; border-radius: 10px;
     transition: background .18s, transform .12s, box-shadow .18s;
     box-shadow: 0 6px 16px -6px rgba(109,40,217,.6);
   }

@@ -1,7 +1,7 @@
 const ANALYTICS_KEY = 'como-app-builder-analytics:v1';
 // Menu has its own source/page picker, so a separate include-screen switch is redundant there.
+// Rewards is a core loyalty surface and must always stay in the app, so it has no "Include" switch.
 const SCREEN_DEFS = {
-  rewards: { label: 'Rewards', description: 'Gifts, Points Shop, and loyalty progress' },
   locations: { label: 'Locations', description: 'Branches, hours, directions, and contact' },
   more: { label: 'More', description: 'Profile, orders, referral, support, and brand story' },
 };
@@ -267,13 +267,13 @@ export function initProductExperience(ctx) {
     setColour('--p-text', darkSurface ? '#ffffff' : '#1d1d28');
     setColour('--p-text-muted', darkSurface ? '#d6d3df' : '#5f5c6b');
     requestAnimationFrame(updateContrastFeedback);
-    showToast?.('Recommended accessible text colours applied');
+    showToast?.('Recommended accessible text colours applied', { variant: 'success' });
   });
   document.querySelectorAll('#gf-advanced-branding-section input[type="color"]').forEach((input) => input.addEventListener('input', () => requestAnimationFrame(updateContrastFeedback)));
 
   document.getElementById('px-request-font')?.addEventListener('click', () => {
     window.openSettings?.('app-submission', 'overview');
-    showToast?.('Custom font added to the native app launch checklist');
+    showToast?.('Custom font added to the native app launch checklist', { variant: 'success' });
   });
 
   function wireMobileWayfinding() {
@@ -306,7 +306,7 @@ export function initProductExperience(ctx) {
   });
   document.getElementById('px-restore-published')?.addEventListener('click', () => {
     const restored = ctx.restorePublishedDraft?.();
-    showToast?.(restored ? 'Last published version restored as your draft' : 'No published version is available yet');
+    showToast?.(restored ? 'Last published version restored as your draft' : 'No published version is available yet', { variant: restored ? 'success' : 'error' });
   });
 
   document.addEventListener('click', (event) => {
@@ -316,7 +316,7 @@ export function initProductExperience(ctx) {
     if (copy) {
       navigator.clipboard?.writeText(document.getElementById('px-referral-code')?.textContent || 'FRIEND10').catch(() => {});
       copy.textContent = 'Copied';
-      showToast?.('Invite code copied');
+      showToast?.('Invite code copied', { variant: 'success' });
     }
   });
   document.querySelectorAll('.app-page [role="button"][onclick]').forEach((element) => {

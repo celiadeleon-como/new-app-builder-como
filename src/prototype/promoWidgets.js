@@ -278,10 +278,6 @@ export function initPromoWidgets(ctx) {
           });
         });
       }
-      const pcBgInput = gid('-bg-color');
-      if (pcBgInput) {
-        wireColorControl(pcBgInput, (hex) => pcWidget.style.setProperty('--pc-card-bg', hex));
-      }
     }
 
     pcApplySectionTitle();
@@ -298,8 +294,8 @@ export function initPromoWidgets(ctx) {
 
   // Shared image-file reader for every uploader in the config panel
   function readImageFile(file, onLoad) {
-    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Upload a PNG, JPG, or WEBP file.'); return; }
-    if (file.size > 5 * 1024 * 1024) { showToast('This file exceeds the 5MB limit.'); return; }
+    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast('Upload a PNG, JPG, or WEBP file.', { variant: 'error' }); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast('This file exceeds the 5MB limit.', { variant: 'error' }); return; }
     const reader = new FileReader();
     reader.onload = (ev) => onLoad(ev.target.result);
     reader.readAsDataURL(file);
@@ -399,10 +395,7 @@ export function initPromoWidgets(ctx) {
     row.innerHTML =
       '<span class="handle">⠿</span>'
       + '<span class="w-name" data-drill="' + drill + '">' + escHtml(name) + '</span>'
-      + '<span class="toggle on" data-bind="' + bindSel + '" data-widget-toggle="' + key + '" title="Show on Home">'
-      + '<svg class="i-plus" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>'
-      + '<svg class="i-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l4 4 8-8"/></svg>'
-      + '</span>'
+      + '<span class="toggle on" data-bind="' + bindSel + '" data-widget-toggle="' + key + '" title="Show on Home"></span>'
       + '<button class="w-edit-icon" data-drill="' + drill + '" title="Edit widget"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg></button>'
       + '<button class="w-edit-icon w-del" title="Remove widget"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h12M8 6V4h4v2M6 6v10a1 1 0 001 1h6a1 1 0 001-1V6"/></svg></button>';
     const toggle = row.querySelector('.toggle');
@@ -447,10 +440,6 @@ export function initPromoWidgets(ctx) {
       +     '<div class="cp-field"><label>Corners</label><div class="cp-radio-group">'
       +       '<div class="cp-radio" data-bind-radio="' + idp + '-corners" data-value="sharp">Sharp</div>'
       +       '<div class="cp-radio active" data-bind-radio="' + idp + '-corners" data-value="rounded">Rounded</div></div></div>'
-      +     '<div class="cp-field"><label>Card background</label><div class="cp-color-row compact">'
-      +       '<div class="cp-color-swatch" style="background:var(--p-panel);"><input type="color" value="#1a1728" id="' + idp + '-bg-color" /></div>'
-      +       '<div class="cp-color-info"><div class="cp-color-label">Card background</div><input class="cp-color-hex" value="#1A1728" spellcheck="false" maxlength="9" /></div>'
-      +     '</div></div>'
       +   '</div></div>'
       + '</div>'
       + '<div class="cp-detail" data-detail="' + editDrill + '">'

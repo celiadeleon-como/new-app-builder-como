@@ -45,7 +45,7 @@ export function initSystem(ctx = {}) {
   }
   saveBtn?.addEventListener('click', () => {
     if (!dirty && saveBtn.dataset.state !== 'error') return;
-    if (commitDraft()) showToast('Draft saved');
+    if (commitDraft()) showToast('Draft saved', { variant: 'success' });
   });
   document.addEventListener('como:draft-save-error', () => {
     dirty = true;
@@ -60,6 +60,8 @@ export function initSystem(ctx = {}) {
   function showToast(msg, options = {}) {
     if (!toastEl || !toastMessage) return;
     toastMessage.textContent = msg;
+    toastEl.classList.toggle('toast-success', options.variant === 'success');
+    toastEl.classList.toggle('toast-error', options.variant === 'error');
     if (toastAction) {
       toastAction.hidden = !options.actionLabel;
       toastAction.textContent = options.actionLabel || '';
