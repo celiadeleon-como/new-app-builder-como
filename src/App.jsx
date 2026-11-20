@@ -3,7 +3,7 @@ import ConfigPanel from './components/ConfigPanel';
 import EditorOverlays from './components/EditorOverlays';
 import LevelThreePanel from './components/LevelThreePanel';
 import PhonePreview from './components/PhonePreview';
-import WelcomeModal from './components/WelcomeModal';
+import SetupWizard from './components/SetupWizard';
 import Sidebar from './components/Sidebar';
 import SettingsModal from './components/SettingsModal';
 import TopBar from './components/TopBar';
@@ -42,7 +42,7 @@ export default function App() {
       </div>
       <EditorOverlays />
       <SettingsModal />
-      <WelcomeModal />
+      <SetupWizard />
     </>
   );
 }

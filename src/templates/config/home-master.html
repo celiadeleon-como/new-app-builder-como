@@ -3,21 +3,21 @@
         <div class="cp-page-title">Home</div>
         <div class="cp-page-sub">Select a feature to edit its content, use the toggles to show or hide features, and drag them to change their order. View your changes as you make them in the phone preview.</div>
 
-        <div class="cp-focus-recap" id="cp-focus-recap">
-          <div class="cp-focus-ic" id="cp-focus-ic"></div>
-          <div class="cp-focus-text">
-            <div class="cp-focus-lbl">App focus</div>
-            <div class="cp-focus-val" id="cp-focus-val">Not chosen yet</div>
+        <div class="cp-home-structure" id="cp-home-structure" hidden>
+          <h4 class="cp-home-structure-title">Home Structure</h4>
+          <p class="cp-home-structure-sub">Choose what Home leads with, and how it's laid out.</p>
+
+          <div class="cp-focus-seg" id="cp-focus-seg" role="radiogroup" aria-label="App focus">
+            <button type="button" class="cp-focus-seg-opt" data-focus="loyalty" role="radio" aria-checked="false">
+              <span class="cp-focus-seg-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></span> Lead with Loyalty
+            </button>
+            <button type="button" class="cp-focus-seg-opt" data-focus="ordering" role="radio" aria-checked="false" id="cp-focus-seg-ordering">
+              <span class="cp-focus-seg-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/></svg></span> Lead with Online Ordering
+            </button>
           </div>
-          <button class="cp-focus-change" id="cp-focus-change" type="button" aria-haspopup="menu" aria-expanded="false">
-            Change
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
-          </button>
-          <div class="cp-focus-menu" id="cp-focus-menu" role="menu" aria-label="Change app focus">
-            <button type="button" role="menuitemradio" aria-checked="false" data-focus="loyalty">Lead with loyalty</button>
-            <button type="button" role="menuitemradio" aria-checked="false" data-focus="ordering">Lead with ordering</button>
-          </div>
+
         </div>
+
 
         <div class="px-ordering-dependency" id="px-ordering-dependency" hidden>
           <span class="px-ordering-lock" aria-hidden="true">
@@ -33,8 +33,32 @@
             <div class="cp-widget-row off">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="profile">Profile and loyalty</span>
-              <span class="toggle" data-bind=".greet-row, .loyalty-card" data-widget-toggle="profile" title="Add to Home"></span>
+              <span class="toggle" data-bind=".greet-row, .loyalty-card, .bento-profile-section, .shq-row-profile" data-widget-toggle="profile" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="profile" title="Edit widget">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
+              </button>
+            </div>
+            <div class="cp-widget-row off">
+              <span class="handle">⠿</span>
+              <span class="w-name" data-drill="active-rewards">Active Rewards</span>
+              <span class="toggle" data-bind=".active-rewards-card, .bento-tile-rewards, .shq-row-rewards" data-widget-toggle="active-rewards" title="Add to Home"></span>
+              <button class="w-edit-icon" data-drill="active-rewards" title="Edit widget">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
+              </button>
+            </div>
+            <div class="cp-widget-row off">
+              <span class="handle">⠿</span>
+              <span class="w-name" data-drill="punch-card">Punch Card</span>
+              <span class="toggle" data-bind=".punch-card-mini, .bento-tile-punch, .shq-row-punch" data-widget-toggle="punch-card" title="Add to Home"></span>
+              <button class="w-edit-icon" data-drill="punch-card" title="Edit widget">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
+              </button>
+            </div>
+            <div class="cp-widget-row off">
+              <span class="handle">⠿</span>
+              <span class="w-name" data-drill="loyalty-qr">Loyalty QR / Scan to earn</span>
+              <span class="toggle" data-bind=".lc-card-btn, .bento-tile-qr, .shq-row-qr" data-widget-toggle="loyalty-qr" title="Add to Home"></span>
+              <button class="w-edit-icon" data-drill="loyalty-qr" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
             </div>
@@ -49,7 +73,7 @@
             <div class="cp-widget-row off">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="social">Social links</span>
-              <span class="toggle" data-bind=".social-strip" data-widget-toggle="social" title="Add to Home"></span>
+              <span class="toggle" data-bind=".social-strip, .bento-tile-bottom[data-widget='social'], .shq-row-social" data-widget-toggle="social" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="social" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -57,7 +81,7 @@
             <div class="cp-widget-row off cp-oo-widget" data-oo-widget="order-again">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="order-again">Order Again</span>
-              <span class="toggle" data-bind=".oa-widget" data-widget-toggle="order-again" title="Add to Home"></span>
+              <span class="toggle" data-bind=".oa-widget, .bento-tile-bottom[data-widget='order-again'], .shq-row-orderagain" data-widget-toggle="order-again" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="order-again" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -68,7 +92,7 @@
             <div class="cp-widget-row off cp-oo-widget" data-oo-widget="top-items">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="top-items">Top Items</span>
-              <span class="toggle" data-bind=".ti-widget" data-widget-toggle="top-items" title="Add to Home"></span>
+              <span class="toggle" data-bind=".ti-widget, .bento-tile-bottom[data-widget='top-items'], .shq-row-top-items" data-widget-toggle="top-items" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="top-items" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>
@@ -80,7 +104,7 @@
             <div class="cp-widget-row off cp-oo-widget" data-oo-widget="menu-categories">
               <span class="handle">⠿</span>
               <span class="w-name" data-drill="menu-categories">Menu Categories</span>
-              <span class="toggle" data-bind=".mc-widget" data-widget-toggle="menu-categories" title="Add to Home"></span>
+              <span class="toggle" data-bind=".mc-widget, .bento-tile-menu, .shq-row-menu" data-widget-toggle="menu-categories" title="Add to Home"></span>
               <button class="w-edit-icon" data-drill="menu-categories" title="Edit widget">
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.5 3l4.5 4.5-10 10H2.5v-4.5l10-10z"/><path d="M11 4.5l4.5 4.5"/></svg>
               </button>

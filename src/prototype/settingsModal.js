@@ -36,6 +36,14 @@ export function initSettingsModal(ctx) {
   /** Shared ordering state — the Menu builder reads this to decide what to render. */
   const ordering = {
     connected: false,
+    onlineOrderingConnected: false,
+    deliverectConnected: false,
+    orderingExperience: null,
+    experience: null,
+    websiteUrl: '',
+    orderingWebsiteUrl: '',
+    linkTarget: 'in-app',
+    orderingLinkTarget: 'in-app',
     provider: PROVIDERS[0],
     locations: { downtown: true, riverside: true, northpark: false },
     allergens: true,
@@ -66,6 +74,7 @@ export function initSettingsModal(ctx) {
     primaryBtn.disabled = busy;
     backBtn.classList.toggle('show', !!el.dataset.smBack);
     backBtn.dataset.target = el.dataset.smBack || '';
+    if (el.dataset.smPane === 'website-ordering') updateWebsiteValidity(false);
   }
 
   /* ------------------------------------------------------------ navigation */
@@ -73,8 +82,10 @@ export function initSettingsModal(ctx) {
   function showPane(key) {
     panes.forEach(p => p.classList.toggle('active', p.dataset.smPane === key));
     navs.forEach(n => n.classList.toggle('active', n.dataset.smNav === key));
+    overlay.classList.toggle('website-ordering-modal', key === 'website-ordering');
     document.getElementById('sm-body').scrollTop = 0;
     if (key === 'app-submission') renderSubmissionState();
+    if (key === 'website-ordering') hydrateWebsiteOrdering();
     syncHeader();
   }
 
@@ -111,6 +122,7 @@ export function initSettingsModal(ctx) {
   }
   function close() {
     overlay.classList.remove('open');
+    overlay.classList.remove('website-ordering-modal');
     comboEl?.classList.remove('open');
   }
   overlay.addEventListener('mousedown', (e) => { if (e.target === overlay) close(); });
@@ -405,6 +417,60 @@ export function initSettingsModal(ctx) {
   const comboEl = document.getElementById('sm-provider-combo');
   const comboBtn = document.getElementById('sm-provider-btn');
   const comboList = document.getElementById('sm-provider-list');
+  const websiteUrlInput = document.getElementById('sm-website-ordering-url');
+  const websiteError = document.getElementById('sm-website-ordering-error');
+  let websiteTarget = 'in-app';
+
+  function normalizeWebsiteUrl(value) {
+    let candidate = value.trim();
+    if (candidate && !/^[a-z][a-z\d+.-]*:\/\//i.test(candidate)) candidate = 'https://' + candidate;
+    try {
+      const url = new URL(candidate);
+      if (!['http:', 'https:'].includes(url.protocol) || !url.hostname.includes('.')) return null;
+      return url.toString();
+    } catch {
+      return null;
+    }
+  }
+
+  function updateWebsiteValidity(showError = false) {
+    const normalized = normalizeWebsiteUrl(websiteUrlInput.value);
+    primaryBtn.disabled = !normalized;
+    websiteUrlInput.setAttribute('aria-invalid', String(!normalized && Boolean(websiteUrlInput.value.trim())));
+    if (showError && !normalized) websiteError.textContent = websiteUrlInput.value.trim()
+      ? 'Enter a valid ordering website URL.'
+      : 'Ordering website URL is required.';
+    else websiteError.textContent = '';
+    return normalized;
+  }
+
+  function hydrateWebsiteOrdering() {
+    websiteUrlInput.value = ordering.websiteUrl || '';
+    websiteTarget = ordering.linkTarget || 'in-app';
+    overlay.querySelectorAll('[data-website-target]').forEach((option) => {
+      const selected = option.dataset.websiteTarget === websiteTarget;
+      option.classList.toggle('selected', selected);
+      option.setAttribute('aria-checked', String(selected));
+    });
+    updateWebsiteValidity(false);
+  }
+
+  websiteUrlInput.addEventListener('input', () => updateWebsiteValidity(false));
+  websiteUrlInput.addEventListener('blur', () => {
+    const normalized = normalizeWebsiteUrl(websiteUrlInput.value);
+    if (normalized) websiteUrlInput.value = normalized;
+    updateWebsiteValidity(true);
+  });
+  overlay.querySelectorAll('[data-website-target]').forEach((option) => {
+    option.addEventListener('click', () => {
+      websiteTarget = option.dataset.websiteTarget;
+      overlay.querySelectorAll('[data-website-target]').forEach((candidate) => {
+        const selected = candidate === option;
+        candidate.classList.toggle('selected', selected);
+        candidate.setAttribute('aria-checked', String(selected));
+      });
+    });
+  });
 
   const STEP_LABELS = ['Connect', 'Approve locations', 'Settings'];
 
@@ -604,6 +670,10 @@ export function initSettingsModal(ctx) {
 
   document.getElementById('sm-oo-disconnect').addEventListener('click', () => {
     ordering.connected = false;
+    ordering.onlineOrderingConnected = false;
+    ordering.deliverectConnected = false;
+    ordering.experience = null;
+    ordering.orderingExperience = null;
     clearProvider();
     resetSync();
     gotoStep('chooser');
@@ -625,6 +695,30 @@ export function initSettingsModal(ctx) {
   primaryBtn.addEventListener('click', () => {
     const pane = panes.find(p => p.classList.contains('active'));
     if (!pane) return;
+
+    if (pane.dataset.smPane === 'website-ordering') {
+      const savedUrl = updateWebsiteValidity(true);
+      if (!savedUrl) {
+        websiteUrlInput.focus();
+        return;
+      }
+      ordering.connected = true;
+      ordering.onlineOrderingConnected = true;
+      ordering.deliverectConnected = false;
+      ordering.experience = 'website';
+      ordering.orderingExperience = 'website';
+      ordering.websiteUrl = savedUrl;
+      ordering.orderingWebsiteUrl = savedUrl;
+      ordering.linkTarget = websiteTarget;
+      ordering.orderingLinkTarget = websiteTarget;
+      announceOrdering('website-connected');
+      document.dispatchEvent(new CustomEvent('como:setup-ordering-connected', {
+        detail: { experience: 'website', ordering },
+      }));
+      markDirty('online-ordering');
+      close();
+      return;
+    }
 
     if (pane.dataset.smPane === 'app-submission') {
       if (submissionState.step === 'overview') {
@@ -690,16 +784,22 @@ export function initSettingsModal(ctx) {
         showToast('Approve at least one location to keep going', { variant: 'error' });
         return;
       }
-      ordering.connected = true;
-      announceOrdering('connected');
+      ordering.experience = 'in-app';
+      announceOrdering('locations-approved');
       gotoStep('admin');
-      showToast(ordering.provider.name + ' connected · menu is live in the app', { variant: 'success' });
+      showToast('Locations approved · review ordering settings', { variant: 'success' });
     } else if (step === 'admin') {
       ordering.connected = true;
+      ordering.onlineOrderingConnected = true;
+      ordering.deliverectConnected = true;
+      ordering.experience = 'in-app';
+      ordering.orderingExperience = 'in-app';
       announceOrdering('saved');
+      document.dispatchEvent(new CustomEvent('como:setup-ordering-connected', {
+        detail: { experience: 'in-app', ordering },
+      }));
       markDirty();
       close();
-      showToast('Online ordering settings saved', { variant: 'success' });
     }
   });
 
@@ -731,7 +831,18 @@ export function initSettingsModal(ctx) {
       toggle.classList.toggle('on', ordering[toggle.dataset.ooBind] !== false);
     });
     refreshLocCount();
-    if (ordering.connected) gotoStep('admin');
+    ordering.onlineOrderingConnected = ordering.connected;
+    if (ordering.experience === 'website') {
+      ordering.deliverectConnected = false;
+      ordering.orderingExperience = 'website';
+      ordering.orderingWebsiteUrl = ordering.websiteUrl || '';
+      ordering.orderingLinkTarget = ordering.linkTarget || 'in-app';
+    } else if (ordering.connected) {
+      ordering.experience = 'in-app';
+      ordering.orderingExperience = 'in-app';
+      ordering.deliverectConnected = true;
+    }
+    if (ordering.connected && ordering.experience === 'in-app') gotoStep('admin');
     announceOrdering('restored');
   }
 
@@ -741,6 +852,7 @@ export function initSettingsModal(ctx) {
     closeSettings: close,
     gotoOrderingStep: (s) => { showPane('online-ordering'); gotoStep(s || 'chooser'); },
     isOrderingConnected: () => ordering.connected,
+    openWebsiteOrdering: () => open('website-ordering'),
     exportOrderingState,
     importOrderingState,
   };

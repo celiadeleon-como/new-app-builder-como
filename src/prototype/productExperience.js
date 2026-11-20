@@ -127,8 +127,8 @@ export function initProductExperience(ctx) {
     const panel = document.createElement('div');
     panel.className = 'px-menu-simple';
     panel.innerHTML = `
-      <h3>Menu</h3>
-      <p>We supply the mobile layout. Your menu data and global brand do the rest.</p>
+      <h3>Order</h3>
+      <p>Customize how customers browse products and start an order.</p>
       <div class="px-menu-preview-note"><strong>Proven menu screen</strong><span>Categories, item cards, dietary information, and member pricing are already designed.</span></div>
       <fieldset><legend>Layout</legend><div class="px-menu-layouts"><button type="button" class="active" data-px-menu-layout="grid">Visual cards</button><button type="button" data-px-menu-layout="list">Compact list</button></div></fieldset>
       <label class="px-simple-check"><input type="checkbox" id="px-menu-hero" checked /> <span><strong>Show menu hero</strong><small>Uses the global accent and one approved image treatment.</small></span></label>
@@ -162,10 +162,19 @@ export function initProductExperience(ctx) {
     const state = document.getElementById('px-menu-ordering-state');
     if (!state) return;
     const connected = ctx.isOrderingConnected?.() === true;
+    const website = ctx.ordering?.experience === 'website';
     state.innerHTML = connected
-      ? '<span class="ok">Connected</span><strong>Live ordering menu</strong><small>Menu, prices, and availability sync from your provider.</small>'
+      ? (website
+        ? '<span class="ok">Connected</span><strong>Ordering website</strong><small>' + escapeText(ctx.ordering.websiteUrl || '') + '</small>'
+        : '<span class="ok">CONNECTED: Live ordering menu</span><strong>In-app ordering</strong><small>Menu, prices, and availability sync from your provider.</small>')
       : '<span class="sample">Sample</span><strong>Previewing a prepared menu</strong><small>Connect ordering when you want live prices and checkout.</small><button type="button" data-connect-menu-ordering>Connect ordering</button>';
     state.querySelector('[data-connect-menu-ordering]')?.addEventListener('click', () => window.openSettings?.('online-ordering', 'chooser'));
+  }
+
+  function escapeText(value) {
+    return String(value).replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    }[char]));
   }
 
   function field(id, value, eventName = 'input') {
@@ -202,13 +211,6 @@ export function initProductExperience(ctx) {
   }
 
   function ensureSampleLabels() {
-    const home = document.querySelector('.app-page[data-page="home"]');
-    if (home && !home.querySelector('.px-home-sample')) {
-      const label = document.createElement('span');
-      label.className = 'px-sample-label px-home-sample';
-      label.textContent = 'Sample member';
-      home.querySelector('.app-top-header')?.after(label);
-    }
     document.querySelectorAll('.oa-widget, .ti-widget, .mc-widget, .phone-reels-chip').forEach((widget) => {
       if (widget.querySelector('.px-ordering-sample-label')) return;
       const label = document.createElement('span');
@@ -391,6 +393,6 @@ export function initProductExperience(ctx) {
 
   return {
     track, screenState, getScreenState: (key) => screenState[key] !== false,
-    applyScreenVisibility, exportProductExperience, importProductExperience,
+    applyScreenVisibility, exportProductExperience, importProductExperience, setPreviewState,
   };
 }

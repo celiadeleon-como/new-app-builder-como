@@ -31,14 +31,14 @@
   }
 
   /* ============================================================
-     LEFT SIDEBAR (dark, page navigation)
+     LEFT SIDEBAR (light, page navigation)
      ============================================================ */
   .side-nav {
-    background: #131022;
-    color: #fff;
-    border-right: 1px solid #26223a;
+    background: #f5f7f9;
+    color: #192129;
+    border-right: 1px solid #dee5ec;
     display: flex; flex-direction: column;
-    padding: 16px 12px 16px;
+    padding: 64px 12px 16px;
     overflow: hidden;
     min-height: 0;
     position: relative;
@@ -46,42 +46,44 @@
   /* The account menu popup is wider than the rail and floats above the settings
      button, so the rail can't clip it while it's open. */
   .side-nav:has(.account-menu.open) { overflow: visible; }
-  .side-brand {
-    display: flex; align-items: center; gap: 12px;
-    padding: 4px 8px 20px;
-    border-bottom: 1px solid #26223a;
-    margin-bottom: 16px;
-    min-height: 44px;
-  }
-  .side-brand-logo {
-    width: 30px; height: 30px; border-radius: 9px;
-    background: linear-gradient(135deg, var(--como), #a855f7);
-    display: grid; place-items: center;
-    color: #fff; font-weight: 800; font-size: 13px;
-    flex: none;
-  }
-  .side-brand-name {
-    font-weight: 700; font-size: 14px; letter-spacing: -.2px;
-    white-space: nowrap; overflow: hidden;
-    opacity: 1; transition: opacity .2s;
-  }
-  body.side-collapsed .side-brand-name { opacity: 0; }
 
   /* ---------- Top-right expand/collapse icon toggle ---------- */
   .side-toggle-btn {
     position: absolute; top: 14px; right: 10px;
     width: 44px; height: 44px; border-radius: 9px;
     display: grid; place-items: center;
-    background: transparent; border: none; color: #8d88a3;
+    background: transparent; border: none; color: #97a5b2;
     cursor: pointer; transition: background .12s, color .12s;
     z-index: 5;
   }
   .side-toggle-btn svg { width: 16px; height: 16px; }
   body.side-collapsed .side-toggle-btn { position: static; margin: 0 auto 8px; }
+  /* Collapsed rail has no floating toggle to clear, so drop the extra top padding. */
+  body.side-collapsed .side-nav { padding-top: 16px; }
+
+  /* ---------- Setup guide card (links to the post-onboarding checklist) ---------- */
+  .side-setup-guide {
+    display: flex; flex-direction: column; gap: 8px;
+    margin: 0 4px 16px; padding: 12px 14px;
+    border: 1.5px solid var(--como, #262aff); border-radius: 12px;
+    background: #fff; cursor: pointer; text-align: left;
+    transition: box-shadow .12s;
+  }
+  .side-setup-guide:hover, .side-setup-guide.active { box-shadow: 0 0 0 3px rgba(38, 42, 255, .12); }
+  .ssg-head { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13px; color: #192129; }
+  .ssg-head svg { width: 16px; height: 16px; color: var(--como, #262aff); flex: none; }
+  .ssg-progress-track { display: block; height: 5px; border-radius: 4px; background: #e4e9ee; overflow: hidden; }
+  .ssg-progress-fill { display: block; height: 100%; border-radius: 4px; background: #16a34a; width: 0%; transition: width .2s ease; }
+  .ssg-count { font-size: 11px; color: #67747f; font-weight: 600; }
+  .side-setup-guide.complete { border-color: #15803d; box-shadow: none; }
+  .side-setup-guide.complete .ssg-head,
+  .side-setup-guide.complete .ssg-head svg { color: #15803d; }
+  .side-setup-guide.complete .ssg-progress-fill { background: #15803d; }
+  body.side-collapsed .side-setup-guide { display: none; }
 
   .side-kicker {
     font-size: 10px; text-transform: uppercase; letter-spacing: .8px;
-    color: #6f6a86; font-weight: 800;
+    color: #97a5b2; font-weight: 800;
     padding: 4px 12px 8px;
     white-space: nowrap; overflow: hidden;
     transition: opacity .2s;
@@ -89,7 +91,7 @@
   body.side-collapsed .side-kicker { opacity: 0; height: 8px; padding-top: 0; padding-bottom: 0; }
 
   .side-items { display: flex; flex-direction: column; gap: 4px; }
-  .side-divider { height: 1px; background: #26223a; margin: 12px 8px; }
+  .side-divider { height: 1px; background: #dee5ec; margin: 12px 8px; }
 
   .side-item {
     position: relative;
@@ -97,17 +99,18 @@
     padding: 12px 12px;
     min-height: 44px;
     border: none; background: transparent;
-    color: #b0acc4; font-size: 13.5px; font-weight: 600;
+    color: #97a5b2; font-size: 13.5px; font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
     text-align: left; width: 100%;
     transition: color .15s, background .15s;
   }
   .side-item.active {
-    color: #fff;
-    background: linear-gradient(90deg, rgba(109,40,217,.28) 0%, rgba(109,40,217,.08) 100%);
-    box-shadow: inset 0 0 0 1px rgba(168,85,247,.2);
+    color: #192129;
+    background: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .07);
   }
+  .side-order-icon { width: 16px; height: 16px; flex: none; color: currentColor; }
   .side-item .side-ic {
     width: 22px; height: 22px; flex: none;
     display: grid; place-items: center;
@@ -142,8 +145,8 @@
   }
 
   @media (hover: hover) and (pointer: fine) {
-    .side-toggle-btn:hover { color: #fff; background: rgba(255,255,255,.06); }
-    .side-item:hover { color: #fff; background: rgba(255,255,255,.04); }
+    .side-toggle-btn:hover { color: #192129; background: rgba(20, 33, 41, .06); }
+    .side-item:hover { color: #192129; background: rgba(20, 33, 41, .04); }
     body.side-collapsed .side-item:hover .side-tooltip { opacity: 1; }
   }
 

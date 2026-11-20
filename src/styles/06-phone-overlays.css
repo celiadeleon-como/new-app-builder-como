@@ -67,7 +67,7 @@
     border: none; font-size: 11.5px; font-weight: 700; cursor: pointer;
   }
   .pm-btn.primary { background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: var(--p-accent-ink, #fff); }
-  .pm-btn.secondary { background: transparent; border: 1px solid var(--p-border); color: var(--p-text); }
+  .pm-btn.secondary { background: transparent; border: 1px solid var(--p-secondary); color: var(--p-secondary); }
 
   .pm-menu-item {
     display: flex; align-items: center; gap: 12px;
@@ -123,6 +123,12 @@
   }
   .qr-pattern::before { top: 0; left: 0; }
   .qr-pattern::after { top: 0; right: 0; }
+  /* Barcode format: horizontal bars instead of a QR grid. */
+  .qr-box.barcode-mode .qr-pattern {
+    background-image: repeating-linear-gradient(90deg, #000 0 3px, transparent 3px 7px);
+    background-size: auto;
+  }
+  .qr-box.barcode-mode .qr-pattern::before, .qr-box.barcode-mode .qr-pattern::after { display: none; }
   .qr-id {
     font-family: "SF Mono", Menlo, monospace;
     text-align: center; font-size: 24px; font-weight: 800;

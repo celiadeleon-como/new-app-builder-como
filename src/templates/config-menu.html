@@ -3,8 +3,8 @@
   <!-- ========== 1 · Choose menu approach ========== -->
   <div class="ms-screen active" data-ms="chooser">
     <div class="ms-kicker">Menu source</div>
-    <div class="ms-title" data-menu-chooser-title>Choose menu approach</div>
-    <div class="ms-sub" data-menu-chooser-sub>Pick how your in-app menu is powered. You can change this anytime.</div>
+    <div class="ms-title" data-menu-chooser-title>Choose Order setup</div>
+    <div class="ms-sub" data-menu-chooser-sub>Pick how the Order screen is powered. You can change this anytime.</div>
 
     <div class="ms-options">
       <button class="ms-option" type="button" data-approach="webview">
@@ -551,89 +551,70 @@
     </button>
   </div>
 
-  <!-- ========== 6 · Online Ordering · connected & customize ========== -->
+  <!-- ========== 6 · Order experience · connected & customize ========== -->
   <div class="ms-screen" data-ms="oo-connected">
-    <div class="ms-kicker">Menu source · Online Ordering · Connected
+    <div class="ms-kicker">Order · Online Ordering · Connected
       <button class="ms-kicker-link" type="button" data-ms-change>Change</button>
     </div>
-    <div class="ms-title">Online Ordering</div>
-    <div class="ms-sub">Customize how your in-app ordering menu looks. Changes preview live on the phone.</div>
+    <div class="ms-title">Order</div>
+    <div class="ms-sub">Customize the banner, fulfillment flow, and menu experience. Changes preview live on the phone.</div>
 
     <div class="ms-connected">
       <span class="ms-connected-logo" id="ms-oo-logo">D</span>
       <div class="ms-connected-text">
-        <div class="ms-connected-name" id="ms-oo-name">Deliverect</div>
+        <div class="ms-connected-name" id="ms-oo-name">In-app ordering</div>
         <div class="ms-connected-state">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg>
-          Connected
+          <span id="ms-oo-connected-label">CONNECTED: Live ordering menu</span>
         </div>
+        <div class="ms-connected-url" id="ms-oo-connected-url" hidden></div>
       </div>
       <button class="ms-inline-action" type="button" id="ms-oo-manage">Manage</button>
     </div>
 
-    <div class="ms-section-label">Look &amp; feel</div>
-    <div class="ms-label">Header image</div>
-    <div class="ms-image-row">
+    <div class="ms-order-card">
+      <div class="ms-order-card-head"><span><strong>Header Banner</strong><small>Lead with a promotion before customers start ordering.</small></span><span class="toggle on" id="ms-order-banner-toggle"></span></div>
+      <div class="ms-image-row">
       <span class="ms-image-thumb" id="ms-ordering-hero-thumb"></span>
       <div class="ms-image-text">
         <div class="ms-image-name" id="ms-ordering-hero-name">hero-dining.jpg</div>
-        <div class="ms-image-meta">Shown at the top of the menu</div>
+        <div class="ms-image-meta">Upload a wide promotional image</div>
       </div>
-      <button class="ms-inline-action ok" type="button" id="ms-ordering-hero-replace">Replace</button>
+        <button class="ms-inline-action ok" type="button" id="ms-ordering-hero-replace">Replace</button>
+      </div>
+      <input type="file" id="ms-ordering-hero-file" accept="image/png,image/jpeg,image/webp" hidden />
+      <div class="cp-field"><label>Title</label><textarea class="cp-input-text cp-textarea" id="ms-order-banner-title" rows="2">Craft your perfect bowl. Earn delicious perks.</textarea></div>
+      <div class="cp-field"><label>Feature badges</label><input class="cp-input-text" id="ms-order-banner-badges" value="100% Fresh, Instant Rewards, Buy 1 Get 1 Free" /><div class="cp-upload-note">Separate badges with commas.</div></div>
     </div>
 
-    <div class="ms-block">
-      <div class="ms-label">Menu layout</div>
+    <div class="ms-order-card">
+      <div class="ms-order-card-head"><span><strong>Order &amp; Fulfillment Settings</strong><small>Choose how customers find a store and order.</small></span></div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Pick Up</div><div class="ms-toggle-desc">Availability and collection time</div></div><span class="toggle on" data-ordering-opt="pickup"></span></div>
+      <div class="cp-field"><label>Pickup opens</label><input class="cp-input-text" id="ms-pickup-time" value="Open 15:00" /></div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Delivery</div><div class="ms-toggle-desc">Timing and order requirements</div></div><span class="toggle on" data-ordering-opt="delivery"></span></div>
+      <div class="ms-fulfillment-fields">
+        <div class="cp-field"><label>Estimate</label><input class="cp-input-text" id="ms-delivery-estimate" value="30–45 min" /></div>
+        <div class="cp-field"><label>Minimum order</label><input class="cp-input-text" id="ms-minimum-order" value="€10.00" /></div>
+        <div class="cp-field"><label>Delivery fee</label><input class="cp-input-text" id="ms-delivery-fee" value="€3.49" /></div>
+      </div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Fulfillment Address Search</div><div class="ms-toggle-desc">Prompt users to search address or zip code to find nearest store for pickup or delivery</div></div><span class="toggle on" data-ordering-opt="addressSearch"></span></div>
+      <div class="cp-field"><label>Address placeholder</label><input class="cp-input-text" id="ms-address-placeholder" value="Search your address" /></div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Product search bar</div><div class="ms-toggle-desc">Let customers search within the Order screen</div></div><span class="toggle on" data-ordering-opt="productSearch"></span></div>
+      <div class="cp-field"><label>Product search placeholder</label><input class="cp-input-text" id="ms-product-search-placeholder" value="Search in Hot Box" /></div>
+    </div>
+
+    <div class="ms-order-card">
+      <div class="ms-order-card-head"><span><strong>Menu View &amp; Layout</strong><small>Control the product browsing experience. Menu items sync from your ordering provider.</small></span></div>
+      <div class="ms-label">Display style</div>
       <div class="ms-layouts" data-layouts="ordering">
-        <button class="ms-layout on" type="button" data-layout="grid">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M12 3.5v17M3.5 12h17"/></svg>
-          Image grid
-        </button>
-        <button class="ms-layout" type="button" data-layout="list">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg>
-          Classic list
-        </button>
-        <button class="ms-layout" type="button" data-layout="hero">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="3.5" width="10" height="17" rx="2"/><path d="M17 6v12M21 8v8"/></svg>
-          Hero showcase
-        </button>
+        <button class="ms-layout" type="button" data-layout="list">List view</button>
+        <button class="ms-layout on" type="button" data-layout="grid">Grid view</button>
       </div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Filter categories</div><div class="ms-toggle-desc">Show Highlights, Signature Bowls, Sides &amp; Extras</div></div><span class="toggle on" data-ordering-opt="categories"></span></div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Search bar</div><div class="ms-toggle-desc">Show the secondary product search</div></div><span class="toggle on" data-ordering-opt="productSearch"></span></div>
+      <div class="ms-toggle-row"><div class="ms-toggle-text"><div class="ms-toggle-name">Ratings &amp; badges</div><div class="ms-toggle-desc">Show item ratings and BEST SELLER labels</div></div><span class="toggle on" data-ordering-opt="ratings"></span></div>
     </div>
 
-    <div class="ms-block">
-      <div class="ms-label">Brand colour</div>
-      <div class="ms-swatches" data-swatches="ordering">
-        <span class="ms-swatch on" style="background:#6d28d9" data-color="#6d28d9"></span>
-        <span class="ms-swatch" style="background:#c7355a" data-color="#c7355a"></span>
-        <span class="ms-swatch" style="background:#18875a" data-color="#18875a"></span>
-        <span class="ms-swatch" style="background:#1d63b8" data-color="#1d63b8"></span>
-        <span class="ms-swatch" style="background:#d6a535" data-color="#d6a535"></span>
-      </div>
-    </div>
-
-    <div class="ms-toggle-card" style="margin-top:16px">
-      <div class="ms-toggle-row">
-        <div class="ms-toggle-text">
-          <div class="ms-toggle-name">Allergen badges
-            <button class="ms-info" type="button" data-tip="Badges like Vegan, Gluten-free and Nut are pulled from each item’s dietary tags in your catalog.">i</button>
-          </div>
-          <div class="ms-toggle-desc">Show dietary &amp; allergen tags on items</div>
-        </div>
-        <span class="toggle on" data-ordering-opt="allergens"></span>
-      </div>
-      <div class="ms-toggle-row">
-        <div class="ms-toggle-text">
-          <div class="ms-toggle-name">Loyalty points banner</div>
-          <div class="ms-toggle-desc">Promote points earning at the top</div>
-        </div>
-        <span class="toggle on" data-ordering-opt="banner"></span>
-      </div>
-    </div>
-
-    <button class="ms-help" type="button" data-ms-help>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.4"/><path d="M14.4 9.6L18 6M9.6 14.4L6 18M14.4 14.4L18 18M9.6 9.6L6 6"/></svg>
-      Need help? Visit the Help Center
-    </button>
   </div>
 
   <!-- ========== 7 · Manual · build method ========== -->

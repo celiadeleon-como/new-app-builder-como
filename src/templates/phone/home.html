@@ -44,6 +44,11 @@
               <div class="ec-sub">Add widgets from the left panel to build up your app.</div>
             </div>
 
+            <div class="home-layout home-layout-priority-stack">
+            <!-- Stable reorder anchor: reorderPhoneWidgets() always inserts the first
+                 widget right after this marker, keeping every reordered widget inside
+                 this wrapper instead of leaking out to the top-level home page. -->
+            <span class="priority-stack-anchor" aria-hidden="true" hidden></span>
             <div class="greet-row hidden-slot" data-widget="profile">
               <div class="hello">Welcome back!</div>
               <div class="guest-state">
@@ -63,9 +68,9 @@
                   <div class="lc-next-txt">50 points to your next reward</div>
                   <div class="lc-bar"><span style="width:80%"></span></div>
                 </div>
-                <button class="lc-card-btn" type="button">
+                <button class="lc-card-btn hidden-slot" type="button" data-drill="loyalty-qr" title="Click to edit">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20v.01M20 20v.01M17 20h.01M20 17h.01"/></svg>
-                  Show loyalty card
+                  <span class="lc-card-btn-label">Show loyalty card</span>
                 </button>
               </div>
               <div class="lc-ring" aria-hidden="true">
@@ -74,6 +79,24 @@
                   <circle class="lc-ring-fill" cx="36" cy="36" r="30"/>
                 </svg>
                 <div class="lc-ring-label"><b>200</b><span>/250</span></div>
+              </div>
+            </div>
+
+            <!-- Active Rewards list (stacked reward rows, travels with the Profile widget) -->
+            <div class="active-rewards-card hidden-slot" data-widget="active-rewards" data-drill="active-rewards" title="Click to edit">
+              <div class="ar-head">Active Rewards</div>
+              <div class="ar-row"><span class="ar-ic">🎁</span><span class="ar-row-body"><b>Free appetizer</b><small>Ready to redeem</small></span></div>
+              <div class="ar-row"><span class="ar-ic">🎉</span><span class="ar-row-body"><b>$5 off your next visit</b><small>Expires in 12 days</small></span></div>
+            </div>
+
+            <!-- Punch Card (stamp progress toward the next reward) -->
+            <div class="punch-card-mini hidden-slot" data-widget="punch-card" data-drill="punch-card" title="Click to edit">
+              <div class="pcm-head">
+                <span class="pcm-title">Punch Card</span>
+                <span class="pcm-count">6 / 10 stamps</span>
+              </div>
+              <div class="pcm-stamps" aria-hidden="true">
+                <span class="pcm-stamp filled"></span><span class="pcm-stamp filled"></span><span class="pcm-stamp filled"></span><span class="pcm-stamp filled"></span><span class="pcm-stamp filled"></span><span class="pcm-stamp filled"></span><span class="pcm-stamp"></span><span class="pcm-stamp"></span><span class="pcm-stamp"></span><span class="pcm-stamp"></span>
               </div>
             </div>
 
@@ -144,5 +167,135 @@
                 <div class="mc-title">Browse the menu</div>
               </div>
               <div class="mc-grid" id="mc-grid"></div>
+            </div>
+            </div>
+            <!-- /home-layout-priority-stack -->
+
+            <!-- ============ Alternate Home layout: Gamified Bento Grid ============ -->
+            <div class="home-layout home-layout-bento-grid">
+              <div class="bento-hero" data-focus-loyalty data-loyalty="ring">
+                <div class="bento-hero-body">
+                  <div class="bento-hero-greet">Welcome back!</div>
+                  <div class="bento-hero-label">Rewards balance</div>
+                  <div class="bento-hero-points">200 <span>pts</span></div>
+                  <div class="bento-hero-next">
+                    <div class="bento-hero-sub">50 pts to next reward</div>
+                    <div class="bento-hero-bar"><span style="width:80%"></span></div>
+                  </div>
+                </div>
+                <div class="bento-hero-ring" aria-hidden="true">
+                  <svg viewBox="0 0 72 72"><circle class="lc-ring-track" cx="36" cy="36" r="30"/><circle class="lc-ring-fill" cx="36" cy="36" r="30"/></svg>
+                  <div class="lc-ring-label"><b>200</b><span>/250</span></div>
+                </div>
+              </div>
+              <div class="bento-hero" data-focus-ordering hidden>
+                <div class="bento-hero-label">Order Ahead</div>
+                <div class="bento-hero-title">Quick Reorder</div>
+                <div class="bento-hero-sub">Pickup · Downtown location</div>
+                <button class="bento-hero-btn" type="button">Reorder Creamy Pesto Rigatoni</button>
+              </div>
+              <div class="bento-hero bento-hero-guest">
+                <div class="bento-hero-label">Join Rewards</div>
+                <div class="bento-hero-title">Earn points on every visit</div>
+                <div class="bento-hero-sub">Sign up free to start earning today</div>
+                <button class="bento-hero-btn" type="button">Join Rewards</button>
+              </div>
+              <div class="bento-grid">
+                <div class="bento-tile bento-tile-bottom bento-profile-section hidden-slot" data-widget="profile" data-drill="profile" title="Click to edit">
+                  <span class="bento-tile-title">Profile &amp; Loyalty</span>
+                  <span class="bento-tile-sub">200 points · 50 pts to your next reward</span>
+                </div>
+                <button class="bento-tile bento-tile-qr hidden-slot" type="button" data-widget="loyalty-qr" data-drill="loyalty-qr" title="Click to edit">
+                  <div class="qr-box"><div class="qr-pattern"></div></div>
+                  <span class="bento-qr-label">Scan to earn</span>
+                </button>
+                <div class="bento-tile bento-tile-rewards hidden-slot" data-widget="active-rewards" data-drill="active-rewards" title="Click to edit">
+                  <div class="bento-tile-ic">🎁</div>
+                  <span class="bento-tile-title">Rewards</span>
+                  <span class="bento-tile-sub">2 available</span>
+                  <span class="bento-tile-points" data-focus-ordering hidden>200 pts</span>
+                </div>
+                <div class="bento-tile bento-tile-punch hidden-slot" data-widget="punch-card" data-drill="punch-card" title="Click to edit">
+                  <div class="bento-tile-ic">🎟️</div>
+                  <span class="bento-tile-title">Punch Card</span>
+                  <span class="bento-tile-sub">6 / 10 stamps</span>
+                </div>
+                <button class="bento-tile bento-tile-menu hidden-slot" type="button" data-widget="menu-categories" data-ordering-only data-drill="menu-categories">
+                  <div class="bento-tile-ic">🍽️</div>
+                  <span class="bento-tile-title">Browse Menu</span>
+                  <span class="bento-tile-sub">Start Order →</span>
+                </button>
+                <div class="bento-tile bento-tile-bottom hidden-slot" data-widget="order-again" data-ordering-only data-drill="order-again" title="Click to edit">
+                  <span class="bento-tile-title">Order Again</span>
+                  <span class="bento-tile-sub">Creamy Pesto Rigatoni</span>
+                </div>
+                <div class="bento-tile bento-tile-bottom hidden-slot" data-widget="top-items" data-ordering-only data-drill="top-items" title="Click to edit">
+                  <span class="bento-tile-title">Top Items</span>
+                  <span class="bento-tile-sub">Popular right now</span>
+                </div>
+                <div class="promo-cards-widget hidden-slot bento-promotions-section" data-widget="promo-cards" data-drill="promo-cards" data-pc-display="carousel" data-pc-image="cover" data-pc-cta="filled" data-pc-corners="rounded" title="Click to edit">
+                  <div class="pc-carousel-wrap"></div><div class="pc-dots"></div>
+                </div>
+                <div class="bento-tile bento-tile-bottom hidden-slot" data-widget="promo-cards-2">
+                  <span class="bento-tile-title">More Offers</span>
+                  <span class="bento-tile-sub">See all current promotions</span>
+                </div>
+                <div class="bento-tile bento-tile-bottom hidden-slot" data-widget="social" data-drill="social" title="Click to edit">
+                  <span class="bento-tile-title">Follow us</span>
+                  <span class="bento-tile-sub">📷 📘 🎵 ▶</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ============ Alternate Home layout: Split-Header QSR Standard ============ -->
+            <div class="home-layout home-layout-split-header-qsr">
+              <div class="shq-canvas">
+                <div class="shq-topbar">
+                  <div class="brand-mark shq-brand-mark">?</div>
+                  <button class="icon-btn shq-profile-icon" onclick="openAccountPage()" aria-label="Open profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg></button>
+                </div>
+                <div class="shq-header" data-focus-loyalty data-loyalty="ring">
+                  <div class="shq-header-body">
+                    <div class="shq-greet">Welcome back!</div>
+                    <div class="shq-points">200 <span>★</span></div>
+                    <div class="shq-next">
+                      <div class="shq-next-txt">50 pts to next reward</div>
+                      <div class="shq-bar"><span style="width:80%"></span></div>
+                    </div>
+                  </div>
+                  <div class="shq-ring" aria-hidden="true">
+                    <svg viewBox="0 0 72 72"><circle class="lc-ring-track" cx="36" cy="36" r="30"/><circle class="lc-ring-fill" cx="36" cy="36" r="30"/></svg>
+                  </div>
+                </div>
+                <div class="shq-header" data-focus-ordering hidden>
+                  <div class="shq-hero-item">
+                    <div class="shq-hero-name">Creamy Pesto Rigatoni</div>
+                    <button class="shq-hero-btn" type="button">1-tap Reorder</button>
+                  </div>
+                  <span class="shq-points-pill">200 pts</span>
+                </div>
+                <div class="shq-header shq-header-guest">
+                  <div class="shq-greet">Join Rewards</div>
+                  <button class="shq-hero-btn" type="button">Join Rewards</button>
+                </div>
+              </div>
+              <div class="shq-card">
+                <div class="shq-row shq-row-profile hidden-slot" data-widget="profile" data-drill="profile" title="Click to edit"><span>★</span> Profile &amp; Loyalty <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-rewards hidden-slot" data-widget="active-rewards" data-drill="active-rewards" title="Click to edit"><span>🎁</span> <span class="shq-row-label">Active Rewards</span> <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-punch hidden-slot" data-widget="punch-card" data-drill="punch-card" title="Click to edit"><span>🎟️</span> <span class="shq-row-punch-label">Punch Card</span> <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-qr hidden-slot" data-widget="loyalty-qr" data-drill="loyalty-qr" title="Click to edit"><span>▦</span> <span class="shq-qr-label">Show Loyalty QR</span> <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-orderagain hidden-slot" data-widget="order-again" data-ordering-only data-drill="order-again" title="Click to edit"><span>🔁</span> Order Again <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-top-items hidden-slot" data-widget="top-items" data-ordering-only data-drill="top-items" title="Click to edit"><span>☆</span> Top Items <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-menu hidden-slot" data-widget="menu-categories" data-ordering-only data-drill="menu-categories" title="Click to edit"><span>📋</span> Menu Categories <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="promo-cards-widget shq-promotions-section hidden-slot" data-widget="promo-cards" data-drill="promo-cards" data-pc-display="carousel" data-pc-image="cover" data-pc-cta="filled" data-pc-corners="rounded" title="Click to edit">
+                  <div class="pc-carousel-wrap"></div><div class="pc-dots"></div>
+                </div>
+                <div class="shq-row shq-row-promo2 hidden-slot" data-widget="promo-cards-2"><span>🎁</span> More Offers <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+                <div class="shq-row shq-row-social hidden-slot" data-widget="social" data-drill="social" title="Click to edit"><span>📷</span> Follow us <svg class="shq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="shq-pickup-bar" data-ordering-only>
+                <span>📍 Pickup at Downtown location</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
             </div>
           </div>

@@ -7,13 +7,11 @@
  */
 
 const STEPS = [
-  { key: 'business', label: 'Business details', kind: 'setup' },
-  { key: 'branding', label: 'Branding', kind: 'setup' },
-  { key: 'online-ordering', label: 'Online ordering', kind: 'setup' },
+  { key: 'branding', label: 'Branding and Design', kind: 'setup' },
   { key: 'home', label: 'Home', kind: 'screen' },
   { key: 'rewards', label: 'Rewards', kind: 'screen' },
+  { key: 'menu', label: 'Order', kind: 'screen' },
   { key: 'locations', label: 'Locations', kind: 'screen' },
-  { key: 'menu', label: 'Menu', kind: 'screen' },
   { key: 'more', label: 'More', kind: 'screen' },
   { key: 'publish', label: 'Review & publish', kind: 'publish' },
 ];
@@ -42,10 +40,11 @@ export function initGuidedFlow(ctx) {
 
   const stepButtons = [...document.querySelectorAll('.side-step[data-step]')];
   const indexOf = (key) => STEPS.findIndex((s) => s.key === key);
-  // The "Set up" sidebar group — finishing all three is the first real milestone.
-  const SETUP_STEPS = ['business', 'branding', 'online-ordering'];
+  // The "Set up" sidebar group — the onboarding wizard already covers ordering,
+  // so Branding is the only remaining setup milestone.
+  const SETUP_STEPS = ['branding'];
 
-  const REQUIRED_STEPS = ['business', 'branding', 'online-ordering', 'home'];
+  const REQUIRED_STEPS = ['branding', 'home'];
 
   function activeHomeWidgetCount() {
     return document.querySelectorAll('#cp-home [data-widget-toggle].on').length;
@@ -58,32 +57,6 @@ export function initGuidedFlow(ctx) {
   }
 
   function validateStep(key, { showErrors = false, focusFirst = false } = {}) {
-    let firstInvalid = null;
-    if (key === 'business') {
-      const name = document.getElementById('gf-biz-name');
-      const country = document.getElementById('gf-country-search');
-      const nameMissing = !flow.bizName.trim();
-      const countryMissing = !flow.countries.length;
-      if (showErrors || !nameMissing) setFieldError(name, 'gf-biz-name-error', nameMissing ? 'Enter your business name.' : '');
-      if (showErrors || !countryMissing) setFieldError(country, 'gf-country-error', countryMissing ? 'Select at least one country.' : '');
-      firstInvalid = nameMissing ? name : countryMissing ? country : null;
-      if (focusFirst) firstInvalid?.focus();
-      return !nameMissing && !countryMissing;
-    }
-    if (key === 'online-ordering') {
-      const chosen = ctx.getOrderingMode?.();
-      // "Not yet" is a real answer; native and web view also need their provider
-      // or menu wired up before the step is genuinely done.
-      const complete = ctx.isOrderingStepComplete ? ctx.isOrderingStepComplete() : Boolean(chosen);
-      let message = 'Choose how customers place online orders.';
-      if (chosen === 'native') message = 'Connect your online ordering provider to finish, or choose Add online ordering later.';
-      else if (chosen === 'webview') message = 'Add your menu web address to finish, or choose Add online ordering later.';
-      const error = document.getElementById('oo-choice-error');
-      if (error && (showErrors || complete)) error.textContent = complete ? '' : message;
-      document.getElementById('oo-choice')?.setAttribute('aria-invalid', complete ? 'false' : 'true');
-      if (!complete && focusFirst) document.querySelector('#oo-choice [data-oo-mode]')?.focus();
-      return complete;
-    }
     if (key === 'home') {
       const valid = homeVisited && activeHomeWidgetCount() > 0;
       if (!valid && showErrors) showToast?.('Add at least one Home widget before publishing', { variant: 'error' });
@@ -147,17 +120,15 @@ export function initGuidedFlow(ctx) {
   }
 
   function goToStep(key) {
+    if (key === 'order') key = 'menu';
     const step = STEPS[indexOf(key)];
     if (!step) return;
     flow.current = key;
     if (key === 'home') homeVisited = true;
     const onBusiness = key === 'business';
-    const onOrdering = key === 'online-ordering';
     document.body.classList.toggle('phone-preview-blank', onBusiness && !businessEdited);
-    // On business (post-edit) and initial ordering step, keep the phone in header-only mode
-    // until the merchant commits an ordering choice that fills the preview.
-    document.body.classList.toggle('phone-header-only', (onBusiness && businessEdited) || (onOrdering && !window.getOrderingMode?.()));
-    document.body.classList.toggle('on-step-online-ordering', onOrdering);
+    // Business (post-edit) keeps the phone in header-only mode until branding content is added.
+    document.body.classList.toggle('phone-header-only', onBusiness && businessEdited);
     // The industry badge is only relevant while picking industries in step 1.
     document.body.classList.toggle('on-step-business', onBusiness);
     // Any navigation exits the "arrived from ordering to configure webview" state.
@@ -165,7 +136,7 @@ export function initGuidedFlow(ctx) {
     // Publish is the only step where every configured screen needs to be
     // visible together, so the main preview panel swaps for a gallery.
     document.body.classList.toggle('gf-publish-preview-active', key === 'publish');
-    if (step.kind === 'screen') window.goToPage(key);
+    if (step.kind === 'screen') window.goToPage(key === 'order' ? 'menu' : key);
     else showSetupPage(key);
     if (key === 'publish') {
       updatePublishReadiness();
@@ -281,7 +252,7 @@ export function initGuidedFlow(ctx) {
       return;
     }
 
-    if (backLabel) backLabel.textContent = ['online-ordering', 'rewards'].includes(flow.current) ? 'Go Back' : 'Back';
+    if (backLabel) backLabel.textContent = flow.current === 'rewards' ? 'Go Back' : 'Back';
     if (backBtn) backBtn.style.visibility = position === 0 ? 'hidden' : '';
     if (nextLabel) nextLabel.textContent = flow.current === 'publish' ? 'Publish content changes' : 'Continue';
     if (nextBtn) nextBtn.style.display = position === STEPS.length - 1 ? 'none' : '';
@@ -404,7 +375,11 @@ export function initGuidedFlow(ctx) {
   /* -------------------------------------------------------- step controls */
 
   stepButtons.forEach((btn) => {
-    btn.addEventListener('click', () => goToStep(btn.dataset.step));
+    btn.addEventListener('click', () => {
+      const pageSettingsKey = btn.dataset.pageSettingsKey;
+      if (pageSettingsKey) { ctx.openPageSettings?.(pageSettingsKey); return; }
+      goToStep(btn.dataset.step);
+    });
   });
 
   // ---------- Setup-milestone celebration: a brief completion card that
@@ -459,36 +434,36 @@ export function initGuidedFlow(ctx) {
 
   // A short Pendo-ready orientation. It explains the mental model, then gets out
   // of the merchant's way so the first useful app stays comfortably under an hour.
-  const stageTourView = (view, step = 'business') => {
+  const stageTourView = (view, step = 'branding') => {
     window.setResponsiveView?.(view, { persist: false });
     goToStep(step);
   };
   const TOUR_STEPS = [
     {
-      target: '.side-nav', title: 'Follow the three setup steps',
-      text: 'Complete Business, Online ordering, and Branding in order so Como can assemble a useful first draft.',
-      before: () => stageTourView('edit', 'business'),
+      target: '.side-nav', title: 'Follow the setup steps',
+      text: 'Complete Branding and Online ordering in order so Como can assemble a useful first draft.',
+      before: () => stageTourView('edit', 'branding'),
     },
     {
       target: '#config-panel', title: 'Give Como the essentials',
-      text: 'Enter your business details here so the preview starts with the right identity and context.',
-      before: () => stageTourView('edit', 'business'),
+      text: 'Set up your branding and online ordering here so the preview starts with the right identity and context.',
+      before: () => stageTourView('edit', 'branding'),
     },
     {
       target: '#device-frame', title: 'Check the live preview',
       text: 'Use Preview to verify the experience customers will see before you continue.',
-      before: () => stageTourView('preview', 'business'),
+      before: () => stageTourView('preview', 'branding'),
     },
     {
       target: '.cp-step-foot', title: 'Continue when this step is ready',
       text: 'Move forward when the current step looks right; autosave keeps the draft recoverable.',
-      before: () => stageTourView('edit', 'business'),
+      before: () => stageTourView('edit', 'branding'),
     },
     {
       target: '#side-settings-btn', title: 'Launch from Settings',
       text: 'Open App submission when you are ready for store launch so content publishing stays separate from Apple and Google review.',
       before: () => {
-        stageTourView('edit', 'business');
+        stageTourView('edit', 'branding');
         document.getElementById('side-settings-btn')?.scrollIntoView({ block: 'nearest', inline: 'center' });
       },
     },
@@ -514,7 +489,7 @@ export function initGuidedFlow(ctx) {
     window.closeDrill?.('cp-home');
     if (toStart) {
       window.setResponsiveView?.('edit', { persist: false });
-      goToStep('business');
+      goToStep('branding');
       showToast?.('Tour closed — this is your setup, go ahead and edit');
       requestAnimationFrame(() => document.getElementById('gf-biz-name')?.focus({ preventScroll: true }));
     }
@@ -647,49 +622,17 @@ export function initGuidedFlow(ctx) {
     }
   });
 
-  const welcome = document.getElementById('gf-welcome');
-  if (welcome) {
-    welcome.classList.add('open');
-    document.body.classList.add('gf-welcome-open');
-    const close = (withTour) => {
-      welcome.classList.remove('open');
-      document.body.classList.remove('gf-welcome-open');
-      goToStep('business');
-      if (withTour) requestAnimationFrame(() => showTourStep(0));
-    };
-    document.getElementById('gf-welcome-start')?.addEventListener('click', () => close(true));
-    document.getElementById('gf-welcome-skip')?.addEventListener('click', () => close(false));
-  }
+  // The onboarding wizard (setupWizard.js) is the new first-run gate; it lands
+  // the merchant on the 'business' step itself once answers are applied.
   window.startAppBuilderTour = () => {
-    welcome?.classList.remove('open');
     document.body.classList.remove('gf-welcome-open');
     showTourStep(0);
   };
 
   /* ------------------------------------------------- business details step */
-
-  function revealPhonePreview() {
-    if (businessEdited) return;
-    businessEdited = true;
-    document.body.classList.remove('phone-preview-blank');
-    document.body.classList.add('phone-header-only');
-  }
-
-  const nameInput = document.getElementById('gf-biz-name');
-  if (nameInput) {
-    nameInput.addEventListener('input', () => {
-      revealPhonePreview();
-      flow.bizName = nameInput.value;
-      const name = flow.bizName || 'Your Business';
-      const initials = name.trim().split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
-      ctx.setBrand?.(name, initials || '?', flow.headline || (flow.focus ? FOCUS_LABELS[flow.focus] : ''));
-      const bound = document.querySelector('[data-bind-text=".app-page[data-page=\'home\'] .app-top-header .brand-text .name"]');
-      if (bound) bound.value = name;
-      validateStep('business');
-      markDirty?.();
-      render();
-    });
-  }
+  // Business name/sector are now captured in the onboarding wizard's
+  // "Confirm your business details" step (setupWizard.js), which applies them
+  // directly via ctx.setBrand and a `como:business-changed` event.
 
   const headlineInput = document.getElementById('gf-headline');
   const brandingHeadlineInput = document.getElementById('gf-branding-headline');
@@ -701,133 +644,8 @@ export function initGuidedFlow(ctx) {
     if (subtitle) subtitle.textContent = value || 'Storefront headline';
     markDirty?.();
   }
-  headlineInput?.addEventListener('input', () => { revealPhonePreview(); setHeadline(headlineInput.value, headlineInput); });
+  headlineInput?.addEventListener('input', () => setHeadline(headlineInput.value, headlineInput));
   brandingHeadlineInput?.addEventListener('input', () => setHeadline(brandingHeadlineInput.value, brandingHeadlineInput));
-
-  const countryCombo = document.getElementById('gf-country-combo');
-  const countryTrigger = document.getElementById('gf-country-trigger');
-  const countryTriggerText = document.getElementById('gf-country-trigger-text');
-  const countryPanel = document.getElementById('gf-country-panel');
-  const countrySearch = document.getElementById('gf-country-search');
-  const countryList = document.getElementById('gf-country-list');
-  const countryEmpty = document.getElementById('gf-country-empty');
-
-  function renderCountryTags() {
-    if (!countryTriggerText) return;
-    const count = flow.countries.length;
-    countryTriggerText.textContent = count
-      ? `${count} ${count === 1 ? 'country' : 'countries'} selected`
-      : 'Select countries';
-    countryTriggerText.classList.toggle('placeholder', !count);
-  }
-  function renderCountryOptions() {
-    if (!countryList) return;
-    const query = (countrySearch?.value || '').trim().toLowerCase();
-    let visibleCount = 0;
-    countryList.querySelectorAll('[data-country]').forEach((opt) => {
-      const match = !query || opt.dataset.label.toLowerCase().includes(query);
-      opt.hidden = !match;
-      if (match) visibleCount++;
-      const selected = flow.countries.includes(opt.dataset.country);
-      opt.classList.toggle('selected', selected);
-      opt.setAttribute('aria-selected', selected ? 'true' : 'false');
-    });
-    if (countryEmpty) countryEmpty.hidden = visibleCount > 0;
-  }
-  function toggleCountry(code) {
-    const idx = flow.countries.indexOf(code);
-    if (idx > -1) flow.countries.splice(idx, 1);
-    else flow.countries.push(code);
-    renderCountryTags();
-    renderCountryOptions();
-    validateStep('business');
-    markDirty?.();
-    render();
-  }
-  countryList?.querySelectorAll('[data-country]').forEach((opt) => {
-    opt.addEventListener('click', () => toggleCountry(opt.dataset.country));
-  });
-  function openCountryList() {
-    countryCombo?.classList.add('open');
-    if (countryPanel) countryPanel.hidden = false;
-    countryTrigger?.setAttribute('aria-expanded', 'true');
-    renderCountryOptions();
-    countrySearch?.focus();
-  }
-  function closeCountryList() {
-    countryCombo?.classList.remove('open');
-    if (countryPanel) countryPanel.hidden = true;
-    countryTrigger?.setAttribute('aria-expanded', 'false');
-  }
-  countryTrigger?.addEventListener('click', () => {
-    if (countryPanel?.hidden === false) closeCountryList();
-    else openCountryList();
-  });
-  countrySearch?.addEventListener('input', renderCountryOptions);
-  countrySearch?.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') { closeCountryList(); countryTrigger?.focus(); }
-  });
-  document.addEventListener('click', (e) => {
-    if (countryCombo && !countryCombo.contains(e.target)) closeCountryList();
-  });
-  renderCountryTags();
-  renderCountryOptions();
-
-  // Merchants can span industries (restaurant + convenience store), so this is a
-  // capped multi-select rather than one choice.
-  const MAX_CATEGORIES = 3;
-  function renderCategories() {
-    const chips = [...document.querySelectorAll('#gf-cat-row [data-cat]')];
-    const atCap = flow.categories.length >= MAX_CATEGORIES;
-    chips.forEach((c) => {
-      const on = flow.categories.includes(c.dataset.cat);
-      c.classList.toggle('selected', on);
-      c.classList.toggle('disabled', !on && atCap);
-      c.setAttribute('aria-pressed', on ? 'true' : 'false');
-      c.disabled = !on && atCap;
-    });
-    const badge = document.querySelector('.app-page[data-page="home"] .category-badge');
-    if (badge) {
-      const [first, ...rest] = flow.categories;
-      badge.textContent = first ? (rest.length ? `${first} +${rest.length}` : first) : '';
-      badge.classList.toggle('hidden-slot', !first);
-    }
-    const hint = document.getElementById('gf-cat-hint');
-    if (hint) {
-      hint.textContent = atCap
-        ? `You've picked ${MAX_CATEGORIES} of ${MAX_CATEGORIES}. Deselect one to choose a different industry.`
-        : 'Choose up to 3 industries that represent your business operations';
-    }
-  }
-
-  document.querySelectorAll('#gf-cat-row [data-cat]').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      const cat = chip.dataset.cat;
-      const idx = flow.categories.indexOf(cat);
-      if (idx > -1) {
-        flow.categories.splice(idx, 1);
-      } else if (flow.categories.length < MAX_CATEGORIES) {
-        flow.categories.push(cat);
-      } else {
-        showToast?.(`You can pick up to ${MAX_CATEGORIES} industries`, { variant: 'error' });
-        return;
-      }
-      flow.category = flow.categories[0] || '';
-      renderCategories();
-      emitBusinessChanged();
-      markDirty?.();
-    });
-  });
-  renderCategories();
-
-  // Step 2 derives its "Recommended" badge from the industry picked here, so
-  // Step 1's answers change the next step instead of being collected and dropped.
-  function emitBusinessChanged() {
-    document.dispatchEvent(new CustomEvent('como:business-changed', {
-      detail: { categories: [...flow.categories], category: flow.category },
-    }));
-  }
-  emitBusinessChanged();
 
   /* -------------------------------------------------------- branding step */
 
@@ -917,13 +735,14 @@ export function initGuidedFlow(ctx) {
 
   function readLogoFile(file) {
     if (!file) return;
-    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) { showToast?.('Upload a PNG, JPG, or WEBP file.', { variant: 'error' }); return; }
+    if (!/^image\/(png|jpeg|jpg|webp|svg\+xml)/i.test(file.type) && !/\.svg$/i.test(file.name)) { showToast?.('Upload a PNG, JPG, WEBP, or SVG file.', { variant: 'error' }); return; }
     if (file.size > 5 * 1024 * 1024) { showToast?.('This file exceeds the 5MB limit.', { variant: 'error' }); return; }
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target.result;
       paintLogoTargets(dataUrl);
       showLogoResult(dataUrl, file.name);
+      ctx.applyLogoColorExtraction?.(dataUrl);
       markDirty?.();
       showToast?.('Logo uploaded', { variant: 'success' });
     };
@@ -942,6 +761,27 @@ export function initGuidedFlow(ctx) {
     logoFile.addEventListener('change', () => readLogoFile(logoFile.files?.[0]));
     document.getElementById('gf-logo-replace')?.addEventListener('click', () => logoFile.click());
     document.getElementById('gf-logo-remove')?.addEventListener('click', clearLogoResult);
+    document.getElementById('gf-logo-adjust')?.addEventListener('click', () => {
+      document.getElementById('gf-logo-size')?.focus();
+      document.getElementById('gf-logo-controls')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  }
+
+  // Logo size: scales the brand-mark badge (the slider's range stays comfortably
+  // legible — too small and the mark disappears, too large and it crowds the header).
+  const logoSizeInput = document.getElementById('gf-logo-size');
+  const logoSizeValue = document.getElementById('gf-logo-size-value');
+  function applyLogoSize(percent) {
+    if (logoSizeValue) logoSizeValue.textContent = percent + '%';
+    document.querySelectorAll('.app-page[data-page="home"] .app-top-header .brand-mark, .app-page[data-page="home-t3"] .app-top-header .brand-mark')
+      .forEach((mark) => { mark.style.transform = 'scale(' + (percent / 100) + ')'; });
+  }
+  if (logoSizeInput) {
+    applyLogoSize(logoSizeInput.value);
+    logoSizeInput.addEventListener('input', () => {
+      applyLogoSize(logoSizeInput.value);
+      markDirty?.();
+    });
   }
 
   // ---------- Splash screen: optional custom image/GIF/video, falls back to logo ----------
@@ -1131,18 +971,31 @@ export function initGuidedFlow(ctx) {
       b.classList.toggle('active', selected);
       b.setAttribute('aria-checked', selected ? 'true' : 'false');
     });
+    document.querySelectorAll('.cp-focus-seg-opt[data-focus]').forEach((b) => {
+      const selected = b.dataset.focus === flow.focus;
+      b.classList.toggle('active', selected);
+      b.setAttribute('aria-checked', selected ? 'true' : 'false');
+    });
     document.body.classList.remove('focus-loyalty', 'focus-ordering', 'focus-blank');
     document.body.classList.add(flow.focus ? 'focus-' + flow.focus : 'focus-blank');
-    validateStep('online-ordering');
     updatePublishReadiness();
     render();
   }
 
-  document.addEventListener('como:ordering-mode', (event) => {
-    validateStep('online-ordering');
+  function reflectOrderingAvailability() {
+    const offering = !document.body.classList.contains('oo-mode-skip');
+    const orderingSeg = document.getElementById('cp-focus-seg-ordering');
+    if (orderingSeg) orderingSeg.hidden = !offering;
+    // Online ordering off forces loyalty-led Home, matching the onboarding rule.
+    if (!offering && flow.focus === 'ordering') reflectFocus('loyalty');
+  }
+
+  document.addEventListener('como:ordering-mode', () => {
+    reflectOrderingAvailability();
     updatePublishReadiness();
     render();
   });
+  reflectOrderingAvailability();
 
   document.addEventListener('como:focus-changed', (event) => {
     reflectFocus(event.detail?.goal);
@@ -1161,32 +1014,10 @@ export function initGuidedFlow(ctx) {
     });
   });
 
-  // Home and Branding both carry a recap so the merchant can switch focus without
-  // going back a step. Wire every instance the same way.
-  document.querySelectorAll('.cp-focus-recap').forEach((recap) => {
-    const changeBtn = recap.querySelector('.cp-focus-change');
-    const menu = recap.querySelector('.cp-focus-menu');
-    if (!changeBtn || !menu) return;
-    changeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const wasOpen = menu.classList.contains('open');
-      document.querySelectorAll('.cp-focus-menu.open').forEach((m) => m.classList.remove('open'));
-      menu.classList.toggle('open', !wasOpen);
-      document.querySelectorAll('.cp-focus-change').forEach((button) => button.setAttribute('aria-expanded', 'false'));
-      changeBtn.setAttribute('aria-expanded', !wasOpen ? 'true' : 'false');
-    });
-    menu.querySelectorAll('[data-focus]').forEach((b) => {
-      b.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.remove('open');
-        changeBtn.setAttribute('aria-expanded', 'false');
-        requestFocus(b.dataset.focus);
-      });
-    });
-  });
-  document.addEventListener('click', () => {
-    document.querySelectorAll('.cp-focus-menu.open').forEach((m) => m.classList.remove('open'));
-    document.querySelectorAll('.cp-focus-change').forEach((button) => button.setAttribute('aria-expanded', 'false'));
+  // Home Structure card: segmented "Lead with Loyalty / Lead with Online
+  // Ordering" toggle, replacing the old recap+dropdown pattern.
+  document.querySelectorAll('.cp-focus-seg-opt[data-focus]').forEach((btn) => {
+    btn.addEventListener('click', () => requestFocus(btn.dataset.focus));
   });
 
   /* -------------------------------------------------------- publish step */
@@ -1243,14 +1074,12 @@ export function initGuidedFlow(ctx) {
       if (input && typeof saved[key] === 'string') input.value = saved[key];
     });
     Object.assign(flow, saved, {
-      categories: Array.isArray(saved.categories) ? saved.categories.slice(0, MAX_CATEGORIES) : [],
+      // Back-compat cap from when Industries was a 3-pick chip row on the (now removed) Business details page.
+      categories: Array.isArray(saved.categories) ? saved.categories.slice(0, 3) : [],
       // Back-compat: older drafts saved a single `country` string instead of `countries`.
       countries: Array.isArray(saved.countries) ? [...saved.countries] : (saved.country ? [saved.country] : []),
       published: false,
     });
-    renderCountryTags();
-    renderCountryOptions();
-    renderCategories();
     applyAccent(saved.accent || '#3d40ff');
     if (saved.focus === 'loyalty' || saved.focus === 'ordering') window.applyGoalPreset?.(saved.focus);
     reflectFocus(saved.focus);

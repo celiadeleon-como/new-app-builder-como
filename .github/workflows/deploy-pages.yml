@@ -26,10 +26,14 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p2/
+      - name: Stage versioned Pages folder
+        run: |
+          mkdir -p pages-artifact/html-commnet/app-builder-p2
+          cp -R dist/. pages-artifact/html-commnet/app-builder-p2/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: pages-artifact
 
   deploy:
     needs: build

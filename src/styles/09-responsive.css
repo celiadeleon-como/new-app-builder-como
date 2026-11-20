@@ -162,8 +162,6 @@ body .cp-step-next,
     overflow-x: visible;
     overflow-y: auto;
   }
-  .side-brand { justify-content: center; padding-inline: 0; }
-  .side-brand-name,
   .side-kicker,
   .side-item .side-lbl,
   .side-item .side-check,
@@ -265,14 +263,13 @@ body .cp-step-next,
     gap: 4px;
     padding: 8px;
     border-right: 0;
-    border-bottom: 1px solid #26223a;
+    border-bottom: 1px solid #dee5ec;
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
     overscroll-behavior-x: contain;
   }
   .side-nav::-webkit-scrollbar { display: none; }
-  .side-brand,
   .side-kicker,
   .side-divider,
   .side-spacer,
@@ -356,6 +353,7 @@ body .cp-step-next,
   .cp-field textarea,
   .cp-field select { max-width: 100%; min-width: 0; }
   .cp-radio-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr)); }
+  .sw-layout-grid, .sw-navstyle-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 420px) {

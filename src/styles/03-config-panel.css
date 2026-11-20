@@ -45,6 +45,100 @@
     font-size: 12px; color: var(--muted); margin: 0 0 16px; line-height: 1.55;
   }
 
+  /* ---------- Finish setting up your app (post-onboarding checklist) ---------- */
+  body.on-finish-setup .cp-step-foot { display: none; }
+  .finish-setup-page .cp-page-title { font-size: 22px; }
+  .fs-progress-row { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .fs-progress-track { flex: 1; height: 6px; border-radius: 4px; background: var(--line-soft); overflow: hidden; }
+  .fs-progress-fill { display: block; height: 100%; border-radius: 4px; background: var(--ok); width: 0%; transition: width .2s ease; }
+  .finish-setup-page.is-complete .fs-progress-fill { background: #15803d; }
+  .fs-progress-count { font-size: 11.5px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+  .fs-checklist { display: flex; flex-direction: column; gap: 10px; }
+  .fs-item {
+    display: flex; align-items: center; gap: 12px; width: 100%;
+    padding: 14px; border: 1px solid var(--line); border-radius: 12px;
+    background: var(--panel); cursor: pointer; text-align: left;
+    transition: border-color .12s, box-shadow .12s;
+  }
+  .fs-item-ordering { display: block; padding: 0; overflow: hidden; }
+  .fs-ordering-head { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; }
+  .fs-ordering-options { display: grid; gap: 10px; padding: 0 14px 14px 50px; }
+  .fs-ordering-option {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    padding: 13px 14px; border: 1px solid var(--line); border-radius: 10px;
+    background: #fff; color: #192129; text-align: left; cursor: pointer;
+  }
+  .fs-ordering-option:hover { border-color: var(--como); background: var(--como-soft); }
+  .fs-ordering-option strong, .fs-ordering-option small { display: block; }
+  .fs-ordering-option strong { font-size: 13px; line-height: 1.3; }
+  .fs-ordering-option small { margin-top: 4px; color: var(--muted); font-size: 11.5px; line-height: 1.35; }
+  .fs-ordering-chevron { color: var(--muted); font-size: 20px; line-height: 1; }
+  .fs-item-ordering.done .fs-ordering-options { display: none; }
+  .setup-editor .cp-detail-header { position: relative; padding-right: 46px; }
+  .fs-editor-close {
+    position: absolute; top: 18px; right: 16px; width: 28px; height: 28px;
+    border: none; border-radius: 8px; background: var(--bg); color: var(--muted);
+    font-size: 22px; line-height: 1; cursor: pointer;
+  }
+  .fs-editor-close:hover { color: var(--ink); background: var(--line-soft); }
+  .fs-focus-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .fs-focus-card {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 6px;
+    min-height: 118px; padding: 14px; border: 1px solid var(--line); border-radius: 12px;
+    background: #fff; color: var(--ink); text-align: left; cursor: pointer;
+  }
+  .fs-focus-card > span { font-size: 25px; color: var(--como); }
+  .fs-focus-card strong { font-size: 13px; }
+  .fs-focus-card small { color: var(--muted); font-size: 11.5px; line-height: 1.4; }
+  .fs-focus-card.selected { border-color: var(--como); background: var(--como-soft); box-shadow: inset 0 0 0 1px var(--como); }
+  .fs-ordering-mode {
+    display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px;
+    margin-bottom: 10px; border: 1px solid var(--line); border-radius: 11px;
+    background: #fff; color: var(--ink); text-align: left; cursor: pointer;
+  }
+  .fs-ordering-mode strong, .fs-ordering-mode small { display: block; }
+  .fs-ordering-mode-copy { flex: 1; min-width: 0; }
+  .fs-ordering-mode strong { font-size: 13px; }
+  .fs-ordering-mode small { margin-top: 3px; color: var(--muted); font-size: 11px; }
+  .fs-ordering-mode.selected { border-color: var(--como); background: var(--como-soft); }
+  .fs-ordering-radio { width: 17px; height: 17px; flex: none; border: 1.5px solid var(--line-strong); border-radius: 50%; }
+  .fs-ordering-mode.selected .fs-ordering-radio { border: 5px solid var(--como); }
+  .fs-connect-deliverect-btn {
+    flex: none; padding: 7px 10px; border: 1px solid var(--como);
+    border-radius: 8px; background: #fff; color: var(--como);
+    font-size: 10.5px; font-weight: 700; cursor: pointer;
+  }
+  .fs-connect-deliverect-btn:hover { background: var(--como); color: #fff; }
+  .fs-page-toggle {
+    display: flex; align-items: center; gap: 10px; padding: 11px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .fs-page-toggle:last-child { border-bottom: none; }
+  .fs-page-toggle > span:first-child { flex: 1; }
+  .fs-page-toggle { font-size: 12.5px; font-weight: 650; }
+  .cp-btn-primary { width: 100%; border: none; border-radius: 9px; padding: 10px 14px; background: var(--como); color: #fff; font-weight: 700; cursor: pointer; }
+  .fs-item:hover { border-color: var(--como); }
+  .fs-item.active {
+    border-color: var(--como); background: var(--como-soft);
+    box-shadow: 0 0 0 2px rgba(38, 42, 255, .1);
+  }
+  .fs-item-mark {
+    display: grid; place-items: center; width: 24px; height: 24px; flex: none;
+    border-radius: 50%; border: 1.5px solid var(--line); color: transparent; background: #fff;
+  }
+  .fs-item-mark svg { width: 13px; height: 13px; }
+  .fs-item.done .fs-item-mark { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+  .fs-item-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .fs-item-name { font-size: 13.5px; font-weight: 700; color: #192129; }
+  .fs-item-status { font-size: 11.5px; color: var(--muted); }
+  .fs-item-badge {
+    flex: none; padding: 3px 9px; border-radius: 100px;
+    background: var(--como-soft); color: var(--como); font-size: 10.5px; font-weight: 700;
+  }
+  .fs-item-chev { flex: none; color: var(--muted); font-size: 16px; }
+  /* Items awaiting a real action (e.g. connect Deliverect) get a highlighted border. */
+  .fs-item:not(.done):has(.fs-item-badge:not([hidden])) { border-color: var(--como); box-shadow: 0 0 0 3px rgba(38, 42, 255, .08); }
+
   .cp-section {
     border: 1px solid var(--line);
     border-radius: 11px;
@@ -315,6 +409,11 @@
   .branding-logo-result img { width: 34px; height: 34px; object-fit: contain; border: 1px solid var(--line); border-radius: 6px; }
   .branding-logo-result span { min-width: 0; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .branding-logo-result button { border: 0; background: transparent; color: var(--como); padding: 4px; cursor: pointer; font-size: 11px; }
+  .branding-logo-status { display: flex; flex-direction: column; gap: 1px; white-space: normal; }
+  .branding-logo-uploaded { color: var(--ok); font-weight: 700; white-space: nowrap; }
+  .branding-logo-size-row { display: flex; align-items: center; gap: 10px; }
+  .branding-logo-size-row input[type="range"] { flex: 1; }
+  .branding-logo-size-row span { flex: none; color: var(--como); font-weight: 700; font-size: 11px; }
   /* Splash screen: richer upload zone (icon + link + hint) and a single "Use brand default" reset. */
   .branding-upload-rich { gap: 8px; min-height: 108px; border-color: var(--como-soft); background: var(--como-soft); }
   .branding-upload-rich:hover, .branding-upload-rich.drag-over { border-color: var(--como); }
@@ -345,6 +444,26 @@
   .branding-paired-rows .cp-color-row:first-child:last-child { border-radius: 11px; border-top: 1px solid var(--line); }
   .branding-paired-rows .cp-color-row:first-child:has(~ .cp-color-row[hidden]:last-child) { border-radius: 11px; }
   .branding-color-row { min-height: 72px; padding: 16px; border-color: var(--line); border-radius: 11px; background: var(--panel); flex-wrap: wrap; }
+  .branding-color-role { margin: 0 0 12px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+  .branding-extracted-block { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--muted); font-size: 10.5px; font-weight: 700; }
+  .branding-extracted-row, .branding-preset-row { display: flex; align-items: center; gap: 7px; }
+  .branding-preset-row { margin-top: 12px; }
+  .brand-extracted-swatch, .brand-preset-swatch {
+    width: 27px; height: 27px; padding: 0; border: 2px solid #fff; border-radius: 50%;
+    background: var(--swatch); box-shadow: 0 0 0 1px var(--line); cursor: pointer;
+  }
+  .brand-extracted-swatch.selected, .brand-preset-swatch.selected { box-shadow: 0 0 0 2px var(--como); }
+  .branding-auto-match {
+    margin-left: auto; padding: 5px 8px; border: none; border-radius: 7px;
+    background: var(--como-soft); color: var(--como); font-size: 10px; font-weight: 750; cursor: pointer;
+  }
+  .branding-logo-colors-note {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    margin: -2px 0 12px; padding: 9px 11px; border-radius: 9px;
+    background: var(--como-soft); color: var(--ink); font-size: 11px; font-weight: 650;
+  }
+  .branding-logo-color-dots { display: flex; gap: 4px; }
+  .branding-logo-color-dots i { width: 16px; height: 16px; border: 2px solid #fff; border-radius: 50%; }
   .branding-color-row .cp-color-swatch { width: 36px; height: 36px; border: 0; border-radius: 8px; }
   .branding-color-row .cp-color-label { color: var(--muted); font-size: 12px; font-weight: 500; }
   .branding-color-row .cp-color-hex { width: 100%; padding: 0; border: 0; background: transparent; color: var(--ink); font-size: 13px; font-weight: 600; }

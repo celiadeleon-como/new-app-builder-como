@@ -1,0 +1,201 @@
+/* ============================================================
+   HOME LAYOUTS — 3 selectable Home screen structures.
+   Only one `.home-layout-*` block is shown at a time, toggled via
+   `body[data-home-layout]` (defaults to priority-stack when unset).
+   Focus-dependent rows reuse the existing body.focus-loyalty /
+   body.focus-ordering classes set by applyGoalPreset.
+   ============================================================ */
+
+.home-layout { display: none !important; }
+body[data-home-layout="priority-stack"] .home-layout-priority-stack,
+body:not([data-home-layout]) .home-layout-priority-stack { display: block !important; animation: home-layout-fade-in .22s ease; }
+body[data-home-layout="bento-grid"] .home-layout-bento-grid { display: block !important; animation: home-layout-fade-in .22s ease; }
+body[data-home-layout="split-header-qsr"] .home-layout-split-header-qsr { display: block !important; animation: home-layout-fade-in .22s ease; }
+
+/* Split-Header's own brand-colour canvas replaces the generic top header —
+   it must start flush at the very top of the Home screen. */
+body[data-home-layout="split-header-qsr"] .app-page[data-page="home"] > .app-top-header { display: none !important; }
+
+@keyframes home-layout-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-layout-priority-stack, .home-layout-bento-grid, .home-layout-split-header-qsr { animation: none; }
+}
+
+/* Focus-dependent rows, shared across the 3 new layouts */
+body.focus-loyalty [data-focus-ordering] { display: none !important; }
+body.focus-ordering [data-focus-loyalty] { display: none !important; }
+body.focus-blank [data-focus-ordering] { display: none !important; }
+.home-layout [data-ordering-only] { display: none; }
+body:not(.oo-mode-skip) .home-layout [data-ordering-only] { display: flex; }
+.home-layout [data-ordering-disabled-only] { display: flex; }
+body:not(.oo-mode-skip) .home-layout [data-ordering-disabled-only] { display: none; }
+
+/* Guest preview: swap each layout's hero/canvas for a Join Rewards CTA. */
+body:not([data-member-preview="guest"]) .bento-hero-guest,
+body:not([data-member-preview="guest"]) .shq-header-guest { display: none; }
+body[data-member-preview="guest"] .bento-hero:not(.bento-hero-guest),
+body[data-member-preview="guest"] .shq-header:not(.shq-header-guest) { display: none !important; }
+body[data-member-preview="guest"] .active-rewards-card { display: none !important; }
+
+/* ---------- Priority Stack additions ---------- */
+.active-rewards-card {
+  margin: 0 0 14px; padding: 14px; border-radius: 16px;
+  background: var(--p-panel); border: 1px solid var(--p-border); color: var(--p-text);
+}
+.ar-head { font-size: 13px; font-weight: 800; margin-bottom: 10px; }
+.ar-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--p-border); }
+.ar-row:first-of-type { border-top: none; padding-top: 0; }
+.ar-ic { font-size: 18px; flex: none; }
+.ar-row-body { display: flex; flex-direction: column; min-width: 0; }
+.ar-row-body b { font-size: 12.5px; font-weight: 700; }
+.ar-row-body small { font-size: 10.5px; color: var(--p-text-muted); }
+.punch-card-mini {
+  margin: 0 0 14px; padding: 14px; border-radius: 16px;
+  background: var(--p-panel); border: 1px solid var(--p-border); color: var(--p-text);
+}
+.pcm-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.pcm-title { font-size: 13px; font-weight: 800; }
+.pcm-count { font-size: 11px; color: var(--p-text-muted); font-weight: 700; }
+.pcm-stamps { display: flex; gap: 6px; flex-wrap: wrap; }
+.pcm-stamp { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--p-border); background: var(--p-panel-2); }
+.pcm-stamp.filled { background-color: var(--p-secondary); border-color: transparent; }
+
+/* Direct editing affordance, shared by every clickable tile/row/card across
+   all 3 layouts. */
+.app-page[data-page="home"] [data-drill] { position: relative; }
+.app-page[data-page="home"] [data-drill]:hover { outline: 2px solid var(--p-accent); outline-offset: -2px; }
+
+/* ---------- Gamified Bento Grid ---------- */
+.home-layout-bento-grid { padding: 4px 2px 16px; }
+.bento-hero {
+  padding: 16px; border-radius: 16px; margin-bottom: 10px;
+  background: var(--p-card-grad); border: 1px solid var(--p-border); color: var(--p-text);
+}
+.bento-hero[data-focus-ordering] {
+  background: var(--p-accent); border-color: transparent; color: var(--p-accent-ink, #fff);
+}
+.bento-hero[data-focus-ordering] .bento-hero-label,
+.bento-hero[data-focus-ordering] .bento-hero-sub { color: rgba(255,255,255,.8); }
+.bento-hero[data-focus-loyalty] { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.bento-hero-body { flex: 1; min-width: 0; }
+.bento-hero-greet { font-size: 12.5px; font-weight: 700; margin-bottom: 2px; }
+.bento-hero-label { font-size: 10px; text-transform: uppercase; letter-spacing: .5px; font-weight: 700; color: var(--p-text-muted); }
+.bento-hero-points { font-size: 28px; font-weight: 800; margin-top: 2px; }
+.bento-hero-points span { font-size: 13px; font-weight: 700; color: var(--p-text-muted); }
+.bento-hero-title { font-size: 17px; font-weight: 800; margin-top: 4px; }
+.bento-hero-sub { font-size: 11.5px; color: var(--p-text-muted); margin-top: 4px; }
+.bento-hero-bar { height: 6px; border-radius: 4px; background: var(--p-panel-2); overflow: hidden; margin-top: 10px; }
+.bento-hero-bar span { display: block; height: 100%; background-color: var(--p-secondary); }
+.bento-hero-btn {
+  margin-top: 10px; width: 100%; padding: 10px; border: none; border-radius: 10px;
+  background-color: var(--p-accent); color: var(--p-accent-ink, #fff); font-weight: 700; font-size: 12.5px; cursor: pointer;
+}
+/* Progress style (Ring / Bar / Minimal) — single source of truth shared with
+   the Priority Stack loyalty card via the same `data-loyalty` attribute. */
+.bento-hero-ring { position: relative; width: 56px; height: 56px; flex: none; display: none; }
+.bento-hero-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.bento-hero[data-loyalty="ring"] .bento-hero-ring { display: block; }
+.bento-hero[data-loyalty="ring"] .bento-hero-bar { display: none; }
+.bento-hero[data-loyalty="bar"] .bento-hero-ring { display: none; }
+.bento-hero[data-loyalty="minimal"] .bento-hero-ring,
+.bento-hero[data-loyalty="minimal"] .bento-hero-next { display: none; }
+.bento-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;
+  align-items: stretch;
+}
+.bento-grid > * { min-width: 0; }
+.bento-tile {
+  padding: 14px; border-radius: 14px; background: var(--p-panel); border: 1px solid var(--p-border);
+  color: var(--p-text); display: flex; flex-direction: column; gap: 4px; cursor: pointer; text-align: left;
+}
+.bento-tile-qr { align-items: center; text-align: center; justify-content: center; gap: 8px; }
+.bento-tile-qr .qr-box { width: 64px; height: 64px; }
+.bento-tile-rewards,
+.bento-tile-punch,
+.bento-tile-menu { justify-content: center; }
+.bento-tile-ic { font-size: 20px; }
+.bento-tile-title { font-size: 12.5px; font-weight: 800; }
+.bento-tile-sub { font-size: 10.5px; color: var(--p-text-muted); }
+.bento-tile-points { display: none; font-size: 11px; font-weight: 700; color: var(--p-accent); margin-top: 2px; }
+body.focus-ordering .bento-tile-points { display: block; }
+.bento-grid > .hero-anchored-section { display: none !important; }
+.bento-tile-bottom[data-ordering-only] { background-color: var(--p-tertiary); color: #fff; border: none; }
+.bento-tile-bottom[data-ordering-only] .bento-tile-sub { color: rgba(255,255,255,.85); }
+.bento-tile-bottom {
+  grid-column: 1 / -1; padding: 14px; border-radius: 14px;
+  background: var(--p-panel-2); border: 1px solid var(--p-border); color: var(--p-text);
+}
+.bento-promotions-section {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+/* ---------- Split-Header QSR Standard ---------- */
+.home-layout-split-header-qsr { padding-bottom: 8px; }
+.shq-topbar {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+}
+.shq-brand-mark {
+  width: 34px; height: 34px; border-radius: 50%; background: #fff; color: var(--p-accent);
+  display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18); background-size: cover; background-position: center;
+}
+.shq-profile-icon { color: #fff; background: rgba(255,255,255,.22); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+.shq-profile-icon svg { width: 17px; height: 17px; }
+.shq-canvas {
+  /* 1/3 of the 660px phone screen, not viewport height — vh units don't
+     track the mocked-up device frame's actual size. */
+  height: 220px; box-sizing: border-box;
+  margin: 0 -14px; padding: 14px 16px 16px;
+  display: flex; flex-direction: column; overflow: hidden;
+  background-color: var(--p-accent);
+  background-image: linear-gradient(160deg, color-mix(in srgb, var(--p-accent) 85%, #fff) 0%, color-mix(in srgb, var(--p-accent) 72%, #000) 100%);
+  color: var(--p-accent-ink, #fff);
+}
+.shq-header {
+  flex: 1; min-height: 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.shq-greet { font-size: 15px; font-weight: 700; }
+.shq-points { font-size: 26px; font-weight: 800; margin-top: 2px; }
+.shq-points span { font-size: 14px; }
+.shq-header-body { flex: 1; min-width: 0; }
+.shq-next-txt { font-size: 11px; opacity: .85; margin-top: 6px; }
+.shq-bar { height: 5px; border-radius: 4px; background: rgba(255,255,255,.25); overflow: hidden; margin-top: 6px; }
+.shq-bar span { display: block; height: 100%; background: #fff; }
+.shq-ring { width: 46px; height: 46px; flex: none; display: none; }
+.shq-ring svg { width: 100%; height: 100%; }
+.shq-header[data-loyalty="ring"] .shq-ring { display: block; }
+.shq-header[data-loyalty="ring"] .shq-bar { display: none; }
+.shq-header[data-loyalty="bar"] .shq-ring { display: none; }
+.shq-header[data-loyalty="minimal"] .shq-ring,
+.shq-header[data-loyalty="minimal"] .shq-next { display: none; }
+.shq-hero-item { display: flex; flex-direction: column; gap: 8px; }
+.shq-hero-name { font-size: 15px; font-weight: 800; }
+.shq-hero-btn { align-self: flex-start; padding: 7px 14px; border-radius: 100px; border: none; background: rgba(255,255,255,.22); color: #fff; font-size: 11.5px; font-weight: 700; cursor: pointer; }
+.shq-points-pill { padding: 6px 12px; border-radius: 100px; background: rgba(255,255,255,.22); font-size: 11.5px; font-weight: 700; }
+.shq-card {
+  margin: -24px 0 0; border-radius: 18px 18px 0 0; background: var(--p-panel); position: relative;
+  padding: 16px 14px; box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+  display: flex; flex-direction: column;
+}
+.shq-card > .shq-promotions-section {
+  width: 100%;
+  margin: 14px 0 10px;
+}
+.shq-row {
+  display: flex; align-items: center; gap: 10px; padding: 12px 2px; font-size: 13px; font-weight: 650;
+  color: var(--p-text); border-bottom: 1px solid var(--p-border);
+}
+.shq-row:last-child { border-bottom: none; }
+.shq-chev { width: 14px; height: 14px; margin-left: auto; color: var(--p-text-muted); }
+.shq-pickup-bar {
+  display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding: 12px 14px;
+  border-radius: 12px; background: var(--p-panel-2); color: var(--p-text); font-size: 12px; font-weight: 700;
+}
+.shq-pickup-bar svg { width: 14px; height: 14px; }
+.shq-header-guest { flex-direction: column; align-items: flex-start; justify-content: center; gap: 10px; }
+.shq-header-guest .shq-greet { font-size: 18px; }

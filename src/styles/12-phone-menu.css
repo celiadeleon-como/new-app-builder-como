@@ -3,6 +3,44 @@
    ============================================================ */
 
 .pm { color: var(--p-text); }
+.pm-order { margin: 0 -16px; color: var(--p-text); padding-bottom: 96px; }
+.pm-order-hero { min-height: 190px; display: flex; align-items: flex-end; background-size: cover; background-position: center; }
+.pm-order-hero-copy { width: 100%; padding: 55px 16px 16px; color: #fff; background: linear-gradient(0deg, rgba(0,0,0,.72), transparent); }
+.pm-order-hero-title { max-width: 270px; font-size: 20px; font-weight: 850; line-height: 1.08; letter-spacing: -.5px; }
+.pm-order-badges { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
+.pm-order-badges span { padding: 4px 7px; border-radius: 999px; background: var(--p-secondary); color: var(--p-secondary-ink, #111827); font-size: 8px; font-weight: 800; }
+.pm-order-fulfillment { display: flex; gap: 4px; margin: 12px 14px 0; padding: 4px; border-radius: 12px; background: var(--p-panel-2); }
+.pm-order-fulfillment button { flex: 1; display: flex; flex-direction: column; gap: 2px; padding: 9px; border: none; border-radius: 9px; background: transparent; color: var(--p-text-muted); font: inherit; }
+.pm-order-fulfillment button.active { background: #fff; color: var(--p-text); box-shadow: 0 2px 8px rgba(20,20,40,.08); }
+.pm-order-fulfillment span { font-size: 11px; font-weight: 800; }
+.pm-order-fulfillment small { font-size: 8.5px; }
+.pm-order-delivery-meta { margin: 6px 16px 0; color: var(--p-text-muted); font-size: 8.5px; text-align: center; }
+.pm-order-address { margin: 12px 14px 0; }
+.pm-order-address p { margin: 0 2px 8px; color: var(--p-text-muted); font-size: 9.5px; line-height: 1.45; }
+.pm-order-search, .pm-order-product-search { display: flex; align-items: center; gap: 8px; padding: 0 11px; border: 1px solid var(--p-border); border-radius: 999px; background: var(--p-panel); }
+.pm-order-search > span, .pm-order-product-search > span { color: var(--p-text-muted); font-size: 17px; }
+.pm-order-search input, .pm-order-product-search input { width: 100%; min-width: 0; padding: 10px 0; border: none; outline: none; background: transparent; color: var(--p-text); font: inherit; font-size: 10.5px; }
+.pm-order-search button { width: 25px; height: 25px; border: none; border-radius: 50%; background: var(--p-panel-2); color: var(--p-accent); cursor: pointer; }
+.pm-order-location { margin: 7px 4px 0; padding: 0; border: none; background: none; color: var(--p-accent); font: inherit; font-size: 9.5px; font-weight: 750; cursor: pointer; }
+.pm-order-product-search { margin: 12px 14px 0; }
+.pm-order-categories { display: flex; gap: 7px; overflow-x: auto; padding: 12px 14px 10px; scrollbar-width: none; }
+.pm-order-categories button { flex: none; padding: 7px 11px; border: none; border-radius: 999px; background: var(--p-panel-2); color: var(--p-text); font: inherit; font-size: 9px; font-weight: 750; }
+.pm-order-categories button.active { background: var(--p-accent); color: var(--p-accent-ink, #fff); }
+.pm-order-items { padding: 4px 14px 0; }
+.pm-order-items.is-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.pm-order-item { position: relative; border-radius: 13px; overflow: hidden; border: 1px solid var(--p-border); background: var(--p-panel); }
+.pm-order-item-grid .pm-order-item-img { display: block; height: 96px; background-size: cover; background-position: center; }
+.pm-order-item-copy { display: block; padding: 10px; }
+.pm-order-item-copy strong { display: block; font-size: 11px; line-height: 1.25; }
+.pm-order-item-copy p { margin: 4px 0 8px; color: var(--p-text-muted); font-size: 8.5px; line-height: 1.35; }
+.pm-order-item-copy b { font-size: 11px; }
+.pm-order-add { position: absolute; right: 9px; bottom: 9px; width: 24px; height: 24px; border: none; border-radius: 50%; background: var(--p-accent); color: #fff; font-size: 15px; font-weight: 800; }
+.pm-order-rating { position: absolute; top: 7px; left: 7px; padding: 4px 6px; border-radius: 999px; background: var(--p-secondary); color: var(--p-secondary-ink, #111827); font-size: 7.5px; font-weight: 800; }
+.pm-order-item-list { display: flex; align-items: center; gap: 11px; padding: 10px 42px 10px 10px; margin-bottom: 8px; }
+.pm-order-item-list .pm-order-item-img { position: relative; width: 72px; height: 72px; flex: none; border-radius: 10px; background-size: cover; background-position: center; overflow: hidden; }
+.pm-order-item-list .pm-order-item-img .pm-order-rating { display: none; }
+.pm-order-item-list .pm-order-item-copy { flex: 1; min-width: 0; padding: 0; }
+.pm-order-inline-rating { display: block; margin-top: 3px; color: var(--p-secondary); font-size: 8.5px; font-weight: 800; }
 
 /* ---------- Native app header ---------- */
 .pm-head {
@@ -265,7 +303,8 @@
 .pm-referral-hero { position: relative; width: 108px; height: 108px; margin: 4px auto 20px; }
 .pm-referral-photo { width: 100%; height: 100%; border-radius: 50%; background-color: var(--p-panel-2); background-size: cover; background-position: center; border: 3px solid var(--p-panel); box-shadow: 0 4px 14px rgba(0,0,0,.08); display: grid; place-items: center; color: var(--p-text-muted); }
 .pm-referral-photo svg { width: 34px; height: 34px; }
-.pm-referral-badge { position: absolute; right: -2px; bottom: -2px; width: 32px; height: 32px; border-radius: 50%; background: var(--p-accent); background-image: var(--p-accent-image, none); color: var(--p-accent-ink, #fff); display: grid; place-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+.pm-referral-badge { position: absolute; right: -2px; bottom: -2px; width: 32px; height: 32px; border-radius: 50%; background: var(--p-secondary); color: var(--p-secondary-ink, #111827); display: grid; place-items: center; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+.pm-badge { background: var(--p-secondary); color: var(--p-secondary-ink, #111827); }
 .pm-referral-badge svg { width: 16px; height: 16px; }
 .pm-referral-headline { font-size: 21px; font-weight: 800; text-align: center; margin-bottom: 8px; }
 .pm-referral-copy { font-size: 12.5px; color: var(--p-text-muted); text-align: center; line-height: 1.5; margin: 0 auto 20px; max-width: 300px; }
@@ -275,7 +314,7 @@
 .pm-referral-actions { display: flex; gap: 8px; }
 .pm-referral-btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 12px; border-radius: 999px; font-size: 12px; font-weight: 700; cursor: pointer; }
 .pm-referral-btn svg { width: 14px; height: 14px; }
-.pm-referral-btn.ghost { border: 1px solid var(--p-border); background: transparent; color: var(--p-text); }
+.pm-referral-btn.ghost { border: 1px solid var(--p-secondary); background: transparent; color: var(--p-secondary); }
 .pm-referral-btn.solid { border: none; background: var(--p-accent); background-image: var(--p-accent-image, none); color: var(--p-accent-ink, #fff); }
 .pm-referral-activity-card { border: 1px solid var(--p-border); border-radius: 16px; padding: 20px; margin-bottom: 16px; }
 .pm-referral-activity-head { display: flex; align-items: center; justify-content: space-between; font-size: 14px; font-weight: 800; margin-bottom: 16px; }

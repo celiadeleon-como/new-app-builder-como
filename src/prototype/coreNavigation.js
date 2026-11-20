@@ -30,16 +30,27 @@ export function initCoreNavigation(ctx) {
     sideItems.forEach(s => s.classList.toggle('active', s.dataset.navPage === page));
     document.getElementById('app-shell').scrollTop = 0;
     state.page = page;
+    document.body.classList.toggle('on-order-screen', page === 'menu' || page === 'order');
     // Reset any open drill in the config panel so we always land on master view
     document.querySelectorAll('.cp-master').forEach(m => m.classList.remove('hide'));
     document.querySelectorAll('.cp-detail').forEach(d => d.classList.remove('show'));
     closeL3Panel();
     updateBrandingSideActive();
     closeModal();
+    document.dispatchEvent(new CustomEvent('como:screen-changed', { detail: { screen: page, actualPage, cpKey } }));
   }
   window.goToPage = goToPage;
 
-  navItems.forEach(n => n.addEventListener('click', () => goToPage(n.dataset.nav)));
+  // The phone preview's bottom nav lets merchants jump straight to a screen while
+  // configuring it. Route those taps through the guided flow (when active) so the
+  // sidebar, breadcrumb, and footer stay in sync instead of only updating the preview.
+  navItems.forEach(n => n.addEventListener('click', () => {
+    const pageSettingsKey = n.dataset.pageSettingsKey;
+    if (pageSettingsKey) { ctx.openPageSettings?.(pageSettingsKey); return; }
+    const key = n.dataset.nav;
+    if (window.goToStep && document.querySelector(`.side-step[data-step="${key}"]`)) window.goToStep(key);
+    else goToPage(key);
+  }));
   sideItems.forEach(s => s.addEventListener('click', () => goToPage(s.dataset.navPage)));
 
   // ---------- Sidebar collapse toggle ----------
@@ -62,6 +73,9 @@ export function initCoreNavigation(ctx) {
     if (phoneName) phoneName.textContent = name.toUpperCase();
     if (phoneMark) phoneMark.textContent = mark;
     if (phoneSub)  phoneSub.textContent  = sub;
+    // Split-Header QSR owns a second brand mark (its own flush top bar) that
+    // has to show the same initials as the standard header.
+    document.querySelectorAll('.shq-brand-mark').forEach((el) => { el.textContent = mark; });
     const loginMark = document.getElementById('px-login-mark');
     if (loginMark) loginMark.textContent = mark;
     document.querySelectorAll('[data-phone-brand]').forEach((element) => { element.textContent = name; });
@@ -82,8 +96,8 @@ export function initCoreNavigation(ctx) {
     // menu, and skipping ordering removes the tab altogether.
     const SLOTS = {
       menu: {
-        label: 'Menu',
-        icon: '<path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/>',
+        label: 'Order',
+        icon: '<path d="M6 3v7M3.5 3v5.5a2.5 2.5 0 005 0V3M6 10v11M15 3c-3 2-3 8 1 9v9M16 3v9"/>',
       },
       qr: {
         label: 'QR Code',
@@ -91,7 +105,7 @@ export function initCoreNavigation(ctx) {
       },
       webview: {
         label: 'Order',
-        icon: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/>',
+        icon: '<path d="M6 3v7M3.5 3v5.5a2.5 2.5 0 005 0V3M6 10v11M15 3c-3 2-3 8 1 9v9M16 3v9"/>',
         title: 'Order (web view)',
       },
       'select-screen': {
@@ -123,6 +137,66 @@ export function initCoreNavigation(ctx) {
     if (ic) ic.innerHTML = svg();
     sideMenuSlot.title = def.title || def.label;
   }
+
+  // Two shared "extra" tabs the setup wizard's nav-pages step repurposes for
+  // whichever pages the merchant picked: the old Locations tab, and — only
+  // when online ordering isn't offered — the Menu/Order tab, which is
+  // otherwise hidden. Locations, About Us, QR Code and the Menu PDF link
+  // can't all have their own tab, so they share these two.
+  const EXTRA_SLOTS = {
+    locations: {
+      label: 'Locations', page: 'locations',
+      icon: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>',
+    },
+    'about-us': {
+      label: 'About Us', page: 'more', pageSettingsKey: 'story',
+      icon: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
+    },
+    qr: {
+      label: 'QR Code', page: 'qr',
+      icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="4" height="4"/><rect x="13" y="7" width="4" height="4"/><rect x="7" y="13" width="4" height="4"/><rect x="13" y="13" width="4" height="4"/>',
+    },
+    'menu-pdf': {
+      label: 'Menu', page: 'menu',
+      icon: '<path d="M4 4h16v16H4z"/><path d="M4 9h16M9 4v16"/>',
+    },
+  };
+  // The sidebar's "Screens" list mirrors whichever nav-item each slot currently shows.
+  const SIDE_SLOT_MAP = { 'nav-extra-slot': 'side-extra-slot', 'nav-menu-slot': 'side-menu-slot' };
+  function setExtraSlotMode(mode, slotId = 'nav-extra-slot') {
+    const slot = document.getElementById(slotId);
+    if (!slot) return;
+    const hidden = mode === 'hidden' || !mode;
+    slot.hidden = hidden;
+    // nav-menu-slot may still carry 'slot-hidden' from an earlier setMenuSlotMode('hidden')
+    // call; that class also forces display:none, so clear it when reusing the slot here.
+    slot.classList.toggle('slot-hidden', hidden);
+    const sideSlot = document.getElementById(SIDE_SLOT_MAP[slotId] || '');
+    if (hidden) {
+      if (sideSlot) { sideSlot.hidden = true; sideSlot.classList.add('slot-hidden'); }
+      return;
+    }
+    const def = EXTRA_SLOTS[mode] || EXTRA_SLOTS.locations;
+    slot.dataset.nav = def.page;
+    if (def.pageSettingsKey) slot.dataset.pageSettingsKey = def.pageSettingsKey;
+    else delete slot.dataset.pageSettingsKey;
+    slot.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${def.icon}</svg><span>${def.label}</span>`;
+    if (!sideSlot) return;
+    sideSlot.hidden = false;
+    sideSlot.classList.remove('slot-hidden');
+    // 'qr' has no sidebar step of its own — it's a display mode of the Menu
+    // page, so the sidebar entry routes there instead (goToStep needs a real key).
+    sideSlot.dataset.step = def.page === 'qr' ? 'menu' : def.page;
+    sideSlot.dataset.navPage = def.page;
+    if (def.pageSettingsKey) sideSlot.dataset.pageSettingsKey = def.pageSettingsKey;
+    else delete sideSlot.dataset.pageSettingsKey;
+    const lbl = sideSlot.querySelector('.side-lbl');
+    if (lbl) lbl.textContent = def.label;
+    const tip = sideSlot.querySelector('.side-tooltip');
+    if (tip) tip.textContent = def.label;
+  }
+  window.setExtraSlotMode = setExtraSlotMode;
+
   function applyTemplate(tpl) {
     state.template = tpl;
     document.body.classList.remove('tpl-blank', 'tpl-2', 'tpl-3');
@@ -154,12 +228,12 @@ export function initCoreNavigation(ctx) {
 
   // ---------- Goal presets (shared by the setup wizard and the top-bar preset dropdown) ----------
   const ORDERING_WIDGET_KEYS = ['order-again', 'top-items', 'menu-categories', 'menu-reels'];
-  const ALL_HOME_WIDGET_KEYS = ['profile', 'promo-cards', 'promo-cards-2', 'social', ...ORDERING_WIDGET_KEYS];
+  const ALL_HOME_WIDGET_KEYS = ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'promo-cards-2', 'social', ...ORDERING_WIDGET_KEYS];
   const GOAL_DEFS = {
     loyalty: {
       label: 'Lead with loyalty', sub: 'Points, tiers, and rewards',
-      widgets: ['profile', 'promo-cards', 'social'], menuDP: false,
-      order: ['profile', 'promo-cards', 'social', 'order-again', 'top-items', 'menu-categories'],
+      widgets: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social'], menuDP: false,
+      order: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social', 'order-again', 'top-items', 'menu-categories'],
       name: 'Lead with loyalty',
       desc: 'Put member status, progress, and rewards first to encourage repeat visits.',
       tags: ['Member status', 'Points and tiers', 'Rewards'],
@@ -170,11 +244,11 @@ export function initCoreNavigation(ctx) {
       // Ordering preset seeds Profile and Promo Cards plus the ordering widgets.
       // Menu Reels is an opt-in extra the merchant enables from the Home step,
       // so it is not part of the default ordering layout.
-      widgets: ['profile', 'promo-cards', 'order-again', 'top-items', 'menu-categories'], menuDP: true,
+      widgets: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'order-again', 'top-items', 'menu-categories'], menuDP: true,
       // "Lead with ordering" has to mean it: the ordering widgets go above the
       // loyalty card, not below the fold. Order drives both the config rows and
       // (via reorderPhoneWidgets) the phone itself.
-      order: ['order-again', 'top-items', 'menu-categories', 'profile', 'promo-cards', 'social'],
+      order: ['order-again', 'top-items', 'menu-categories', 'profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social'],
       name: 'Lead with ordering',
       desc: 'Put the menu and repeat orders first while keeping loyalty visible at checkout.',
       tags: ['Menu first', 'Order again', 'Loyalty at checkout'],
@@ -182,7 +256,7 @@ export function initCoreNavigation(ctx) {
     },
     blank: {
       label: 'Choose focus', sub: 'A proven first app, ready to shape',
-      widgets: ['profile', 'promo-cards'], menuDP: false
+      widgets: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards'], menuDP: false
     }
   };
   // Applies a goal preset to the real editor (widgets + menu D/P switcher + brand sub + top-bar label).
@@ -403,7 +477,7 @@ export function initCoreNavigation(ctx) {
   });
 
   // ---------- Drill-in navigation (Toast pattern) ----------
-  const PAGE_LABELS = { home: 'Home', rewards: 'Rewards', locations: 'Locations', menu: 'Menu', more: 'More' };
+  const PAGE_LABELS = { home: 'Home', rewards: 'Rewards', locations: 'Locations', menu: 'Order', more: 'More' };
   function updateDrillCrumbs() {
     const label = PAGE_LABELS[state.page] || 'Home';
     document.querySelectorAll('.cp-crumb').forEach(c => c.textContent = label + ' settings');
@@ -561,7 +635,7 @@ export function initCoreNavigation(ctx) {
 
   return {
     state, pageEls, cpPages, navItems, sideItems, GOAL_DEFS,
-    goToPage, setBrand, setWidgetOn, setMenuSlotMode, applyTemplate, applyGoalPreset, requestGoalPreset,
+    goToPage, setBrand, setWidgetOn, setMenuSlotMode, setExtraSlotMode, applyTemplate, applyGoalPreset, requestGoalPreset,
     openModal, closeModal, updateDrillCrumbs, updateBrandingSideActive,
     openDrill, closeDrill, resetAllDrills, openL3Panel, closeL3Panel,
     openBusinessNameSettings, showPhonePage, openAccountPage, updateHomeEmptyState,

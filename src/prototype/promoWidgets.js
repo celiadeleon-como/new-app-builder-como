@@ -14,64 +14,79 @@ export function initPromoWidgets(ctx) {
   function initPromoCards(cfg) {
     const gid = (suffix) => document.getElementById(cfg.idp + suffix);
     const pcWidget = document.querySelector('.promo-cards-widget[data-widget="' + cfg.key + '"]');
-    const pcCarousel = gid('-carousel-wrap');
-    const pcDotsContainer = gid('-dots');
     const pcItemsList = gid('-items-list');
     const pcDrill = document.querySelector('[data-detail="' + cfg.drill + '"]');
     const pcEditDrill = document.querySelector('[data-detail="' + cfg.editDrill + '"]');
     const pcRowName = document.querySelector('.w-name[data-drill="' + cfg.drill + '"]');
     const pcEyebrow = pcWidget && pcWidget.querySelector('.pc-eyebrow');
+    const pcRoots = () => document.querySelectorAll('.promo-cards-widget[data-widget="' + cfg.key + '"]');
 
     const pcCards = cfg.seed;
     let pcNextId = pcCards.length;
     let pcEditIdx = null; // which card index is being edited in the sub-drill
+    let pcDragIdx = null;
 
     function pcRenderPhone() {
-      if (!pcCarousel) return;
       const visCards = pcCards.filter(c => c.visible);
-      pcCarousel.innerHTML = '';
-      visCards.forEach(c => {
-        const card = document.createElement('div');
-        card.className = 'pc-card';
-        card.dataset.pcCard = c.id;
-        const img = document.createElement('div');
-        img.className = 'pc-card-img';
-        if (c.imgData) {
-          img.classList.add('has-upload');
-          img.style.backgroundImage = 'url(' + c.imgData + ')';
-        } else if (c.img) {
-          img.classList.add(c.img);
-        } else {
-          img.classList.add('empty-img');
-          img.textContent = '🖼';
+      pcRoots().forEach((root) => {
+        root.dataset.pcDisplay = pcWidget?.dataset.pcDisplay || 'carousel';
+        root.dataset.pcImage = pcWidget?.dataset.pcImage || 'cover';
+        root.dataset.pcCta = pcWidget?.dataset.pcCta || 'filled';
+        root.dataset.pcCorners = pcWidget?.dataset.pcCorners || 'rounded';
+
+        let carousel = root.querySelector('.pc-carousel-wrap');
+        let dotsContainer = root.querySelector('.pc-dots');
+        if (!carousel) {
+          root.innerHTML = '<div class="pc-carousel-wrap"></div><div class="pc-dots"></div>';
+          carousel = root.querySelector('.pc-carousel-wrap');
+          dotsContainer = root.querySelector('.pc-dots');
         }
-        card.appendChild(img);
-        const body = document.createElement('div');
-        body.className = 'pc-card-body';
-        body.innerHTML = '<div class="pc-card-headline">' + escHtml(c.headline) + '</div>'
-          + '<div class="pc-card-desc">' + escHtml(c.desc) + '</div>'
-          + '<button class="pc-card-btn">' + escHtml(c.btnText) + '</button>';
-        card.appendChild(body);
-        pcCarousel.appendChild(card);
-      });
-      if (pcDotsContainer) {
-        pcDotsContainer.innerHTML = '';
+        carousel.innerHTML = '';
+        visCards.forEach((c) => {
+          const card = document.createElement('div');
+          card.className = 'pc-card';
+          card.dataset.pcCard = c.id;
+          const img = document.createElement('div');
+          img.className = 'pc-card-img';
+          if (c.imgData) {
+            img.classList.add('has-upload');
+            img.style.backgroundImage = 'url(' + c.imgData + ')';
+          } else if (c.img) {
+            img.classList.add(c.img);
+          } else {
+            img.classList.add('empty-img');
+            img.textContent = '🖼';
+          }
+          card.appendChild(img);
+          const body = document.createElement('div');
+          body.className = 'pc-card-body';
+          const ctaLabel = pcWidget?.dataset.pcCta === 'link' && c.btnText && !c.btnText.includes('→')
+            ? c.btnText + ' →'
+            : c.btnText;
+          body.innerHTML = '<div class="pc-card-headline">' + escHtml(c.headline) + '</div>'
+            + '<div class="pc-card-desc">' + escHtml(c.desc) + '</div>'
+            + '<button class="pc-card-btn" type="button">' + escHtml(ctaLabel) + '</button>';
+          card.appendChild(body);
+          carousel.appendChild(card);
+        });
+
+        dotsContainer.innerHTML = '';
         if (visCards.length > 1) {
           visCards.forEach((_, i) => {
             const dot = document.createElement('span');
             dot.className = 'pc-dot' + (i === 0 ? ' active' : '');
             dot.dataset.dot = i;
             dot.addEventListener('click', () => {
-              pcCarousel.scrollTo({ left: i * pcCarousel.offsetWidth, behavior: 'smooth' });
+              carousel.scrollTo({ left: i * (carousel.offsetWidth * 0.86 + 10), behavior: 'smooth' });
             });
-            pcDotsContainer.appendChild(dot);
+            dotsContainer.appendChild(dot);
           });
         }
-      }
-      pcCarousel.onscroll = () => {
-        const i = Math.round(pcCarousel.scrollLeft / pcCarousel.offsetWidth);
-        pcDotsContainer.querySelectorAll('.pc-dot').forEach((d, idx) => d.classList.toggle('active', idx === i));
-      };
+        carousel.onscroll = () => {
+          const i = Math.round(carousel.scrollLeft / Math.max(carousel.offsetWidth * 0.86 + 10, 1));
+          dotsContainer.querySelectorAll('.pc-dot').forEach((dot, idx) => dot.classList.toggle('active', idx === i));
+        };
+      });
     }
 
     function pcRenderItemList() {
@@ -81,6 +96,7 @@ export function initPromoWidgets(ctx) {
         const row = document.createElement('div');
         row.className = 'pc-item';
         row.dataset.pcIdx = idx;
+        row.draggable = true;
         row.innerHTML = '<span class="handle">⠿</span>'
           + '<span class="pc-item-name">' + escHtml(c.headline || 'Untitled card') + '</span>'
           + '<button class="pc-vis ' + (c.visible ? 'on' : '') + '" title="Toggle visibility"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M1 10s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6z"/><circle cx="10" cy="10" r="3"/></svg></button>'
@@ -104,6 +120,32 @@ export function initPromoWidgets(ctx) {
         row.addEventListener('click', (e) => {
           if (e.target.closest('.pc-vis') || e.target.closest('.pc-del') || e.target.closest('.handle')) return;
           pcOpenCardEdit(idx);
+        });
+        row.addEventListener('dragstart', (e) => {
+          pcDragIdx = idx;
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', String(idx));
+          row.classList.add('dragging');
+        });
+        row.addEventListener('dragover', (e) => {
+          if (pcDragIdx === null || pcDragIdx === idx) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = 'move';
+        });
+        row.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const from = pcDragIdx;
+          if (!Number.isInteger(from) || from === idx || from < 0 || from >= pcCards.length) return;
+          const [moved] = pcCards.splice(from, 1);
+          pcCards.splice(idx, 0, moved);
+          pcDragIdx = null;
+          pcRenderItemList();
+          pcRenderPhone();
+          markDirty();
+        });
+        row.addEventListener('dragend', () => {
+          pcDragIdx = null;
+          row.classList.remove('dragging');
         });
         pcItemsList.appendChild(row);
       });
@@ -262,7 +304,10 @@ export function initPromoWidgets(ctx) {
       Object.keys(presentationMap).forEach(name => {
         pcDrill.querySelectorAll('[data-bind-radio="' + cfg.idp + '-' + name + '"]').forEach(r => {
           r.addEventListener('click', () => {
-            pcWidget.dataset[presentationMap[name]] = r.dataset.value;
+            pcRoots().forEach((root) => {
+              root.dataset[presentationMap[name]] = r.dataset.value;
+            });
+            pcRenderPhone();
           });
         });
       });
@@ -271,8 +316,10 @@ export function initPromoWidgets(ctx) {
       if (gridRadio) {
         gridRadio.addEventListener('click', () => {
           openGridPicker(gridRadio, (cols, rows) => {
-            pcWidget.style.setProperty('--pc-cols', cols);
-            pcWidget.dataset.pcDisplay = 'grid';
+            pcRoots().forEach((root) => {
+              root.style.setProperty('--pc-cols', cols);
+              root.dataset.pcDisplay = 'grid';
+            });
             gridRadio.textContent = 'Grid ' + cols + '×' + rows;
             markDirty();
           });

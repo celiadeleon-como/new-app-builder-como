@@ -3,6 +3,7 @@ import generalHtml from '../templates/settings/pane-general.html?raw';
 import workspaceHtml from '../templates/settings/pane-workspace.html?raw';
 import appHtml from '../templates/settings/pane-app.html?raw';
 import onlineOrderingHtml from '../templates/settings/pane-online-ordering.html?raw';
+import websiteOrderingHtml from '../templates/settings/pane-website-ordering.html?raw';
 import publishingHtml from '../templates/settings/pane-publishing.html?raw';
 import StaticMarkup from './StaticMarkup';
 
@@ -11,6 +12,7 @@ const panesHtml = [
   workspaceHtml,
   appHtml,
   onlineOrderingHtml,
+  websiteOrderingHtml,
   publishingHtml,
 ].join('\n');
 

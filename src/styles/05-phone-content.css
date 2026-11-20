@@ -41,7 +41,6 @@
     padding: 0 4px 8px; text-align: left;
   }
   .category-badge:empty { display: none; }
-  body:not(.on-step-business) .category-badge { display: none; }
 
   .header-tap-target { border-radius: 10px; margin: -4px; padding: 4px; cursor: pointer; transition: background .12s; }
   .header-tap-target:hover { background: var(--p-panel); }
@@ -57,7 +56,7 @@
   .icon-btn {
     width: 36px; height: 36px; border-radius: 12px;
     background: var(--p-panel); border: 1px solid var(--p-border);
-    color: var(--p-icon, var(--p-text)); font-size: 14px;
+    color: var(--p-accent, var(--p-text)); font-size: 14px;
     display: grid; place-items: center; cursor: pointer;
     transition: transform .1s;
     flex: none;
@@ -121,17 +120,17 @@
   .lc-points b { font-weight: 800; }
   .lc-next-txt { font-size: 10.5px; color: var(--p-text-muted); margin-bottom: 8px; }
   .lc-bar { height: 6px; border-radius: 4px; background: rgba(255,255,255,.14); overflow: hidden; }
-  .lc-bar span { display: block; height: 100%; border-radius: 4px; background-color: var(--p-accent); background-image: var(--p-accent-image, none); }
+  .lc-bar span { display: block; height: 100%; border-radius: 4px; background-color: var(--p-secondary); }
   .lc-card-btn {
     align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
-    background: none; border: 1px solid var(--p-text); color: var(--p-text);
+    background: none; border: 1px solid var(--p-secondary); color: var(--p-secondary);
     border-radius: 10px; padding: 8px 12px; font-size: 11.5px; font-weight: 700; cursor: pointer;
   }
   .lc-card-btn svg { width: 15px; height: 15px; }
   .lc-ring { position: relative; width: 78px; height: 78px; flex: none; }
   .lc-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
   .lc-ring-track { fill: none; stroke: rgba(255,255,255,.14); stroke-width: 7; }
-  .lc-ring-fill { fill: none; stroke: var(--p-accent); stroke-width: 7; stroke-linecap: round;
+  .lc-ring-fill { fill: none; stroke: var(--p-secondary); stroke-width: 7; stroke-linecap: round;
     stroke-dasharray: 188.5; stroke-dashoffset: 37.7; transition: stroke-dashoffset .4s ease; }
   .lc-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
   .lc-ring-label b { font-size: 15px; font-weight: 800; color: var(--p-text); line-height: 1; }
@@ -144,25 +143,27 @@
   .loyalty-card[data-loyalty="minimal"] .lc-next { display: none; }
 
   /* ====== Promo Cards Widget (unified) ====== */
-  .promo-cards-widget { position: relative; margin-bottom: 16px; }
+  .promo-cards-widget { position: relative; min-width: 0; margin-bottom: 16px; }
   .pc-eyebrow {
     font-size: 9.5px; font-weight: 800; letter-spacing: 1.2px;
     color: var(--p-accent); text-transform: uppercase;
     margin: 0 0 8px; padding-left: 4px;
   }
   .pc-eyebrow.hidden-slot { display: none; }
-  .promo-cards-widget[data-pc-corners="sharp"] .pc-card { border-radius: 4px; }
+  .promo-cards-widget[data-pc-corners="sharp"] .pc-card { border-radius: 0; }
   .promo-cards-widget[data-pc-corners="rounded"] .pc-card { border-radius: 14px; }
+  .promo-cards-widget[data-pc-corners="sharp"] .pc-card-img { border-radius: 0; }
+  .promo-cards-widget[data-pc-corners="rounded"] .pc-card-img { border-radius: 8px; }
 
   /* Carousel layout (horizontal scroll) */
   .pc-carousel-wrap {
     display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
-    gap: 0; scrollbar-width: none;
+    gap: 10px; scrollbar-width: none;
   }
   .pc-carousel-wrap::-webkit-scrollbar { display: none; }
   .promo-cards-widget[data-pc-display="carousel"] .pc-carousel-wrap { flex-wrap: nowrap; }
   .promo-cards-widget[data-pc-display="carousel"] .pc-card {
-    min-width: 100%; scroll-snap-align: start; flex-shrink: 0;
+    min-width: 88%; scroll-snap-align: start; flex-shrink: 0;
   }
   .promo-cards-widget[data-pc-display="carousel"] .pc-dots { display: flex; }
 
@@ -220,11 +221,12 @@
     display: flex; flex-direction: row; align-items: stretch;
   }
   .promo-cards-widget[data-pc-image="beside"] .pc-card-img {
-    width: 40%; min-height: 90px; flex-shrink: 0; order: 2;
+    width: 56px; height: 56px; min-height: 56px; flex-shrink: 0; order: 0;
     background-size: cover; background-position: center;
+    margin: 12px 0 12px 12px;
   }
   .promo-cards-widget[data-pc-image="beside"] .pc-card-body {
-    flex: 1; padding: 12px 16px; display: flex; flex-direction: column; justify-content: center; order: 1;
+    flex: 1; padding: 12px; display: flex; flex-direction: column; justify-content: center; order: 1;
   }
 
   /* ── Image mode: BEHIND (image fills card, text overlaid with gradient) ── */
@@ -286,7 +288,7 @@
 
   /* Behind mode: CTA colors override for readability on dark overlay */
   .promo-cards-widget[data-pc-image="behind"][data-pc-cta="filled"] .pc-card-btn {
-    background: #fff; color: #111;
+    background: var(--p-accent); color: var(--p-accent-ink, #fff);
   }
   .promo-cards-widget[data-pc-image="behind"][data-pc-cta="outline"] .pc-card-btn {
     border-color: #fff; color: #fff;
@@ -316,6 +318,10 @@
     letter-spacing: .3px;
   }
   .p-section-hd .spark { color: var(--p-accent); font-size: 14px; }
+  .app-shell .reward-badge,
+  .app-shell .badge,
+  .app-shell .tier-badge,
+  .app-shell .prog-card .kicker { color: var(--p-secondary); }
   .p-section-hd .see-all {
     margin-left: auto;
     font-size: 10.5px; color: var(--p-accent); font-weight: 700; cursor: pointer;
@@ -391,7 +397,7 @@
     background: var(--p-panel-2); border: 1px solid var(--p-border);
   }
   .punch-card .punch.filled {
-    background-color: var(--p-accent); background-image: var(--p-accent-image, none); border-color: var(--p-accent);
+    background-color: var(--p-secondary); border-color: var(--p-secondary);
   }
   /* Custom stamp icon: earned stamps show full color, remaining ones show faded
      so the shape still reads as "not yet earned" without a plain dot. */
@@ -418,7 +424,7 @@
   }
   .howto-card .h-head .badge {
     width: 22px; height: 22px; border-radius: 7px;
-    background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: #111;
+    background-color: var(--p-tertiary); color: #111;
     display: grid; place-items: center; font-size: 11px; font-weight: 800; flex: none;
   }
   body.tpl-3 .howto-card .h-head .badge { color: #fff; }
@@ -461,7 +467,7 @@
     border: 1px solid var(--p-border); cursor: pointer;
     transition: background-color .12s, color .12s, border-color .12s;
   }
-  .chip.active { background-color: var(--p-accent); background-image: var(--p-accent-image, none); color: var(--p-accent-ink, #fff); border-color: var(--p-accent); }
+  .chip.active { background-color: var(--p-secondary); color: var(--p-secondary-ink, #111827); border-color: var(--p-secondary); }
 
   .loc-card {
     background: var(--p-panel);

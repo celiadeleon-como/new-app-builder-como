@@ -32,13 +32,6 @@ const MODALS = [
     label: '#sm-title',
     fallbackRestore: '#side-settings-btn',
   },
-  {
-    overlay: '#gf-welcome',
-    dialog: '.gf-welcome',
-    initial: '#gf-welcome-skip',
-    close: '#gf-welcome-skip',
-    label: 'h1',
-  },
 ];
 
 function normalizedText(value) {

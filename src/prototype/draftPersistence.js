@@ -55,7 +55,9 @@ function capture(ctx) {
     guided: plainClone(ctx.exportDraft?.() || {}),
     product: plainClone(ctx.exportProductExperience?.() || {}),
     menu: plainClone(ctx.exportMenuSource?.() || ctx.menuState || {}),
+    brand: plainClone(ctx.exportBrandColors?.() || ctx.brandColors || {}),
     ordering: plainClone(ctx.exportOrderingState?.() || ctx.ordering || {}),
+    language: plainClone(ctx.exportAppLanguage?.() || {}),
     orderingWidgets: plainClone(ctx.exportOrderingWidgets?.() || {}),
     rewards: plainClone(ctx.rwTiles || {}),
     controls: serializeControls(),
@@ -134,8 +136,10 @@ export function initDraftPersistence(ctx) {
     try {
       ctx.importDraft?.(payload.guided);
       ctx.importOrderingState?.(payload.ordering);
+      ctx.importAppLanguage?.(payload.language);
       ctx.importMenuSource?.(payload.menu);
       ctx.importOrderingWidgets?.(payload.orderingWidgets);
+      ctx.importBrandColors?.(payload.brand);
       Object.entries(payload.rewards || {}).forEach(([key, value]) => {
         if (ctx.rwTiles?.[key]) Object.assign(ctx.rwTiles[key], value);
         ctx.rwRenderPhone?.(key);

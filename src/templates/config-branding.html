@@ -1,7 +1,7 @@
 <div class="branding-page cp-master">
-  <h3 class="cp-head">Step 2</h3>
-  <div class="cp-page-title">Customize your app’s appearance</div>
-  <div class="cp-page-sub">Choose how your app looks to help customers recognize your business.</div>
+  <h3 class="cp-head">Branding hub</h3>
+  <div class="cp-page-title">Branding and Design</div>
+  <div class="cp-page-sub">Shape the visual identity, structure, and navigation style of your app.</div>
 
   <div id="brand-widget-list">
     <div class="cp-widget-row">
@@ -26,6 +26,28 @@
       <span class="w-row-status" id="brand-splash-status">Default design</span>
       <span class="w-row-chev" aria-hidden="true">›</span>
     </div>
+    <div class="cp-widget-row cp-widget-row-rich" data-brand-key="brand-home-layout">
+      <span class="w-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span>
+      <span class="w-row-main"><span class="w-name">Home screen layout</span></span>
+      <span class="w-row-status" id="brand-home-layout-status">Gamified Bento Grid</span>
+      <span class="w-row-chev" aria-hidden="true">›</span>
+    </div>
+    <div class="cp-widget-row cp-widget-row-rich" data-brand-key="brand-nav-style">
+      <span class="w-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="16" width="18" height="5" rx="2.5"/><circle cx="7.5" cy="18.5" r=".8" fill="currentColor" stroke="none"/><circle cx="12" cy="18.5" r=".8" fill="currentColor" stroke="none"/><circle cx="16.5" cy="18.5" r=".8" fill="currentColor" stroke="none"/></svg></span>
+      <span class="w-row-main"><span class="w-name">Navigation bar style<span class="brand-set-dot" data-brand-dot="brand-nav-style" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span></span></span>
+      <span class="w-row-status" id="brand-nav-style-status">Classic docked bar</span>
+      <span class="w-row-chev" aria-hidden="true">›</span>
+    </div>
+
+    <div class="cp-detail branding-page" data-detail="brand-home-layout" data-l3-drill>
+      <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Home screen layout</div></div>
+      <div class="cp-section open"><div class="cp-head-row" style="display:none;">Home screen layout</div>
+        <div class="cp-body">
+          <p class="cp-section-note">Choose how Home is structured. Your enabled sections follow the selected layout immediately.</p>
+          <div class="cp-home-layout-grid" id="cp-home-layout-grid"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -34,15 +56,33 @@
   <div class="cp-section open"><div class="cp-head-row" style="display:none;">Logo</div>
 <div class="cp-body">
       <div class="branding-upload" id="gf-logo-zone"><button class="branding-upload-button" type="button">+ Upload from Computer</button><div>or drag &amp; drop files here</div></div>
-      <input type="file" id="gf-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp" hidden />
-      <div class="cp-upload-note">Supported: png, jpg, jpeg, webp. Max 5MB.</div>
-      <div class="branding-logo-result" id="gf-logo-result" style="display:none;"><img id="gf-logo-thumb-img" alt="Uploaded logo" /><span id="gf-logo-filename"></span><button id="gf-logo-replace" type="button">Replace</button><button id="gf-logo-remove" type="button">Remove</button></div>
+      <input type="file" id="gf-logo-file" accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml,.svg" hidden />
+      <div class="cp-upload-note">Supported: png, jpg, jpeg, webp, svg. Max 5MB.</div>
+      <div class="branding-logo-result" id="gf-logo-result" style="display:none;">
+        <img id="gf-logo-thumb-img" alt="Uploaded logo" />
+        <span class="branding-logo-status"><span class="branding-logo-uploaded">✓ Uploaded</span><span id="gf-logo-filename"></span></span>
+        <button id="gf-logo-replace" type="button">Replace</button>
+        <button id="gf-logo-adjust" type="button">Adjust</button>
+        <button id="gf-logo-remove" type="button">Remove</button>
+      </div>
+      <div class="branding-logo-colors-note" id="branding-logo-colors-note" hidden>
+        <span>Brand colors detected from your logo</span>
+        <span class="branding-logo-color-dots" data-extracted-dots></span>
+      </div>
       <div id="gf-logo-controls" hidden>
         <div class="cp-field">
-          <label>Logo position</label>
+          <label>Position</label>
           <div class="cp-radio-group">
             <div class="cp-radio" data-bind-radio="logo-position" data-value="left">Left</div>
             <div class="cp-radio active" data-bind-radio="logo-position" data-value="center">Center</div>
+            <div class="cp-radio" data-bind-radio="logo-position" data-value="right">Right</div>
+          </div>
+        </div>
+        <div class="cp-field">
+          <label>Size</label>
+          <div class="branding-logo-size-row">
+            <input type="range" id="gf-logo-size" min="60" max="140" value="100" />
+            <span id="gf-logo-size-value">100%</span>
           </div>
         </div>
       </div>
@@ -55,8 +95,29 @@
 
 <div class="cp-detail branding-page" data-detail="brand-colour" data-l3-drill>
   <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Colour</div></div>
-  <div class="cp-section open"><div class="cp-head-row">Brand colour <span class="chev">›</span></div>
-<div class="cp-body"><div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#262aff" data-bind-color="--p-accent" /></div><div class="cp-color-info"><div class="cp-color-label">Primary brand color</div><input class="cp-color-hex" value="#262AFF" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit primary brand color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button><div class="branding-contrast-warning" id="branding-contrast-accent" role="alert" hidden></div></div></div>
+  <div class="cp-section open"><div class="cp-head-row">Primary Color <span class="chev">›</span></div>
+    <div class="cp-body">
+      <p class="branding-color-role">Headers, main buttons &amp; active tabs</p>
+      <div class="branding-extracted-block"><span>Extracted from logo</span><div class="branding-extracted-row" data-brand-swatches="primary"></div></div>
+      <div class="cp-color-row branding-color-row">
+        <div class="cp-color-swatch"><input type="color" value="#262aff" data-brand-color="primary" /></div>
+        <div class="cp-color-info"><div class="cp-color-label">Primary color</div><input class="cp-color-hex" data-brand-color-hex="primary" value="#262AFF" spellcheck="false" maxlength="7" /></div>
+        <button class="branding-color-trigger" type="button" aria-label="Edit primary color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+      </div>
+      <div class="branding-preset-row" data-brand-presets="primary"></div>
+    </div>
+  </div>
+  <div class="cp-section open"><div class="cp-head-row">Secondary Color <button class="branding-auto-match" id="brand-secondary-auto" type="button" hidden>Auto-match primary</button><span class="chev">›</span></div>
+    <div class="cp-body">
+      <p class="branding-color-role">Badges, loyalty progress &amp; highlights</p>
+      <div class="branding-extracted-block"><span>Extracted from logo</span><div class="branding-extracted-row" data-brand-swatches="secondary"></div></div>
+      <div class="cp-color-row branding-color-row">
+        <div class="cp-color-swatch"><input type="color" value="#00a884" data-brand-color="secondary" /></div>
+        <div class="cp-color-info"><div class="cp-color-label">Secondary color</div><input class="cp-color-hex" data-brand-color-hex="secondary" value="#00A884" spellcheck="false" maxlength="7" /></div>
+        <button class="branding-color-trigger" type="button" aria-label="Edit secondary color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+      </div>
+      <div class="branding-preset-row" data-brand-presets="secondary"></div>
+    </div>
   </div>
   <div class="cp-section open"><div class="cp-head-row" style="display:none;">Suggested themes</div>
 <div class="cp-body">
@@ -126,6 +187,29 @@
     <div class="cp-field">
       <label>Splash background</label>
       <div class="cp-color-row branding-color-row"><div class="cp-color-swatch"><input type="color" value="#0f0d17" data-bind-color="--splash-bg" /></div><div class="cp-color-info"><div class="cp-color-label">Background color</div><input class="cp-color-hex" value="#0F0D17" spellcheck="false" maxlength="9" /></div><button class="branding-color-trigger" type="button" aria-label="Edit splash background color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button></div>
+    </div>
+  </div>
+  </div>
+</div>
+
+<div class="cp-detail branding-page" data-detail="brand-nav-style" data-l3-drill>
+  <div class="cp-detail-header"><button class="cp-back">‹</button><div class="cp-detail-title">Navigation bar style</div></div>
+  <div class="cp-section open"><div class="cp-head-row" style="display:none;">Navigation bar style</div>
+<div class="cp-body">
+    <div class="cp-section-note">Choose how the bottom navigation looks and behaves across every screen.</div>
+    <div class="cp-nav-style-grid" id="cp-nav-style-grid">
+      <button type="button" class="cp-nav-style-opt" data-nav-style-pick="classic-docked">
+        <span class="cp-home-layout-wireframe"><svg viewBox="0 0 100 56" fill="none"><rect x="4" y="4" width="92" height="34" rx="6" fill="currentColor" opacity=".2"/><rect x="0" y="42" width="100" height="14" fill="currentColor" opacity=".55"/></svg></span>
+        <span class="cp-home-layout-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="cp-home-layout-title">Classic Docked Bar</span>
+        <span class="cp-home-layout-desc">Full-width opaque tab bar anchored flush to the bottom edge.</span>
+      </button>
+      <button type="button" class="cp-nav-style-opt" data-nav-style-pick="floating-liquid-glass">
+        <span class="cp-home-layout-wireframe"><svg viewBox="0 0 100 56" fill="none"><rect x="4" y="4" width="92" height="30" rx="6" fill="currentColor" opacity=".2"/><rect x="14" y="38" width="72" height="8" rx="4" fill="currentColor" opacity=".35"/><rect x="20" y="48" width="60" height="7" rx="3.5" fill="currentColor" opacity=".55"/></svg></span>
+        <span class="cp-home-layout-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="cp-home-layout-title">Floating Liquid Glass + Pass Shelf</span>
+        <span class="cp-home-layout-desc">Translucent floating pill bar with a persistent Member Pass shelf above it.</span>
+      </button>
     </div>
   </div>
   </div>

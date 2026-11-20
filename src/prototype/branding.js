@@ -1,6 +1,230 @@
 export function initBranding(ctx) {
   const { markDirty, showToast } = ctx;
 
+  const brandColors = {
+    primary: '#262AFF',
+    secondary: '#00A884',
+    extractedSwatches: [],
+    secondaryManuallySet: false,
+  };
+  const PRIMARY_PRESETS = ['#262AFF', '#6D28D9', '#C7355A', '#0F766E', '#1D4ED8'];
+  const SECONDARY_PRESETS = ['#00A884', '#F59E0B', '#EC4899', '#84CC16', '#8B5CF6'];
+
+  function normalizeBrandHex(value) {
+    const hex = String(value || '').trim();
+    const match = /^#?([0-9a-f]{6})$/i.exec(hex);
+    return match ? '#' + match[1].toUpperCase() : null;
+  }
+
+  function brandHexToHsl(hex) {
+    const [r, g, b] = [1, 3, 5].map((index) => parseInt(hex.slice(index, index + 2), 16) / 255);
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+    let h = 0;
+    if (delta) {
+      if (max === r) h = ((g - b) / delta) % 6;
+      else if (max === g) h = (b - r) / delta + 2;
+      else h = (r - g) / delta + 4;
+      h *= 60;
+      if (h < 0) h += 360;
+    }
+    const l = (max + min) / 2;
+    const s = delta ? delta / (1 - Math.abs(2 * l - 1)) : 0;
+    return [h, s, l];
+  }
+
+  function brandHslToHex(h, s, l) {
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - c / 2;
+    let rgb;
+    if (h < 60) rgb = [c, x, 0];
+    else if (h < 120) rgb = [x, c, 0];
+    else if (h < 180) rgb = [0, c, x];
+    else if (h < 240) rgb = [0, x, c];
+    else if (h < 300) rgb = [x, 0, c];
+    else rgb = [c, 0, x];
+    return '#' + rgb.map((channel) => Math.round((channel + m) * 255).toString(16).padStart(2, '0')).join('').toUpperCase();
+  }
+
+  function harmoniousSecondary(primary) {
+    const [h, s, l] = brandHexToHsl(primary);
+    const balancedSaturation = Math.min(0.76, Math.max(0.42, s));
+    const balancedLightness = Math.min(0.58, Math.max(0.42, l));
+    return brandHslToHex((h + 30) % 360, balancedSaturation, balancedLightness);
+  }
+
+  function relativeLuminance(hex) {
+    const channels = [1, 3, 5].map((index) => {
+      const value = parseInt(hex.slice(index, index + 2), 16) / 255;
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
+    });
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  }
+
+  function contrastRatio(a, b) {
+    const first = relativeLuminance(a);
+    const second = relativeLuminance(b);
+    return (Math.max(first, second) + 0.05) / (Math.min(first, second) + 0.05);
+  }
+
+  function getContrastTextColor(hex) {
+    const normalized = normalizeBrandHex(hex);
+    if (!normalized) return '#FFFFFF';
+    return contrastRatio(normalized, '#FFFFFF') >= contrastRatio(normalized, '#111827') ? '#FFFFFF' : '#111827';
+  }
+
+  function renderBrandSwatches() {
+    document.querySelectorAll('[data-brand-swatches]').forEach((row) => {
+      const role = row.dataset.brandSwatches;
+      row.innerHTML = brandColors.extractedSwatches.map((hex) => {
+        const active = normalizeBrandHex(brandColors[role]) === normalizeBrandHex(hex);
+        return `<button type="button" class="brand-extracted-swatch${active ? ' selected' : ''}" style="--swatch:${hex}" data-brand-swatch="${role}" data-color="${hex}" aria-label="Use ${hex} as ${role} color"></button>`;
+      }).join('');
+      row.hidden = brandColors.extractedSwatches.length === 0;
+      if (row.parentElement) row.parentElement.hidden = brandColors.extractedSwatches.length === 0;
+      row.querySelectorAll('[data-brand-swatch]').forEach((button) => button.addEventListener('click', () => {
+        setBrandColor(button.dataset.brandSwatch, button.dataset.color, true);
+      }));
+    });
+  }
+
+  function renderBrandPresets() {
+    document.querySelectorAll('[data-brand-presets]').forEach((row) => {
+      const role = row.dataset.brandPresets;
+      const presets = role === 'primary' ? PRIMARY_PRESETS : SECONDARY_PRESETS;
+      row.innerHTML = presets.map((hex) => `<button type="button" class="brand-preset-swatch${brandColors[role] === hex ? ' selected' : ''}" style="--swatch:${hex}" data-brand-preset="${role}" data-color="${hex}" aria-label="Use preset ${hex}"></button>`).join('');
+      row.querySelectorAll('[data-brand-preset]').forEach((button) => button.addEventListener('click', () => {
+        setBrandColor(button.dataset.brandPreset, button.dataset.color, true);
+      }));
+    });
+  }
+
+  function syncBrandColorControls() {
+    ['primary', 'secondary'].forEach((role) => {
+      const hex = brandColors[role];
+      const picker = document.querySelector(`[data-brand-color="${role}"]`);
+      const text = document.querySelector(`[data-brand-color-hex="${role}"]`);
+      if (picker) {
+        picker.value = hex;
+        picker.parentElement.style.background = hex;
+      }
+      if (text && document.activeElement !== text) text.value = hex.toUpperCase();
+    });
+    const auto = document.getElementById('brand-secondary-auto');
+    if (auto) auto.hidden = !brandColors.secondaryManuallySet;
+    renderBrandSwatches();
+    renderBrandPresets();
+  }
+
+  function applyBrandPalette(options = {}) {
+    document.body.style.setProperty('--p-accent', brandColors.primary);
+    document.body.style.setProperty('--p-secondary', brandColors.secondary);
+    document.body.style.setProperty('--p-accent-ink', getContrastTextColor(brandColors.primary));
+    document.body.style.setProperty('--p-secondary-ink', getContrastTextColor(brandColors.secondary));
+    window.syncColorVar?.('--p-accent', brandColors.primary);
+    window.syncColorVar?.('--p-secondary', brandColors.secondary);
+    document.body.style.setProperty('--p-accent-ink', getContrastTextColor(brandColors.primary));
+    document.body.style.setProperty('--p-secondary-ink', getContrastTextColor(brandColors.secondary));
+    syncBrandColorControls();
+    if (options.dirty !== false) markDirty();
+  }
+
+  function setBrandColor(role, value, manual = false) {
+    const hex = normalizeBrandHex(value);
+    if (!hex || !['primary', 'secondary'].includes(role)) return;
+    brandColors[role] = hex;
+    if (role === 'primary' && !brandColors.secondaryManuallySet) brandColors.secondary = harmoniousSecondary(hex);
+    if (role === 'secondary') brandColors.secondaryManuallySet = manual;
+    applyBrandPalette();
+  }
+
+  function rgbDistance(first, second) {
+    return Math.sqrt(first.reduce((sum, value, index) => sum + (value - second[index]) ** 2, 0));
+  }
+
+  function saturation([r, g, b]) {
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    return max === 0 ? 0 : (max - min) / max;
+  }
+
+  function extractBrandColors(dataUrl) {
+    return new Promise((resolve) => {
+      const image = new Image();
+      image.onload = () => {
+        try {
+          const size = 64;
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          const context = canvas.getContext('2d', { willReadFrequently: true });
+          context.drawImage(image, 0, 0, size, size);
+          const pixels = context.getImageData(0, 0, size, size).data;
+          const counts = new Map();
+          for (let index = 0; index < pixels.length; index += 4) {
+            if (pixels[index + 3] < 100) continue;
+            const rgb = [pixels[index], pixels[index + 1], pixels[index + 2]];
+            if (rgb.every((channel) => channel > 242) || rgb.every((channel) => channel < 14) || saturation(rgb) < 0.12) continue;
+            const quantized = rgb.map((channel) => Math.round(channel / 24) * 24);
+            const key = quantized.join(',');
+            counts.set(key, (counts.get(key) || 0) + 1);
+          }
+          const ranked = [...counts].sort((a, b) => b[1] - a[1]);
+          const picked = [];
+          for (const [key] of ranked) {
+            const rgb = key.split(',').map(Number);
+            if (picked.some((candidate) => rgbDistance(candidate, rgb) < 54)) continue;
+            picked.push(rgb);
+            if (picked.length === 4) break;
+          }
+          resolve(picked.map((rgb) => '#' + rgb.map((channel) => channel.toString(16).padStart(2, '0')).join('').toUpperCase()));
+        } catch {
+          resolve([]);
+        }
+      };
+      image.onerror = () => resolve([]);
+      image.src = dataUrl;
+    });
+  }
+
+  async function applyLogoColorExtraction(dataUrl) {
+    const swatches = await extractBrandColors(dataUrl);
+    brandColors.extractedSwatches = swatches;
+    if (swatches[0]) brandColors.primary = swatches[0];
+    brandColors.secondary = swatches[1] && rgbDistance(
+      [1, 3, 5].map((index) => parseInt(swatches[0].slice(index, index + 2), 16)),
+      [1, 3, 5].map((index) => parseInt(swatches[1].slice(index, index + 2), 16)),
+    ) >= 54 ? swatches[1] : harmoniousSecondary(brandColors.primary);
+    if (swatches.length > 1) brandColors.secondaryManuallySet = false;
+    applyBrandPalette();
+    const note = document.getElementById('branding-logo-colors-note');
+    if (note) {
+      note.hidden = !swatches.length;
+      note.querySelector('[data-extracted-dots]').innerHTML = swatches.map((hex) => `<i style="background:${hex}"></i>`).join('');
+    }
+    showToast(swatches.length ? 'Brand colors detected from your logo' : 'Logo uploaded · brand palette kept unchanged', { variant: swatches.length ? 'success' : 'info' });
+    return swatches;
+  }
+
+  document.querySelectorAll('[data-brand-color]').forEach((input) => {
+    input.addEventListener('input', () => setBrandColor(input.dataset.brandColor, input.value, true));
+  });
+  document.querySelectorAll('[data-brand-color-hex]').forEach((input) => {
+    input.addEventListener('input', () => setBrandColor(input.dataset.brandColorHex, input.value, true));
+    input.addEventListener('blur', () => {
+      if (document.activeElement !== input) input.value = brandColors[input.dataset.brandColorHex];
+    });
+  });
+  document.getElementById('brand-secondary-auto')?.addEventListener('click', () => {
+    brandColors.secondaryManuallySet = false;
+    brandColors.secondary = harmoniousSecondary(brandColors.primary);
+    applyBrandPalette();
+  });
+  applyBrandPalette({ dirty: false });
+  window.getContrastTextColor = getContrastTextColor;
+
   const headingFont = document.getElementById('branding-heading-font');
   const bodyFont = document.getElementById('branding-body-font');
   const fontUploadButton = document.getElementById('font-upload-button');
@@ -121,8 +345,8 @@ export function initBranding(ctx) {
     }
     function handleBackgroundImageFile(file) {
       if (!file) return;
-      if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) {
-        showToast('Upload a PNG, JPG, or WEBP file.', { variant: 'error' });
+      if (!/^image\/(png|jpeg|jpg|webp|svg\+xml)/i.test(file.type) && !/\.svg$/i.test(file.name)) {
+        showToast('Upload a PNG, JPG, WEBP, or SVG file.', { variant: 'error' });
         return;
       }
       if (file.size > 5 * 1024 * 1024) {
@@ -242,7 +466,7 @@ export function initBranding(ctx) {
       if (valEl) valEl.textContent = val + '%';
       if (s.dataset.bindSlider === 'logo-size') {
         const size = 20 + (val / 100) * 32; // 20-52px
-        document.querySelectorAll('.app-page .app-top-header .brand-mark').forEach(m => {
+        document.querySelectorAll('.app-page .brand-mark').forEach(m => {
           m.style.width = size + 'px';
           m.style.height = size + 'px';
           m.style.fontSize = (size * 0.4) + 'px';
@@ -259,7 +483,7 @@ export function initBranding(ctx) {
   const logoPreviewEmpty = document.getElementById('logo-preview-empty');
   const logoClearBtn = document.getElementById('logo-clear-btn');
 
-  function applyLogo(dataUrl) {
+  function applyLogo(dataUrl, fileName) {
     // Preview inside the config panel
     if (logoPreviewImg) {
       logoPreviewImg.src = dataUrl;
@@ -268,8 +492,23 @@ export function initBranding(ctx) {
     if (logoPreviewEmpty) logoPreviewEmpty.style.display = 'none';
     if (logoClearBtn) logoClearBtn.style.display = 'inline-block';
 
-    // Render on the phone brand-mark (all pages). .has-logo class overrides theme !important.
-    document.querySelectorAll('.app-page .app-top-header .brand-mark').forEach(m => {
+    // Also populate the richer Branding > Logo drill-down (uploaded status,
+    // filename, position/size controls) — the wizard drives this same function,
+    // so its logo choice has to land there too, not just on the old preview.
+    const gfResult = document.getElementById('gf-logo-result');
+    const gfZone = document.getElementById('gf-logo-zone');
+    const gfControls = document.getElementById('gf-logo-controls');
+    const gfThumb = document.getElementById('gf-logo-thumb-img');
+    const gfFilename = document.getElementById('gf-logo-filename');
+    if (gfThumb) gfThumb.src = dataUrl;
+    if (gfFilename) gfFilename.textContent = fileName || 'Uploaded logo';
+    if (gfResult) gfResult.style.display = '';
+    if (gfZone) gfZone.style.display = 'none';
+    if (gfControls) gfControls.hidden = false;
+
+    // Render on the phone brand-mark (all pages, incl. Split-Header's own top
+    // bar). .has-logo class overrides theme !important.
+    document.querySelectorAll('.app-page .brand-mark').forEach(m => {
       m.classList.add('has-logo');
       m.style.backgroundImage = 'url(' + dataUrl + ')';
     });
@@ -286,7 +525,13 @@ export function initBranding(ctx) {
     if (logoPreviewImg) { logoPreviewImg.src = ''; logoPreviewImg.style.display = 'none'; }
     if (logoPreviewEmpty) logoPreviewEmpty.style.display = 'block';
     if (logoClearBtn) logoClearBtn.style.display = 'none';
-    document.querySelectorAll('.app-page .app-top-header .brand-mark').forEach(m => {
+    const gfResult = document.getElementById('gf-logo-result');
+    const gfZone = document.getElementById('gf-logo-zone');
+    const gfControls = document.getElementById('gf-logo-controls');
+    if (gfResult) gfResult.style.display = 'none';
+    if (gfZone) gfZone.style.display = '';
+    if (gfControls) gfControls.hidden = true;
+    document.querySelectorAll('.app-page .brand-mark').forEach(m => {
       m.classList.remove('has-logo');
       m.style.backgroundImage = '';
     });
@@ -297,8 +542,8 @@ export function initBranding(ctx) {
 
   function handleLogoFile(file) {
     if (!file) return;
-    if (!/^image\/(png|jpeg|jpg|webp)/i.test(file.type)) {
-      showToast('Upload a PNG, JPG, or WEBP file.', { variant: 'error' });
+    if (!/^image\/(png|jpeg|jpg|webp|svg\+xml)/i.test(file.type) && !/\.svg$/i.test(file.name)) {
+      showToast('Upload a PNG, JPG, WEBP, or SVG file.', { variant: 'error' });
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
@@ -306,7 +551,10 @@ export function initBranding(ctx) {
       return;
     }
     const reader = new FileReader();
-    reader.onload = (ev) => applyLogo(ev.target.result);
+    reader.onload = (ev) => {
+      applyLogo(ev.target.result, file.name);
+      applyLogoColorExtraction(ev.target.result);
+    };
     reader.readAsDataURL(file);
   }
 
@@ -636,6 +884,30 @@ export function initBranding(ctx) {
   document.addEventListener('como:draft-restored', renderThemeSuggestions);
   renderThemeSuggestions();
 
-  return { applyFontFamily, activateFontItem, wireFontItem, loadCustomFont, applyLogo, clearLogo, handleLogoFile };
+  function exportBrandColors() {
+    return {
+      ...brandColors,
+      extractedSwatches: [...brandColors.extractedSwatches],
+    };
+  }
+
+  function importBrandColors(saved = {}) {
+    const primary = normalizeBrandHex(saved.primary);
+    const secondary = normalizeBrandHex(saved.secondary);
+    if (primary) brandColors.primary = primary;
+    if (secondary) brandColors.secondary = secondary;
+    brandColors.extractedSwatches = Array.isArray(saved.extractedSwatches)
+      ? saved.extractedSwatches.map(normalizeBrandHex).filter(Boolean).slice(0, 4)
+      : [];
+    brandColors.secondaryManuallySet = !!saved.secondaryManuallySet;
+    applyBrandPalette({ dirty: false });
+  }
+
+  return {
+    applyFontFamily, activateFontItem, wireFontItem, loadCustomFont, applyLogo,
+    clearLogo, handleLogoFile, renderThemeSuggestions, brandColors,
+    setBrandColor, applyLogoColorExtraction, getContrastTextColor,
+    exportBrandColors, importBrandColors,
+  };
 }
 

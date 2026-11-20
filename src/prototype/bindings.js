@@ -75,18 +75,26 @@ export function initBindings(ctx) {
           }
         }
         if (bindRadio === 'loyalty-layout') {
-          const lc = document.querySelector('.loyalty-card');
-          if (lc) lc.dataset.loyalty = value;
+          // Progress style is a single source of truth shared by every Home
+          // layout's loyalty hero, not just the Priority Stack loyalty card.
+          document.querySelectorAll('.loyalty-card, .bento-hero[data-focus-loyalty], .shq-header[data-focus-loyalty]').forEach((el) => {
+            el.dataset.loyalty = value;
+          });
         }
         if (bindRadio === 'member-state') {
-          const greetRow = document.querySelector('.greet-row');
-          if (greetRow) greetRow.classList.toggle('is-guest', value === 'guest');
+          // This editor-local radio has to drive the SAME guest/member state as
+          // the top "Previewing" switcher, or Bento Grid / Split-Header QSR's
+          // guest CTA (keyed off body[data-member-preview]) never activates.
+          ctx.setPreviewState?.(value, { dirty: false });
           document.querySelectorAll('[data-detail="profile"] [data-state-section="loggedin"]').forEach(s => {
             s.style.display = value === 'guest' ? 'none' : '';
           });
           document.querySelectorAll('[data-detail="profile"] [data-state-section="guest"]').forEach(s => {
             s.style.display = value === 'guest' ? '' : 'none';
           });
+        }
+        if (bindRadio === 'loyalty-qr-format') {
+          document.querySelectorAll('.qr-box').forEach((box) => { box.classList.toggle('barcode-mode', value === 'barcode'); });
         }
       });
     });

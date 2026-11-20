@@ -1,5 +1,8 @@
 import homeMasterHtml from '../templates/config/home-master.html?raw';
 import profileHtml from '../templates/config/profile.html?raw';
+import activeRewardsHtml from '../templates/config/active-rewards.html?raw';
+import punchCardHtml from '../templates/config/punch-card.html?raw';
+import loyaltyQrHtml from '../templates/config/loyalty-qr.html?raw';
 import promoFeaturedCardHtml from '../templates/config/promo-featured-card.html?raw';
 import promoFeaturedHtml from '../templates/config/promo-featured.html?raw';
 import promoMoreCardHtml from '../templates/config/promo-more-card.html?raw';
@@ -13,15 +16,18 @@ import locationsHtml from '../templates/config-locations.html?raw';
 import menuHtml from '../templates/config-menu.html?raw';
 import moreHtml from '../templates/config-more.html?raw';
 import rewardsHtml from '../templates/config-rewards.html?raw';
-import businessHtml from '../templates/config-business.html?raw';
 import onlineOrderingHtml from '../templates/config-online-ordering.html?raw';
 import brandingStepHtml from '../templates/config-branding.html?raw';
+import finishSetupHtml from '../templates/config-finish-setup.html?raw';
 import publishHtml from '../templates/config-publish.html?raw';
 import StaticMarkup from './StaticMarkup';
 
 const homeHtml = [
   homeMasterHtml,
   profileHtml,
+  activeRewardsHtml,
+  punchCardHtml,
+  loyaltyQrHtml,
   promoFeaturedHtml,
   promoFeaturedCardHtml,
   promoMoreHtml,
@@ -90,14 +96,6 @@ export default function ConfigPanel() {
         <StaticMarkup
           as="div"
           className="cp-page"
-          id="cp-business"
-          data-comment-anchor="config-business"
-          style={{ display: 'none' }}
-          html={businessHtml}
-        />
-        <StaticMarkup
-          as="div"
-          className="cp-page"
           id="cp-online-ordering"
           data-comment-anchor="config-online-ordering"
           style={{ display: 'none' }}
@@ -110,6 +108,14 @@ export default function ConfigPanel() {
           data-comment-anchor="config-branding-step"
           style={{ display: 'none' }}
           html={brandingStepHtml}
+        />
+        <StaticMarkup
+          as="div"
+          className="cp-page"
+          id="cp-finish-setup"
+          data-comment-anchor="config-finish-setup"
+          style={{ display: 'none' }}
+          html={finishSetupHtml}
         />
         <StaticMarkup
           as="div"

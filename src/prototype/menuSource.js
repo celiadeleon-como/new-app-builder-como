@@ -117,7 +117,24 @@ export function initMenuSource(ctx) {
     webview: { url: 'https://velvetbistro.com/menu', connected: false, back: true, bottombar: true, inapp: true, hideheader: false, membersonly: false },
     pdf: { uploaded: false },
     custom: { url: 'https://order.velvetbistro.com', connected: false, back: true, bottombar: true, inapp: true, membersonly: true, theme: true, hideheader: true, color: '#6d28d9' },
-    ordering: { layout: 'grid', color: '#6d28d9', allergens: true, banner: true, hero: 0 },
+    ordering: {
+      layout: 'grid', color: '#6d28d9', allergens: true, banner: true, hero: 0,
+      bannerTitle: 'Craft your perfect bowl. Earn delicious perks.',
+      bannerBadges: '100% Fresh, Instant Rewards, Buy 1 Get 1 Free',
+      pickup: true, delivery: true, addressSearch: true, productSearch: true,
+      pickupTime: 'Open 15:00', deliveryEstimate: '30–45 min',
+      minimumOrder: '€10.00', deliveryFee: '€3.49',
+      addressPlaceholder: 'Search your address', productPlaceholder: 'Search in Hot Box',
+      categories: true, ratings: true,
+      items: [
+        { id: 'order-korean', name: 'Korean BBQ Beef', desc: 'Marinated bulgogi beef, kimchi slaw, sesame greens, gochujang mayo.', price: '$15.75', badge: '★ 4.8 BEST SELLER', image: '', color: '#8c5a45' },
+        { id: 'order-salmon', name: 'Spicy Salmon', desc: 'Miso-glazed salmon, edamame, cucumber, avocado, spicy mayo.', price: '$16.50', badge: '★ 4.7', image: '', color: '#bd7861' },
+        { id: 'order-chicken', name: 'Mango Chicken', desc: 'Ginger chicken, mango salsa, jasmine rice, fresh herbs.', price: '$14.95', badge: '★ 4.8', image: '', color: '#d49a43' },
+        { id: 'order-yellowtail', name: 'Citrus Yellowtail', desc: 'Yellowtail, citrus ponzu, radish, avocado, crispy shallots.', price: '$17.25', badge: '★ 4.7', image: '', color: '#d0a25b' },
+        { id: 'order-shrimp', name: 'Shrimp Tempura', desc: 'Crispy shrimp, sesame cabbage, pickled cucumber, spicy mayo.', price: '$15.50', badge: '★ 4.8', image: '', color: '#a87548' },
+        { id: 'order-tofu', name: 'Avocado Tofu', desc: 'Sesame tofu, avocado, edamame, greens, ginger dressing.', price: '$13.95', badge: '★ 4.6', image: '', color: '#78935b' },
+      ],
+    },
     manual: { started: false, categories: seedCategories(), activeCat: null, activeItem: null, hero: null },
     pageSettings: {
       selected: 'menu',
@@ -176,12 +193,12 @@ export function initMenuSource(ctx) {
     const configurePageLink = document.getElementById('ms-configure-page');
     if (configurePageLink) configurePageLink.hidden = !(deferredOrdering && screen === 'pdf');
     page.querySelector('[data-menu-chooser-title]')?.replaceChildren(
-      document.createTextNode(deferredOrdering ? 'Add a menu to your app' : 'Choose menu approach'),
+      document.createTextNode(deferredOrdering ? 'Add a menu to your app' : 'Choose Order setup'),
     );
     page.querySelector('[data-menu-chooser-sub]')?.replaceChildren(
       document.createTextNode(deferredOrdering
         ? 'Upload a PDF menu or choose a public web page to show in the Menu tab.'
-        : 'Pick how your in-app menu is powered. You can change this anytime.'),
+        : 'Pick how the Order screen is powered. You can change this anytime.'),
     );
     page.querySelectorAll('[data-approach="ordering"], [data-approach="manual"]').forEach((option) => {
       option.hidden = deferredOrdering;
@@ -390,6 +407,19 @@ export function initMenuSource(ctx) {
     state.pageSettings.origin = 'chooser';
     show('page-settings');
     selectConfigPage('activity');
+  }
+
+  // Navigates to the Menu step's Select Screen sub-panel, pre-selected on a
+  // specific page — used by sidebar/bottom-nav entries dynamically assigned
+  // to an onboarding-chosen page (e.g. About Us) so they land on the real
+  // editable panel instead of whatever page the dropdown last had selected.
+  function openPageSettings(key) {
+    ctx.goToStep?.('menu');
+    page.classList.add('px-show-advanced');
+    window.setMenuSlotMode?.('select-screen');
+    state.pageSettings.origin = 'chooser';
+    show('page-settings');
+    selectConfigPage(key);
   }
 
   // Reverses openDeferredMenuSetup: committing a real ordering mode after
@@ -726,12 +756,23 @@ export function initMenuSource(ctx) {
   });
 
   document.getElementById('ms-oo-manage').addEventListener('click', () => {
-    if (ctx.gotoOrderingStep) { ctx.gotoOrderingStep('admin'); window.openSettings('online-ordering'); }
+    if (ctx.ordering?.experience === 'website') {
+      window.openSettings('website-ordering');
+    } else if (ctx.gotoOrderingStep) {
+      ctx.gotoOrderingStep('admin');
+      window.openSettings('online-ordering');
+    }
   });
 
   page.querySelectorAll('[data-ordering-opt]').forEach(t => {
     t.addEventListener('click', () => {
       state.ordering[t.dataset.orderingOpt] = t.classList.contains('on');
+      if (['pickup', 'delivery'].includes(t.dataset.orderingOpt)
+          && !state.ordering.pickup && !state.ordering.delivery) {
+        state.ordering[t.dataset.orderingOpt] = true;
+        t.classList.add('on');
+        showToast('Keep at least one fulfillment method enabled', { variant: 'error' });
+      }
       renderPhone();
     });
   });
@@ -748,17 +789,48 @@ export function initMenuSource(ctx) {
 
   const orderingHeroThumb = document.getElementById('ms-ordering-hero-thumb');
   const orderingHeroName = document.getElementById('ms-ordering-hero-name');
+  const orderingHeroFile = document.getElementById('ms-ordering-hero-file');
   function renderOrderingHeroControl() {
     const hero = HEROES[state.ordering.hero];
-    orderingHeroThumb.style.backgroundImage = hero.background;
-    orderingHeroName.textContent = hero.name;
+    orderingHeroThumb.style.backgroundImage = state.ordering.image ? `url("${state.ordering.image}")` : hero.background;
+    orderingHeroName.textContent = state.ordering.imageName || hero.name;
   }
-  document.getElementById('ms-ordering-hero-replace').addEventListener('click', () => {
-    state.ordering.hero = (state.ordering.hero + 1) % HEROES.length;
-    renderOrderingHeroControl();
+  document.getElementById('ms-ordering-hero-replace').addEventListener('click', () => orderingHeroFile.click());
+  orderingHeroFile.addEventListener('change', () => {
+    const file = orderingHeroFile.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      state.ordering.image = reader.result;
+      state.ordering.imageName = file.name;
+      orderingHeroThumb.style.backgroundImage = `url("${reader.result}")`;
+      orderingHeroName.textContent = file.name;
+      markDirty();
+      renderPhone();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  function bindOrderInput(id, key) {
+    document.getElementById(id)?.addEventListener('input', (event) => {
+      state.ordering[key] = event.target.value;
+      markDirty();
+      renderPhone();
+    });
+  }
+  bindOrderInput('ms-order-banner-title', 'bannerTitle');
+  bindOrderInput('ms-order-banner-badges', 'bannerBadges');
+  bindOrderInput('ms-address-placeholder', 'addressPlaceholder');
+  bindOrderInput('ms-product-search-placeholder', 'productPlaceholder');
+  bindOrderInput('ms-pickup-time', 'pickupTime');
+  bindOrderInput('ms-delivery-estimate', 'deliveryEstimate');
+  bindOrderInput('ms-minimum-order', 'minimumOrder');
+  bindOrderInput('ms-delivery-fee', 'deliveryFee');
+  document.getElementById('ms-order-banner-toggle')?.addEventListener('click', (event) => {
+    state.ordering.banner = !state.ordering.banner;
+    event.currentTarget.classList.toggle('on', state.ordering.banner);
     markDirty();
     renderPhone();
-    showToast('Header image replaced in the live ordering preview', { variant: 'success' });
   });
 
   function wireSwatches(group, apply) {
@@ -1352,56 +1424,41 @@ export function initMenuSource(ctx) {
 
   function renderOrdering() {
     const o = state.ordering;
-    const cats = [
-      { name: 'Starters', items: [
-        { name: 'Truffle Arancini', desc: 'Crispy · shaved parmesan', price: '$14', color: SWATCH[0], badge: 'Vegan', tags: ['Gluten'] },
-        { name: 'Burrata', desc: 'Basil oil · sea salt', price: '$16', color: SWATCH[1], tags: ['Veg'] },
-      ] },
-      { name: 'Mains', items: [
-        { name: 'Wagyu Stack', desc: 'Aged cheddar · brioche', price: '$42', color: SWATCH[1], tags: ['Gluten', 'Dairy'] },
-        { name: 'Sea Bass', desc: 'Fennel · citrus', price: '$36', color: SWATCH[5], badge: 'GF', tags: [] },
-      ] },
-    ];
-    const head = appHeader('MENU', 'Powered by ' + orderingApi().provider.name);
-    const banner = o.banner ? `<div class="pm-banner">
-      <span class="pm-banner-ic">${ICON.star}</span>
-      <span><span class="pm-banner-title">You have 240 points</span><span class="pm-banner-sub">60 more to unlock $5 off</span></span>
+    const languageEvent = window.appLanguageState?.primary || document.documentElement.lang || 'en';
+    const fulfillmentCopy = {
+      en: ['Delivery', 'Collection'], es: ['Entrega', 'Recoger'], fr: ['Livraison', 'Retrait'],
+      de: ['Lieferung', 'Abholung'], it: ['Consegna', 'Ritiro'], pt: ['Entrega', 'Recolha'],
+      nl: ['Bezorging', 'Afhalen'], ar: ['توصيل', 'استلام'], he: ['משלוח', 'איסוף'],
+    }[languageEvent] || ['Delivery', 'Collection'];
+    const badges = o.bannerBadges.split(',').map((badge) => badge.trim()).filter(Boolean);
+    const hero = o.banner ? `<div class="pm-order-hero" style="background-image:${o.image ? `url("${o.image}")` : HEROES[o.hero].background}">
+      <div class="pm-order-hero-copy"><div class="pm-order-hero-title">${escapeHtml(o.bannerTitle).replace(/\n/g, '<br>')}</div>
+      <div class="pm-order-badges">${badges.map((badge) => `<span>${escapeHtml(badge)}</span>`).join('')}</div></div>
     </div>` : '';
-    const hero = `<div class="pm-hero" style="background-image:${HEROES[o.hero].background}">
-      <div class="pm-hero-txt"><div class="pm-hero-title">Order for pickup</div><div class="pm-hero-sub">Ready in ~15 min</div></div>
-    </div>`;
-
-    const body = cats.map(cat => {
-      const sec = `<div class="pm-sec">${cat.name.toUpperCase()}</div>`;
-      if (o.layout === 'list') {
-        return sec + cat.items.map(i => `<div class="pm-list-item">
-          <span class="im" style="background:${i.color}"></span>
-          <span class="tx"><span class="nm">${i.name}</span><span class="ds">${i.desc}</span>${dietBadges(i.tags, o.allergens)}</span>
-          <span class="pr">${i.price}</span>
-        </div>`).join('');
-      }
-      if (o.layout === 'hero') {
-        return sec + cat.items.map(i => `<div class="pm-show">
-          <div class="pm-show-img" style="background:${i.color}">${o.allergens && i.badge ? '<span class="pm-badge">' + i.badge + '</span>' : ''}</div>
-          <div class="pm-show-body">
-            <div class="pm-show-name">${i.name}</div>
-            <div class="pm-show-desc">${i.desc}</div>
-            ${dietBadges(i.tags, o.allergens)}
-            <div class="pm-show-foot"><span class="pm-card-price">${i.price}</span><button class="pm-add">+</button></div>
-          </div>
-        </div>`).join('');
-      }
-      return sec + '<div class="pm-grid">' + cat.items.map(i => `<div class="pm-card">
-        <div class="pm-card-img" style="background:${i.color}">${o.allergens && i.badge ? '<span class="pm-badge">' + i.badge + '</span>' : ''}</div>
-        <div class="pm-card-body">
-          <div class="pm-card-name">${i.name}</div>
-          ${dietBadges(i.tags, o.allergens)}
-          <div class="pm-card-foot"><span class="pm-card-price">${i.price}</span><button class="pm-add">+</button></div>
-        </div>
-      </div>`).join('') + '</div>';
+    const fulfillment = `<div class="pm-order-fulfillment">
+      ${o.delivery ? `<button class="active"><span>${fulfillmentCopy[0]}</span><small>${escapeHtml(o.deliveryEstimate)}</small></button>` : ''}
+      ${o.pickup ? `<button><span>${fulfillmentCopy[1]}</span><small>${escapeHtml(o.pickupTime)}</small></button>` : ''}
+    </div>${o.delivery ? `<div class="pm-order-delivery-meta">Minimum ${escapeHtml(o.minimumOrder)} · Delivery fee ${escapeHtml(o.deliveryFee)}</div>` : ''}`;
+    const address = o.addressSearch ? `<div class="pm-order-address"><p>Enter your address or zip code to find your nearest store for pickup or delivery</p>
+      <div class="pm-order-search"><span>⌕</span><input readonly placeholder="${escapeHtml(o.addressPlaceholder)}"><button type="button" aria-label="Use my location">⌖</button></div>
+      <button class="pm-order-location" type="button">⌖ Use my location</button></div>` : '';
+    const productSearch = o.productSearch ? `<div class="pm-order-product-search"><span>⌕</span><input readonly placeholder="${escapeHtml(o.productPlaceholder)}"></div>` : '';
+    const categories = o.categories ? '<div class="pm-order-categories"><button class="active">Highlights</button><button>Signature Bowls</button><button>Sides &amp; Extras</button><button aria-label="All categories">☰</button></div>' : '';
+    const cards = o.items.map((item) => {
+      const image = item.image ? `url("${item.image}")` : `linear-gradient(135deg,${item.color},${item.color}99)`;
+      const rating = o.ratings && item.badge ? `<span class="pm-order-rating">${escapeHtml(item.badge)}</span>` : '';
+      if (o.layout === 'list') return `<div class="pm-order-item pm-order-item-list">
+        <span class="pm-order-item-img" style="background-image:${image}">${rating}</span>
+        <span class="pm-order-item-copy"><strong>${escapeHtml(item.name)}</strong>${o.ratings && item.badge ? '<small class=\"pm-order-inline-rating\">' + escapeHtml(item.badge) + '</small>' : ''}<p>${escapeHtml(item.desc)}</p><b>${escapeHtml(item.price)}</b></span>
+        <button class="pm-order-add" type="button">+</button>
+      </div>`;
+      return `<div class="pm-order-item pm-order-item-grid">
+        <span class="pm-order-item-img" style="background-image:${image}">${rating}</span>
+        <span class="pm-order-item-copy"><strong>${escapeHtml(item.name)}</strong><p>${escapeHtml(item.desc)}</p><b>${escapeHtml(item.price)}</b></span>
+        <button class="pm-order-add" type="button">+</button>
+      </div>`;
     }).join('');
-
-    return `<div style="--pm-accent:${o.color}">${head}${banner}${hero}${body}</div>`;
+    return `<div class="pm-order">${hero}${fulfillment}${address}${productSearch}${categories}<div class="pm-order-items ${o.layout === 'list' ? 'is-list' : 'is-grid'}">${cards}</div></div>`;
   }
 
   function renderManual() {
@@ -1743,20 +1800,37 @@ export function initMenuSource(ctx) {
 
   /* --------------------------------------- react to the settings-modal flow */
 
-  document.addEventListener('como:ordering', (e) => {
+  function syncOrderingConnection(e) {
     const oo = e.detail.ordering;
-    if (state.approach !== 'ordering') return;
     if (oo.connected) {
+      state.approach = 'ordering';
       state.integration = 'native';
       const logo = document.getElementById('ms-oo-logo');
-      logo.textContent = oo.provider.mark;
-      logo.style.background = oo.provider.color;
-      document.getElementById('ms-oo-name').textContent = oo.provider.name;
+      const website = oo.experience === 'website';
+      logo.textContent = website ? '↗' : oo.provider.mark;
+      logo.style.background = website ? '#262aff' : oo.provider.color;
+      document.getElementById('ms-oo-name').textContent = website ? 'Ordering website' : 'In-app ordering';
+      document.getElementById('ms-oo-connected-label').textContent = website ? 'CONNECTED' : 'CONNECTED: Live ordering menu';
+      const urlEl = document.getElementById('ms-oo-connected-url');
+      urlEl.hidden = !website;
+      urlEl.textContent = website ? oo.websiteUrl : '';
+      state.custom.url = website ? oo.websiteUrl : state.custom.url;
+      state.custom.connected = !!website;
+      state.custom.inapp = website ? oo.linkTarget !== 'external' : state.custom.inapp;
       if (state.screen !== 'oo-connected') show('oo-connected');
     } else if (e.detail.reason === 'disconnect') {
       show('oo-integration');
     }
     renderPhone();
+  }
+  document.addEventListener('como:ordering', syncOrderingConnection);
+  document.addEventListener('como:screen-changed', (event) => {
+    if (!['menu', 'order'].includes(event.detail?.screen)) return;
+    if (orderingApi().connected || document.body.classList.contains('oo-connected')) {
+      state.approach = 'ordering';
+      state.integration = 'native';
+      show('oo-connected');
+    }
   });
 
   /* --------------------------------------------------------------- startup */
@@ -1765,6 +1839,7 @@ export function initMenuSource(ctx) {
   renderOrderingHeroControl();
   renderManualHeroControl();
   renderPhone();
+  if (ctx.ordering?.connected) syncOrderingConnection({ detail: { ordering: ctx.ordering, reason: 'restored' } });
 
   function exportMenuSource() {
     return JSON.parse(JSON.stringify(state));
@@ -1787,6 +1862,7 @@ export function initMenuSource(ctx) {
     openMenuTab: () => goToPage('menu'),
     openWebviewSetup,
     openDeferredMenuSetup,
+    openPageSettings,
     closeDeferredMenuSetup,
     isWebviewConfigured: () => state.webview.connected,
   };

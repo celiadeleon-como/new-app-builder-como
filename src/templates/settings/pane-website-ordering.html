@@ -1,0 +1,26 @@
+<div class="sm-pane sm-website-ordering-pane" data-sm-pane="website-ordering"
+     data-sm-title="Website online ordering"
+     data-sm-sub="Connect your existing online ordering page so members can order directly from your app."
+     data-sm-primary="Save &amp; connect">
+  <div class="sm-field">
+    <label class="sm-label" for="sm-website-ordering-url">Ordering website URL</label>
+    <input class="sm-input" id="sm-website-ordering-url" type="url"
+           placeholder="https://order.yourbusiness.com" autocomplete="url"
+           aria-describedby="sm-website-ordering-error" />
+    <div class="sm-field-error" id="sm-website-ordering-error" aria-live="polite"></div>
+  </div>
+
+  <div class="sm-field sm-website-target-field">
+    <div class="sm-label">Open ordering link in</div>
+    <div class="sm-website-targets" role="radiogroup" aria-label="Open ordering link in">
+      <button class="sm-website-target selected" type="button" role="radio" aria-checked="true" data-website-target="in-app">
+        <span class="sm-website-radio" aria-hidden="true"></span>
+        <span><strong>In-app browser</strong><small>Recommended — keeps members inside your branded app</small></span>
+      </button>
+      <button class="sm-website-target" type="button" role="radio" aria-checked="false" data-website-target="external">
+        <span class="sm-website-radio" aria-hidden="true"></span>
+        <span><strong>External browser</strong><small>Opens in Safari / Chrome</small></span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -80,6 +80,8 @@ export default function PhonePreview() {
 
             <div dangerouslySetInnerHTML={{ __html: modalsCombinedHtml }} />
 
+            <div className="nav-pass-shelf" id="nav-pass-shelf" hidden />
+
             <StaticMarkup
               as="div"
               className="bottom-nav"
