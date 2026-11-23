@@ -442,19 +442,12 @@ export function initSetupWizard(ctx) {
     const orderCard = offering
       ? '<div class="sw-nav-page-row required"><span class="sw-nav-page-icon">' + icon('bag') + '</span><span class="sw-nav-page-copy"><strong>Order</strong><small>Online ordering, live menu, prices, and checkout.</small></span><span class="sw-nav-required">Required</span></div>'
       : '';
-    const navStyleSection = '<div class="sw-navstyle-grid">'
-      + navStyleCard('classic-docked', 'Docked bar', 'Always visible with a familiar, full-width app navigation.')
-      + navStyleCard('floating-liquid-glass', 'Floating bar + Pass Shelf', 'A compact floating bar with your member pass within easy reach.')
-      + '</div>';
     const showHint = ob.navStyle === 'floating-liquid-glass' && (ob.navPages.has('locations') || ob.navPages.has('about-us'));
     const hint = !showHint ? '' : '<p class="sw-nav-hint">' + icon('check') + ' Your member barcode stays 1 tap away via the floating Pass Shelf, freeing your 5th tab for Locations or About Us.</p>';
-    return '<h1 class="sw-title">Choose your menu bar</h1>'
-      + '<p class="sw-sub">Choose a style, then select the pages customers can access along the bottom of your app.</p>'
-      + '<section class="sw-nav-step-section"><h2>1. Choose a style</h2>'
-      + navStyleSection
-      + '</section>'
+    return '<h1 class="sw-title">Choose your navigation pages</h1>'
+      + '<p class="sw-sub">Select the pages customers can access from the app menu. You can customize the navigation bar style later in Branding and Design.</p>'
       + '<section class="sw-nav-step-section">'
-      + '<div class="sw-nav-section-head"><h2>2. Choose your pages</h2><span class="sw-nav-count">' + ob.navPages.size + ' of ' + cap + ' selected</span></div>'
+      + '<div class="sw-nav-section-head"><h2>Choose your pages</h2><span class="sw-nav-count">' + ob.navPages.size + ' of ' + cap + ' selected</span></div>'
       + '<p class="sw-multi-meta">Select up to ' + cap + ' additional page' + (cap === 1 ? '' : 's') + (offering ? '. Order is already included.' : '.') + '</p>'
       + (orderCard ? '<div class="sw-nav-required-pages">' + orderCard + '</div>' : '')
       + '<div class="sw-nav-page-list">' + optionalCards + '</div>'
@@ -733,13 +726,6 @@ export function initSetupWizard(ctx) {
           if (ob.navPages.has(k)) ob.navPages.delete(k);
           else if (ob.navPages.size < cap) ob.navPages.add(k);
           syncNavSlots();
-          render();
-        });
-      });
-      stepsEl.querySelectorAll('[data-nav-style-pick]').forEach((el) => {
-        el.addEventListener('click', () => {
-          ob.navStyle = el.dataset.navStylePick;
-          ctx.applyNavStyle?.(ob.navStyle);
           render();
         });
       });
