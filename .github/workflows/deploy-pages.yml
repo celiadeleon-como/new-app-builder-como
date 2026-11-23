@@ -26,6 +26,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: p3/package-lock.json
       - run: npm ci
         working-directory: p3
       - run: npm run build
