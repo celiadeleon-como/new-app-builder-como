@@ -151,7 +151,7 @@ export function createGithubCommentsAdapter(config) {
       method: 'PUT',
       headers: { ...githubHeaders(), 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        message: `docs: add App Builder P1 comment screenshot ${commentId}-${index}`,
+        message: `docs: add App Builder P4 comment screenshot ${commentId}-${index}`,
         content,
         branch: config.dataBranch,
       }),

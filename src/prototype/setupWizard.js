@@ -94,6 +94,8 @@ export function initSetupWizard(ctx) {
     navStyle: 'classic-docked', // 'classic-docked' | 'floating-liquid-glass'
     navPages: new Set(),      // locations|about-us|qr|menu-pdf — capped at 3
     startingSections: null,
+    brandLogoDataUrl: null,
+    brandLogoName: '',
   };
 
   // Combo field registry: shared add/remove/select logic for every chip-style select.
@@ -110,7 +112,7 @@ export function initSetupWizard(ctx) {
   }
 
   function sequenceFor() {
-    const sequence = ['biz-confirm', 'language', 'oo-question'];
+    const sequence = ['biz-confirm', 'language', 'brand', 'oo-question'];
     if (ob.orderingChoice !== 'none') sequence.push('focus');
     sequence.push('home-layout', 'nav');
     return sequence;
@@ -247,6 +249,44 @@ export function initSetupWizard(ctx) {
       + '<p class="sw-sub">Select all languages your app should support. The primary language is used for preview and default content; customers choose their language when installing the app or from their profile.</p>'
       + '<p class="sw-language-helper">Select multiple languages. The first selected language is primary.</p>'
       + '<div class="sw-language-grid">' + languageSelectorMarkup() + '</div>';
+  }
+
+  function brandColourGroup(role, title, description) {
+    const palette = ctx.brandColors || { primary: '#262AFF', secondary: '#00A884', extractedSwatches: [] };
+    const presets = role === 'primary'
+      ? ['#262AFF', '#6D28D9', '#C7355A', '#0F766E', '#1D4ED8']
+      : ['#00A884', '#F59E0B', '#EC4899', '#84CC16', '#8B5CF6'];
+    const extracted = (palette.extractedSwatches || []).map((hex) =>
+      '<button type="button" class="sw-brand-swatch' + (palette[role] === hex ? ' selected' : '') + '" style="--swatch:' + hex + '" data-sw-brand="' + role + '" data-color="' + hex + '" aria-label="Use ' + hex + '"></button>'
+    ).join('');
+    return '<section class="sw-brand-colour">'
+      + '<div class="sw-brand-colour-head"><span><strong>' + esc(title) + '</strong><small>' + esc(description) + '</small></span>'
+      + (role === 'secondary' && palette.secondaryManuallySet ? '<button type="button" class="sw-brand-auto" data-sw-brand-auto>Auto-match primary</button>' : '')
+      + '</div>'
+      + (extracted ? '<div class="sw-brand-extracted"><span>Extracted from logo</span><div>' + extracted + '</div></div>' : '')
+      + '<div class="sw-brand-color-row">'
+      + '<label class="sw-brand-picker"><input type="color" value="' + palette[role] + '" data-sw-brand-picker="' + role + '"><span></span></label>'
+      + '<input class="sw-field sw-brand-hex" type="text" maxlength="7" value="' + palette[role] + '" data-sw-brand-hex="' + role + '" aria-label="' + title + ' hex colour">'
+      + '</div>'
+      + '<div class="sw-brand-presets">' + presets.map((hex) =>
+        '<button type="button" class="sw-brand-swatch' + (palette[role] === hex ? ' selected' : '') + '" style="--swatch:' + hex + '" data-sw-brand="' + role + '" data-color="' + hex + '" aria-label="Use ' + hex + '"></button>'
+      ).join('') + '</div></section>';
+  }
+
+  function stepBrand() {
+    const hasLogo = !!ob.brandLogoDataUrl;
+    return '<h1 class="sw-title">Upload your logo &amp; choose your brand colours</h1>'
+      + '<p class="sw-sub">We\'ll automatically detect your brand colours from your logo—or you can pick your own.</p>'
+      + '<div class="sw-brand-upload' + (hasLogo ? ' has-logo' : '') + '" data-sw-logo-drop>'
+      + (hasLogo
+        ? '<img src="' + ob.brandLogoDataUrl + '" alt="Uploaded logo preview"><div><strong>' + esc(ob.brandLogoName || 'Your logo') + '</strong><small>Brand colours detected from your logo</small></div><button type="button" data-sw-logo-replace>Replace</button><button type="button" data-sw-logo-remove>Remove</button>'
+        : '<span class="sw-brand-upload-icon">' + icon('upload') + '</span><strong>Drop your logo here, or <u>browse files</u></strong><small>PNG, JPG or SVG · up to 5MB</small><small class="sw-brand-monogram-note">No logo yet? We’ll use ' + esc(initials(ob.bizName)) + ' as your app monogram.</small>')
+      + '</div><input type="file" accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml,.svg" data-sw-logo-file hidden>'
+      + '<div class="sw-brand-colour-grid">'
+      + brandColourGroup('primary', 'Primary Colour', 'Headers, main buttons & active tabs')
+      + brandColourGroup('secondary', 'Secondary Colour', 'Badges, loyalty progress & highlights')
+      + '</div>'
+      + '<p class="sw-brand-continue-note">Logo upload is optional. You can continue with the monogram and fine-tune everything later in Branding and Design.</p>';
   }
 
   /* ------------------------------------------------------------ steps */
@@ -464,6 +504,7 @@ export function initSetupWizard(ctx) {
   function renderStep(key) {
     if (key === 'biz-confirm') return stepBizConfirm();
     if (key === 'language') return stepLanguage();
+    if (key === 'brand') return stepBrand();
     if (key === 'oo-question') return stepOrderingQuestion();
     if (key === 'nav') return stepNav();
     if (key === 'focus') return stepFocusChoice();
@@ -473,6 +514,7 @@ export function initSetupWizard(ctx) {
   function isStepValid(key) {
     if (key === 'biz-confirm') return !!ob.bizName.trim();
     if (key === 'language') return !!ob.appLanguage;
+    if (key === 'brand') return true;
     if (key === 'focus') return ob.focus === 'loyalty' || ob.focus === 'ordering';
     if (key === 'oo-question') return !!ob.orderingChoice;
     if (key === 'nav') return ob.navPages.size > 0;
@@ -682,6 +724,78 @@ export function initSetupWizard(ctx) {
         render();
         ctx.markDirty?.('app-language');
       }));
+    } else if (key === 'brand') {
+      const file = stepsEl.querySelector('[data-sw-logo-file]');
+      const upload = stepsEl.querySelector('[data-sw-logo-drop]');
+      const processLogo = (selectedFile) => {
+        if (!selectedFile) return;
+        if (!/^image\/(png|jpeg|jpg|webp|svg\+xml)/i.test(selectedFile.type) && !/\.svg$/i.test(selectedFile.name)) {
+          ctx.showToast?.('Upload a PNG, JPG, WEBP, or SVG file.', { variant: 'error' });
+          return;
+        }
+        if (selectedFile.size > 5 * 1024 * 1024) {
+          ctx.showToast?.('This file exceeds the 5MB limit.', { variant: 'error' });
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+          ob.brandLogoDataUrl = event.target.result;
+          ob.brandLogoName = selectedFile.name;
+          ctx.applyLogo?.(ob.brandLogoDataUrl, ob.brandLogoName);
+          await ctx.applyLogoColorExtraction?.(ob.brandLogoDataUrl);
+          render();
+        };
+        reader.readAsDataURL(selectedFile);
+      };
+      upload?.addEventListener('click', (event) => {
+        if (event.target.closest('[data-sw-logo-remove]')) return;
+        file?.click();
+      });
+      upload?.addEventListener('dragover', (event) => { event.preventDefault(); upload.classList.add('dragover'); });
+      upload?.addEventListener('dragleave', () => upload.classList.remove('dragover'));
+      upload?.addEventListener('drop', (event) => {
+        event.preventDefault();
+        upload.classList.remove('dragover');
+        processLogo(event.dataTransfer.files?.[0]);
+      });
+      file?.addEventListener('change', () => processLogo(file.files?.[0]));
+      stepsEl.querySelector('[data-sw-logo-replace]')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        file?.click();
+      });
+      stepsEl.querySelector('[data-sw-logo-remove]')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        ob.brandLogoDataUrl = null;
+        ob.brandLogoName = '';
+        ctx.clearLogo?.();
+        ctx.setBrand?.(ob.bizName || 'Your Business', initials(ob.bizName), '');
+        render();
+      });
+      stepsEl.querySelectorAll('[data-sw-brand-picker]').forEach((input) => {
+        input.addEventListener('input', () => {
+          ctx.setBrandColor?.(input.dataset.swBrandPicker, input.value, true);
+          render();
+        });
+      });
+      stepsEl.querySelectorAll('[data-sw-brand-hex]').forEach((input) => {
+        input.addEventListener('change', () => {
+          ctx.setBrandColor?.(input.dataset.swBrandHex, input.value, true);
+          render();
+        });
+      });
+      stepsEl.querySelectorAll('[data-sw-brand]').forEach((button) => {
+        button.addEventListener('click', () => {
+          ctx.setBrandColor?.(button.dataset.swBrand, button.dataset.color, true);
+          render();
+        });
+      });
+      stepsEl.querySelector('[data-sw-brand-auto]')?.addEventListener('click', () => {
+        const primary = ctx.brandColors?.primary;
+        if (!primary) return;
+        ctx.brandColors.secondaryManuallySet = false;
+        ctx.setBrandColor?.('primary', primary, false);
+        render();
+      });
     } else if (key === 'focus' || key === 'home-layout') {
       stepsEl.querySelectorAll('[data-focus]').forEach((el) => {
         el.addEventListener('click', () => {

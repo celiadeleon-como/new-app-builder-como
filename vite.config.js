@@ -23,7 +23,7 @@ const localCommentsProxy = {
 
 export default defineConfig({
   plugins: [react()],
-  base: process.env.VITE_BASE_PATH || '/html-commnet/app-builder-p3/',
+  base: process.env.VITE_BASE_PATH || '/html-commnet/app-builder-p4/',
   server: {
     proxy: localCommentsProxy,
     allowedHosts: ['.ngrok-free.app', '.ngrok-free.dev', '.ngrok.app', '.ngrok.io', '.ngrok.dev'],

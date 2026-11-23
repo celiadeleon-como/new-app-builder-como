@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, app-builder-p3]
+    branches: [main, app-builder-p4]
   workflow_dispatch:
 
 permissions:
@@ -18,21 +18,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout P3
+      - name: Checkout P4
         uses: actions/checkout@v4
         with:
-          path: p3
+          path: p4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: p3/package-lock.json
+          cache-dependency-path: p4/package-lock.json
       - run: npm ci
-        working-directory: p3
+        working-directory: p4
       - run: npm run build
-        working-directory: p3
+        working-directory: p4
         env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p3/
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p4/
       - name: Checkout preserved P2
         uses: actions/checkout@v4
         with:
@@ -44,12 +44,25 @@ jobs:
         working-directory: p2
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p2/
+      - name: Checkout preserved P3
+        uses: actions/checkout@v4
+        with:
+          ref: app-builder-p3-safe
+          path: p3
+      - run: npm ci
+        working-directory: p3
+      - run: npm run build
+        working-directory: p3
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p3/
       - name: Stage versioned Pages folders
         run: |
           mkdir -p pages-artifact/html-commnet/app-builder-p2
           mkdir -p pages-artifact/html-commnet/app-builder-p3
+          mkdir -p pages-artifact/html-commnet/app-builder-p4
           cp -R p2/dist/. pages-artifact/html-commnet/app-builder-p2/
           cp -R p3/dist/. pages-artifact/html-commnet/app-builder-p3/
+          cp -R p4/dist/. pages-artifact/html-commnet/app-builder-p4/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: pages-artifact
