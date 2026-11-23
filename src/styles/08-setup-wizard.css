@@ -533,21 +533,6 @@
   .sw-nav-page-copy strong { font-size: 13px; }
   .sw-nav-page-copy small { color: var(--sw-muted); font-size: 11px; }
   .sw-nav-required { padding: 4px 8px; border-radius: 999px; background: #fff; color: var(--sw-blue); font-size: 9.5px; font-weight: 800; }
-  .sw-nav-order-block { margin: 12px 0; padding: 12px; border: 1px solid var(--sw-line); border-radius: 12px; background: #fff; }
-  .sw-nav-order-label { margin-bottom: 8px; color: var(--sw-ink); font-size: 11.5px; font-weight: 750; }
-  .sw-nav-order-list { display: flex; align-items: stretch; gap: 6px; overflow-x: auto; padding-bottom: 2px; }
-  .sw-nav-order-chip {
-    display: inline-flex; align-items: center; gap: 6px; flex: none; min-height: 34px;
-    padding: 6px 7px; border: 1px solid var(--sw-line); border-radius: 9px;
-    background: var(--sw-blue-soft); color: var(--sw-ink); font-size: 10.5px; cursor: grab;
-  }
-  .sw-nav-order-chip.fixed { background: var(--sw-rail); color: var(--sw-muted); cursor: default; }
-  .sw-nav-order-chip strong { white-space: nowrap; }
-  .sw-nav-order-chip small { display: block; font-size: 8.5px; }
-  .sw-nav-order-grip { color: var(--sw-muted); }
-  .sw-nav-order-actions { display: flex; gap: 2px; }
-  .sw-nav-order-actions button { width: 20px; height: 20px; padding: 0; border: 1px solid var(--sw-line); border-radius: 5px; background: #fff; color: var(--sw-blue); cursor: pointer; }
-  .sw-nav-order-actions button:disabled { opacity: .35; cursor: default; }
   .sw-nav-explainer {
     display: flex; align-items: flex-start; gap: 10px; margin: -2px 0 18px;
     padding: 11px 13px; border: 1px solid #dfe2ff; border-radius: 11px;
