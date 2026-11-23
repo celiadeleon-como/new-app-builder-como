@@ -1,9 +1,9 @@
 export const DEFAULT_COMMENT_CONFIG = Object.freeze({
   repository: 'celiadeleon-como/new-app-builder-como',
-  page: 'app-builder-p2',
-  project: 'app-builder-p2',
+  page: 'app-builder-p3',
+  project: 'app-builder-p3',
   dataBranch: 'data',
-  assetDirectory: 'comment-assets/app-builder-p2',
+  assetDirectory: 'comment-assets/app-builder-p3',
 });
 
 export function getCommentMode(search = window.location.search) {

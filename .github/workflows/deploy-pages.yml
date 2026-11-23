@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, app-builder-p3]
   workflow_dispatch:
 
 permissions:
@@ -18,19 +18,37 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout P3
+        uses: actions/checkout@v4
+        with:
+          path: p3
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+        working-directory: p3
       - run: npm run build
+        working-directory: p3
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p3/
+      - name: Checkout preserved P2
+        uses: actions/checkout@v4
+        with:
+          ref: app-builder-p2
+          path: p2
+      - run: npm ci
+        working-directory: p2
+      - run: npm run build
+        working-directory: p2
         env:
           VITE_BASE_PATH: /${{ github.event.repository.name }}/html-commnet/app-builder-p2/
-      - name: Stage versioned Pages folder
+      - name: Stage versioned Pages folders
         run: |
           mkdir -p pages-artifact/html-commnet/app-builder-p2
-          cp -R dist/. pages-artifact/html-commnet/app-builder-p2/
+          mkdir -p pages-artifact/html-commnet/app-builder-p3
+          cp -R p2/dist/. pages-artifact/html-commnet/app-builder-p2/
+          cp -R p3/dist/. pages-artifact/html-commnet/app-builder-p3/
       - uses: actions/upload-pages-artifact@v3
         with:
           path: pages-artifact

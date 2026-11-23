@@ -93,6 +93,7 @@ export function initSetupWizard(ctx) {
     homeLayout: null,         // 'priority-stack' | 'bento-grid' | 'split-header-qsr'
     navStyle: 'classic-docked', // 'classic-docked' | 'floating-liquid-glass'
     navPages: new Set(),      // locations|about-us|qr|menu-pdf — capped at 3
+    startingSections: null,
   };
 
   // Combo field registry: shared add/remove/select logic for every chip-style select.
@@ -294,12 +295,51 @@ export function initSetupWizard(ctx) {
   }
 
   function stepFocusChoice() {
+    const sections = focusSectionDefs(ob.focus);
     return '<h1 class="sw-title">What should your app focus on?</h1>'
-      + '<p class="sw-sub">This changes the starting emphasis, not everything your app can do.</p>'
+      + '<p class="sw-sub">Choose the starting emphasis. We’ll add a proven Home structure that you can customize later.</p>'
       + '<div class="sw-focus-grid">'
       + focusCard('loyalty', 'Loyalty', 'Make every visit count.')
       + focusCard('ordering', 'Online Ordering', 'Put ordering first.')
+      + '<div class="sw-focus-sections">'
+      + '<div class="sw-focus-sections-head"><strong>Your starting Home sections</strong><span>Recommended</span></div>'
+      + '<div class="sw-focus-section-list">'
+      + sections.map((section) => {
+        const selected = startingSectionsForFocus().has(section.key);
+        return '<button type="button" class="sw-focus-section' + (selected ? ' selected' : '') + '" data-focus-section="' + section.key + '">'
+          + '<span class="sw-focus-section-icon">' + icon(section.icon) + '</span>'
+          + '<span><strong>' + esc(section.label) + '</strong><small>' + esc(section.desc) + '</small></span>'
+          + '<span class="sw-focus-section-check">' + icon('check') + '</span></button>';
+      }).join('')
+      + '</div><p class="sw-focus-section-note">These are starting defaults, not limitations. Edit every section in Home after setup.</p></div>'
       + '</div>';
+  }
+
+  function focusSectionDefs(focus) {
+    return focus === 'ordering'
+      ? [
+        { key: 'order-again', icon: 'bag', label: 'Order Again', desc: 'Fast repeat ordering' },
+        { key: 'menu-categories', icon: 'dish', label: 'Menu Categories', desc: 'Browse the live ordering menu' },
+        { key: 'profile', icon: 'heart', label: 'Profile & Loyalty', desc: 'Member identity and points' },
+        { key: 'active-rewards', icon: 'gift', label: 'Active Rewards', desc: 'Ready-to-redeem value' },
+        { key: 'promo-cards', icon: 'star', label: 'Featured promotions', desc: 'Timely offers and announcements' },
+      ]
+      : [
+        { key: 'profile', icon: 'heart', label: 'Profile & Loyalty', desc: 'Member status and points' },
+        { key: 'loyalty-qr', icon: 'qr', label: 'Loyalty QR / Scan to earn', desc: 'Earn and redeem in one tap' },
+        { key: 'active-rewards', icon: 'gift', label: 'Active Rewards', desc: 'Ready-to-redeem value' },
+        { key: 'punch-card', icon: 'punch', label: 'Punch Card', desc: 'Visit-based progress' },
+        { key: 'promo-cards', icon: 'star', label: 'Featured promotions', desc: 'Timely offers and announcements' },
+      ];
+  }
+
+  function defaultStartingSections(focus) {
+    return new Set(focusSectionDefs(focus).map((section) => section.key));
+  }
+
+  function startingSectionsForFocus() {
+    if (!ob.startingSections) ob.startingSections = defaultStartingSections(ob.focus);
+    return ob.startingSections;
   }
 
   function focusCard(value, title, desc) {
@@ -319,9 +359,13 @@ export function initSetupWizard(ctx) {
     ctx.applyHomeLayout?.(ob.homeLayout);
 
     const layoutCards = (ctx.homeLayoutDefs || []).map((d) => homeLayoutCard(d, d.key === recommended)).join('');
+    const enabledSections = focusSectionDefs(ob.focus).filter((section) => startingSectionsForFocus().has(section.key));
 
     return '<h1 class="sw-title">Choose your Home screen layout</h1>'
-      + '<p class="sw-sub">Pick the structure for your app\'s Home screen. Your app can offer both loyalty and online ordering regardless of which you lead with.</p>'
+      + '<p class="sw-sub">Pick the structure for your Home screen. Your selected features keep their order within every layout.</p>'
+      + '<div class="sw-layout-feature-summary"><span>Included to start</span>'
+      + enabledSections.map((section) => '<b>' + esc(section.label) + '</b>').join('')
+      + '</div>'
       + '<div class="sw-layout-grid">' + layoutCards + '</div>';
   }
 
@@ -338,13 +382,13 @@ export function initSetupWizard(ctx) {
 
 
   function stepOrderingQuestion() {
-    return '<h1 class="sw-title">Will you offer online ordering?</h1>'
-      + '<p class="sw-sub">Choose whether customers can place orders online.</p>'
+    return '<h1 class="sw-title">Do you want customers to order through your app?</h1>'
+      + '<p class="sw-sub">Choose whether your app should include transactional ordering, menu availability, checkout, and order status.</p>'
       + '<div class="sw-opt-grid sw-opt-grid--cols2">'
-      + methodCard({ attr: 'data-oo-pick="offer"', selected: ob.orderingChoice === 'offer', iconName: 'bag', name: 'Offer online ordering', desc: 'Let customers place orders online.' })
+      + methodCard({ attr: 'data-oo-pick="offer"', selected: ob.orderingChoice === 'offer', iconName: 'bag', name: 'Yes, enable online ordering', desc: 'Add live menu, basket, checkout, and fulfillment.' })
       + methodCard({ attr: 'data-oo-pick="none"', selected: ob.orderingChoice === 'none', iconName: 'heart', name: 'Continue without online ordering', desc: 'Start with loyalty. You can add online ordering later.' })
       + '</div>'
-      + '<p class="sw-sub sw-sub-note">Change this option later in Settings.</p>';
+      + '<p class="sw-sub sw-sub-note">You can connect your ordering provider after onboarding; no credentials are needed now.</p>';
   }
 
   function methodCard({ attr, selected, iconName, name, desc, badge }) {
@@ -462,9 +506,7 @@ export function initSetupWizard(ctx) {
       ctx.setOrderingMode?.('native');
       ctx.setMenuSlotMode?.('menu');
     }
-    const wanted = ob.focus === 'ordering'
-      ? ['order-again', 'menu-categories', 'profile', 'active-rewards', 'promo-cards']
-      : ['profile', 'loyalty-qr', 'active-rewards', 'punch-card', 'promo-cards'];
+    const wanted = [...startingSectionsForFocus()];
     const all = ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'promo-cards-2', 'social', 'order-again', 'top-items', 'menu-categories', 'menu-reels'];
     const wantedSet = new Set(wanted);
     document.body.classList.add('gf-applying-preset');
@@ -645,8 +687,19 @@ export function initSetupWizard(ctx) {
       stepsEl.querySelectorAll('[data-focus]').forEach((el) => {
         el.addEventListener('click', () => {
           ob.focus = el.dataset.focus;
+          ob.startingSections = defaultStartingSections(ob.focus);
           ob.homeLayoutExplicit = false;
           ctx.applyGoalPreset?.(ob.focus, { source: 'onboarding-preview' });
+          applyFocusLive();
+          render();
+        });
+      });
+      stepsEl.querySelectorAll('[data-focus-section]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const sections = startingSectionsForFocus();
+          const key = button.dataset.focusSection;
+          if (sections.has(key) && sections.size > 1) sections.delete(key);
+          else sections.add(key);
           applyFocusLive();
           render();
         });
@@ -665,6 +718,7 @@ export function initSetupWizard(ctx) {
           ob.orderingChoice = el.dataset.ooPick;
           if (ob.orderingChoice === 'none') {
             ob.focus = 'loyalty';
+            ob.startingSections = defaultStartingSections('loyalty');
             ob.homeLayoutExplicit = false;
           }
           applyOrderingLive();
