@@ -93,6 +93,7 @@ export function initSetupWizard(ctx) {
     homeLayout: null,         // 'priority-stack' | 'bento-grid' | 'split-header-qsr'
     navStyle: 'classic-docked', // 'classic-docked' | 'floating-liquid-glass'
     navPages: new Set(),      // locations|about-us|qr|menu-pdf — capped at 3
+    navOrder: null,
     startingSections: null,
   };
 
@@ -439,9 +440,16 @@ export function initSetupWizard(ctx) {
         attr: 'data-nav-page="' + o.key + '"', selected, iconName: o.icon, name: o.label, desc: o.desc, multi: true,
       }).replace('<button ', atCap && !selected ? '<button disabled ' : '<button ');
     }).join('');
-    const orderCard = offering
-      ? '<div class="sw-nav-page-row required"><span class="sw-nav-page-icon">' + icon('bag') + '</span><span class="sw-nav-page-copy"><strong>Order</strong><small>Online ordering, live menu, prices, and checkout.</small></span><span class="sw-nav-required">Required</span></div>'
-      : '';
+    const required = offering
+      ? [
+        { key: 'rewards', icon: 'gift', label: 'Rewards', desc: 'Member points, benefits, and rewards.' },
+        { key: 'order', icon: 'bag', label: 'Order', desc: 'Live menu, prices, checkout, and order status.' },
+      ]
+      : [
+        { key: 'rewards', icon: 'gift', label: 'Rewards', desc: 'Member points, benefits, and rewards.' },
+      ];
+    const requiredCards = required.map((page) => '<div class="sw-nav-page-row required"><span class="sw-nav-page-icon">' + icon(page.icon) + '</span><span class="sw-nav-page-copy"><strong>' + page.label + '</strong><small>' + page.desc + '</small></span><span class="sw-nav-required">Required</span></div>').join('');
+    const selectedOrder = navOrderFor(required, options.filter((option) => ob.navPages.has(option.key)));
     const showHint = ob.navStyle === 'floating-liquid-glass' && (ob.navPages.has('locations') || ob.navPages.has('about-us'));
     const hint = !showHint ? '' : '<p class="sw-nav-hint">' + icon('check') + ' Your member barcode stays 1 tap away via the floating Pass Shelf, freeing your 5th tab for Locations or About Us.</p>';
     return '<h1 class="sw-title">Choose your navigation pages</h1>'
@@ -449,10 +457,26 @@ export function initSetupWizard(ctx) {
       + '<section class="sw-nav-step-section">'
       + '<div class="sw-nav-section-head"><h2>Choose your pages</h2><span class="sw-nav-count">' + ob.navPages.size + ' of ' + cap + ' selected</span></div>'
       + '<p class="sw-multi-meta">Select up to ' + cap + ' additional page' + (cap === 1 ? '' : 's') + (offering ? '. Order is already included.' : '.') + '</p>'
-      + (orderCard ? '<div class="sw-nav-required-pages">' + orderCard + '</div>' : '')
+      + '<div class="sw-nav-required-pages">' + requiredCards + '</div>'
+      + '<div class="sw-nav-order-block"><div class="sw-nav-order-label">Navigation order</div><div class="sw-nav-order-list">'
+      + '<span class="sw-nav-order-chip fixed">Home <small>Always first</small></span>'
+      + selectedOrder.map((key, index) => {
+        const item = [...required, ...options].find((option) => option.key === key);
+        return '<span class="sw-nav-order-chip" draggable="true" data-nav-order-key="' + key + '">'
+          + '<span class="sw-nav-order-grip">⠿</span><strong>' + esc(item?.label || key) + '</strong>'
+          + '<span class="sw-nav-order-actions"><button type="button" data-nav-order-up="' + key + '" ' + (index === 0 ? 'disabled' : '') + '>↑</button><button type="button" data-nav-order-down="' + key + '" ' + (index === selectedOrder.length - 1 ? 'disabled' : '') + '>↓</button></span></span>';
+      }).join('')
+      + '<span class="sw-nav-order-chip fixed">More <small>Always last</small></span></div></div>'
       + '<div class="sw-nav-page-list">' + optionalCards + '</div>'
       + hint
       + '</section>';
+  }
+
+  function navOrderFor(required, selectedOptional) {
+    const allowed = [...required.map((item) => item.key), ...selectedOptional.map((item) => item.key)];
+    const previous = Array.isArray(ob.navOrder) ? ob.navOrder.filter((key) => allowed.includes(key)) : [];
+    ob.navOrder = [...new Set([...previous, ...allowed])];
+    return ob.navOrder;
   }
 
   function renderStep(key) {
@@ -554,6 +578,47 @@ export function initSetupWizard(ctx) {
     if (ob.navPages.has('menu-pdf')) {
       document.querySelector('#cp-menu [data-approach="pdf"]')?.click();
     }
+    syncPreviewNavOrder();
+  }
+
+  function activeNavDefinitions() {
+    const offering = ob.orderingChoice === 'offer';
+    const options = [
+      { key: 'locations', label: 'Locations' },
+      { key: 'about-us', label: 'About Us' },
+      { key: 'qr', label: 'My QR Code' },
+      ...(!offering ? [{ key: 'menu-pdf', label: 'Menu' }] : []),
+    ];
+    return {
+      required: offering ? ['rewards', 'order'] : ['rewards'],
+      optional: options.filter((option) => ob.navPages.has(option.key)),
+    };
+  }
+
+  function syncPreviewNavOrder() {
+    const nav = document.getElementById('bottom-nav');
+    if (!nav) return;
+    const { required, optional } = activeNavDefinitions();
+    const orderedKeys = [...required, ...optional.map((item) => item.key)];
+    ob.navOrder = [...new Set([...(ob.navOrder || []), ...orderedKeys])].filter((key) => orderedKeys.includes(key));
+    const selectedOptional = NAV_SLOT_ORDER.filter((key) => ob.navPages.has(key));
+    const nodeFor = {
+      home: nav.querySelector('[data-nav="home"]'),
+      rewards: nav.querySelector('[data-nav="rewards"]'),
+      order: ob.orderingChoice === 'offer' ? nav.querySelector('#nav-menu-slot') : null,
+      more: nav.querySelector('[data-nav="more"]'),
+    };
+    if (selectedOptional[0]) nodeFor[selectedOptional[0]] = nav.querySelector('#nav-extra-slot');
+    if (selectedOptional[1]) nodeFor[selectedOptional[1]] = nav.querySelector('#nav-menu-slot');
+    const home = nodeFor.home;
+    const more = nodeFor.more;
+    if (!home || !more) return;
+    ob.navOrder.forEach((key) => {
+      const node = nodeFor[key];
+      if (node && node !== home && node !== more) nav.insertBefore(node, more);
+    });
+    nav.prepend(home);
+    nav.appendChild(more);
   }
 
   /* --------------------------------------------------------- rendering */
@@ -726,6 +791,39 @@ export function initSetupWizard(ctx) {
           if (ob.navPages.has(k)) ob.navPages.delete(k);
           else if (ob.navPages.size < cap) ob.navPages.add(k);
           syncNavSlots();
+          render();
+        });
+      });
+      let draggedNavKey = null;
+      stepsEl.querySelectorAll('[data-nav-order-key]').forEach((chip) => {
+        chip.addEventListener('dragstart', (event) => {
+          draggedNavKey = chip.dataset.navOrderKey;
+          event.dataTransfer.effectAllowed = 'move';
+          event.dataTransfer.setData('text/plain', draggedNavKey);
+        });
+        chip.addEventListener('dragover', (event) => {
+          event.preventDefault();
+        });
+        chip.addEventListener('drop', (event) => {
+          event.preventDefault();
+          const target = chip.dataset.navOrderKey;
+          if (!draggedNavKey || draggedNavKey === target) return;
+          const from = ob.navOrder.indexOf(draggedNavKey);
+          const to = ob.navOrder.indexOf(target);
+          const [moved] = ob.navOrder.splice(from, 1);
+          ob.navOrder.splice(to, 0, moved);
+          syncPreviewNavOrder();
+          render();
+        });
+      });
+      stepsEl.querySelectorAll('[data-nav-order-up], [data-nav-order-down]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const key = button.dataset.navOrderUp || button.dataset.navOrderDown;
+          const from = ob.navOrder.indexOf(key);
+          const to = button.hasAttribute('data-nav-order-up') ? from - 1 : from + 1;
+          if (from < 0 || to < 0 || to >= ob.navOrder.length) return;
+          [ob.navOrder[from], ob.navOrder[to]] = [ob.navOrder[to], ob.navOrder[from]];
+          syncPreviewNavOrder();
           render();
         });
       });
