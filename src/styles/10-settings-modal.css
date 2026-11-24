@@ -206,6 +206,16 @@ body.side-collapsed .account-menu { left: 4px; width: 240px; }
 .sm-overlay.website-ordering-modal .sm-main { min-height: 420px; }
 .sm-overlay.website-ordering-modal .sm-foot > .sm-help { display: none; }
 .sm-overlay.website-ordering-modal .sm-foot { justify-content: flex-end; }
+.sm-overlay.online-ordering-modal .sm-modal {
+  width: min(720px, 100%);
+  height: min(820px, 100%);
+  grid-template-columns: minmax(0, 1fr);
+  border-radius: 20px;
+}
+.sm-overlay.online-ordering-modal .sm-rail { display: none; }
+.sm-overlay.online-ordering-modal .sm-head { padding: 26px 30px 22px; }
+.sm-overlay.online-ordering-modal .sm-body { padding: 26px 30px 30px; }
+.sm-overlay.online-ordering-modal .sm-foot { padding: 16px 30px; }
 .sm-website-targets { display: grid; gap: 10px; }
 .sm-website-target {
   display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px;
