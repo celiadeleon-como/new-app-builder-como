@@ -253,9 +253,6 @@ export function initSetupWizard(ctx) {
 
   function brandColourGroup(role, title, description) {
     const palette = ctx.brandColors || { primary: '#262AFF', secondary: '#00A884', extractedSwatches: [] };
-    const presets = role === 'primary'
-      ? ['#262AFF', '#6D28D9', '#C7355A', '#0F766E', '#1D4ED8']
-      : ['#00A884', '#F59E0B', '#EC4899', '#84CC16', '#8B5CF6'];
     const extracted = (palette.extractedSwatches || []).map((hex) =>
       '<button type="button" class="sw-brand-swatch' + (palette[role] === hex ? ' selected' : '') + '" style="--swatch:' + hex + '" data-sw-brand="' + role + '" data-color="' + hex + '" aria-label="Use ' + hex + '"></button>'
     ).join('');
@@ -267,10 +264,7 @@ export function initSetupWizard(ctx) {
       + '<div class="sw-brand-color-row">'
       + '<label class="sw-brand-picker"><input type="color" value="' + palette[role] + '" data-sw-brand-picker="' + role + '"><span></span></label>'
       + '<input class="sw-field sw-brand-hex" type="text" maxlength="7" value="' + palette[role] + '" data-sw-brand-hex="' + role + '" aria-label="' + title + ' hex colour">'
-      + '</div>'
-      + '<div class="sw-brand-presets">' + presets.map((hex) =>
-        '<button type="button" class="sw-brand-swatch' + (palette[role] === hex ? ' selected' : '') + '" style="--swatch:' + hex + '" data-sw-brand="' + role + '" data-color="' + hex + '" aria-label="Use ' + hex + '"></button>'
-      ).join('') + '</div></section>';
+      + '</div></section>';
   }
 
   function stepBrand() {
