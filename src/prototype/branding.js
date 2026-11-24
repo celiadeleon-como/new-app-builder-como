@@ -1,3 +1,8 @@
+import {
+  ensureAgainstSurfaces, ensureWcagContrast, getAccessibleOnColor,
+  getContrastRatio, tintFromHue,
+} from './colorAccessibility.js';
+
 export function initBranding(ctx) {
   const { markDirty, showToast } = ctx;
 
@@ -128,6 +133,7 @@ export function initBranding(ctx) {
     document.body.style.setProperty('--p-accent-ink', getContrastTextColor(brandColors.primary));
     document.body.style.setProperty('--p-secondary-ink', getContrastTextColor(brandColors.secondary));
     syncBrandColorControls();
+    document.dispatchEvent(new CustomEvent('como:brand-colors', { detail: { ...brandColors } }));
     if (options.dirty !== false) markDirty();
   }
 
@@ -737,7 +743,7 @@ export function initBranding(ctx) {
   });
   checkBrandingContrast();
 
-  // ---------- Suggested themes (accessible palettes derived from the brand colour) ----------
+  // ---------- Suggested themes (accessible palettes derived from both brand colours) ----------
   function hexToHsl(hex) {
     const rgb = hexToRgb(hex);
     if (!rgb) return null;
@@ -792,50 +798,62 @@ export function initBranding(ctx) {
     }
     return passes(candidate) ? candidate : (lighten ? '#ffffff' : '#000000');
   }
-  function buildThemePresets(accentHex) {
-    const hsl = hexToHsl(accentHex) || [230, 60, 50];
-    const [h, s] = hsl;
-    const bases = [
-      { key: 'light', name: 'Light', bg: hslToHex(h, Math.min(s, 35), 97), panel: '#ffffff', text: '#1d1d28', textMuted: '#6b6b7b' },
-      { key: 'soft', name: 'Soft tint', bg: hslToHex(h, Math.min(s, 55), 92), panel: hslToHex(h, Math.min(s, 25), 98), text: '#1d1d28', textMuted: '#5f5f70' },
-      { key: 'dark', name: 'Dark', bg: hslToHex(h, Math.min(s, 45), 12), panel: hslToHex(h, Math.min(s, 30), 18), text: '#f5f5fa', textMuted: '#c7c7d6' },
-    ];
-    return bases.map((base) => {
-      // A theme is meant to be a safe, ready-to-use combination: generate its own
-      // gradient end stop too (nudged a touch toward mid-tone from the base bg),
-      // so switching to Gradient fill later doesn't reintroduce a stale, unchecked color.
-      const [bgH, bgS, bgL] = hexToHsl(base.bg) || [h, s, 50];
-      const bg2 = hslToHex(bgH, bgS, bgL > 50 ? Math.max(3, bgL - 6) : Math.min(97, bgL + 6));
-      // The bottom nav bar shares the card panel's tone so it inherits the same
-      // verified contrast instead of silently drifting out of compliance.
-      const navBg = base.panel;
-      const bgPair = [base.bg, bg2, base.panel];
-      const navAware = [base.bg, bg2, base.panel, navBg];
-      // Both the brand accent and the icon color render as UI foreground on
-      // these backgrounds, so they share the same WCAG 3:1-safe tint of the brand hue.
-      const accentSafe = nudgeForContrast(accentHex, navAware, WCAG_UI_RATIO);
+  function buildThemePresets(primaryHex, secondaryHex) {
+    const primaryHsl = hexToHsl(primaryHex) || [230, 60, 50];
+    const secondaryHsl = hexToHsl(secondaryHex) || [165, 60, 42];
+    const light = {
+      key: 'light', name: 'Light', bg: '#F8FAFC', panel: '#FFFFFF',
+      border: '#E2E8F0', text: '#0F172A', textMuted: '#475569',
+    };
+    const soft = {
+      key: 'soft', name: 'Soft tint',
+      bg: tintFromHue(primaryHex, Math.min(primaryHsl[1] / 100, 0.28), 0.95),
+      panel: tintFromHue(secondaryHex, 0.15, 0.985),
+      border: '#DCE3EB', text: '#0F172A', textMuted: '#475569',
+    };
+    const dark = {
+      key: 'dark', name: 'Dark',
+      bg: tintFromHue(primaryHex, Math.min(primaryHsl[1] / 100, 0.26), 0.08),
+      panel: tintFromHue(primaryHex, Math.min(primaryHsl[1] / 100, 0.22), 0.14),
+      border: 'rgba(255,255,255,.10)', text: '#F8FAFC', textMuted: '#CBD5E1',
+    };
+
+    return [light, soft, dark].map((base) => {
+      const surfaces = base.key === 'dark' ? [base.bg, base.panel] : [base.bg, base.panel, '#FFFFFF'];
+      const primaryAccent = ensureAgainstSurfaces(primaryHex, surfaces, 4.5);
+      const secondaryAccent = ensureAgainstSurfaces(secondaryHex, surfaces, base.key === 'dark' ? 4.5 : 3);
+      const secondaryText = ensureAgainstSurfaces(secondaryHex, surfaces, 4.5);
       return {
         ...base,
-        bg2,
-        navBg,
-        text: nudgeForContrast(base.text, bgPair, WCAG_TEXT_RATIO),
-        textMuted: nudgeForContrast(base.textMuted, navAware, WCAG_TEXT_RATIO),
-        accent: accentSafe,
-        icon: accentSafe,
+        bg2: tintFromHue(primaryHex, Math.min(primaryHsl[1] / 100, 0.2), base.key === 'dark' ? 0.11 : 0.93),
+        navBg: base.panel,
+        primaryAccent,
+        onPrimary: getAccessibleOnColor(primaryAccent),
+        secondaryAccent,
+        onSecondary: getAccessibleOnColor(secondaryAccent),
+        secondaryText,
+        text: ensureAgainstSurfaces(base.text, surfaces, 4.5),
+        textMuted: ensureAgainstSurfaces(base.textMuted, surfaces, 4.5),
       };
     });
   }
   const themeGrid = document.getElementById('branding-theme-grid');
+  let activeSuggestedTheme = null;
   function applyThemePreset(preset) {
+    activeSuggestedTheme = preset.key;
     [
       ['--p-bg', preset.bg],
       ['--p-bg-2', preset.bg2],
       ['--p-panel', preset.panel],
+      ['--p-border', preset.border],
       ['--p-nav-bg', preset.navBg],
       ['--p-text', preset.text],
       ['--p-text-muted', preset.textMuted],
-      ['--p-accent', preset.accent],
-      ['--p-icon', preset.icon],
+      ['--p-accent', preset.primaryAccent],
+      ['--p-accent-ink', preset.onPrimary],
+      ['--p-secondary', preset.secondaryAccent],
+      ['--p-secondary-ink', preset.onSecondary],
+      ['--p-icon', preset.primaryAccent],
     ].forEach(([varName, hex]) => {
       document.body.style.setProperty(varName, hex);
       window.syncColorVar?.(varName, hex);
@@ -855,14 +873,14 @@ export function initBranding(ctx) {
   }
   function renderThemeSuggestions() {
     if (!themeGrid) return;
-    const accent = currentHex('--p-accent', '#3d40ff');
-    const presets = buildThemePresets(accent);
+    const presets = buildThemePresets(brandColors.primary, brandColors.secondary);
     themeGrid.innerHTML = presets.map((p) => `
       <button type="button" class="branding-theme-card" data-theme-key="${p.key}" aria-label="Apply ${p.name} theme">
         <span class="branding-theme-swatches">
           <span class="branding-theme-swatch" style="background:${p.bg}"></span>
           <span class="branding-theme-swatch" style="background:${p.panel}"></span>
-          <span class="branding-theme-swatch" style="background:${p.icon}"></span>
+          <span class="branding-theme-swatch" style="background:${p.primaryAccent}"></span>
+          <span class="branding-theme-swatch" style="background:${p.secondaryAccent}"></span>
         </span>
         <span class="branding-theme-name">${p.name}</span>
       </button>
@@ -871,16 +889,22 @@ export function initBranding(ctx) {
       const preset = presets.find((p) => p.key === card.dataset.themeKey);
       card.addEventListener('click', () => applyThemePreset(preset));
     });
+    themeGrid.querySelectorAll('.branding-theme-card').forEach((card) => card.classList.toggle('active', card.dataset.themeKey === activeSuggestedTheme));
   }
-  const accentInput = document.querySelector('.branding-page input[type="color"][data-bind-color="--p-accent"]');
-  const accentHexField = accentInput?.closest('.cp-color-row')?.querySelector('.cp-color-hex');
   let themeRefreshTimer = null;
   function scheduleThemeRefresh() {
     clearTimeout(themeRefreshTimer);
-    themeRefreshTimer = setTimeout(renderThemeSuggestions, 400);
+    themeRefreshTimer = setTimeout(() => {
+      const key = activeSuggestedTheme;
+      renderThemeSuggestions();
+      if (key) {
+        const presets = buildThemePresets(brandColors.primary, brandColors.secondary);
+        const active = presets.find((preset) => preset.key === key);
+        if (active) applyThemePreset(active);
+      }
+    }, 80);
   }
-  accentInput?.addEventListener('input', scheduleThemeRefresh);
-  accentHexField?.addEventListener('input', scheduleThemeRefresh);
+  document.addEventListener('como:brand-colors', scheduleThemeRefresh);
   document.addEventListener('como:draft-restored', renderThemeSuggestions);
   renderThemeSuggestions();
 
