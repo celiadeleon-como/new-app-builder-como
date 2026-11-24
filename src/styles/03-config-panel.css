@@ -446,13 +446,13 @@
   .branding-color-row { min-height: 72px; padding: 16px; border-color: var(--line); border-radius: 11px; background: var(--panel); flex-wrap: wrap; }
   .branding-color-role { margin: 0 0 12px; color: var(--muted); font-size: 12px; line-height: 1.45; }
   .branding-extracted-block { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--muted); font-size: 10.5px; font-weight: 700; }
-  .branding-extracted-row, .branding-preset-row { display: flex; align-items: center; gap: 7px; }
-  .branding-preset-row { margin-top: 12px; }
-  .brand-extracted-swatch, .brand-preset-swatch {
+  .branding-extracted-row { display: flex; align-items: center; gap: 7px; }
+  .branding-brand-colour-section.cp-section.open { gap: 10px; padding-bottom: 10px; }
+  .brand-extracted-swatch {
     width: 27px; height: 27px; padding: 0; border: 2px solid #fff; border-radius: 50%;
     background: var(--swatch); box-shadow: 0 0 0 1px var(--line); cursor: pointer;
   }
-  .brand-extracted-swatch.selected, .brand-preset-swatch.selected { box-shadow: 0 0 0 2px var(--como); }
+  .brand-extracted-swatch.selected { box-shadow: 0 0 0 2px var(--como); }
   .branding-auto-match {
     margin-left: auto; padding: 5px 8px; border: none; border-radius: 7px;
     background: var(--como-soft); color: var(--como); font-size: 10px; font-weight: 750; cursor: pointer;

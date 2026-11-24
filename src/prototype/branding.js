@@ -12,9 +12,6 @@ export function initBranding(ctx) {
     extractedSwatches: [],
     secondaryManuallySet: false,
   };
-  const PRIMARY_PRESETS = ['#262AFF', '#6D28D9', '#C7355A', '#0F766E', '#1D4ED8'];
-  const SECONDARY_PRESETS = ['#00A884', '#F59E0B', '#EC4899', '#84CC16', '#8B5CF6'];
-
   function normalizeBrandHex(value) {
     const hex = String(value || '').trim();
     const match = /^#?([0-9a-f]{6})$/i.exec(hex);
@@ -95,17 +92,6 @@ export function initBranding(ctx) {
     });
   }
 
-  function renderBrandPresets() {
-    document.querySelectorAll('[data-brand-presets]').forEach((row) => {
-      const role = row.dataset.brandPresets;
-      const presets = role === 'primary' ? PRIMARY_PRESETS : SECONDARY_PRESETS;
-      row.innerHTML = presets.map((hex) => `<button type="button" class="brand-preset-swatch${brandColors[role] === hex ? ' selected' : ''}" style="--swatch:${hex}" data-brand-preset="${role}" data-color="${hex}" aria-label="Use preset ${hex}"></button>`).join('');
-      row.querySelectorAll('[data-brand-preset]').forEach((button) => button.addEventListener('click', () => {
-        setBrandColor(button.dataset.brandPreset, button.dataset.color, true);
-      }));
-    });
-  }
-
   function syncBrandColorControls() {
     ['primary', 'secondary'].forEach((role) => {
       const hex = brandColors[role];
@@ -120,7 +106,6 @@ export function initBranding(ctx) {
     const auto = document.getElementById('brand-secondary-auto');
     if (auto) auto.hidden = !brandColors.secondaryManuallySet;
     renderBrandSwatches();
-    renderBrandPresets();
   }
 
   function applyBrandPalette(options = {}) {
