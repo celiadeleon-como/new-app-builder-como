@@ -66,8 +66,11 @@ export function initSettingsModal(ctx) {
   function syncHeader() {
     const el = activeStepEl();
     if (!el) return;
-    titleEl.innerHTML = el.dataset.smTitle || '';
-    subEl.innerHTML = el.dataset.smSub || '';
+    const onlineOrderingFocused = overlay.classList.contains('online-ordering-modal');
+    titleEl.innerHTML = onlineOrderingFocused ? 'Online ordering' : (el.dataset.smTitle || '');
+    subEl.innerHTML = onlineOrderingFocused
+      ? 'Confirm the ordering service we found, then choose which locations will accept orders.'
+      : (el.dataset.smSub || '');
     primaryBtn.innerHTML = el.dataset.smPrimary || 'Save changes';
     const busy = el.dataset.smPrimaryBusy === 'true';
     primaryBtn.classList.toggle('busy', busy);
@@ -83,6 +86,7 @@ export function initSettingsModal(ctx) {
     panes.forEach(p => p.classList.toggle('active', p.dataset.smPane === key));
     navs.forEach(n => n.classList.toggle('active', n.dataset.smNav === key));
     overlay.classList.toggle('website-ordering-modal', key === 'website-ordering');
+    overlay.classList.toggle('online-ordering-modal', key === 'online-ordering');
     document.getElementById('sm-body').scrollTop = 0;
     if (key === 'app-submission') renderSubmissionState();
     if (key === 'website-ordering') hydrateWebsiteOrdering();
@@ -123,6 +127,7 @@ export function initSettingsModal(ctx) {
   function close() {
     overlay.classList.remove('open');
     overlay.classList.remove('website-ordering-modal');
+    overlay.classList.remove('online-ordering-modal');
     comboEl?.classList.remove('open');
   }
   overlay.addEventListener('mousedown', (e) => { if (e.target === overlay) close(); });
