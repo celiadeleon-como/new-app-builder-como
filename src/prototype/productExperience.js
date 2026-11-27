@@ -1,3 +1,5 @@
+import { updateProfileLoyaltyState } from './profileLoyaltyState.js';
+
 const ANALYTICS_KEY = 'como-app-builder-analytics:v1';
 // Menu has its own source/page picker, so a separate include-screen switch is redundant there.
 // Rewards is a core loyalty surface and must always stay in the app, so it has no "Include" switch.
@@ -203,6 +205,7 @@ export function initProductExperience(ctx) {
 
   function setPreviewState(next, options = {}) {
     previewState = next === 'guest' ? 'guest' : 'returning';
+    updateProfileLoyaltyState({ memberState: previewState === 'guest' ? 'guest' : 'loggedin' });
     document.body.dataset.memberPreview = previewState;
     document.querySelector('.greet-row')?.classList.toggle('is-guest', previewState === 'guest');
     document.querySelectorAll('.px-preview-state [data-member-state]').forEach((button) => button.classList.toggle('active', button.dataset.memberState === previewState));
@@ -375,7 +378,6 @@ export function initProductExperience(ctx) {
       },
     };
   }
-
   function importProductExperience(saved = {}) {
     Object.entries({ ...DEFAULT_SCREENS, ...(saved.screenState || {}) }).forEach(([key, enabled]) => applyScreenVisibility(key, enabled, { dirty: false }));
     setPreviewState(saved.previewState, { dirty: false });
