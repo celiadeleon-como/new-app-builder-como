@@ -211,6 +211,16 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
   display: flex; flex-direction: column; gap: 10px; min-width: 0;
   padding: 0 0 18px; color: var(--p-text);
 }
+.ha-stack-section {
+  padding: 14px; border: 1px solid var(--p-border); border-radius: 16px; background: var(--p-panel);
+}
+.ha-stack-section > .ha-header { padding-top: 0; }
+.ha-stack-section > .ha-card,
+.ha-stack-section > .ha-section-card,
+.ha-stack-section > .ha-section { margin: 0; }
+.ha-bento-pair > .ha-bento-rewards,
+.ha-bento-pair > .ha-scan-tile { min-width: 0; }
+.ha-bento-pair > .ha-bento-rewards .ha-section-head { margin-bottom: 8px; }
 .ha-header { padding: 7px 1px 4px; }
 .ha-brand-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .ha-brand-lockup { display: flex; align-items: center; gap: 10px; min-width: 0; }

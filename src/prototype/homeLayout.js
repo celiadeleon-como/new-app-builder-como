@@ -1,4 +1,5 @@
 import { getProfileLoyaltyView } from './profileLoyaltyState.js';
+import { getHomeSections, moveHomeSection, syncHomeSectionsFromDom } from './homeSectionsState.js';
 
 /**
  * Home layout — the structural template for the Home screen, independent of
@@ -171,61 +172,66 @@ export function initHomeLayout(ctx) {
       + '<div class="ha-bento-reward-grid">' + rewards + '</div></section>';
   }
 
-  function bentoLoyalty() {
-    return cleanHeader() + rewardHero()
-      + (widgetEnabled('active-rewards') ? bentoRewards() : '')
-      + (widgetEnabled('punch-card') ? punchCard() : '')
-      + (widgetEnabled('promo-cards') ? promoSection('pair') : '');
+  function loyaltyQrSection() {
+    return '<button class="ha-card ha-scan-tile" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">'
+      + '<span class="ha-scan-icon">' + qrIcon + '</span><strong>Scan to earn</strong></button>';
   }
 
-  function bentoOrdering() {
-    return cleanHeader() + rewardHero(true)
-      + (widgetEnabled('order-again') ? orderAgainSection() : '')
-      + (widgetEnabled('promo-cards') ? promoSection('banner') : '')
-      + (widgetEnabled('menu-categories') ? menuCategoriesSection() : '');
+  function renderSection(sectionId, { layout = state.layout, focus = currentAppFocus(), compact = false } = {}) {
+    const split = layout === 'split-header-qsr';
+    const enclosed = layout === 'priority-stack';
+    switch (sectionId) {
+      case 'profile_loyalty':
+        return split ? splitHero() : cleanHeader() + rewardHero(focus === 'ordering' || compact);
+      case 'loyalty_qr':
+        return split ? '<button class="ha-scan ha-scan-sheet" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : loyaltyQrSection();
+      case 'active_rewards':
+        return layout === 'bento-grid'
+          ? bentoRewards()
+          : section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>' + (enclosed ? dots() : ''), { card: enclosed, drill: 'active-rewards' });
+      case 'punch_card':
+        return split ? section('Punch Card', punchCard(), { drill: 'punch-card' }) : punchCard();
+      case 'order_again':
+        return orderAgainSection(enclosed);
+      case 'promotions':
+        return promoSection(split ? (focus === 'ordering' ? 'peek-wide' : 'peek') : (focus === 'ordering' ? (layout === 'bento-grid' ? 'banner' : 'pair') : 'pair'), enclosed);
+      case 'menu_categories':
+        return menuCategoriesSection(enclosed, split);
+      default:
+        return '';
+    }
   }
 
-  function classicLoyalty() {
-    return cleanHeader() + rewardHero()
-      + (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>' + dots(), { card: true, drill: 'active-rewards' }) : '')
-      + (widgetEnabled('punch-card') ? punchCard() : '')
-      + (widgetEnabled('promo-cards') ? promoSection('pair', true) : '');
-  }
-
-  function classicOrdering() {
-    return cleanHeader() + rewardHero(true)
-      + (widgetEnabled('order-again') ? orderAgainSection(true) : '')
-      + (widgetEnabled('promo-cards') ? promoSection('pair', true) : '')
-      + (widgetEnabled('menu-categories') ? menuCategoriesSection(true) : '');
-  }
-
-  function splitSheet(content) {
-    return splitHero() + '<div class="ha-sheet">' + content + '</div>';
-  }
-
-  function splitLoyalty() {
-    return splitSheet(
-      (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>', { drill: 'active-rewards' }) : '')
-      + (widgetEnabled('punch-card') ? section('Punch Card', punchCard(), { drill: 'punch-card' }) : '')
-      + (widgetEnabled('loyalty-qr') ? '<button class="ha-scan ha-scan-sheet" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : '')
-      + (widgetEnabled('promo-cards') ? promoSection('peek') : '')
-    );
-  }
-
-  function splitOrdering() {
-    return splitSheet(
-      (widgetEnabled('order-again') ? orderAgainSection() : '')
-      + (widgetEnabled('promo-cards') ? promoSection('peek-wide') : '')
-      + (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>', { drill: 'active-rewards' }) : '')
-      + (widgetEnabled('menu-categories') ? menuCategoriesSection(false, true) : '')
-    );
+  function renderBentoSections(sections) {
+    const html = [];
+    const pairIds = new Set(['active_rewards', 'loyalty_qr']);
+    const paired = sections.filter((section) => pairIds.has(section.id));
+    const firstPairIndex = paired.length > 1 ? sections.findIndex((section) => pairIds.has(section.id)) : -1;
+    let pairRendered = false;
+    for (let index = 0; index < sections.length; index += 1) {
+      const sectionItem = sections[index];
+      if (index === firstPairIndex && paired.length > 1) {
+        html.push('<div class="ha-bento-pair">' + paired.map((item) => renderSection(item.id)).join('') + '</div>');
+        pairRendered = true;
+      } else if (pairRendered && pairIds.has(sectionItem.id)) {
+        continue;
+      } else {
+        html.push(renderSection(sectionItem.id));
+      }
+    }
+    return html.join('');
   }
 
   function homeArchitectureMarkup() {
-    const focus = currentAppFocus();
-    if (state.layout === 'split-header-qsr') return focus === 'ordering' ? splitOrdering() : splitLoyalty();
-    if (state.layout === 'bento-grid') return focus === 'ordering' ? bentoOrdering() : bentoLoyalty();
-    return focus === 'ordering' ? classicOrdering() : classicLoyalty();
+    const sections = getHomeSections().filter((section) => section.enabled);
+    if (state.layout === 'split-header-qsr') {
+      const profile = sections.find((section) => section.id === 'profile_loyalty');
+      const remaining = sections.filter((section) => section.id !== 'profile_loyalty');
+      return (profile ? renderSection('profile_loyalty') : '')
+        + '<div class="ha-sheet">' + remaining.map((section) => renderSection(section.id)).join('') + '</div>';
+    }
+    if (state.layout === 'bento-grid') return renderBentoSections(sections);
+    return sections.map((section) => '<div class="ha-stack-section">' + renderSection(section.id) + '</div>').join('');
   }
 
   function renderHomeArchitecture() {
@@ -235,33 +241,12 @@ export function initHomeLayout(ctx) {
     const host = document.createElement('div');
     host.className = 'ha-home-architecture ha-' + state.layout + ' ha-focus-' + currentAppFocus();
     host.innerHTML = homeArchitectureMarkup();
-    applyHomeSectionOrder(host);
     wrapper.appendChild(host);
     host.querySelectorAll('[data-drill]').forEach((element) => {
       element.addEventListener('click', (event) => {
         if (event.target.closest('.ha-profile')) return;
         event.stopPropagation();
         window.openDrill?.('cp-home', element.dataset.drill);
-      });
-    });
-  }
-
-  function applyHomeSectionOrder(host) {
-    const rows = [...document.querySelectorAll('#cp-home .cp-master .cp-widget-row')];
-    const order = rows.map((row) => row.querySelector('[data-widget-toggle]')?.dataset.widgetToggle).filter(Boolean);
-    const position = (key) => {
-      const index = order.indexOf(key);
-      if (state.layout === 'split-header-qsr' && key === 'profile') return -100;
-      return index < 0 ? 1000 : index;
-    };
-    [host, ...host.querySelectorAll('.ha-sheet, .ha-bento-pair')].forEach((container) => {
-      [...container.children].forEach((section) => {
-        const key = section.dataset.haWidget;
-        if (key) section.style.order = position(key);
-        if (section.classList.contains('ha-bento-pair')) {
-          const keys = [...section.querySelectorAll('[data-ha-widget]')].map((child) => child.dataset.haWidget);
-          section.style.order = keys.length ? Math.min(...keys.map(position)) : 1000;
-        }
       });
     });
   }
@@ -347,6 +332,7 @@ export function initHomeLayout(ctx) {
     row.querySelector('.home-profile-tip')?.remove();
     if (pinned) {
       list.prepend(row);
+      syncHomeSectionsFromDom();
       row.insertAdjacentHTML('beforeend', '<span class="home-profile-pin-note">🔒 Pinned at top in Split-Header layout</span>');
       return;
     }
@@ -354,7 +340,8 @@ export function initHomeLayout(ctx) {
       row.insertAdjacentHTML('beforeend', '<span class="home-profile-tip">Tip: Keeping Profile &amp; loyalty at the top gives returning members immediate access to their points <button type="button" data-profile-move-top>Move to top</button></span>');
       row.querySelector('[data-profile-move-top]')?.addEventListener('click', (event) => {
         event.stopPropagation();
-        list.prepend(row);
+        moveHomeSection('profile_loyalty', 0);
+        syncHomeSectionsFromDom();
         ctx.reorderPhoneWidgets?.();
         ctx.markDirty?.();
         syncProfileSectionRow();
@@ -408,6 +395,7 @@ export function initHomeLayout(ctx) {
   document.addEventListener('como:brand-colors', renderHomeArchitecture);
   document.addEventListener('como:home-sections-reordered', renderHomeArchitecture);
   document.addEventListener('como:home-sections-reordered', syncProfileSectionRow);
+  document.addEventListener('como:home-sections', renderHomeArchitecture);
   document.addEventListener('como:profile-preview', renderHomeArchitecture);
   document.addEventListener('como:profile-loyalty', renderHomeArchitecture);
   const profileEditor = document.querySelector('[data-detail="profile"]');

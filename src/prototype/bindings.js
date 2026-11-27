@@ -1,6 +1,7 @@
 import {
   hydrateProfileLoyaltyState, readProfileEditorText, updateProfileLoyaltyState,
 } from './profileLoyaltyState.js';
+import { setHomeSectionEnabled, syncHomeSectionsFromDom } from './homeSectionsState.js';
 
 export function initBindings(ctx) {
   const { markDirty, updateHomeEmptyState } = ctx;
@@ -46,6 +47,16 @@ export function initBindings(ctx) {
       }
       if (t.dataset.widgetToggle === 'profile') {
         updateProfileLoyaltyState({ enabled: t.classList.contains('on') });
+      }
+      const homeWidget = t.dataset.widgetToggle;
+      if (homeWidget) {
+        const canonical = {
+          profile: 'profile_loyalty', 'loyalty-qr': 'loyalty_qr',
+          'active-rewards': 'active_rewards', 'punch-card': 'punch_card',
+          'order-again': 'order_again', 'promo-cards': 'promotions',
+          'menu-categories': 'menu_categories',
+        }[homeWidget];
+        if (canonical) setHomeSectionEnabled(canonical, t.classList.contains('on'));
       }
       // Sync parent social-item .on/.off state (reveals the indented URL input below it)
       const socialItem = t.closest('.cp-social-item');
@@ -396,6 +407,7 @@ export function initBindings(ctx) {
 
 
   hydrateProfileLoyaltyState();
+  syncHomeSectionsFromDom();
   return { wireToggle, wireRadioGroup, getPlainText, setupVariableInput, normalizeHex, wireColorControl, syncColorVar };
 }
 

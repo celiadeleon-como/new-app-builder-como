@@ -1,3 +1,5 @@
+import { syncHomeSectionsFromDom } from './homeSectionsState.js';
+
 const SPRING = { mass: 0.8, stiffness: 520, damping: 38 };
 const DRAG_THRESHOLD = 6;
 
@@ -389,6 +391,7 @@ export function initReordering(ctx = {}) {
     if (!homePage) return;
     const container = document.querySelector('#cp-home .cp-master');
     if (!container) return;
+    syncHomeSectionsFromDom();
     // The anchor must live INSIDE .home-layout-priority-stack — anchoring on the
     // old top-level `[data-empty="home"]` marker (a sibling of that wrapper)
     // would insert every reordered widget as a direct child of the home page,
