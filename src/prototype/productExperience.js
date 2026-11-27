@@ -206,7 +206,11 @@ export function initProductExperience(ctx) {
     document.body.dataset.memberPreview = previewState;
     document.querySelector('.greet-row')?.classList.toggle('is-guest', previewState === 'guest');
     document.querySelectorAll('.px-preview-state [data-member-state]').forEach((button) => button.classList.toggle('active', button.dataset.memberState === previewState));
-    document.querySelectorAll('[data-bind-radio="member-state"]').forEach((radio) => radio.classList.toggle('active', radio.dataset.value === previewState));
+    document.querySelectorAll('[data-bind-radio="member-state"]').forEach((radio) => {
+      const radioState = radio.dataset.value === 'guest' ? 'guest' : 'returning';
+      radio.classList.toggle('active', radioState === previewState);
+    });
+    document.dispatchEvent(new CustomEvent('como:profile-preview', { detail: { state: previewState } }));
     if (options.dirty !== false) track('preview_member_state_changed', { state: previewState });
   }
 
