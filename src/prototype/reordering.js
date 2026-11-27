@@ -441,6 +441,7 @@ export function initReordering(ctx = {}) {
 
     syncLayout('.home-layout-bento-grid .bento-grid');
     syncLayout('.home-layout-split-header-qsr .shq-card');
+    document.dispatchEvent(new CustomEvent('como:home-sections-reordered'));
   }
 
   function reorderRewardsCards() {

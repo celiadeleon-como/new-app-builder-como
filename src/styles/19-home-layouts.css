@@ -328,3 +328,60 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 .ha-category-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .ha-priority-stack .ha-section-card,
 .ha-priority-stack .ha-card { box-shadow: 0 1px 3px rgba(15,23,42,.035); }
+
+/* Live Home widgets are projected into the structural slots. */
+.ha-live-widget .pcm-head { margin-bottom: 12px; }
+.ha-live-widget .pcm-stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; }
+.ha-live-widget .pcm-stamp { width: 32px; height: 32px; justify-self: center; }
+.ha-live-rewards .ha-mini-rewards {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;
+  padding: 0; border: 0; box-shadow: none; background: transparent;
+}
+.ha-live-rewards .ar-head { display: none; }
+.ha-live-rewards .ar-row {
+  display: flex; min-width: 0; min-height: 76px; flex-direction: column; align-items: flex-start; justify-content: center;
+  gap: 7px; margin: 0; padding: 10px; border: 1px solid var(--p-border); border-radius: 12px; background: var(--p-panel);
+}
+.ha-live-rewards .ar-row-body { gap: 2px; }
+.ha-live-rewards .ar-row-body b { max-width: 100%; font-size: 10.5px; line-height: 1.2; }
+.ha-live-rewards .ar-row-body small { font-size: 8.5px; }
+.ha-bento-grid .ha-live-rewards .ha-mini-rewards { grid-template-columns: 1fr; }
+.ha-order-live { align-items: stretch; }
+.ha-order-card {
+  position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--p-border);
+  border-radius: 13px; background: var(--p-panel);
+}
+.ha-order-image, .ha-category-image { width: 100%; height: 105px; background-color: var(--p-panel-2); background-position: center; background-size: cover; }
+.ha-order-copy { display: flex; min-height: 58px; flex-direction: column; gap: 4px; padding: 10px; }
+.ha-order-copy strong { overflow: hidden; font-size: 11px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.ha-order-copy span { color: var(--p-accent); font-size: 10px; font-weight: 750; }
+.ha-order-card button {
+  position: absolute; top: 8px; right: 8px; width: 26px; height: 26px;
+  border: 0; border-radius: 50%; background: var(--p-accent); color: var(--p-accent-ink, #fff); font-size: 17px; line-height: 1;
+}
+.ha-order-large .ha-order-image { height: 150px; }
+.ha-category-card { overflow: hidden; border: 1px solid var(--p-border); border-radius: 13px; background: var(--p-panel); }
+.ha-category-card > div:last-child { display: flex; flex-direction: column; gap: 2px; padding: 9px; }
+.ha-category-card strong { font-size: 10.5px; }
+.ha-category-card span { color: var(--p-text-muted); font-size: 9px; }
+.ha-category-grid .ha-category-image { height: 86px; }
+.ha-live-promotions { margin: 0 !important; }
+.ha-live-promotions .pc-carousel-wrap { width: 100%; }
+.ha-live-promotions .pc-card { min-width: 0; }
+.ha-promo-pair .pc-carousel-wrap { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); overflow: visible; }
+.ha-promo-pair .pc-card { min-width: 0; }
+.ha-promo-pair .pc-card-img { height: 88px; }
+.ha-promo-pair .pc-card-body { padding: 9px; }
+.ha-promo-pair .pc-card-headline { font-size: 10px; }
+.ha-promo-pair .pc-card-desc { font-size: 8.5px; line-height: 1.3; }
+.ha-promo-pair .pc-card-btn { padding: 6px; font-size: 9px; }
+.ha-promo-banner .pc-carousel-wrap { display: flex; }
+.ha-promo-banner .pc-card { flex-basis: 100%; }
+.ha-promo-banner .pc-card-img { height: 130px; }
+.ha-promo-peek .pc-carousel-wrap,
+.ha-promo-peek-wide .pc-carousel-wrap { display: flex; overflow: hidden; }
+.ha-promo-peek .pc-card { flex: 0 0 62%; min-width: 62%; }
+.ha-promo-peek-wide .pc-card { flex: 0 0 68%; min-width: 68%; }
+.ha-sheet .ha-promo-peek .pc-card-img { height: 100px; }
+.ha-sheet .ha-promo-peek-wide .pc-card-img { height: 112px; }
+.ha-live-promotions .pc-dots { display: flex !important; }

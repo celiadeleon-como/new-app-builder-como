@@ -27,6 +27,12 @@ export function initHomeLayout(ctx) {
     return !toggle || toggle.classList.contains('on');
   }
 
+  function escapeHome(value) {
+    return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;',
+    }[character]));
+  }
+
   function brandIdentity() {
     const mark = document.getElementById('phone-brand-mark');
     const name = document.getElementById('phone-brand-name')?.textContent?.trim() || 'Your Business';
@@ -49,11 +55,11 @@ export function initHomeLayout(ctx) {
 
   function rewardHero(compact = false) {
     if (compact) {
-      return '<section class="ha-card ha-compact-rewards" data-drill="profile"><div class="ha-eyebrow">Rewards balance</div>'
+      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-eyebrow">Rewards balance</div>'
         + '<div class="ha-balance-row"><strong>200 / 500 pts</strong><span>300 pts to next reward</span></div>'
         + '<div class="ha-progress"><span style="width:40%"></span></div></section>';
     }
-    return '<section class="ha-card ha-reward-hero" data-drill="profile"><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
+    return '<section class="ha-card ha-reward-hero" data-ha-widget="profile" data-drill="profile"><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
       + '<strong class="ha-points">200 points</strong><span class="ha-next-copy">50 points to your next reward</span></div>'
       + '<div class="ha-ring"><span>200<small>/250</small></span></div>'
       + '<button class="ha-scan" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button></section>';
@@ -63,37 +69,53 @@ export function initHomeLayout(ctx) {
     return '<div class="ha-dots" aria-label="3 carousel pages"><i class="active"></i><i></i><i></i></div>';
   }
 
-  function placeholders(count = 2, kind = 'wide') {
-    return Array.from({ length: count }, (_, index) => '<div class="ha-placeholder ha-placeholder-' + kind + '"><span>' + (index + 1) + '</span></div>').join('');
-  }
-
   function section(title, content, options = {}) {
     const classes = 'ha-section' + (options.card ? ' ha-section-card' : '');
-    return '<section class="' + classes + '" ' + (options.drill ? 'data-drill="' + options.drill + '"' : '') + '>'
+    return '<section class="' + classes + '" data-ha-widget="' + (options.drill || '') + '" ' + (options.drill ? 'data-drill="' + options.drill + '"' : '') + '>'
       + '<div class="ha-section-head"><h2>' + title + '</h2>' + (options.link ? '<button type="button">' + options.link + '</button>' : '') + '</div>'
       + content + '</section>';
   }
 
   function activeRewardsCard() {
-    return '<article class="ha-card ha-mini-rewards" data-drill="active-rewards"><h2>Active Rewards</h2><div class="ha-mini-reward-grid">' + placeholders(2, 'reward') + '</div></article>';
+    const source = document.querySelector('.home-layout-priority-stack .active-rewards-card');
+    return '<article class="ha-card ha-mini-rewards" data-ha-widget="active-rewards" data-drill="active-rewards">' + (source?.innerHTML || '<h2>Active Rewards</h2>') + '</article>';
   }
 
   function punchCard() {
-    return '<section class="ha-card ha-punch" data-drill="punch-card"><div class="ha-section-head"><h2>Punch Card</h2><span>6 / 10 stamps</span></div>'
-      + '<div class="ha-stamps">' + Array.from({ length: 10 }, (_, index) => '<i class="' + (index < 6 ? 'filled' : '') + '"></i>').join('') + '</div></section>';
+    const source = document.querySelector('.home-layout-priority-stack .punch-card-mini');
+    return '<section class="ha-card ha-punch ha-live-widget" data-ha-widget="punch-card" data-drill="punch-card">' + (source?.innerHTML || '') + '</section>';
   }
 
   function promoSection(mode = 'pair', enclosed = false) {
-    const content = '<div class="ha-carousel ha-carousel-' + mode + '">' + placeholders(mode === 'banner' ? 1 : 2, mode === 'banner' ? 'banner' : 'promo') + '</div>' + dots();
+    const source = document.querySelector('.home-layout-priority-stack .promo-cards-widget[data-widget="promo-cards"]');
+    const content = source
+      ? source.outerHTML
+        .replace(/\s+id="[^"]*"/g, '')
+        .replace('class="promo-cards-widget ', 'class="ha-live-promotions promo-cards-widget ha-promo-' + mode + ' ')
+        .replace('class="promo-cards-widget hidden-slot', 'class="ha-live-promotions promo-cards-widget ha-promo-' + mode)
+        .replace(/\s+hidden-slot/g, '')
+      : '<div class="ha-live-promotions"></div>';
     return section('Feature Promotions', content, { card: enclosed, drill: 'promo-cards' });
   }
 
   function orderAgainSection(enclosed = false) {
-    return section('Order Again', '<div class="ha-carousel ha-carousel-pair">' + placeholders(2, 'order') + '</div>' + dots(), { card: enclosed, drill: 'order-again' });
+    const state = ctx.orderingWidgetState;
+    const lastOrder = state?.orderAgain.empty;
+    const topItems = state?.topItems.items.filter((item) => item.visible) || [];
+    const items = [
+      ...(lastOrder ? [{ name: lastOrder.itemName, price: lastOrder.price, image: lastOrder.itemImage }] : []),
+      ...topItems,
+    ];
+    const cards = items.slice(0, 2).map((item) => '<article class="ha-order-card"><div class="ha-order-image" style="background-image:url(&quot;' + escapeHome(item.image) + '&quot;)"></div>'
+      + '<div class="ha-order-copy"><strong>' + escapeHome(item.name) + '</strong><span>' + escapeHome(item.price) + '</span></div><button type="button" aria-label="Add ' + escapeHome(item.name) + '">+</button></article>').join('');
+    return section('Order Again', '<div class="ha-carousel ha-carousel-pair ha-order-live">' + cards + '</div>' + dots(), { card: enclosed, drill: 'order-again' });
   }
 
   function menuCategoriesSection(enclosed = false, grid = false) {
-    const content = '<div class="' + (grid ? 'ha-category-grid' : 'ha-carousel ha-carousel-pair') + '">' + placeholders(grid ? 4 : 2, 'category') + '</div>' + (grid ? '' : dots());
+    const items = ctx.orderingWidgetState?.menuCategories.items.filter((item) => item.visible) || [];
+    const cards = items.slice(0, grid ? 4 : 2).map((item) => '<article class="ha-category-card"><div class="ha-category-image" style="background-image:url(&quot;' + escapeHome(item.image) + '&quot;)"></div>'
+      + '<div><strong>' + escapeHome(item.name) + '</strong><span>' + escapeHome(item.count) + ' items</span></div></article>').join('');
+    const content = '<div class="' + (grid ? 'ha-category-grid' : 'ha-carousel ha-carousel-pair') + '">' + cards + '</div>' + (grid ? '' : dots());
     return section('Menu categories', content, { card: enclosed, link: 'View full menu', drill: 'menu-categories' });
   }
 
@@ -105,10 +127,15 @@ export function initHomeLayout(ctx) {
       + '<div class="ha-balance-row"><strong>200 / 500 pts</strong><span>300 pts to next reward</span></div><div class="ha-progress ha-progress-inverse"><span style="width:40%"></span></div></div>';
   }
 
+  function scanToEarnTile() {
+    const source = document.querySelector('.home-layout-bento-grid .bento-tile-qr');
+    return source?.innerHTML || '<span class="ha-scan-icon">' + qrIcon + '</span><strong>Scan to earn</strong>';
+  }
+
   function bentoLoyalty() {
     return cleanHeader() + rewardHero()
       + (widgetEnabled('active-rewards') ? '<div class="ha-bento-pair">' + activeRewardsCard() : '')
-      + (widgetEnabled('loyalty-qr') ? '<button class="ha-card ha-scan-tile" type="button" data-drill="loyalty-qr"><span class="ha-scan-icon">' + qrIcon + '</span><strong>Scan to earn</strong></button>' : '')
+      + (widgetEnabled('loyalty-qr') ? '<button class="ha-card ha-scan-tile" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">' + scanToEarnTile() + '</button>' : '')
       + (widgetEnabled('active-rewards') ? '</div>' : '')
       + (widgetEnabled('punch-card') ? punchCard() : '')
       + (widgetEnabled('promo-cards') ? promoSection('pair') : '');
@@ -123,7 +150,7 @@ export function initHomeLayout(ctx) {
 
   function classicLoyalty() {
     return cleanHeader() + rewardHero()
-      + (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-carousel ha-carousel-pair">' + placeholders(2, 'reward') + '</div>' + dots(), { card: true, drill: 'active-rewards' }) : '')
+      + (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>' + dots(), { card: true, drill: 'active-rewards' }) : '')
       + (widgetEnabled('punch-card') ? punchCard() : '')
       + (widgetEnabled('promo-cards') ? promoSection('pair', true) : '');
   }
@@ -141,8 +168,8 @@ export function initHomeLayout(ctx) {
 
   function splitLoyalty() {
     return splitSheet(
-      (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-carousel ha-carousel-pair">' + placeholders(2, 'reward') + '</div>', { drill: 'active-rewards' }) : '')
-      + (widgetEnabled('punch-card') ? section('Punch Card', '<div class="ha-card ha-punch-body"><div class="ha-punch-count">6 / 10 stamps</div><div class="ha-stamps">' + Array.from({ length: 10 }, (_, index) => '<i class="' + (index < 6 ? 'filled' : '') + '"></i>').join('') + '</div></div>', { drill: 'punch-card' }) : '')
+      (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>', { drill: 'active-rewards' }) : '')
+      + (widgetEnabled('punch-card') ? section('Punch Card', punchCard(), { drill: 'punch-card' }) : '')
       + (widgetEnabled('loyalty-qr') ? '<button class="ha-scan ha-scan-sheet" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : '')
       + (widgetEnabled('promo-cards') ? promoSection('peek') : '')
     );
@@ -150,9 +177,9 @@ export function initHomeLayout(ctx) {
 
   function splitOrdering() {
     return splitSheet(
-      (widgetEnabled('order-again') ? section('Order Again', '<div class="ha-carousel ha-carousel-pair ha-order-large">' + placeholders(2, 'order') + '</div>', { drill: 'order-again' }) : '')
+      (widgetEnabled('order-again') ? orderAgainSection() : '')
       + (widgetEnabled('promo-cards') ? promoSection('peek-wide') : '')
-      + (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-carousel ha-carousel-pair">' + placeholders(2, 'reward') + '</div>', { drill: 'active-rewards' }) : '')
+      + (widgetEnabled('active-rewards') ? section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>', { drill: 'active-rewards' }) : '')
       + (widgetEnabled('menu-categories') ? menuCategoriesSection(false, true) : '')
     );
   }
@@ -171,11 +198,31 @@ export function initHomeLayout(ctx) {
     const host = document.createElement('div');
     host.className = 'ha-home-architecture ha-' + state.layout + ' ha-focus-' + currentAppFocus();
     host.innerHTML = homeArchitectureMarkup();
+    applyHomeSectionOrder(host);
     wrapper.appendChild(host);
     host.querySelectorAll('[data-drill]').forEach((element) => {
       element.addEventListener('click', (event) => {
         event.stopPropagation();
         window.openDrill?.('cp-home', element.dataset.drill);
+      });
+    });
+  }
+
+  function applyHomeSectionOrder(host) {
+    const rows = [...document.querySelectorAll('#cp-home .cp-master .cp-widget-row')];
+    const order = rows.map((row) => row.querySelector('[data-widget-toggle]')?.dataset.widgetToggle).filter(Boolean);
+    const position = (key) => {
+      const index = order.indexOf(key);
+      return index < 0 ? 1000 : index;
+    };
+    [host, ...host.querySelectorAll('.ha-sheet, .ha-bento-pair')].forEach((container) => {
+      [...container.children].forEach((section) => {
+        const key = section.dataset.haWidget;
+        if (key) section.style.order = position(key);
+        if (section.classList.contains('ha-bento-pair')) {
+          const keys = [...section.querySelectorAll('[data-ha-widget]')].map((child) => child.dataset.haWidget);
+          section.style.order = keys.length ? Math.min(...keys.map(position)) : 1000;
+        }
       });
     });
   }
@@ -286,6 +333,7 @@ export function initHomeLayout(ctx) {
   document.addEventListener('como:focus-changed', renderHomeArchitecture);
   document.addEventListener('como:ordering-mode', () => { renderHomeStructureGrid(); renderHomeArchitecture(); });
   document.addEventListener('como:brand-colors', renderHomeArchitecture);
+  document.addEventListener('como:home-sections-reordered', renderHomeArchitecture);
   document.querySelector('#cp-home .cp-master')?.addEventListener('click', (event) => {
     if (event.target.closest('[data-widget-toggle]')) requestAnimationFrame(renderHomeArchitecture);
   });
@@ -297,6 +345,28 @@ export function initHomeLayout(ctx) {
       childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ['style', 'class'],
     }));
   }
+  const liveWidgetSources = [
+    '.home-layout-priority-stack .active-rewards-card',
+    '.home-layout-priority-stack .punch-card-mini',
+    '.home-layout-priority-stack .promo-cards-widget[data-widget="promo-cards"]',
+    '.home-layout-priority-stack .oa-widget',
+    '.home-layout-priority-stack .ti-widget',
+    '.home-layout-priority-stack .mc-widget',
+  ];
+  let liveRenderQueued = false;
+  const liveWidgetObserver = new MutationObserver(() => {
+    if (liveRenderQueued) return;
+    liveRenderQueued = true;
+    requestAnimationFrame(() => {
+      liveRenderQueued = false;
+      renderHomeArchitecture();
+    });
+  });
+  liveWidgetSources.forEach((selector) => {
+    const source = document.querySelector(selector);
+    if (source) liveWidgetObserver.observe(source, { childList: true, subtree: true, attributes: true, characterData: true });
+  });
+  document.addEventListener('como:ordering', renderHomeArchitecture);
   enforceExclusiveLayout();
 
   // Direct editing: clicking any widget tile/row/card in the Home phone
