@@ -218,6 +218,20 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 .ha-stack-section > .ha-card,
 .ha-stack-section > .ha-section-card,
 .ha-stack-section > .ha-section { margin: 0; }
+.ha-priority-stack .ha-stack-section > .ha-card,
+.ha-priority-stack .ha-stack-section > .ha-section,
+.ha-priority-stack .ha-stack-section > .ha-section-card {
+  padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+.ha-priority-stack .ha-stack-section .ha-mini-rewards {
+  padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+.ha-priority-stack .ha-stack-section > .ha-punch { padding: 0; }
+.ha-bento-grid .ha-section,
+.ha-bento-grid .ha-section-card { border: 0; border-radius: 0; background: transparent; padding: 0; }
+.ha-sheet .ha-section,
+.ha-sheet .ha-section-card { border: 0; border-radius: 0; background: transparent; padding: 0; }
+.ha-sheet .ha-card.ha-punch { border: 1px solid var(--p-border); background: var(--p-panel); }
 .ha-bento-pair > .ha-bento-rewards,
 .ha-bento-pair > .ha-scan-tile { min-width: 0; }
 .ha-bento-pair > .ha-bento-rewards .ha-section-head { margin-bottom: 8px; }
@@ -236,7 +250,7 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
   border: 1px solid var(--p-border); border-radius: 11px; background: var(--p-panel); color: var(--p-accent);
 }
 .ha-profile svg { width: 19px; height: 19px; }
-.ha-greeting { margin-top: 22px; font-size: 22px; font-weight: 800; letter-spacing: -.7px; }
+.ha-greeting { margin: 0 0 16px; grid-column: 1 / -1; font-size: 22px; font-weight: 800; letter-spacing: -.7px; }
 .ha-card {
   border: 1px solid var(--p-border); border-radius: 16px; background: var(--p-panel);
   color: var(--p-text); box-shadow: 0 1px 2px rgba(15,23,42,.025);

@@ -63,18 +63,16 @@ export function initHomeLayout(ctx) {
 
   function cleanHeader(layout = 'standard') {
     const brand = brandIdentity();
-    const profile = profileState();
     return '<header class="ha-header ha-header-' + layout + '">'
       + '<div class="ha-brand-row"><div class="ha-brand-lockup"><span class="ha-monogram' + brand.logoClass + '"' + (brand.logo ? ' style="background-image:' + brand.logo + '"' : '') + '>' + brand.initials + '</span><strong>' + brand.name + '</strong></div>'
-      + '<button class="ha-profile" type="button" onclick="openAccountPage()" aria-label="Open profile">' + profileIcon + '</button></div>'
-      + '<div class="ha-greeting">' + (profile.guest ? profile.guestTitle : profile.greeting) + '</div></header>';
+      + '<button class="ha-profile" type="button" onclick="openAccountPage()" aria-label="Open profile">' + profileIcon + '</button></div></header>';
   }
 
   function rewardHero(compact = false) {
     const profile = profileState();
     if (!profile.enabled) return '';
     if (profile.guest) {
-      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><strong>' + profile.guestTitle + '</strong>'
+      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-greeting">' + profile.guestTitle + '</div>'
         + '<span class="ha-next-copy">Log in to see your points &amp; rewards</span><button class="ha-guest-cta" type="button">Log In</button></section>';
     }
     const points = profile.showPoints ? (compact || profile.progress === 'bar' ? '<strong>200 / 500 pts</strong>' : '<strong class="ha-points">200 points</strong>') : '';
@@ -84,10 +82,10 @@ export function initHomeLayout(ctx) {
     const ring = profile.showProgress && profile.progress === 'ring'
       ? '<div class="ha-ring"><span>200<small>/250</small></span></div>' : '';
     if (compact) {
-      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-eyebrow">Rewards balance</div>'
+      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-greeting">' + profile.greeting + '</div><div class="ha-eyebrow">Rewards balance</div>'
         + '<div class="ha-balance-row">' + points + next + '</div>' + bar + ring + '</section>';
     }
-    return '<section class="ha-card ha-reward-hero" data-ha-widget="profile" data-drill="profile"><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
+    return '<section class="ha-card ha-reward-hero" data-ha-widget="profile" data-drill="profile"><div class="ha-greeting">' + profile.greeting + '</div><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
       + points + next.replace('<span>', '<span class="ha-next-copy">') + '</div>' + ring
       + (bar ? '<div class="ha-reward-bar">' + bar + '</div>' : '')
       + (widgetEnabled('loyalty-qr') ? '<button class="ha-scan" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : '')
@@ -182,7 +180,7 @@ export function initHomeLayout(ctx) {
     const enclosed = layout === 'priority-stack';
     switch (sectionId) {
       case 'profile_loyalty':
-        return split ? splitHero() : cleanHeader() + rewardHero(focus === 'ordering' || compact);
+        return split ? splitHero() : rewardHero(focus === 'ordering' || compact);
       case 'loyalty_qr':
         return split ? '<button class="ha-scan ha-scan-sheet" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : loyaltyQrSection();
       case 'active_rewards':
@@ -230,8 +228,8 @@ export function initHomeLayout(ctx) {
       return (profile ? renderSection('profile_loyalty') : '')
         + '<div class="ha-sheet">' + remaining.map((section) => renderSection(section.id)).join('') + '</div>';
     }
-    if (state.layout === 'bento-grid') return renderBentoSections(sections);
-    return sections.map((section) => '<div class="ha-stack-section">' + renderSection(section.id) + '</div>').join('');
+    if (state.layout === 'bento-grid') return cleanHeader() + renderBentoSections(sections);
+    return cleanHeader() + sections.map((section) => '<div class="ha-stack-section">' + renderSection(section.id) + '</div>').join('');
   }
 
   function renderHomeArchitecture() {
