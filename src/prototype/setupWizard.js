@@ -90,7 +90,7 @@ export function initSetupWizard(ctx) {
     // The provider/website choice (ctx.setOrderingMode 'native' | 'webview') now
     // lives entirely in SCREENS > Menu. Offering ordering here just defaults to
     // 'native' (Deliverect, sample menu until connected) — no extra question asked.
-    homeLayout: null,         // 'priority-stack' | 'bento-grid' | 'split-header-qsr'
+    homeLayout: null,         // 'modular-bento' | 'split-header-qsr'
     navStyle: 'classic-docked', // 'classic-docked' | 'floating-liquid-glass'
     navPages: new Set(),      // locations|about-us|qr|menu-pdf — capped at 3
     startingSections: null,
@@ -360,7 +360,6 @@ export function initSetupWizard(ctx) {
       ]
       : [
         { key: 'profile', icon: 'heart', label: 'Profile & Loyalty', desc: 'Member status and points' },
-        { key: 'loyalty-qr', icon: 'qr', label: 'Loyalty QR / Scan to earn', desc: 'Earn and redeem in one tap' },
         { key: 'active-rewards', icon: 'gift', label: 'Active Rewards', desc: 'Ready-to-redeem value' },
         { key: 'punch-card', icon: 'punch', label: 'Punch Card', desc: 'Visit-based progress' },
         { key: 'promo-cards', icon: 'star', label: 'Featured promotions', desc: 'Timely offers and announcements' },
@@ -388,7 +387,7 @@ export function initSetupWizard(ctx) {
 
   function stepHomeLayout() {
     const offering = ob.focus === 'ordering' || ob.orderingChoice === 'offer';
-    const recommended = ctx.getRecommendedLayout?.({ onlineOrderingEnabled: offering, appFocus: ob.focus }) || 'bento-grid';
+    const recommended = ctx.getRecommendedLayout?.({ onlineOrderingEnabled: offering, appFocus: ob.focus }) || 'modular-bento';
     if (!ob.homeLayout || !ob.homeLayoutExplicit) ob.homeLayout = recommended;
     ctx.applyHomeLayout?.(ob.homeLayout);
 
@@ -408,7 +407,7 @@ export function initSetupWizard(ctx) {
     return '<button type="button" class="sw-layout-opt' + (selected ? ' selected' : '') + '" data-home-layout-pick="' + def.key + '">'
       + '<span class="sw-layout-wireframe sw-layout-wireframe--' + def.key + '">' + (ctx.homeLayoutWireframe?.(def.key) || '') + '</span>'
       + '<span class="sw-layout-check-circle' + (selected ? ' checked' : '') + '">' + icon('check') + '</span>'
-      + (isRecommended ? '<span class="sw-opt-badge sw-layout-badge">Recommended</span>' : '')
+      + (isRecommended ? '<span class="sw-opt-badge sw-layout-badge">RECOMMENDED</span>' : '')
       + '<span class="sw-layout-title">' + esc(def.name) + '</span>'
       + '<span class="sw-layout-desc">' + esc(def.desc) + '</span>'
       + '</button>';
@@ -542,7 +541,7 @@ export function initSetupWizard(ctx) {
       ctx.setMenuSlotMode?.('menu');
     }
     const wanted = [...startingSectionsForFocus()];
-    const all = ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'promo-cards-2', 'social', 'order-again', 'top-items', 'menu-categories', 'menu-reels'];
+    const all = ['profile', 'active-rewards', 'punch-card', 'promo-cards', 'promo-cards-2', 'social', 'order-again', 'top-items', 'menu-categories', 'menu-reels'];
     const wantedSet = new Set(wanted);
     document.body.classList.add('gf-applying-preset');
     all.forEach((key) => ctx.setWidgetOn?.(key, wantedSet.has(key)));
@@ -569,7 +568,7 @@ export function initSetupWizard(ctx) {
     const recommended = ctx.getRecommendedLayout?.({
       onlineOrderingEnabled: ob.focus === 'ordering',
       appFocus: ob.focus,
-    }) || (ob.focus === 'ordering' ? 'split-header-qsr' : 'bento-grid');
+    }) || (ob.focus === 'ordering' ? 'split-header-qsr' : 'modular-bento');
     ob.homeLayout = recommended;
     ctx.applyHomeLayout?.(recommended);
     ctx.reorderPhoneWidgets?.();

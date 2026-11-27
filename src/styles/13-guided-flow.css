@@ -454,7 +454,7 @@
   .cp-focus-seg-opt[hidden] { display: none; }
   .cp-focus-seg-opt .cp-focus-seg-ic svg { width: 14px; height: 14px; }
   .cp-focus-seg-opt.active { background: var(--panel-2, #fff); color: var(--como); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
-  .cp-home-layout-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .cp-home-layout-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .home-profile-position-badge {
     margin-left: auto; padding: 3px 7px; border-radius: 99px;
     background: var(--como-soft); color: var(--como); font-size: 8.5px; font-weight: 750; white-space: nowrap;
@@ -476,13 +476,13 @@
     font: inherit; font-weight: 750; cursor: pointer;
   }
   .cp-home-layout-opt {
-    position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px;
+    position: relative; display: grid; grid-template-columns: 1fr; gap: 8px;
     align-items: center; text-align: left; min-height: 92px;
     padding: 10px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel); cursor: pointer;
   }
   .cp-home-layout-opt:hover { border-color: var(--como); }
   .cp-home-layout-opt.selected { border-color: var(--como); background: var(--como-soft); box-shadow: inset 0 0 0 1px var(--como); }
-  .cp-home-layout-wireframe { display: flex; grid-row: 1 / span 2; width: 112px; height: 68px; border-radius: 7px; background: var(--rail, #f0f3f6); color: var(--muted); padding: 3px; box-sizing: border-box; }
+  .cp-home-layout-wireframe { display: flex; grid-row: auto; width: 100%; height: 68px; border-radius: 7px; background: var(--rail, #f0f3f6); color: var(--muted); padding: 3px; box-sizing: border-box; }
   .cp-home-layout-wireframe svg { width: 100%; height: 100%; }
   .cp-home-layout-opt.selected .cp-home-layout-wireframe { color: var(--como); }
   .cp-home-layout-check {

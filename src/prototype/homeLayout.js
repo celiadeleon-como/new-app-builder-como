@@ -1,12 +1,11 @@
-import { getProfileLoyaltyView } from './profileLoyaltyState.js';
+import { getProfileLoyaltyView, updateProfileLoyaltyState } from './profileLoyaltyState.js';
 import { getHomeSections, moveHomeSection, syncHomeSectionsFromDom } from './homeSectionsState.js';
 
 /**
  * Home layout — the structural template for the Home screen, independent of
- * which widgets are turned on/off. Three selectable layouts:
- *   priority-stack   — the original single-column feed (default, always exists).
- *   bento-grid       — asymmetric 2-column dashboard with an answer-first hero.
- *   split-header-qsr — brand-colour hero header + overlapping white card list.
+ * which widgets are turned on/off. Two selectable layouts:
+ *   modular-bento     — light header with modular cards and smart bento pairs.
+ *   split-header-qsr  — brand-colour hero header + overlapping card sheet.
  *
  * Rendering itself lives entirely in CSS (src/styles/19-home-layouts.css),
  * keyed off `body[data-home-layout]`; this module only owns the recommendation
@@ -14,13 +13,18 @@ import { getHomeSections, moveHomeSection, syncHomeSectionsFromDom } from './hom
  * editor) showing the same selected/recommended state.
  */
 export function initHomeLayout(ctx) {
-  const state = { layout: 'priority-stack' };
+  const state = { layout: 'modular-bento' };
 
   const LAYOUT_DEFS = [
-    { key: 'priority-stack', name: 'Classic Priority Stack', desc: 'Single-column scrollable feed with rich imagery and loyalty cards.' },
-    { key: 'bento-grid', name: 'Gamified Bento Grid', desc: 'Asymmetric 2-column dashboard with an answer-first hero and quick-tap tiles.' },
-    { key: 'split-header-qsr', name: 'Split-Header QSR Standard', desc: 'Brand-coloured hero header with an overlapping card list and pickup bar.' },
+    { key: 'modular-bento', name: 'Modular Bento Stack', desc: 'Clean light header with crisp modular cards and smart 2-column bento tiles.' },
+    { key: 'split-header-qsr', name: 'Split-Header Hero', desc: 'Brand-coloured hero header with an overlapping rounded card sheet.' },
   ];
+
+  function normalizeLayout(layout) {
+    if (['modular-bento', 'priority-stack', 'bento-grid', 'classic', 'bento'].includes(layout)) return 'modular-bento';
+    if (layout === 'split-header' || layout === 'split-header-hero') return 'split-header-qsr';
+    return layout;
+  }
 
   const profileIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="8" r="3.5"/><path d="M5 21a7 7 0 0114 0"/></svg>';
   const qrIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M20 14v.01M14 20v.01M20 20v.01M17 20h.01M20 17h.01"/></svg>';
@@ -40,6 +44,7 @@ export function initHomeLayout(ctx) {
       progress: view.progressStyle,
       showPoints: view.showPointsBalance,
       showProgress: view.showProgress,
+      showScanButton: view.showScanButton,
       tier: view.tier,
     };
   }
@@ -72,23 +77,25 @@ export function initHomeLayout(ctx) {
     const profile = profileState();
     if (!profile.enabled) return '';
     if (profile.guest) {
-      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-greeting">' + profile.guestTitle + '</div>'
+      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile">'
         + '<span class="ha-next-copy">Log in to see your points &amp; rewards</span><button class="ha-guest-cta" type="button">Log In</button></section>';
     }
     const points = profile.showPoints ? (compact || profile.progress === 'bar' ? '<strong>200 / 500 pts</strong>' : '<strong class="ha-points">200 points</strong>') : '';
-    const next = profile.showProgress ? '<span>300 pts to next reward</span>' : '';
+    const next = profile.showProgress
+      ? '<span>' + (compact ? '300 pts to next reward' : '50 points to your next reward') + '</span>'
+      : '';
     const bar = profile.showProgress && profile.progress === 'bar'
       ? '<div class="ha-progress"><span style="width:40%"></span></div>' : '';
     const ring = profile.showProgress && profile.progress === 'ring'
       ? '<div class="ha-ring"><span>200<small>/250</small></span></div>' : '';
     if (compact) {
-      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-greeting">' + profile.greeting + '</div><div class="ha-eyebrow">Rewards balance</div>'
+      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-eyebrow">Rewards balance</div>'
         + '<div class="ha-balance-row">' + points + next + '</div>' + bar + ring + '</section>';
     }
-    return '<section class="ha-card ha-reward-hero" data-ha-widget="profile" data-drill="profile"><div class="ha-greeting">' + profile.greeting + '</div><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
+    return '<section class="ha-card ha-reward-hero" data-ha-widget="profile" data-drill="profile"><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
       + points + next.replace('<span>', '<span class="ha-next-copy">') + '</div>' + ring
       + (bar ? '<div class="ha-reward-bar">' + bar + '</div>' : '')
-      + (widgetEnabled('loyalty-qr') ? '<button class="ha-scan" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : '')
+      + (profile.showScanButton ? '<button class="ha-scan" type="button" data-drill="profile">' + qrIcon + '<span>Scan loyalty card</span></button>' : '')
       + '</section>';
   }
 
@@ -113,13 +120,21 @@ export function initHomeLayout(ctx) {
     return '<section class="ha-card ha-punch ha-live-widget" data-ha-widget="punch-card" data-drill="punch-card">' + (source?.innerHTML || '') + '</section>';
   }
 
+  function punchSection() {
+    const source = document.querySelector('.home-layout-priority-stack .punch-card-mini');
+    const count = source?.querySelector('.pcm-count')?.outerHTML || '<span class="pcm-count">6 / 10 stamps</span>';
+    const stamps = source?.querySelector('.pcm-stamps')?.outerHTML || '<div class="pcm-stamps"></div>';
+    return '<section class="ha-section ha-punch-section" data-ha-widget="punch-card" data-drill="punch-card">'
+      + '<div class="ha-section-head"><h2>Punch Card</h2>' + count + '</div>'
+      + '<div class="ha-card ha-punch ha-live-widget">' + stamps + '</div></section>';
+  }
+
   function promoSection(mode = 'pair', enclosed = false) {
     const source = document.querySelector('.home-layout-priority-stack .promo-cards-widget[data-widget="promo-cards"]');
     const content = source
       ? source.outerHTML
         .replace(/\s+id="[^"]*"/g, '')
-        .replace('class="promo-cards-widget ', 'class="ha-live-promotions promo-cards-widget ha-promo-' + mode + ' ')
-        .replace('class="promo-cards-widget hidden-slot', 'class="ha-live-promotions promo-cards-widget ha-promo-' + mode)
+        .replace(/class="promo-cards-widget([^"]*)"/, 'class="ha-live-promotions promo-cards-widget ha-promo-' + mode + '$1"')
         .replace(/\s+hidden-slot/g, '')
       : '<div class="ha-live-promotions"></div>';
     return section('Feature Promotions', content, { card: enclosed, drill: 'promo-cards' });
@@ -159,7 +174,7 @@ export function initHomeLayout(ctx) {
       + '<button class="ha-profile ha-profile-inverse" type="button" onclick="openAccountPage()" aria-label="Open profile">' + profileIcon + '</button></div>'
       + '<div class="ha-split-content"><div class="ha-split-copy"><div class="ha-split-greeting"><strong>' + (profile.guest ? profile.guestTitle : profile.greeting) + '</strong>'
       + (profile.enabled && !profile.guest ? '<span class="ha-tier">' + profile.tier + '</span>' : '') + '</div>'
-      + points + progress + '</div>' + ring + '</div></div>';
+      + points + progress + (profile.showScanButton && !profile.guest ? '<button class="ha-scan ha-split-scan" type="button" data-drill="profile">' + qrIcon + '<span>Scan loyalty card</span></button>' : '') + '</div>' + ring + '</div></div>';
   }
 
   function bentoRewards() {
@@ -170,52 +185,34 @@ export function initHomeLayout(ctx) {
       + '<div class="ha-bento-reward-grid">' + rewards + '</div></section>';
   }
 
-  function loyaltyQrSection() {
-    return '<button class="ha-card ha-scan-tile" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">'
-      + '<span class="ha-scan-icon">' + qrIcon + '</span><strong>Scan to earn</strong></button>';
-  }
-
   function renderSection(sectionId, { layout = state.layout, focus = currentAppFocus(), compact = false } = {}) {
     const split = layout === 'split-header-qsr';
-    const enclosed = layout === 'priority-stack';
+    const modular = layout === 'modular-bento';
+    const enclosed = modular;
     switch (sectionId) {
       case 'profile_loyalty':
         return split ? splitHero() : rewardHero(focus === 'ordering' || compact);
-      case 'loyalty_qr':
-        return split ? '<button class="ha-scan ha-scan-sheet" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : loyaltyQrSection();
       case 'active_rewards':
-        return layout === 'bento-grid'
-          ? bentoRewards()
-          : section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>' + (enclosed ? dots() : ''), { card: enclosed, drill: 'active-rewards' });
+        return section('Active Rewards', '<div class="ha-live-rewards">' + activeRewardsCard() + '</div>' + dots(), { card: false, drill: 'active-rewards' });
       case 'punch_card':
-        return split ? section('Punch Card', punchCard(), { drill: 'punch-card' }) : punchCard();
+        return punchSection();
       case 'order_again':
-        return orderAgainSection(enclosed);
+        return orderAgainSection(false);
       case 'promotions':
-        return promoSection(split ? (focus === 'ordering' ? 'peek-wide' : 'peek') : (focus === 'ordering' ? (layout === 'bento-grid' ? 'banner' : 'pair') : 'pair'), enclosed);
+        return promoSection(split ? (focus === 'ordering' ? 'peek-wide' : 'peek') : (focus === 'ordering' ? 'banner' : 'pair'), false);
       case 'menu_categories':
-        return menuCategoriesSection(enclosed, split);
+        return menuCategoriesSection(false, split);
       default:
         return '';
     }
   }
 
-  function renderBentoSections(sections) {
+  function renderModularSections(sections) {
     const html = [];
-    const pairIds = new Set(['active_rewards', 'loyalty_qr']);
-    const paired = sections.filter((section) => pairIds.has(section.id));
-    const firstPairIndex = paired.length > 1 ? sections.findIndex((section) => pairIds.has(section.id)) : -1;
-    let pairRendered = false;
     for (let index = 0; index < sections.length; index += 1) {
       const sectionItem = sections[index];
-      if (index === firstPairIndex && paired.length > 1) {
-        html.push('<div class="ha-bento-pair">' + paired.map((item) => renderSection(item.id)).join('') + '</div>');
-        pairRendered = true;
-      } else if (pairRendered && pairIds.has(sectionItem.id)) {
-        continue;
-      } else {
-        html.push(renderSection(sectionItem.id));
-      }
+      const content = renderSection(sectionItem.id);
+      html.push(content);
     }
     return html.join('');
   }
@@ -228,16 +225,17 @@ export function initHomeLayout(ctx) {
       return (profile ? renderSection('profile_loyalty') : '')
         + '<div class="ha-sheet">' + remaining.map((section) => renderSection(section.id)).join('') + '</div>';
     }
-    if (state.layout === 'bento-grid') return cleanHeader() + renderBentoSections(sections);
-    return cleanHeader() + sections.map((section) => '<div class="ha-stack-section">' + renderSection(section.id) + '</div>').join('');
+    const profile = profileState();
+    return cleanHeader() + '<div class="ha-canvas-greeting" data-drill="profile">' + (profile.guest ? profile.guestTitle : profile.greeting) + '</div>'
+      + renderModularSections(sections);
   }
 
   function renderHomeArchitecture() {
-    const wrapper = document.querySelector('.home-layout-' + state.layout);
+    const wrapper = document.querySelector('.home-layout-' + (state.layout === 'modular-bento' ? 'bento-grid' : 'split-header-qsr'));
     if (!wrapper) return;
     document.querySelectorAll('.ha-home-architecture').forEach((host) => host.remove());
     const host = document.createElement('div');
-    host.className = 'ha-home-architecture ha-' + state.layout + ' ha-focus-' + currentAppFocus();
+    host.className = 'ha-home-architecture ha-' + state.layout + (state.layout === 'modular-bento' ? ' ha-bento-grid' : '') + ' ha-focus-' + currentAppFocus();
     host.innerHTML = homeArchitectureMarkup();
     wrapper.appendChild(host);
     host.querySelectorAll('[data-drill]').forEach((element) => {
@@ -254,7 +252,7 @@ export function initHomeLayout(ctx) {
   // entirely) recommends the bento grid.
   function getRecommendedLayout({ onlineOrderingEnabled, appFocus } = {}) {
     if (onlineOrderingEnabled && appFocus === 'ordering') return 'split-header-qsr';
-    return 'bento-grid';
+    return 'modular-bento';
   }
 
   function fallbackLayout() {
@@ -267,8 +265,10 @@ export function initHomeLayout(ctx) {
   // exclusivity with inline styles too, so a single layout is guaranteed to
   // render even if a stale/competing stylesheet rule ever wins the cascade.
   function enforceExclusiveLayout() {
+    document.body.dataset.homeLayout = state.layout;
     document.querySelectorAll('.home-layout').forEach((el) => {
-      const isActive = el.classList.contains('home-layout-' + state.layout);
+      const activeClass = state.layout === 'modular-bento' ? 'home-layout-bento-grid' : 'home-layout-split-header-qsr';
+      const isActive = el.classList.contains(activeClass);
       el.style.display = isActive ? '' : 'none';
     });
     reclaimLeakedWidgets();
@@ -298,7 +298,8 @@ export function initHomeLayout(ctx) {
   }
 
   function applyHomeLayout(layout) {
-    state.layout = LAYOUT_DEFS.some((d) => d.key === layout) ? layout : fallbackLayout();
+    const normalized = normalizeLayout(layout);
+    state.layout = LAYOUT_DEFS.some((d) => d.key === normalized) ? normalized : fallbackLayout();
     syncProfileSectionRow();
     document.body.dataset.homeLayout = state.layout;
     enforceExclusiveLayout();
@@ -318,20 +319,20 @@ export function initHomeLayout(ctx) {
     if (!container || !row) return;
     const list = document.querySelector('#cp-home-widgets .cp-body') || row.parentElement;
     if (row.parentElement !== list) list.prepend(row);
-    const pinned = state.layout === 'split-header-qsr';
+    const pinned = true;
     row.classList.toggle('cp-fixed-slot', pinned);
     row.classList.toggle('home-profile-pinned', pinned);
     row.querySelector('.handle')?.classList.toggle('handle-locked', pinned);
     row.draggable = !pinned;
     const rows = [...container.querySelectorAll('.cp-widget-row')];
     const badge = row.querySelector('.home-profile-position-badge');
-    if (badge) badge.textContent = pinned ? 'Pinned at top' : 'Recommended at top';
+    if (badge) badge.textContent = 'Always at top';
     row.querySelector('.home-profile-pin-note')?.remove();
     row.querySelector('.home-profile-tip')?.remove();
     if (pinned) {
       list.prepend(row);
       syncHomeSectionsFromDom();
-      row.insertAdjacentHTML('beforeend', '<span class="home-profile-pin-note">🔒 Pinned at top in Split-Header layout</span>');
+      row.insertAdjacentHTML('beforeend', '<span class="home-profile-pin-note">🔒 Always at top</span>');
       return;
     }
     if (rows.indexOf(row) > 0) {
@@ -348,14 +349,13 @@ export function initHomeLayout(ctx) {
   }
 
   function homeLayoutWireframe(key) {
-    if (key === 'bento-grid') {
+    if (key === 'modular-bento') {
       return '<svg viewBox="0 0 100 68" fill="none"><rect x="4" y="4" width="92" height="22" rx="4" fill="currentColor" opacity=".35"/><rect x="4" y="30" width="43" height="34" rx="4" fill="currentColor" opacity=".55"/><rect x="51" y="30" width="45" height="16" rx="4" fill="currentColor" opacity=".25"/><rect x="51" y="48" width="45" height="16" rx="4" fill="currentColor" opacity=".25"/></svg>';
     }
     if (key === 'split-header-qsr') {
       return '<svg viewBox="0 0 100 68" fill="none"><rect x="4" y="4" width="92" height="28" rx="6" fill="currentColor" opacity=".5"/><rect x="4" y="26" width="92" height="38" rx="10" fill="currentColor" opacity=".3"/></svg>';
     }
-    // priority-stack
-    return '<svg viewBox="0 0 100 68" fill="none"><rect x="4" y="4" width="92" height="12" rx="4" fill="currentColor" opacity=".5"/><rect x="4" y="20" width="92" height="12" rx="4" fill="currentColor" opacity=".3"/><rect x="4" y="36" width="92" height="12" rx="4" fill="currentColor" opacity=".3"/><rect x="4" y="52" width="92" height="12" rx="4" fill="currentColor" opacity=".3"/></svg>';
+    return '';
   }
 
   /* ---------------------------- post-setup "Home Structure" card (Home editor) */
@@ -376,7 +376,7 @@ export function initHomeLayout(ctx) {
       return '<button type="button" class="cp-home-layout-opt' + (selected ? ' selected' : '') + '" data-home-layout-pick="' + def.key + '">'
         + '<span class="cp-home-layout-wireframe">' + homeLayoutWireframe(def.key) + '</span>'
         + '<span class="cp-home-layout-check' + (selected ? ' checked' : '') + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>'
-        + (def.key === recommended ? '<span class="cp-home-layout-badge">Recommended</span>' : '')
+        + (def.key === recommended ? '<span class="cp-home-layout-badge">RECOMMENDED</span>' : '')
         + '<span class="cp-home-layout-title">' + def.name + '</span>'
         + '<span class="cp-home-layout-desc">' + def.desc + '</span>'
         + '</button>';
@@ -387,8 +387,20 @@ export function initHomeLayout(ctx) {
   }
 
   renderHomeStructureGrid();
-  document.addEventListener('como:focus-changed', () => { renderHomeStructureGrid(); scrollHomeToTop(); });
-  document.addEventListener('como:focus-changed', renderHomeArchitecture);
+  document.addEventListener('como:focus-changed', (event) => {
+    const ordering = event.detail?.goal === 'ordering';
+    const progressStyle = ordering ? 'bar' : 'ring';
+    const showScanButton = !ordering;
+    updateProfileLoyaltyState({ progressStyle, showScanButton });
+    document.querySelector(`[data-bind-radio="loyalty-layout"][data-value="${progressStyle}"]`)?.click();
+    const scanToggle = [...document.querySelectorAll('[data-detail="profile"] .cp-toggle-row')]
+      .find((row) => row.querySelector('.lbl')?.textContent.trim() === 'Scan loyalty card button')
+      ?.querySelector('.toggle');
+    if (scanToggle?.classList.contains('on') !== showScanButton) scanToggle?.click();
+    applyHomeLayout(ordering ? 'split-header-qsr' : 'modular-bento');
+    renderHomeStructureGrid();
+    scrollHomeToTop();
+  });
   document.addEventListener('como:ordering-mode', () => { renderHomeStructureGrid(); renderHomeArchitecture(); });
   document.addEventListener('como:brand-colors', renderHomeArchitecture);
   document.addEventListener('como:home-sections-reordered', renderHomeArchitecture);

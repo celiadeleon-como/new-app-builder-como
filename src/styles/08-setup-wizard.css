@@ -502,7 +502,7 @@
   }
   .sw-segmented-opt svg { width: 15px; height: 15px; }
   .sw-segmented-opt.active { background: #fff; color: var(--sw-ink); box-shadow: 0 1px 3px rgba(20, 27, 34, .14); }
-  .sw-layout-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .sw-layout-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
   .sw-layout-feature-summary { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: -4px 0 16px; }
   .sw-layout-feature-summary > span { margin-right: 2px; color: var(--sw-muted); font-size: 10.5px; font-weight: 700; }
   .sw-layout-feature-summary b { padding: 4px 8px; border-radius: 999px; background: var(--sw-blue-soft); color: var(--sw-blue); font-size: 9.5px; }
