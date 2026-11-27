@@ -167,19 +167,17 @@ export function initHomeLayout(ctx) {
   function splitHero() {
     const brand = brandIdentity();
     const profile = profileState();
-    const progress = profile.enabled && !profile.guest ? (
-      (profile.showPoints ? '<div class="ha-balance-row"><strong>200 / ' + (profile.progress === 'ring' ? '250' : '500') + ' pts</strong></div>' : '')
-      + (profile.showProgress && profile.progress !== 'minimal'
-        ? (profile.progress === 'ring'
-          ? '<div class="ha-split-ring"><span>200<small>/250</small></span></div>'
-          : '<div class="ha-split-progress"><span>300 pts to next reward</span><div class="ha-progress ha-progress-inverse"><span style="width:40%"></span></div></div>')
-        : '')
-    ) : '';
+    const points = profile.enabled && !profile.guest && profile.showPoints
+      ? '<div class="ha-balance-row"><strong>200 / ' + (profile.progress === 'ring' ? '250' : '500') + ' pts</strong></div>' : '';
+    const progress = profile.enabled && !profile.guest && profile.showProgress && profile.progress === 'bar'
+      ? '<div class="ha-split-progress"><span>300 pts to next reward</span><div class="ha-progress ha-progress-inverse"><span style="width:40%"></span></div></div>' : '';
+    const ring = profile.enabled && !profile.guest && profile.showProgress && profile.progress === 'ring'
+      ? '<div class="ha-split-ring"><span>200<small>/250</small></span></div>' : '';
     return '<div class="ha-split-hero ' + (!profile.enabled ? 'ha-profile-hidden' : '') + '" data-ha-widget="profile" data-drill="profile"><div class="ha-brand-row"><span class="ha-monogram ha-monogram-white' + brand.logoClass + '"' + (brand.logo ? ' style="background-image:' + brand.logo + '"' : '') + '>' + brand.initials + '</span>'
       + '<button class="ha-profile ha-profile-inverse" type="button" onclick="openAccountPage()" aria-label="Open profile">' + profileIcon + '</button></div>'
-      + '<div class="ha-split-greeting"><strong>' + (profile.guest ? profile.guestTitle : profile.greeting) + '</strong>'
+      + '<div class="ha-split-content"><div class="ha-split-copy"><div class="ha-split-greeting"><strong>' + (profile.guest ? profile.guestTitle : profile.greeting) + '</strong>'
       + (profile.enabled && !profile.guest ? '<span class="ha-tier">' + profile.tier + '</span>' : '') + '</div>'
-      + '<div class="ha-split-loyalty">' + progress + '</div></div>';
+      + points + progress + '</div>' + ring + '</div></div>';
   }
 
   function bentoRewards() {
@@ -258,6 +256,7 @@ export function initHomeLayout(ctx) {
     wrapper.appendChild(host);
     host.querySelectorAll('[data-drill]').forEach((element) => {
       element.addEventListener('click', (event) => {
+        if (event.target.closest('.ha-profile')) return;
         event.stopPropagation();
         window.openDrill?.('cp-home', element.dataset.drill);
       });
@@ -269,6 +268,7 @@ export function initHomeLayout(ctx) {
     const order = rows.map((row) => row.querySelector('[data-widget-toggle]')?.dataset.widgetToggle).filter(Boolean);
     const position = (key) => {
       const index = order.indexOf(key);
+      if (state.layout === 'split-header-qsr' && key === 'profile') return -100;
       return index < 0 ? 1000 : index;
     };
     [host, ...host.querySelectorAll('.ha-sheet, .ha-bento-pair')].forEach((container) => {
@@ -333,6 +333,7 @@ export function initHomeLayout(ctx) {
 
   function applyHomeLayout(layout) {
     state.layout = LAYOUT_DEFS.some((d) => d.key === layout) ? layout : fallbackLayout();
+    syncProfileSectionRow();
     document.body.dataset.homeLayout = state.layout;
     enforceExclusiveLayout();
     scrollHomeToTop();
@@ -343,6 +344,39 @@ export function initHomeLayout(ctx) {
     if (status) status.textContent = LAYOUT_DEFS.find((definition) => definition.key === state.layout)?.name || '';
     document.dispatchEvent(new CustomEvent('como:home-layout-changed', { detail: { layout: state.layout } }));
     ctx.markDirty?.();
+  }
+
+  function syncProfileSectionRow() {
+    const container = document.querySelector('#cp-home .cp-master');
+    const row = container?.querySelector('[data-widget-toggle="profile"]')?.closest('.cp-widget-row');
+    if (!container || !row) return;
+    const list = document.querySelector('#cp-home-widgets .cp-body') || row.parentElement;
+    if (row.parentElement !== list) list.prepend(row);
+    const pinned = state.layout === 'split-header-qsr';
+    row.classList.toggle('cp-fixed-slot', pinned);
+    row.classList.toggle('home-profile-pinned', pinned);
+    row.querySelector('.handle')?.classList.toggle('handle-locked', pinned);
+    row.draggable = !pinned;
+    const rows = [...container.querySelectorAll('.cp-widget-row')];
+    const badge = row.querySelector('.home-profile-position-badge');
+    if (badge) badge.textContent = pinned ? 'Pinned at top' : 'Recommended at top';
+    row.querySelector('.home-profile-pin-note')?.remove();
+    row.querySelector('.home-profile-tip')?.remove();
+    if (pinned) {
+      list.prepend(row);
+      row.insertAdjacentHTML('beforeend', '<span class="home-profile-pin-note">🔒 Pinned at top in Split-Header layout</span>');
+      return;
+    }
+    if (rows.indexOf(row) > 0) {
+      row.insertAdjacentHTML('beforeend', '<span class="home-profile-tip">Tip: Keeping Profile &amp; loyalty at the top gives returning members immediate access to their points <button type="button" data-profile-move-top>Move to top</button></span>');
+      row.querySelector('[data-profile-move-top]')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        list.prepend(row);
+        ctx.reorderPhoneWidgets?.();
+        ctx.markDirty?.();
+        syncProfileSectionRow();
+      });
+    }
   }
 
   function homeLayoutWireframe(key) {
@@ -390,6 +424,7 @@ export function initHomeLayout(ctx) {
   document.addEventListener('como:ordering-mode', () => { renderHomeStructureGrid(); renderHomeArchitecture(); });
   document.addEventListener('como:brand-colors', renderHomeArchitecture);
   document.addEventListener('como:home-sections-reordered', renderHomeArchitecture);
+  document.addEventListener('como:home-sections-reordered', syncProfileSectionRow);
   document.addEventListener('como:profile-preview', renderHomeArchitecture);
   const profileEditor = document.querySelector('[data-detail="profile"]');
   ['input', 'click', 'change'].forEach((eventName) => {
@@ -428,6 +463,7 @@ export function initHomeLayout(ctx) {
     if (source) liveWidgetObserver.observe(source, { childList: true, subtree: true, attributes: true, characterData: true });
   });
   document.addEventListener('como:ordering', renderHomeArchitecture);
+  syncProfileSectionRow();
   enforceExclusiveLayout();
 
   // Direct editing: clicking any widget tile/row/card in the Home phone

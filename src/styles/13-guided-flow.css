@@ -455,6 +455,26 @@
   .cp-focus-seg-opt .cp-focus-seg-ic svg { width: 14px; height: 14px; }
   .cp-focus-seg-opt.active { background: var(--panel-2, #fff); color: var(--como); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
   .cp-home-layout-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .home-profile-position-badge {
+    margin-left: auto; padding: 3px 7px; border-radius: 99px;
+    background: var(--como-soft); color: var(--como); font-size: 8.5px; font-weight: 750; white-space: nowrap;
+  }
+  .home-profile-pinned { flex-wrap: wrap; }
+  .home-profile-pinned .w-name,
+  .home-profile-pinned .toggle,
+  .home-profile-pinned .w-edit-icon,
+  .home-profile-pinned .home-profile-position-badge { align-self: center; }
+  .home-profile-pin-note {
+    flex: 1 0 100%; padding: 0 0 2px 27px; color: var(--muted);
+    font-size: 9.5px; font-weight: 550;
+  }
+  .home-profile-tip {
+    flex: 1 0 100%; padding: 2px 0 0 27px; color: var(--muted); font-size: 9.5px; line-height: 1.4;
+  }
+  .home-profile-tip button {
+    margin-left: 4px; padding: 0; border: 0; background: none; color: var(--como);
+    font: inherit; font-weight: 750; cursor: pointer;
+  }
   .cp-home-layout-opt {
     position: relative; display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px;
     align-items: center; text-align: left; min-height: 92px;

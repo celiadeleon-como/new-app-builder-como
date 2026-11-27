@@ -248,7 +248,7 @@ export function initCoreNavigation(ctx) {
       // "Lead with ordering" has to mean it: the ordering widgets go above the
       // loyalty card, not below the fold. Order drives both the config rows and
       // (via reorderPhoneWidgets) the phone itself.
-      order: ['order-again', 'top-items', 'menu-categories', 'profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social'],
+      order: ['profile', 'order-again', 'top-items', 'menu-categories', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social'],
       name: 'Lead with ordering',
       desc: 'Put the menu and repeat orders first while keeping loyalty visible at checkout.',
       tags: ['Menu first', 'Order again', 'Loyalty at checkout'],
