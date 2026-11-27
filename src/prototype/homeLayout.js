@@ -127,16 +127,17 @@ export function initHomeLayout(ctx) {
       + '<div class="ha-balance-row"><strong>200 / 500 pts</strong><span>300 pts to next reward</span></div><div class="ha-progress ha-progress-inverse"><span style="width:40%"></span></div></div>';
   }
 
-  function scanToEarnTile() {
-    const source = document.querySelector('.home-layout-bento-grid .bento-tile-qr');
-    return source?.innerHTML || '<span class="ha-scan-icon">' + qrIcon + '</span><strong>Scan to earn</strong>';
+  function bentoRewards() {
+    const source = document.querySelector('.home-layout-priority-stack .active-rewards-card');
+    const rewards = [...(source?.querySelectorAll('.ar-row') || [])].slice(0, 2).map((reward) => reward.outerHTML).join('');
+    return '<section class="ha-bento-rewards" data-ha-widget="active-rewards" data-drill="active-rewards">'
+      + '<div class="ha-section-head"><h2>Active Rewards</h2><span>2 available</span></div>'
+      + '<div class="ha-bento-reward-grid">' + rewards + '</div></section>';
   }
 
   function bentoLoyalty() {
     return cleanHeader() + rewardHero()
-      + (widgetEnabled('active-rewards') ? '<div class="ha-bento-pair">' + activeRewardsCard() : '')
-      + (widgetEnabled('loyalty-qr') ? '<button class="ha-card ha-scan-tile" data-ha-widget="loyalty-qr" type="button" data-drill="loyalty-qr">' + scanToEarnTile() + '</button>' : '')
-      + (widgetEnabled('active-rewards') ? '</div>' : '')
+      + (widgetEnabled('active-rewards') ? bentoRewards() : '')
       + (widgetEnabled('punch-card') ? punchCard() : '')
       + (widgetEnabled('promo-cards') ? promoSection('pair') : '');
   }
