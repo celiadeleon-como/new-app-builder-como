@@ -14,6 +14,7 @@ const profileLoyaltyState = {
   progressStyle: 'ring',
   showPointsBalance: true,
   showProgress: true,
+  showScanButton: true,
   enabled: true,
 };
 
@@ -43,6 +44,7 @@ export function hydrateProfileLoyaltyState() {
   profileLoyaltyState.progressStyle = progress?.dataset.value || profileLoyaltyState.progressStyle;
   profileLoyaltyState.showPointsBalance = byLabel('Points balance')?.classList.contains('on') !== false;
   profileLoyaltyState.showProgress = byLabel('Progress to next reward')?.classList.contains('on') !== false;
+  profileLoyaltyState.showScanButton = byLabel('Scan loyalty card button')?.classList.contains('on') !== false;
   profileLoyaltyState.enabled = profileToggle?.classList.contains('on') ?? true;
   profileLoyaltyState.memberState = document.body.dataset.memberPreview === 'guest' ? 'guest' : 'loggedin';
   return profileLoyaltyState;

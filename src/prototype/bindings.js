@@ -44,6 +44,7 @@ export function initBindings(ctx) {
         const label = profileRow.querySelector('.lbl')?.textContent.trim();
         if (label === 'Points balance') updateProfileLoyaltyState({ showPointsBalance: t.classList.contains('on') });
         if (label === 'Progress to next reward') updateProfileLoyaltyState({ showProgress: t.classList.contains('on') });
+        if (label === 'Scan loyalty card button') updateProfileLoyaltyState({ showScanButton: t.classList.contains('on') });
       }
       if (t.dataset.widgetToggle === 'profile') {
         updateProfileLoyaltyState({ enabled: t.classList.contains('on') });
@@ -51,7 +52,7 @@ export function initBindings(ctx) {
       const homeWidget = t.dataset.widgetToggle;
       if (homeWidget) {
         const canonical = {
-          profile: 'profile_loyalty', 'loyalty-qr': 'loyalty_qr',
+          profile: 'profile_loyalty',
           'active-rewards': 'active_rewards', 'punch-card': 'punch_card',
           'order-again': 'order_again', 'promo-cards': 'promotions',
           'menu-categories': 'menu_categories',

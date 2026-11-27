@@ -163,6 +163,28 @@ export function initCoreNavigation(ctx) {
   };
   // The sidebar's "Screens" list mirrors whichever nav-item each slot currently shows.
   const SIDE_SLOT_MAP = { 'nav-extra-slot': 'side-extra-slot', 'nav-menu-slot': 'side-menu-slot' };
+  function enforceUniqueBottomNav() {
+    const nav = document.getElementById('bottom-nav');
+    if (!nav) return;
+    const items = [...nav.querySelectorAll('.nav-item')];
+    const seen = new Set();
+    items.forEach((item) => {
+      const key = item.dataset.nav;
+      if (key === 'more' || key === 'home') {
+        if (seen.has(key)) item.hidden = true;
+        else seen.add(key);
+      } else if (seen.has(key)) {
+        item.hidden = true;
+      } else {
+        item.hidden = false;
+        seen.add(key);
+      }
+    });
+    const fixedHome = nav.querySelector('.nav-item[data-nav="home"]');
+    const fixedMore = nav.querySelector('.nav-item[data-nav="more"]:not(#nav-extra-slot):not(#nav-menu-slot)');
+    if (fixedHome) nav.prepend(fixedHome);
+    if (fixedMore) nav.appendChild(fixedMore);
+  }
   function setExtraSlotMode(mode, slotId = 'nav-extra-slot') {
     const slot = document.getElementById(slotId);
     if (!slot) return;
@@ -174,6 +196,7 @@ export function initCoreNavigation(ctx) {
     const sideSlot = document.getElementById(SIDE_SLOT_MAP[slotId] || '');
     if (hidden) {
       if (sideSlot) { sideSlot.hidden = true; sideSlot.classList.add('slot-hidden'); }
+      enforceUniqueBottomNav();
       return;
     }
     const def = EXTRA_SLOTS[mode] || EXTRA_SLOTS.locations;
@@ -194,8 +217,10 @@ export function initCoreNavigation(ctx) {
     if (lbl) lbl.textContent = def.label;
     const tip = sideSlot.querySelector('.side-tooltip');
     if (tip) tip.textContent = def.label;
+    enforceUniqueBottomNav();
   }
   window.setExtraSlotMode = setExtraSlotMode;
+  enforceUniqueBottomNav();
 
   function applyTemplate(tpl) {
     state.template = tpl;
@@ -228,12 +253,12 @@ export function initCoreNavigation(ctx) {
 
   // ---------- Goal presets (shared by the setup wizard and the top-bar preset dropdown) ----------
   const ORDERING_WIDGET_KEYS = ['order-again', 'top-items', 'menu-categories', 'menu-reels'];
-  const ALL_HOME_WIDGET_KEYS = ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'promo-cards-2', 'social', ...ORDERING_WIDGET_KEYS];
+  const ALL_HOME_WIDGET_KEYS = ['profile', 'active-rewards', 'punch-card', 'promo-cards', 'promo-cards-2', 'social', ...ORDERING_WIDGET_KEYS];
   const GOAL_DEFS = {
     loyalty: {
       label: 'Lead with loyalty', sub: 'Points, tiers, and rewards',
-      widgets: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social'], menuDP: false,
-      order: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social', 'order-again', 'top-items', 'menu-categories'],
+      widgets: ['profile', 'active-rewards', 'punch-card', 'promo-cards', 'social'], menuDP: false,
+      order: ['profile', 'active-rewards', 'punch-card', 'promo-cards', 'social', 'order-again', 'top-items', 'menu-categories'],
       name: 'Lead with loyalty',
       desc: 'Put member status, progress, and rewards first to encourage repeat visits.',
       tags: ['Member status', 'Points and tiers', 'Rewards'],
@@ -244,11 +269,11 @@ export function initCoreNavigation(ctx) {
       // Ordering preset seeds Profile and Promo Cards plus the ordering widgets.
       // Menu Reels is an opt-in extra the merchant enables from the Home step,
       // so it is not part of the default ordering layout.
-      widgets: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'order-again', 'top-items', 'menu-categories'], menuDP: true,
+      widgets: ['profile', 'promo-cards', 'order-again', 'menu-categories'], menuDP: true,
       // "Lead with ordering" has to mean it: the ordering widgets go above the
       // loyalty card, not below the fold. Order drives both the config rows and
       // (via reorderPhoneWidgets) the phone itself.
-      order: ['profile', 'order-again', 'top-items', 'menu-categories', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards', 'social'],
+      order: ['profile', 'order-again', 'promo-cards', 'menu-categories', 'active-rewards', 'punch-card', 'social'],
       name: 'Lead with ordering',
       desc: 'Put the menu and repeat orders first while keeping loyalty visible at checkout.',
       tags: ['Menu first', 'Order again', 'Loyalty at checkout'],
@@ -256,7 +281,7 @@ export function initCoreNavigation(ctx) {
     },
     blank: {
       label: 'Choose focus', sub: 'A proven first app, ready to shape',
-      widgets: ['profile', 'active-rewards', 'punch-card', 'loyalty-qr', 'promo-cards'], menuDP: false
+      widgets: ['profile', 'active-rewards', 'punch-card', 'promo-cards'], menuDP: false
     }
   };
   // Applies a goal preset to the real editor (widgets + menu D/P switcher + brand sub + top-bar label).

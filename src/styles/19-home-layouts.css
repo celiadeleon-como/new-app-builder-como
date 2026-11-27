@@ -7,9 +7,10 @@
    ============================================================ */
 
 .home-layout { display: none !important; }
-body[data-home-layout="priority-stack"] .home-layout-priority-stack,
-body:not([data-home-layout]) .home-layout-priority-stack { display: block !important; animation: home-layout-fade-in .22s ease; }
-body[data-home-layout="bento-grid"] .home-layout-bento-grid { display: block !important; animation: home-layout-fade-in .22s ease; }
+body[data-home-layout="priority-stack"] .home-layout-bento-grid,
+body[data-home-layout="bento-grid"] .home-layout-bento-grid,
+body[data-home-layout="modular-bento"] .home-layout-bento-grid,
+body:not([data-home-layout]) .home-layout-bento-grid { display: block !important; animation: home-layout-fade-in .22s ease; }
 body[data-home-layout="split-header-qsr"] .home-layout-split-header-qsr { display: block !important; animation: home-layout-fade-in .22s ease; }
 
 /* Split-Header's own brand-colour canvas replaces the generic top header —
@@ -204,6 +205,7 @@ body.focus-ordering .bento-tile-points { display: block; }
 .home-layout > :not(.ha-home-architecture) { display: none !important; }
 body[data-home-layout="priority-stack"] .app-page[data-page="home"] > .app-top-header,
 body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-header,
+body[data-home-layout="modular-bento"] .app-page[data-page="home"] > .app-top-header,
 .app-page[data-page="home"] > .category-badge,
 .app-page[data-page="home"] > .phone-blank-placeholder,
 .app-page[data-page="home"] > .empty-canvas { display: none !important; }
@@ -218,15 +220,20 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 .ha-stack-section > .ha-card,
 .ha-stack-section > .ha-section-card,
 .ha-stack-section > .ha-section { margin: 0; }
-.ha-priority-stack .ha-stack-section > .ha-card,
-.ha-priority-stack .ha-stack-section > .ha-section,
-.ha-priority-stack .ha-stack-section > .ha-section-card {
+.ha-modular-bento .ha-stack-section > .ha-card,
+.ha-modular-bento .ha-stack-section > .ha-section,
+.ha-modular-bento .ha-stack-section > .ha-section-card {
   padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
 }
-.ha-priority-stack .ha-stack-section .ha-mini-rewards {
+.ha-modular-bento .ha-stack-section .ha-mini-rewards {
   padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
 }
-.ha-priority-stack .ha-stack-section > .ha-punch { padding: 0; }
+.ha-modular-bento .ha-stack-section > .ha-punch { padding: 0; }
+.ha-modular-bento .ha-stack-section { padding: 14px; border: 1px solid var(--p-border); border-radius: 16px; background: var(--p-panel); }
+.ha-modular-bento .ha-bento-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ha-modular-bento .ha-bento-pair > * { min-width: 0; min-height: 118px; }
+.ha-modular-bento > .ha-section { margin: 4px 0 0; }
+.ha-modular-bento > .ha-punch { padding: 14px; }
 .ha-bento-grid .ha-section,
 .ha-bento-grid .ha-section-card { border: 0; border-radius: 0; background: transparent; padding: 0; }
 .ha-sheet .ha-section,
@@ -251,6 +258,7 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 }
 .ha-profile svg { width: 19px; height: 19px; }
 .ha-greeting { margin: 0 0 16px; grid-column: 1 / -1; font-size: 22px; font-weight: 800; letter-spacing: -.7px; }
+.ha-canvas-greeting { margin: 14px 1px 2px; color: var(--p-text); font-size: 22px; font-weight: 800; letter-spacing: -.7px; cursor: pointer; }
 .ha-card {
   border: 1px solid var(--p-border); border-radius: 16px; background: var(--p-panel);
   color: var(--p-text); box-shadow: 0 1px 2px rgba(15,23,42,.025);
@@ -378,6 +386,8 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 
 /* Live Home widgets are projected into the structural slots. */
 .ha-live-widget .pcm-head { margin-bottom: 12px; }
+.ha-punch-section .ha-punch { padding: 16px; }
+.ha-punch-section .pcm-count { color: var(--p-text-muted); font-size: 10.5px; font-weight: 700; }
 .ha-live-widget .pcm-stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 9px; }
 .ha-live-widget .pcm-stamp { width: 32px; height: 32px; justify-self: center; }
 .ha-live-rewards .ha-mini-rewards {
@@ -392,7 +402,10 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 .ha-live-rewards .ar-row-body { gap: 2px; }
 .ha-live-rewards .ar-row-body b { max-width: 100%; font-size: 10.5px; line-height: 1.2; }
 .ha-live-rewards .ar-row-body small { font-size: 8.5px; }
-.ha-bento-grid .ha-live-rewards .ha-mini-rewards { grid-template-columns: 1fr; }
+.ha-bento-grid .ha-live-rewards .ha-mini-rewards,
+.ha-modular-bento .ha-live-rewards .ha-mini-rewards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.ha-split-scan { margin-top: 12px; border-color: var(--p-accent-ink, #fff); color: var(--p-accent-ink, #fff); }
+.ha-split-hero .ha-split-scan { background: color-mix(in srgb, var(--p-accent-ink, #fff) 10%, transparent); }
 .ha-order-live { align-items: stretch; }
 .ha-order-card {
   position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--p-border);

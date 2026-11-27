@@ -1,6 +1,5 @@
 const ID_MAP = {
   profile: 'profile_loyalty',
-  'loyalty-qr': 'loyalty_qr',
   'active-rewards': 'active_rewards',
   'punch-card': 'punch_card',
   'order-again': 'order_again',
@@ -25,6 +24,12 @@ export function syncHomeSectionsFromDom() {
       };
     })
     .filter(Boolean);
+  const profileIndex = homeSections.findIndex((section) => section.id === 'profile_loyalty');
+  if (profileIndex > 0) {
+    const [profile] = homeSections.splice(profileIndex, 1);
+    homeSections.unshift(profile);
+    syncHomeSectionDomOrder();
+  }
   document.dispatchEvent(new CustomEvent('como:home-sections', { detail: [...homeSections] }));
   return homeSections;
 }
