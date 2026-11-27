@@ -1,3 +1,5 @@
+import { getProfileLoyaltyView } from './profileLoyaltyState.js';
+
 /**
  * Home layout — the structural template for the Home screen, independent of
  * which widgets are turned on/off. Three selectable layouts:
@@ -27,38 +29,19 @@ export function initHomeLayout(ctx) {
     return !toggle || toggle.classList.contains('on');
   }
 
-  function profileSetting(rowLabel) {
-    return [...document.querySelectorAll('[data-detail="profile"] .cp-toggle-row')].find((row) =>
-      row.querySelector('.lbl')?.textContent.trim() === rowLabel,
-    )?.querySelector('.toggle').classList.contains('on') !== false;
-  }
-
   function profileState() {
-    const greetingInput = document.querySelector('[data-detail="profile"] [data-vars="true"]');
-    const template = greetingInput ? [...greetingInput.childNodes].map((node) => {
-      if (node.nodeType === Node.TEXT_NODE) return node.textContent;
-      return node.classList?.contains('var-token') ? `{${node.dataset.key}}` : node.textContent;
-    }).join('') : 'Welcome back!';
-    const member = {
-      firstName: 'User', lastName: '', phone: '+971 50 123 4567', dob: '12 June',
-      tier: 'Bronze',
-    };
-    const greeting = template.replace(/\{(firstName|lastName|phone|dob|tier)\}/g, (_, key) => member[key] || '');
-    const guest = document.body.dataset.memberPreview === 'guest';
-    const guestTitle = document.querySelector('[data-detail="profile"] [data-state-section="guest"] input[data-bind-text]')?.value || 'Welcome!';
-    const progress = document.querySelector('[data-detail="profile"] [data-bind-radio="loyalty-layout"].active')?.dataset.value || 'ring';
+    const view = getProfileLoyaltyView(widgetEnabled('profile'));
     return {
-      enabled: widgetEnabled('profile'),
-      guest,
-      greeting: escapeHome(greeting),
-      guestTitle: escapeHome(guestTitle),
-      progress,
-      showPoints: profileSetting('Points balance'),
-      showProgress: profileSetting('Progress to next reward'),
-      tier: member.tier,
+      enabled: view.enabled,
+      guest: view.guest,
+      greeting: escapeHome(view.greeting),
+      guestTitle: escapeHome(view.guestTitle),
+      progress: view.progressStyle,
+      showPoints: view.showPointsBalance,
+      showProgress: view.showProgress,
+      tier: view.tier,
     };
   }
-
   function escapeHome(value) {
     return String(value ?? '').replace(/[&<>"']/g, (character) => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;',
@@ -426,6 +409,7 @@ export function initHomeLayout(ctx) {
   document.addEventListener('como:home-sections-reordered', renderHomeArchitecture);
   document.addEventListener('como:home-sections-reordered', syncProfileSectionRow);
   document.addEventListener('como:profile-preview', renderHomeArchitecture);
+  document.addEventListener('como:profile-loyalty', renderHomeArchitecture);
   const profileEditor = document.querySelector('[data-detail="profile"]');
   ['input', 'click', 'change'].forEach((eventName) => {
     profileEditor?.addEventListener(eventName, () => requestAnimationFrame(renderHomeArchitecture));

@@ -1,3 +1,7 @@
+import {
+  hydrateProfileLoyaltyState, readProfileEditorText, updateProfileLoyaltyState,
+} from './profileLoyaltyState.js';
+
 export function initBindings(ctx) {
   const { markDirty, updateHomeEmptyState } = ctx;
 
@@ -33,6 +37,15 @@ export function initBindings(ctx) {
             window.openDrill('cp-home', drillKey);
           }
         }
+      }
+      const profileRow = t.closest('[data-detail="profile"] .cp-toggle-row');
+      if (profileRow) {
+        const label = profileRow.querySelector('.lbl')?.textContent.trim();
+        if (label === 'Points balance') updateProfileLoyaltyState({ showPointsBalance: t.classList.contains('on') });
+        if (label === 'Progress to next reward') updateProfileLoyaltyState({ showProgress: t.classList.contains('on') });
+      }
+      if (t.dataset.widgetToggle === 'profile') {
+        updateProfileLoyaltyState({ enabled: t.classList.contains('on') });
       }
       // Sync parent social-item .on/.off state (reveals the indented URL input below it)
       const socialItem = t.closest('.cp-social-item');
@@ -75,6 +88,7 @@ export function initBindings(ctx) {
           }
         }
         if (bindRadio === 'loyalty-layout') {
+          updateProfileLoyaltyState({ progressStyle: value });
           // Progress style is a single source of truth shared by every Home
           // layout's loyalty hero, not just the Priority Stack loyalty card.
           document.querySelectorAll('.loyalty-card, .bento-hero[data-focus-loyalty], .shq-header[data-focus-loyalty]').forEach((el) => {
@@ -82,6 +96,7 @@ export function initBindings(ctx) {
           });
         }
         if (bindRadio === 'member-state') {
+          updateProfileLoyaltyState({ memberState: value === 'guest' ? 'guest' : 'loggedin' });
           // This editor-local radio has to drive the SAME guest/member state as
           // the top "Previewing" switcher, or Bento Grid / Split-Header QSR's
           // guest CTA (keyed off body[data-member-preview]) never activates.
@@ -123,6 +138,18 @@ export function initBindings(ctx) {
         el.textContent = text;
       });
       markDirty();
+      const profileEditor = inp.closest('[data-detail="profile"]');
+      if (profileEditor) {
+        if (inp.matches('[data-vars="true"]')) {
+          updateProfileLoyaltyState({ greetingTemplate: readProfileEditorText(inp) });
+        } else if (profileEditor.querySelector('[data-state-section="guest"]')?.contains(inp)) {
+          const guestInputs = profileEditor.querySelectorAll('[data-state-section="guest"] input[data-bind-text]');
+          updateProfileLoyaltyState({
+            guestTitle: guestInputs[0]?.value || '',
+            guestSubheading: guestInputs[1]?.value || '',
+          });
+        }
+      }
     });
   });
 
@@ -368,6 +395,7 @@ export function initBindings(ctx) {
   });
 
 
+  hydrateProfileLoyaltyState();
   return { wireToggle, wireRadioGroup, getPlainText, setupVariableInput, normalizeHex, wireColorControl, syncColorVar };
 }
 
