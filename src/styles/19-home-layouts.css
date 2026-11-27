@@ -313,10 +313,9 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 }
 .ha-split-hero.ha-profile-hidden { min-height: 112px; padding-bottom: 20px; }
 .ha-split-hero.ha-profile-hidden .ha-split-greeting { margin-top: 18px; }
-.ha-split-loyalty { position: relative; margin-top: 18px; min-height: 18px; }
-.ha-split-loyalty .ha-balance-row { margin: 0; padding-right: 66px; }
 .ha-split-ring {
-  position: absolute; right: 0; top: -38px; width: 58px; height: 58px; display: grid; place-items: center;
+  width: 62px; height: 62px; flex: none; display: grid; place-items: center;
+  margin-left: 3px;
   border: 6px solid color-mix(in srgb, var(--p-accent-ink, #fff) 82%, transparent); border-right-color: color-mix(in srgb, var(--p-accent-ink, #fff) 28%, transparent); border-radius: 50%;
   color: var(--p-accent-ink, #fff);
 }
@@ -325,10 +324,12 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 .ha-split-progress > span { display: block; margin-bottom: 6px; color: var(--p-accent-ink, #fff); font-size: 9.5px; text-align: right; opacity: .82; }
 .ha-monogram-white { background-color: #fff; color: var(--p-accent); box-shadow: 0 2px 8px rgba(0,0,0,.13); }
 .ha-profile-inverse { border-color: color-mix(in srgb, var(--p-accent-ink, #fff) 40%, transparent); background: transparent; color: var(--p-accent-ink, #fff); }
-.ha-split-greeting { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 24px; }
+.ha-split-content { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 14px; margin-top: 22px; }
+.ha-split-copy { min-width: 0; }
+.ha-split-greeting { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 0; }
 .ha-split-greeting > strong { font-size: 21px; letter-spacing: -.45px; }
 .ha-tier { padding: 5px 9px; border-radius: 99px; background: color-mix(in srgb, var(--p-secondary) 70%, #000); color: var(--p-secondary-ink, #fff); font-size: 9px; font-weight: 750; }
-.ha-split-hero .ha-balance-row { margin-top: 22px; }
+.ha-split-hero .ha-balance-row { margin-top: 16px; padding-right: 0; }
 .ha-split-hero .ha-balance-row strong, .ha-split-hero .ha-balance-row span { color: var(--p-accent-ink, #fff); }
 .ha-split-hero .ha-balance-row span { opacity: .82; }
 .ha-progress-inverse { height: 6px; background: color-mix(in srgb, var(--p-accent-ink, #fff) 25%, transparent); }
