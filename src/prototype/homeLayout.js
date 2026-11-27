@@ -27,6 +27,38 @@ export function initHomeLayout(ctx) {
     return !toggle || toggle.classList.contains('on');
   }
 
+  function profileSetting(rowLabel) {
+    return [...document.querySelectorAll('[data-detail="profile"] .cp-toggle-row')].find((row) =>
+      row.querySelector('.lbl')?.textContent.trim() === rowLabel,
+    )?.querySelector('.toggle').classList.contains('on') !== false;
+  }
+
+  function profileState() {
+    const greetingInput = document.querySelector('[data-detail="profile"] [data-vars="true"]');
+    const template = greetingInput ? [...greetingInput.childNodes].map((node) => {
+      if (node.nodeType === Node.TEXT_NODE) return node.textContent;
+      return node.classList?.contains('var-token') ? `{${node.dataset.key}}` : node.textContent;
+    }).join('') : 'Welcome back!';
+    const member = {
+      firstName: 'User', lastName: '', phone: '+971 50 123 4567', dob: '12 June',
+      tier: 'Bronze',
+    };
+    const greeting = template.replace(/\{(firstName|lastName|phone|dob|tier)\}/g, (_, key) => member[key] || '');
+    const guest = document.body.dataset.memberPreview === 'guest';
+    const guestTitle = document.querySelector('[data-detail="profile"] [data-state-section="guest"] input[data-bind-text]')?.value || 'Welcome!';
+    const progress = document.querySelector('[data-detail="profile"] [data-bind-radio="loyalty-layout"].active')?.dataset.value || 'ring';
+    return {
+      enabled: widgetEnabled('profile'),
+      guest,
+      greeting: escapeHome(greeting),
+      guestTitle: escapeHome(guestTitle),
+      progress,
+      showPoints: profileSetting('Points balance'),
+      showProgress: profileSetting('Progress to next reward'),
+      tier: member.tier,
+    };
+  }
+
   function escapeHome(value) {
     return String(value ?? '').replace(/[&<>"']/g, (character) => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;',
@@ -47,22 +79,35 @@ export function initHomeLayout(ctx) {
 
   function cleanHeader(layout = 'standard') {
     const brand = brandIdentity();
+    const profile = profileState();
     return '<header class="ha-header ha-header-' + layout + '">'
       + '<div class="ha-brand-row"><div class="ha-brand-lockup"><span class="ha-monogram' + brand.logoClass + '"' + (brand.logo ? ' style="background-image:' + brand.logo + '"' : '') + '>' + brand.initials + '</span><strong>' + brand.name + '</strong></div>'
       + '<button class="ha-profile" type="button" onclick="openAccountPage()" aria-label="Open profile">' + profileIcon + '</button></div>'
-      + '<div class="ha-greeting">Hello, User!</div></header>';
+      + '<div class="ha-greeting">' + (profile.guest ? profile.guestTitle : profile.greeting) + '</div></header>';
   }
 
   function rewardHero(compact = false) {
+    const profile = profileState();
+    if (!profile.enabled) return '';
+    if (profile.guest) {
+      return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><strong>' + profile.guestTitle + '</strong>'
+        + '<span class="ha-next-copy">Log in to see your points &amp; rewards</span><button class="ha-guest-cta" type="button">Log In</button></section>';
+    }
+    const points = profile.showPoints ? (compact || profile.progress === 'bar' ? '<strong>200 / 500 pts</strong>' : '<strong class="ha-points">200 points</strong>') : '';
+    const next = profile.showProgress ? '<span>300 pts to next reward</span>' : '';
+    const bar = profile.showProgress && profile.progress === 'bar'
+      ? '<div class="ha-progress"><span style="width:40%"></span></div>' : '';
+    const ring = profile.showProgress && profile.progress === 'ring'
+      ? '<div class="ha-ring"><span>200<small>/250</small></span></div>' : '';
     if (compact) {
       return '<section class="ha-card ha-compact-rewards" data-ha-widget="profile" data-drill="profile"><div class="ha-eyebrow">Rewards balance</div>'
-        + '<div class="ha-balance-row"><strong>200 / 500 pts</strong><span>300 pts to next reward</span></div>'
-        + '<div class="ha-progress"><span style="width:40%"></span></div></section>';
+        + '<div class="ha-balance-row">' + points + next + '</div>' + bar + ring + '</section>';
     }
     return '<section class="ha-card ha-reward-hero" data-ha-widget="profile" data-drill="profile"><div class="ha-reward-copy"><div class="ha-eyebrow">Rewards balance</div>'
-      + '<strong class="ha-points">200 points</strong><span class="ha-next-copy">50 points to your next reward</span></div>'
-      + '<div class="ha-ring"><span>200<small>/250</small></span></div>'
-      + '<button class="ha-scan" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button></section>';
+      + points + next.replace('<span>', '<span class="ha-next-copy">') + '</div>' + ring
+      + (bar ? '<div class="ha-reward-bar">' + bar + '</div>' : '')
+      + (widgetEnabled('loyalty-qr') ? '<button class="ha-scan" type="button" data-drill="loyalty-qr">' + qrIcon + '<span>Scan loyalty card</span></button>' : '')
+      + '</section>';
   }
 
   function dots() {
@@ -121,10 +166,20 @@ export function initHomeLayout(ctx) {
 
   function splitHero() {
     const brand = brandIdentity();
-    return '<div class="ha-split-hero"><div class="ha-brand-row"><span class="ha-monogram ha-monogram-white' + brand.logoClass + '"' + (brand.logo ? ' style="background-image:' + brand.logo + '"' : '') + '>' + brand.initials + '</span>'
+    const profile = profileState();
+    const progress = profile.enabled && !profile.guest ? (
+      (profile.showPoints ? '<div class="ha-balance-row"><strong>200 / ' + (profile.progress === 'ring' ? '250' : '500') + ' pts</strong></div>' : '')
+      + (profile.showProgress && profile.progress !== 'minimal'
+        ? (profile.progress === 'ring'
+          ? '<div class="ha-split-ring"><span>200<small>/250</small></span></div>'
+          : '<div class="ha-split-progress"><span>300 pts to next reward</span><div class="ha-progress ha-progress-inverse"><span style="width:40%"></span></div></div>')
+        : '')
+    ) : '';
+    return '<div class="ha-split-hero ' + (!profile.enabled ? 'ha-profile-hidden' : '') + '" data-ha-widget="profile" data-drill="profile"><div class="ha-brand-row"><span class="ha-monogram ha-monogram-white' + brand.logoClass + '"' + (brand.logo ? ' style="background-image:' + brand.logo + '"' : '') + '>' + brand.initials + '</span>'
       + '<button class="ha-profile ha-profile-inverse" type="button" onclick="openAccountPage()" aria-label="Open profile">' + profileIcon + '</button></div>'
-      + '<div class="ha-split-greeting"><strong>Hello, User!</strong><span class="ha-tier">Bronze</span></div>'
-      + '<div class="ha-balance-row"><strong>200 / 500 pts</strong><span>300 pts to next reward</span></div><div class="ha-progress ha-progress-inverse"><span style="width:40%"></span></div></div>';
+      + '<div class="ha-split-greeting"><strong>' + (profile.guest ? profile.guestTitle : profile.greeting) + '</strong>'
+      + (profile.enabled && !profile.guest ? '<span class="ha-tier">' + profile.tier + '</span>' : '') + '</div>'
+      + '<div class="ha-split-loyalty">' + progress + '</div></div>';
   }
 
   function bentoRewards() {
@@ -335,6 +390,11 @@ export function initHomeLayout(ctx) {
   document.addEventListener('como:ordering-mode', () => { renderHomeStructureGrid(); renderHomeArchitecture(); });
   document.addEventListener('como:brand-colors', renderHomeArchitecture);
   document.addEventListener('como:home-sections-reordered', renderHomeArchitecture);
+  document.addEventListener('como:profile-preview', renderHomeArchitecture);
+  const profileEditor = document.querySelector('[data-detail="profile"]');
+  ['input', 'click', 'change'].forEach((eventName) => {
+    profileEditor?.addEventListener(eventName, () => requestAnimationFrame(renderHomeArchitecture));
+  });
   document.querySelector('#cp-home .cp-master')?.addEventListener('click', (event) => {
     if (event.target.closest('[data-widget-toggle]')) requestAnimationFrame(renderHomeArchitecture);
   });

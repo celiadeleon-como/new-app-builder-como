@@ -296,6 +296,10 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
 .ha-dots i { width: 6px; height: 6px; border-radius: 99px; background: color-mix(in srgb, var(--p-text-muted) 40%, transparent); }
 .ha-dots i.active { width: 13px; background: var(--p-accent); }
 .ha-compact-rewards { padding: 14px; }
+.ha-compact-rewards > .ha-ring { position: absolute; top: 50%; right: 14px; width: 58px; height: 58px; transform: translateY(-50%); }
+.ha-compact-rewards:has(> .ha-ring) { position: relative; min-height: 70px; padding-right: 82px; }
+.ha-reward-bar { grid-column: 1 / -1; }
+.ha-reward-bar .ha-progress { margin-top: 0; }
 .ha-balance-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
 .ha-balance-row strong { color: var(--p-accent); font-size: 13px; white-space: nowrap; }
 .ha-balance-row span { color: var(--p-text-muted); font-size: 9.5px; font-weight: 650; text-align: right; }
@@ -307,6 +311,18 @@ body[data-home-layout="bento-grid"] .app-page[data-page="home"] > .app-top-heade
   min-height: 202px; box-sizing: border-box; padding: 16px 17px 28px;
   background: var(--p-accent); color: var(--p-accent-ink, #fff);
 }
+.ha-split-hero.ha-profile-hidden { min-height: 112px; padding-bottom: 20px; }
+.ha-split-hero.ha-profile-hidden .ha-split-greeting { margin-top: 18px; }
+.ha-split-loyalty { position: relative; margin-top: 18px; min-height: 18px; }
+.ha-split-loyalty .ha-balance-row { margin: 0; padding-right: 66px; }
+.ha-split-ring {
+  position: absolute; right: 0; top: -38px; width: 58px; height: 58px; display: grid; place-items: center;
+  border: 6px solid color-mix(in srgb, var(--p-accent-ink, #fff) 82%, transparent); border-right-color: color-mix(in srgb, var(--p-accent-ink, #fff) 28%, transparent); border-radius: 50%;
+  color: var(--p-accent-ink, #fff);
+}
+.ha-split-ring span { display: flex; flex-direction: column; align-items: center; font-size: 14px; font-weight: 800; line-height: 1; }
+.ha-split-ring small { margin-top: 2px; font-size: 8px; opacity: .78; }
+.ha-split-progress > span { display: block; margin-bottom: 6px; color: var(--p-accent-ink, #fff); font-size: 9.5px; text-align: right; opacity: .82; }
 .ha-monogram-white { background-color: #fff; color: var(--p-accent); box-shadow: 0 2px 8px rgba(0,0,0,.13); }
 .ha-profile-inverse { border-color: color-mix(in srgb, var(--p-accent-ink, #fff) 40%, transparent); background: transparent; color: var(--p-accent-ink, #fff); }
 .ha-split-greeting { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 24px; }
